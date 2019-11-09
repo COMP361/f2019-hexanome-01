@@ -25,7 +25,9 @@ public class Slot_follower : MonoBehaviour{
 
   private void Start()  {
       //initialize the Player at the position he should be.
-      transform.position = slots[currentPosition].transform.position;
+      currentPosition = 0;
+      destination = 0;
+      transform.position = slots[0].transform.position;
 
     }
 

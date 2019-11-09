@@ -54,7 +54,7 @@ public class GameManager : MonoBehaviour{
 
     // Update is called once per frame
     void Update()
-    {
+    { //this doesnt really work it just changes the current player allll the time.
       if(currentPlayer.GetComponent<Slot_follower>().currentPosition == currentPlayer.GetComponent<Slot_follower>().destination){
         currentPlayer.GetComponent<Slot_follower>().canMove = false;
         GameObject temp = currentPlayer;
