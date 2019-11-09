@@ -37,15 +37,6 @@ public class ChatManager : MonoBehaviour
                 chatInputBox.ActivateInputField();
             }
         }
-
-        if (!chatInputBox.isFocused)
-        {
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-               SendMessageToChat("You pressed space");
-            }
-        }
-
     }
 
     public void SendMessageToChat(string text)
