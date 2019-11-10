@@ -9,20 +9,22 @@ public class cellHandler : MonoBehaviour
     private SpriteRenderer sprite;
     private Color32 color = new Color(1f,1f,1f,0f);
     private Color32 hoverColor = new Color(1f,1f,1f,.2f);
-    
-    void Awake() 
+
+    public GameObject[] neighbours;
+
+    void Awake()
     {
         sprite = GetComponent<SpriteRenderer>();
         sprite.color = color;
     }
 
-    void OnMouseEnter() 
+    void OnMouseEnter()
     {
         sprite.color = hoverColor;
-        
+
     }
 
-    void OnMouseExit() 
+    void OnMouseExit()
     {
         sprite.color = color;
     }
