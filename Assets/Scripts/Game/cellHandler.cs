@@ -10,7 +10,9 @@ public class cellHandler : MonoBehaviour
     private Color32 color = new Color(1f,1f,1f,0f);
     private Color32 hoverColor = new Color(1f,1f,1f,.2f);
 
+    public int ID;
     public GameObject[] neighbours;
+
 
     void Awake()
     {
@@ -27,5 +29,20 @@ public class cellHandler : MonoBehaviour
     void OnMouseExit()
     {
         sprite.color = color;
+    }
+
+    public GameObject[] AllAccessibleCells(int numberOfMoves)
+    {
+        GameObject[] accessibleCells = new GameObject[80];
+        Queue<GameObject> queue = new Queue<GameObject>();
+
+
+        foreach (var cell in neighbours)
+        {
+            queue.Enqueue(cell);
+        }
+
+
+        return accessibleCells;
     }
 }
