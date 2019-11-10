@@ -20,6 +20,11 @@ public class cellHandler : MonoBehaviour
         sprite.color = color;
     }
 
+    public void OnMouseDown()
+    {
+        AllAccessibleCells();
+    }
+
     void OnMouseEnter()
     {
         sprite.color = hoverColor;
@@ -31,35 +36,39 @@ public class cellHandler : MonoBehaviour
         sprite.color = color;
     }
 
-    public GameObject[] AllAccessibleCells(int numberOfMoves)
+    public HashSet<GameObject> AllAccessibleCells(/*int numberOfMoves*/)
     {
-        GameObject[] accessibleCells = new GameObject[80];
         Queue<GameObject> queue = new Queue<GameObject>();
-        Dictionary<string, int> visitedCells = new Dictionary<string, int>();
+        HashSet<GameObject> visitedCells = new HashSet<GameObject>();
         string id = this.name;
         
-        foreach (var cell in neighbours)
+        foreach (var cell in this.neighbours)
         {
             queue.Enqueue(cell);
+            sprite.color = Color.magenta;
+        }
+        int i = 2; // this is just for testing purposes
+        while( i > 0) {
+            var cell = queue.Dequeue();
+
+            if (visitedCells.Contains(cell))
+            {
+                continue;
+            }
+
+            visitedCells.Add(cell);
+
+            foreach (var neighbor in cell.GetComponent<cellHandler>().neighbours)
+            {
+                if (!visitedCells.Contains(neighbor))
+                {
+                    queue.Enqueue(neighbor);
+                }
+            }
+
+            i--;
         }
 
-        while( queue.Count > 0) {
-            
-        }
-        //while (queue.Count > 0)
-        //{
-        //    var vertex = queue.Dequeue();
-
-        //    if (visited.Contains(vertex))
-        //        continue;
-
-        //    visited.Add(vertex);
-
-        //    foreach (var neighbor in graph.AdjacencyList[vertex])
-        //        if (!visited.Contains(neighbor))
-        //            queue.Enqueue(neighbor);
-        //}
-
-        return accessibleCells;
+        return visitedCells;
     }
 }
