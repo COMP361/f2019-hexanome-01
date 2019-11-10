@@ -11,8 +11,7 @@ public class GameManager : MonoBehaviour{
 
   public static GameObject currentPlayer;
   public static GameObject secondPlayer;
-  public static bool isOver;
-  public static int currentPlayerStart = 0;
+
     // Start is called before the first frame update
 
     void Start(){

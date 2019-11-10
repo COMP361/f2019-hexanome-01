@@ -15,9 +15,9 @@ public class Slot_follower : MonoBehaviour{
   // not sure what this do (it prevents the inspector to see what we serialized )but the tutorial had it
   //[HideInspector]
   // at the begining is initial position
-
-  public int currentPosition = 0; // Corresponds to an index in the Transform array.
-  public int destination = 0;
+  public int initialPosition;
+  public int currentPosition; // Corresponds to an index in the Transform array.
+  public int destination;
   public bool canMove = false;
 
 
@@ -25,9 +25,9 @@ public class Slot_follower : MonoBehaviour{
 
   private void Start()  {
       //initialize the Player at the position he should be.
-      currentPosition = 0;
-      destination = 0;
-      transform.position = slots[0].transform.position;
+      currentPosition = initialPosition;
+      destination = initialPosition;
+      transform.position = slots[currentPosition].transform.position;
 
     }
 
