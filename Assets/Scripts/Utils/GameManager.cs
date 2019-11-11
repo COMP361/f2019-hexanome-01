@@ -4,8 +4,8 @@ using UnityEngine;
 
 public enum Action {
     Think,
-    Move, 
-    Fight 
+    Move,
+    Fight
 };
 
 public class GameManager : MonoBehaviour{
@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviour{
   private int currentPlayerIndex;
   private Action currentPlayerAction;
   public GameObject UI;
-    
+
     // Start is called before the first frame update
 
     void Start(){
@@ -29,11 +29,11 @@ public class GameManager : MonoBehaviour{
       players[1] = GameObject.Find("Archer").GetComponent<Hero>();
       players[2] = GameObject.Find("Mage").GetComponent<Hero>();
       players[3] = GameObject.Find("Dwarf").GetComponent<Hero>();
-      
+
       currentPlayerIndex = 0;
       currentPlayerAction = Action.Think;
 
-      UpdateUI();    
+      UpdateUI();
     }
 
     private void Awake()
@@ -78,4 +78,4 @@ public class GameManager : MonoBehaviour{
         return players[currentPlayerIndex];
       }
     }
-} 
+}

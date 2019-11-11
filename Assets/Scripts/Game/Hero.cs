@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Hero : MonoBehaviour
-{   
+{
     public GameObject cell;
     private bool isDone;
-    private int moveSpeed; 
+    private int moveSpeed;
     private Vector3 position;
     private Transform token;
     private string type;
@@ -14,7 +14,7 @@ public class Hero : MonoBehaviour
     void Awake() {
       type = transform.name;
     }
-    
+
     // Start is called before the first frame update
     void Start()
     {
@@ -22,7 +22,7 @@ public class Hero : MonoBehaviour
         moveSpeed = 5;
         Transform slot = cell.transform.FindDeepChild("slot1");
         token.position = slot.position;
-        position = token.position; 
+        position = token.position;
         isDone = false;
     }
 
@@ -32,12 +32,14 @@ public class Hero : MonoBehaviour
       UpdatePosition();
     }
 
-    public void UpdatePosition() {
+    public void UpdatePosition()
+    {
       if(token.position == position) return;
       token.position = Vector2.MoveTowards(token.position, position, moveSpeed * Time.deltaTime);
     }
 
-    public void Move(GameObject c) {
+    public void Move(GameObject c)
+    {
       // get slot
       Transform slot = c.transform.FindDeepChild("slot1");
       if(Position == slot.position) return;
@@ -47,14 +49,14 @@ public class Hero : MonoBehaviour
       IsDone = true;
     }
 
-    public bool IsDone {
+    public bool IsDone{
       get {
         return isDone;
       }
       set {
         isDone = value;
       }
-    }    
+    }
 
     public Vector3 Position {
       get {

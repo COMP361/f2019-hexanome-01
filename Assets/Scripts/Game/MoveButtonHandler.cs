@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MoveButtonHandler : MonoBehaviour {
     GameManager gm;
-    
+
     void Start() {
         gm = GameManager.Instance;
     }
