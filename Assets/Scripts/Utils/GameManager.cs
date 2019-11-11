@@ -2,6 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum Action {
+    Think,
+    Move, 
+    Fight 
+};
 
 public class GameManager : MonoBehaviour{
 
@@ -9,57 +14,68 @@ public class GameManager : MonoBehaviour{
  // not sure what {get; private set} does
   public static GameManager Instance {get; private set;}
 
-  public static GameObject currentPlayer;
-  public static GameObject secondPlayer;
-  public static bool isOver;
-  public static int currentPlayerStart = 0;
+  private int playerCount;
+  private Hero[] players;
+  private int currentPlayerIndex;
+  private Action currentPlayerAction;
+  public GameObject UI;
+    
     // Start is called before the first frame update
 
     void Start(){
+      playerCount = 4;
+      players = new Hero[playerCount];
+      players[0] = GameObject.Find("Warrior").GetComponent<Hero>();
+      players[1] = GameObject.Find("Archer").GetComponent<Hero>();
+      players[2] = GameObject.Find("Mage").GetComponent<Hero>();
+      players[3] = GameObject.Find("Dwarf").GetComponent<Hero>();
+      
+      currentPlayerIndex = 0;
+      currentPlayerAction = Action.Think;
 
-      currentPlayer = GameObject.Find("Player1");
-      secondPlayer = GameObject.Find("Player2");
-    //  currentPlayer.GetComponent<Slot_follower>().canMove = true;
-
+      UpdateUI();    
     }
-
-   public static void Move(int destination){
-     currentPlayer.GetComponent<Slot_follower>().destination = destination;
-     currentPlayer.GetComponent<Slot_follower>().canMove = true;
-     currentPlayer.GetComponent<Slot_follower>().Move();
-     //currentPlayer.GetComponent<Slot_follower>().canMove = false;
-    //currentPlayer
-   }
 
     private void Awake()
     {
-      if (Instance == null)
-       {
+      if (Instance == null) {
         Instance = this;
         // gameObject means the object the GameManager is currently located on
         // dont destroy when changing view
         DontDestroyOnLoad(gameObject);
-      }
-      else{
+      } else {
         Destroy(gameObject);
       }
-      //not sure what that is
-      InitGame();
-    }
-
-    void InitGame()
-    {
-      ///
     }
 
     // Update is called once per frame
     void Update()
-    { //this doesnt really work it just changes the current player allll the time.
-      if(currentPlayer.GetComponent<Slot_follower>().currentPosition == currentPlayer.GetComponent<Slot_follower>().destination){
-        currentPlayer.GetComponent<Slot_follower>().canMove = false;
-        GameObject temp = currentPlayer;
-        currentPlayer = secondPlayer;
-        secondPlayer = temp;
+    { //this doesnt really work it just changes the current player all the time.
+      if(players[currentPlayerIndex].IsDone) {
+        players[currentPlayerIndex].IsDone = false;
+        currentPlayerIndex = (currentPlayerIndex + 1) % playerCount;
+        currentPlayerAction = Action.Think;
+        UpdateUI();
       }
     }
-}
+
+    public void UpdateUI() {
+      UI.transform.FindDeepChild("Hero").GetComponent<UnityEngine.UI.Text>().text = players[currentPlayerIndex].Type;
+      UI.transform.FindDeepChild("Action").GetComponent<UnityEngine.UI.Text>().text = Action.GetName(typeof(Action), currentPlayerAction);
+    }
+
+    public Action CurrentPlayerAction {
+      get {
+        return currentPlayerAction;
+      }
+      set {
+        currentPlayerAction = value;
+      }
+    }
+
+    public Hero CurrentPlayer {
+      get {
+        return players[currentPlayerIndex];
+      }
+    }
+} 

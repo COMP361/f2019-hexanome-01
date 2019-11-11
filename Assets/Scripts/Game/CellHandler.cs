@@ -4,14 +4,15 @@ using UnityEngine;
 
 [RequireComponent(typeof(PolygonCollider2D))]
 
-public class cellHandler : MonoBehaviour
+public class CellHandler : MonoBehaviour
 {
     private SpriteRenderer sprite;
     private Color32 color = new Color(1f,1f,1f,0f);
     private Color32 hoverColor = new Color(1f,1f,1f,.2f);
-    
-    void Awake() 
-    {
+    GameManager gm;
+
+    void Start() {
+        gm = GameManager.Instance;
         sprite = GetComponent<SpriteRenderer>();
         sprite.color = color;
     }
@@ -25,5 +26,12 @@ public class cellHandler : MonoBehaviour
     void OnMouseExit() 
     {
         sprite.color = color;
+    }
+
+    void OnMouseDown() 
+    {
+        if(gm.CurrentPlayerAction == Action.Move) {
+            gm.CurrentPlayer.Move(this.transform.parent.gameObject);
+        }
     }
 }
