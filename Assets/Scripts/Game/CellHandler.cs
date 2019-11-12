@@ -9,6 +9,7 @@ public class CellHandler : MonoBehaviour
     private SpriteRenderer sprite;
     private Color32 color = new Color(1f,1f,1f,0f);
     private Color32 hoverColor = new Color(1f,1f,1f,.2f);
+    private Color32 moveHoverColor = new Color(0f,1f,0f,.2f);
     GameManager gm;
 
     void Start() {
@@ -19,8 +20,11 @@ public class CellHandler : MonoBehaviour
 
     void OnMouseEnter() 
     {
-        sprite.color = hoverColor;
-        
+        if(gm.CurrentPlayerAction == Action.Move) {
+            sprite.color = moveHoverColor;
+        } else {
+            sprite.color = hoverColor;
+        }
     }
 
     void OnMouseExit() 
