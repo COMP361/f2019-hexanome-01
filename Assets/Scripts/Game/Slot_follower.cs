@@ -9,7 +9,7 @@ public class Slot_follower : MonoBehaviour{
 
   // not sure what serializing does but the tutorial used it
   [SerializeField]
-  private float moveSpeed = 2f;
+  private float moveSpeed = 5f;
     // Start is called before the first frame update
 
   // not sure what this do (it prevents the inspector to see what we serialized )but the tutorial had it
@@ -25,8 +25,7 @@ public class Slot_follower : MonoBehaviour{
 
   private void Start()  {
       //initialize the Player at the position he should be.
-      currentPosition = 0;
-      destination = 0;
+
       transform.position = slots[0].transform.position;
 
     }
@@ -40,8 +39,8 @@ public class Slot_follower : MonoBehaviour{
     }
 
  public void Move() {
-    transform.position = Vector2.MoveTowards(transform.position, slots[destination].transform.position, moveSpeed * Time.deltaTime);
-
+   transform.position = Vector2.MoveTowards(transform.position, slots[destination].transform.position, moveSpeed * Time.deltaTime);
+  //  transform.position = slots[destination].transform.position;
     if(transform.position == slots[destination].transform.position ){
        currentPosition = destination;
     }
