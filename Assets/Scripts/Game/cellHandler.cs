@@ -18,7 +18,7 @@ public class CellHandler : MonoBehaviour
         sprite.color = color;
     }
 
-    void OnMouseEnter() 
+    void OnMouseEnter()
     {
         if(gm.CurrentPlayerAction == Action.Move) {
             sprite.color = moveHoverColor;
@@ -27,12 +27,12 @@ public class CellHandler : MonoBehaviour
         }
     }
 
-    void OnMouseExit() 
+    void OnMouseExit()
     {
         sprite.color = color;
     }
 
-    void OnMouseDown() 
+    void OnMouseDown()
     {
         if(gm.CurrentPlayerAction == Action.Move) {
             gm.CurrentPlayer.Move(this.transform.parent.gameObject);
