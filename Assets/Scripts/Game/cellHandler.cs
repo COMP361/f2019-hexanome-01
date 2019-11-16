@@ -4,7 +4,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(PolygonCollider2D))]
 
-public class CellHandler : MonoBehaviour
+public class cellHandler : MonoBehaviour
 {
     private SpriteRenderer sprite;
     private Color32 color = new Color(1f,1f,1f,0f);
