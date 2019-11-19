@@ -4,24 +4,24 @@ using UnityEngine;
 using UnityEngine.UI;
 public class PlayerCard : MonoBehaviour {
 
-    // Public Variables (Set by Inspector)
+    //Public Fields (Set by Inspector)
     public Button LockButton;
     public GameObject ActiveUI;
 
-    // Private Variables
+    //Private Members
     Text m_statusText;
     GameObject m_stage1;
     GameObject m_stage2;
     HeroUI[] m_heroUI;
     private bool m_isMale = true;
 
-    public int CurrentHero { get; private set; }
+    //Properties
+    public HeroType CurrentHero { get; private set; }
     public string Status {
         get { return m_statusText.text; }
         set { m_statusText.text = value; }
     }
 
-    // Use this for initialization
     void Awake() {
         m_stage1 = ActiveUI.transform.GetChild(0).gameObject;
         m_stage2 = ActiveUI.transform.GetChild(1).gameObject;
@@ -36,9 +36,9 @@ public class PlayerCard : MonoBehaviour {
     }
 
     // Button Functions
-    public void updateHero(int newHero) {
-        m_heroUI[CurrentHero].toggleCards(false);
-        m_heroUI[newHero].toggleCards(true);
+    public void updateHero(HeroType newHero) {
+        m_heroUI[(int)CurrentHero].toggleCards(false);
+        m_heroUI[(int)newHero].toggleCards(true);
         toggleHeroSelection(false);
         CurrentHero = newHero;
     }
@@ -55,15 +55,15 @@ public class PlayerCard : MonoBehaviour {
     public void setAsLocked() {
         LockButton.interactable = false;
         m_stage2.transform.GetChild(2).gameObject.SetActive(false);
-        transform.GetChild(2).GetChild(CurrentHero).gameObject.SetActive(true);
+        transform.GetChild(2).GetChild((int)CurrentHero).gameObject.SetActive(true);
     }
 
     public void setAsCurrent() {
         ActiveUI.SetActive(true);
         toggleHeroSelection(true);
     }
-    public void disableHero(int hero) {
-        m_heroUI[hero].toggleButton(false);
+    public void disableHero(HeroType hero) {
+        m_heroUI[(int)hero].toggleButton(false);
     }
 }
 
