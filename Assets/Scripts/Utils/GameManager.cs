@@ -2,11 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum Action {
-    Think,
-    Move,
-    Fight
-};
 
 public class GameManager : MonoBehaviour{
 
