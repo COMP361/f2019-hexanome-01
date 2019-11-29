@@ -36,11 +36,11 @@ public class PlayerCard : MonoBehaviour {
     }
 
     // Button Functions
-    public void updateHero(HeroType newHero) {
+    public void updateHero(int newHero) {
         m_heroUI[(int)CurrentHero].toggleCards(false);
-        m_heroUI[(int)newHero].toggleCards(true);
+        m_heroUI[newHero].toggleCards(true);
         toggleHeroSelection(false);
-        CurrentHero = newHero;
+        CurrentHero = (HeroType)newHero;
     }
 
      public void toggleHeroSelection(bool toggleOn) {
