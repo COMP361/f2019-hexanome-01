@@ -5,38 +5,25 @@ using UnityEngine.UI;
 
 public class ChatManager : MonoBehaviour
 {
-    public string username;
-
+    public string username { get; set; }
     public int maxChatMessages = 100;
-
+    public Client MyClient;
     public GameObject chatPanel, textObject;
     public InputField chatInputBox;
 
     [SerializeField]
     List<ChatMessage> messageList = new List<ChatMessage>();
 
-    void Start()
-    {
-        
-    }
-
     void Update()
     {
-        if(chatInputBox.text != "")
-        {
-            if (Input.GetKeyDown(KeyCode.Return))
-            {
-                SendMessageToChat(username + ": " + chatInputBox.text);
-                chatInputBox.text = "";
-            }
+        if (chatInputBox.text != "" && Input.GetKeyDown(KeyCode.Return)) {
+            //string message = username + ": " + chatInputBox.text;
+            //SendMessageToChat(username + ": " + chatInputBox.text);
+            MyClient.Send(username + ": " + chatInputBox.text);
         }
-        else
-        {
-            if(!chatInputBox.isFocused && Input.GetKeyDown(KeyCode.Return))
-            {
-                chatInputBox.ActivateInputField();
-            }
-        }
+
+        else if (!chatInputBox.isFocused && Input.GetKeyDown(KeyCode.Return))
+            chatInputBox.ActivateInputField();
     }
 
     public void SendMessageToChat(string text)
@@ -48,16 +35,13 @@ public class ChatManager : MonoBehaviour
         }
 
         ChatMessage newMessage = new ChatMessage();
-
         newMessage.text = text;
-
         GameObject newText = Instantiate(textObject, chatPanel.transform);
-
         newMessage.textObject = newText.GetComponent<Text>();
-
         newMessage.textObject.text = newMessage.text;
-
         messageList.Add(newMessage);
+
+        chatInputBox.text = "";
     }
 }
 
