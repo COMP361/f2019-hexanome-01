@@ -1,10 +1,4 @@
-﻿public enum Action {
-    Think,
-    Move,
-    Fight
-};
-
-public enum HeroType {
+﻿public enum HeroType {
     Archer,
     Dwarf,
     Mage,
