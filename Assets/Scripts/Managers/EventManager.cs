@@ -7,9 +7,9 @@ public class EventManager : MonoBehaviour
 {
     GameManager gm;
 
-    //void Start() {
-        //gm = GameManager.Instance;
-    //}
+    void Start() {
+        gm = GameManager.instance;
+    }
 
     void Update() {
         // Check if click is not over a UI element
@@ -17,27 +17,19 @@ public class EventManager : MonoBehaviour
             RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
             
             if(hit.collider != null) {
-                Debug.Log(hit.collider.name);
-
-                //hit.collider.gameObject.GetComponent<ClickHandler>().OnClick();
-                //Dispatch(hit.collider.gameObject);
+                hit.collider.gameObject.GetComponent<IClickHandler>().OnClick();
             }
-
-            //if(hit2) {
-            //    Debug.Log(hit2.transform.gameObject.name);
-                //objectHit.SendMessage("LoadScene",1,SendMessageOptions.DontRequireReceiver);
-            //}
-
-        } else {
-
         }
     }
 
-    /*void Dispatch(GameObject go) {
-        //switch (gm.CurrentPlayerAction) {
-        //    case Action.Move :
-        //        gm.Move.Process(go);
-        //    default:
-        //}
-    }*/
+    // Action needs to be a class
+    // OnCellClick
+    // Confirm
+    // Cancel
+
+    public void OnCellClick(int cellID) {
+        if(gm.CurrentPlayer.State.action == Action.Move.SetDest) {
+            gm.SetDest(cellID);
+        }
+    }
 }

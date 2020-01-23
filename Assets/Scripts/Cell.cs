@@ -1,16 +1,12 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 [RequireComponent(typeof(PolygonCollider2D))]
 
-public class Cell : MonoBehaviour
-    , IPointerClickHandler
-    //, IDragHandler
-    //, IPointerEnterHandler
-    //, IPointerExitHandler
-{
+public class Cell : MonoBehaviour, IClickHandler {
     public List<Transform> neighbours = new List<Transform>();
     
     public Cell enemyPath;
@@ -25,6 +21,7 @@ public class Cell : MonoBehaviour
     private Color32 color = new Color(1f,1f,1f,0f);
     private Color32 hoverColor = new Color(1f,1f,1f,.2f);
     GameManager gm;
+    EventManager em;
 
     void Awake() {
         waypoint = transform.Find("placeholders/waypoint").position;
@@ -32,6 +29,7 @@ public class Cell : MonoBehaviour
 
     void Start() {
         gm = GameManager.instance;
+        em = gm.em;
         
         sprite = GetComponent<SpriteRenderer>();
         sprite.color = color;
@@ -42,9 +40,16 @@ public class Cell : MonoBehaviour
     }
 
     public static Cell FromId(int id) {
+      Cell cell = null;
       GameObject go = GameObject.Find("Cells/" + id);
-      if(go != null) return go.GetComponent<Cell>();
-      return null;
+      if(go != null) cell = go.GetComponent<Cell>();
+      
+      if(cell == null) {
+        var message = string.Format("'{0}' is not a valid cell id.", id);
+        throw new ApplicationException(message);
+      }
+
+      return cell;
     }
 
     void OnMouseEnter() {
@@ -61,9 +66,8 @@ public class Cell : MonoBehaviour
         sprite.color = color;
     }
 
-    public void OnPointerClick(PointerEventData eventData)
-    {
-      //gm.OnCellClick();
+    public void OnClick() {
+      em.OnCellClick(index);
     }
 
     void OnDrawGizmos() {
@@ -77,6 +81,12 @@ public class Cell : MonoBehaviour
       }
     }
 
+    public int Index {
+      get {
+        return index;
+      }
+    }
+    
     public float Heuristic {
       get {
         return heuristic;

@@ -17,6 +17,9 @@ public class GameManager : Singleton<GameManager>
 
   public UI ui;
   public EventManager em;
+  public Token well;
+  public Fog fog;
+
   public HeroState state;
 
   public LegendCards legendCards;
@@ -35,7 +38,9 @@ public class GameManager : Singleton<GameManager>
     SceneManager.LoadScene("Tokens", LoadSceneMode.Additive);
     SceneManager.LoadScene("UI", LoadSceneMode.Additive);
     //SceneManager.UnloadScene
-
+    
+    em = Camera.main.GetComponent<EventManager>();
+    
     base.Awake();
   }
 
@@ -46,7 +51,8 @@ public class GameManager : Singleton<GameManager>
     legendCards = new LegendCards();
     eventCards = new EventCards();
 
-    em = GetComponent<EventManager>();
+    //well = new Token();
+    fog = new Fog();
     
     playerCount = 4;
     players = new List<Hero>();
@@ -56,17 +62,22 @@ public class GameManager : Singleton<GameManager>
     players.Add(Mage.instance);
     players.Add(Dwarf.instance);
 
-    initFarmer(24); 
-    initFarmer(36); 
+    addFarmer(24); 
+    addFarmer(36); 
 
-    initGor(8);
-    initGor(20);
-    initGor(21);
-    initGor(26);
-    initGor(48);
+    addGor(8);
+    addGor(20);
+    addGor(21);
+    addGor(26);
+    addGor(48);
     
-    initSkral(19);
-    
+    addSkral(19);
+
+    //well.addToken(55, Color.blue);
+    //well.addToken(35, Color.blue);
+    //well.addToken(5, Color.blue);
+    //well.addToken(45, Color.blue);
+
     giveTurn(0);
   }
 
@@ -85,7 +96,7 @@ public class GameManager : Singleton<GameManager>
 
   public void giveTurn(int playerIndex) {
     currentPlayerIndex = playerIndex;
-    state = CurrentPlayer.State;
+    state = (HeroState) CurrentPlayer.State.Clone();
     ui.UpdatePlayerInfo();
   }
 
@@ -107,12 +118,20 @@ public class GameManager : Singleton<GameManager>
   }
 
   public void ConfirmAction() { 
-    //gm.CurrentPlayer.Path == path;
+    if(CurrentPlayer.State.action == Action.Move.SetDest) {
+      ui.HidePath();
+      CurrentPlayer.State = state;
+      CurrentPlayer.IsDone = true;
+
+      // Is done set by the Move function ?
+      // HidePath too?
+    }
     //send State to Server
   }
 
-  public void SetDest() {
-    //state.action = Action.Move.SetDest;
+  public void SetDest(int cellID) {
+    state.Goal = Cell.FromId(cellID);
+    ui.DisplayPath(state.Path);
   }
 
   public void AddStop() {
@@ -129,35 +148,35 @@ public class GameManager : Singleton<GameManager>
     }
   }
 
-  public void initFarmer(int cellID) {
+  public void addFarmer(int cellID) {
     GameObject farmerGO = Instantiate(farmer) as GameObject;
     Farmer f = farmerGO.GetComponent<Farmer>();
     f.SetRank(cellID);
     farmers.Add(f);
   }
 
-  public void initGor(int cellID) {
+  public void addGor(int cellID) {
     GameObject gorGO = Instantiate(gor) as GameObject;
     Enemy g = gorGO.GetComponent<Enemy>();
     g.SetRank(cellID);
     gors.Add(g);
   }
 
-  public void initSkral(int cellID) {
+  public void addSkral(int cellID) {
     GameObject skralGO = Instantiate(skral) as GameObject;
     Enemy s = skralGO.GetComponent<Enemy>();
     s.SetRank(cellID);
     skrals.Add(s);
   }
 
-  public void initTrolls(int cellID) {
+  public void addTrolls(int cellID) {
     GameObject trollGO = Instantiate(troll) as GameObject;
     Enemy t = trollGO.GetComponent<Enemy>();
     t.SetRank(cellID);
     trolls.Add(t);
   }
 
-  public void initWardrak(int cellID) {
+  public void addWardrak(int cellID) {
     GameObject wardrakGO = Instantiate(wardrak) as GameObject;
     Enemy w = wardrakGO.GetComponent<Enemy>();
     w.SetRank(cellID);

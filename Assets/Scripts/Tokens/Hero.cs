@@ -48,11 +48,11 @@ public class Hero : MonoBehaviour
   }
 
   public bool AtCell(Cell c) {
-    return Vector3.Distance(token.transform.position, c.Waypoint) < 0.1; 
+    return Vector3.Distance(token.transform.position, c.Waypoint) < 0.5; 
   }
-
+    
   public void Move() {
-    if(state.path == null || state.path.Count < 1) {
+    if(state.path == null || state.path.Count == 0) {
       //IsDone = true;
       return;
     }
@@ -62,8 +62,8 @@ public class Hero : MonoBehaviour
       state.path.RemoveAt(0);
       return;
     }
-      
-    token.transform.position = Vector2.MoveTowards(token.transform.position, state.cell.Waypoint, moveSpeed * Time.deltaTime);
+
+    token.transform.position = Vector2.MoveTowards(token.transform.position, state.path[0].Waypoint, moveSpeed * Time.deltaTime);
   }
 
   public bool IsDone {
@@ -84,6 +84,9 @@ public class Hero : MonoBehaviour
   public HeroState State {
     get {
       return state;
+    }
+    set {
+      state = value;
     }
   }
 
@@ -108,7 +111,7 @@ public class Hero : MonoBehaviour
   }
 }
 
-public class HeroState
+public class HeroState : ICloneable
 {
   public Action action;
   GameManager gm;
@@ -125,13 +128,36 @@ public class HeroState
     this.cell = cell;
     action = Action.None;
     gm = GameManager.instance;
+    path = new List<Cell>();
   }
 
-  //path = new Pathfinding(gm.CurrentPlayer.cell.Waypoint, goal).SearchPath();
+  public object Clone() {
+    HeroState hs = new HeroState(cell);
+    hs.action = action;
+    hs.stops = stops;
+    hs.goal = goal;
+    hs.path = path;
+    hs.freeMove = freeMove;
+    hs.willpower = willpower;
+    hs.strength = strength;
+    hs.golds = golds;
+
+    return hs;
+  }
+
+  public List<Cell> Path {
+    get {
+      return path;
+    }
+  } 
 
   public Cell Goal {
     get {
       return goal;
+    }
+    set {
+      goal = value;
+      path = new Pathfinding(cell, goal).SearchPath();
     }
   }    
 }

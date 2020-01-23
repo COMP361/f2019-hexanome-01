@@ -13,9 +13,17 @@ public class UI {
 
     Button cancelBtn, confirmBtn;
 
+    Button setDestBtn;
+
+    GameObject pathContainer;
+    List<GameObject> pathLines;
+
     public UI() {
         gm = GameManager.instance;
         ui = GameObject.Find("UI");
+
+        pathLines = new List<GameObject>();
+        pathContainer = GameObject.Find("Paths");
 
         moveBtn = ui.transform.Find("Move Button").GetComponent<Button>();
         moveBtn.onClick.AddListener(delegate { gm.SelectAction(Action.Move); });
@@ -31,18 +39,24 @@ public class UI {
 
         confirmBtn = ui.transform.Find("Move Options/Confirm Button").GetComponent<Button>();
         confirmBtn.onClick.AddListener(delegate { gm.ConfirmAction(); });
+
+        setDestBtn = ui.transform.Find("Move Options/Set Destination Button").GetComponent<Button>();
+        setDestBtn.onClick.AddListener(delegate { gm.SelectAction(Action.Move.SetDest); });
     }
     
-    public void ShowPath(Cell[] path) {
-        if(path != null && path.Length > 0) {
-            for(int i = 0; i < path.Length - 1; i++) {
-                DrawLine(path[i].Waypoint, path[i + 1].Waypoint, Color.red);
+    public void DisplayPath(List<Cell> path) {
+        HidePath();
+        if(path != null && path.Count > 0) {
+            for(int i = 0; i < path.Count - 1; i++) {
+                pathLines.Add(DrawLine(path[i].Waypoint, path[i + 1].Waypoint, Color.red));
             }
         }
     }
 
     public void HidePath() {
-        
+        for(int i = 0; i < pathLines.Count; i++) {
+            GameObject.Destroy(pathLines[i]);
+        }
     }
 
     public void ShowOptions(Action action) {
@@ -62,9 +76,10 @@ public class UI {
         ui.transform.FindDeepChild("Action").GetComponent<UnityEngine.UI.Text>().text = gm.CurrentPlayer.State.action.Name;
     }
 
-    static public GameObject DrawLine(Vector3 start, Vector3 end, Color color, float width = 0.1f) {
+    public GameObject DrawLine(Vector3 start, Vector3 end, Color color, float width = 0.1f) {
         GameObject myLine = new GameObject();
         myLine.transform.position = start;
+        myLine.transform.parent = pathContainer.transform;
         myLine.AddComponent<LineRenderer>();
         LineRenderer lr = myLine.GetComponent<LineRenderer>();
         //lr.material = new Material(Shader.Find("Particles/Alpha Blended Premultiply"));
