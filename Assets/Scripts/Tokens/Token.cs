@@ -9,10 +9,11 @@ public class Token {
     GameObject token;
     public string id;
     public string effect;
+    public string description;
 
     public Token(string id, Color color) {
         this.id = id;
-       
+        description = "does it work";
         token = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
         token.transform.localScale = new Vector3(2, 0.1f, 2);
         token.transform.Rotate(90.0f, 0.0f, 0.0f, Space.Self);

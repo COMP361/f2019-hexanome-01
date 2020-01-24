@@ -48,9 +48,9 @@ public class Hero : MonoBehaviour
   }
 
   public bool AtCell(Cell c) {
-    return Vector3.Distance(token.transform.position, c.Waypoint) < 0.5; 
+    return Vector3.Distance(token.transform.position, c.Waypoint) < 0.5;
   }
-    
+
   public void Move() {
     if(state.path == null || state.path.Count == 0) {
       //IsDone = true;
@@ -58,7 +58,11 @@ public class Hero : MonoBehaviour
     }
 
     if(AtCell(state.path[0])) {
+
+      state.cell.removeToken(token);
       state.cell = state.path[0];
+      state.cell.addToken(token);
+
       state.path.RemoveAt(0);
       return;
     }
@@ -74,12 +78,12 @@ public class Hero : MonoBehaviour
       isDone = value;
     }
   }
-  
+
   public string Type {
     get {
       return type;
     }
-  } 
+  }
 
   public HeroState State {
     get {
@@ -149,7 +153,7 @@ public class HeroState : ICloneable
     get {
       return path;
     }
-  } 
+  }
 
   public Cell Goal {
     get {
@@ -159,5 +163,5 @@ public class HeroState : ICloneable
       goal = value;
       path = new Pathfinding(cell, goal).SearchPath();
     }
-  }    
+  }
 }

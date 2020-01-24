@@ -8,7 +8,8 @@ using UnityEngine.EventSystems;
 
 public class Cell : MonoBehaviour, IClickHandler {
     public List<Transform> neighbours = new List<Transform>();
-    
+    public List<GameObject> tokens = new List<GameObject>();
+
     public Cell enemyPath;
     private int index;
     private Cell parent;
@@ -19,7 +20,7 @@ public class Cell : MonoBehaviour, IClickHandler {
     private Vector3 waypoint;
 
     private CellState state;
-    
+
     private SpriteRenderer sprite;
     private Color32 color = new Color(1f,1f,1f,0f);
     private Color32 hoverColor = new Color(1f,1f,1f,.2f);
@@ -34,10 +35,10 @@ public class Cell : MonoBehaviour, IClickHandler {
     void Start() {
         gm = GameManager.instance;
         em = gm.em;
-        
+
         sprite = GetComponent<SpriteRenderer>();
         sprite.color = color;
-        
+
         if (!int.TryParse(this.name, out index)) {
             index = -1;
         }
@@ -47,13 +48,20 @@ public class Cell : MonoBehaviour, IClickHandler {
       Cell cell = null;
       GameObject go = GameObject.Find("Cells/" + id);
       if(go != null) cell = go.GetComponent<Cell>();
-      
+
       if(cell == null) {
         var message = string.Format("'{0}' is not a valid cell id.", id);
         throw new ApplicationException(message);
       }
 
       return cell;
+    }
+
+    public void addToken(GameObject toAdd){
+      tokens.Add(toAdd);
+    }
+    public void removeToken(GameObject toRemove){
+      tokens.Remove(toRemove);
     }
 
     void OnMouseEnter() {
@@ -90,7 +98,7 @@ public class Cell : MonoBehaviour, IClickHandler {
         return index;
       }
     }
-    
+
     public float Heuristic {
       get {
         return heuristic;
@@ -121,10 +129,10 @@ public class Cell : MonoBehaviour, IClickHandler {
     public float f {
         get { return cost + heuristic; }
     }
-    
+
     public CellState State {
-        get { 
-            return state; 
+        get {
+            return state;
         }
     }
 }
@@ -135,7 +143,7 @@ public class CellState : ICloneable
   // Pickable
   private List<Token> tokens;
   private Enemy enemy;
-  private List<Hero> heroes; 
+  private List<Hero> heroes;
 
   // Shuld we have well, fog?
 
@@ -151,10 +159,10 @@ public class CellState : ICloneable
 
     return cs;
   }
-    
+
   public Enemy Enemy {
-    get { 
-        return enemy; 
+    get {
+        return enemy;
     }
     set {
         enemy = value;
