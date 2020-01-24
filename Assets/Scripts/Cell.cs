@@ -15,8 +15,11 @@ public class Cell : MonoBehaviour, IClickHandler {
 
     private float heuristic;
     private float cost;
+
     private Vector3 waypoint;
-    //private List<Item> inventory;
+
+    private CellState state;
+    
     private SpriteRenderer sprite;
     private Color32 color = new Color(1f,1f,1f,0f);
     private Color32 hoverColor = new Color(1f,1f,1f,.2f);
@@ -25,6 +28,7 @@ public class Cell : MonoBehaviour, IClickHandler {
 
     void Awake() {
         waypoint = transform.Find("placeholders/waypoint").position;
+        state = new CellState();
     }
 
     void Start() {
@@ -117,4 +121,43 @@ public class Cell : MonoBehaviour, IClickHandler {
     public float f {
         get { return cost + heuristic; }
     }
+    
+    public CellState State {
+        get { 
+            return state; 
+        }
+    }
+}
+
+public class CellState : ICloneable
+{
+  GameManager gm;
+  // Pickable
+  private List<Token> tokens;
+  private Enemy enemy;
+  private List<Hero> heroes; 
+
+  // Shuld we have well, fog?
+
+  public CellState() {
+    gm = GameManager.instance;
+  }
+
+  public object Clone() {
+    CellState cs = new CellState();
+    cs.tokens = tokens;
+    cs.enemy = enemy;
+    cs.heroes = heroes;
+
+    return cs;
+  }
+    
+  public Enemy Enemy {
+    get { 
+        return enemy; 
+    }
+    set {
+        enemy = value;
+    }
+  }
 }

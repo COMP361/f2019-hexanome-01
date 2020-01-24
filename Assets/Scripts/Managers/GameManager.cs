@@ -151,35 +151,35 @@ public class GameManager : Singleton<GameManager>
   public void addFarmer(int cellID) {
     GameObject farmerGO = Instantiate(farmer) as GameObject;
     Farmer f = farmerGO.GetComponent<Farmer>();
-    f.SetRank(cellID);
+    f.SetCell(cellID);
     farmers.Add(f);
   }
 
   public void addGor(int cellID) {
     GameObject gorGO = Instantiate(gor) as GameObject;
     Enemy g = gorGO.GetComponent<Enemy>();
-    g.SetRank(cellID);
+    g.SetCell(cellID);
     gors.Add(g);
   }
 
   public void addSkral(int cellID) {
     GameObject skralGO = Instantiate(skral) as GameObject;
     Enemy s = skralGO.GetComponent<Enemy>();
-    s.SetRank(cellID);
+    s.SetCell(cellID);
     skrals.Add(s);
   }
 
   public void addTrolls(int cellID) {
     GameObject trollGO = Instantiate(troll) as GameObject;
     Enemy t = trollGO.GetComponent<Enemy>();
-    t.SetRank(cellID);
+    t.SetCell(cellID);
     trolls.Add(t);
   }
 
   public void addWardrak(int cellID) {
     GameObject wardrakGO = Instantiate(wardrak) as GameObject;
     Enemy w = wardrakGO.GetComponent<Enemy>();
-    w.SetRank(cellID);
+    w.SetCell(cellID);
     wardraks.Add(w);
   }
 }

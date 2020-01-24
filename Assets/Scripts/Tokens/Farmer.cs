@@ -6,7 +6,7 @@ using System;
 public class Farmer : MonoBehaviour
 {
   protected int moveSpeed;
-  protected Cell rank;
+  protected Cell cell;
   protected GameObject token;
   protected Color color = new Color(0, 0, 0, 1);
 
@@ -33,8 +33,8 @@ public class Farmer : MonoBehaviour
   public void Move() {
   }
 
-  public void SetRank(int cellID) {
-    rank = Cell.FromId(cellID);
-    token.transform.position = rank.Waypoint;
+  public void SetCell(int cellID) {
+    cell = Cell.FromId(cellID);
+    token.transform.position = cell.Waypoint;
   }
 }

@@ -9,7 +9,7 @@ public class Enemy : MonoBehaviour
     public int strength;
     public int reward;
     //int dices;
-    Cell rank;
+    Cell cell;
     GameManager gm;
     GameObject token;
 
@@ -32,8 +32,9 @@ public class Enemy : MonoBehaviour
         gm = GameManager.instance;
     }
 
-    public void SetRank(int cellID) {
-        rank = Cell.FromId(cellID);
-        token.transform.position = rank.Waypoint;
+    public void SetCell(int cellID) {
+        cell = Cell.FromId(cellID);
+        token.transform.position = cell.Waypoint;
+        cell.State.Enemy = this;   
     }
 }
