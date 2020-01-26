@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 
 [RequireComponent(typeof(PolygonCollider2D))]
 
-public class Cell : MonoBehaviour, IClickHandler {
+public class Cell : MonoBehaviour {
     public List<Transform> neighbours = new List<Transform>();
     
     public Cell enemyPath;
@@ -24,7 +24,6 @@ public class Cell : MonoBehaviour, IClickHandler {
     private Color32 color = new Color(1f,1f,1f,0f);
     private Color32 hoverColor = new Color(1f,1f,1f,.2f);
     GameManager gm;
-    EventManager em;
 
     void Awake() {
         waypoint = transform.Find("placeholders/waypoint").position;
@@ -33,7 +32,6 @@ public class Cell : MonoBehaviour, IClickHandler {
 
     void Start() {
         gm = GameManager.instance;
-        em = gm.em;
         
         sprite = GetComponent<SpriteRenderer>();
         sprite.color = color;
@@ -70,8 +68,8 @@ public class Cell : MonoBehaviour, IClickHandler {
         sprite.color = color;
     }
 
-    public void OnClick() {
-      em.OnCellClick(index);
+    void OnMouseDown() {
+      EventManager.TriggerCellClick(index);
     }
 
     void OnDrawGizmos() {
@@ -134,7 +132,7 @@ public class CellState : ICloneable
   GameManager gm;
   // Pickable
   private List<Token> tokens;
-  private Enemy enemy;
+  private IEnemy enemy;
   private List<Hero> heroes; 
 
   // Shuld we have well, fog?
@@ -152,7 +150,7 @@ public class CellState : ICloneable
     return cs;
   }
     
-  public Enemy Enemy {
+  public IEnemy Enemy {
     get { 
         return enemy; 
     }

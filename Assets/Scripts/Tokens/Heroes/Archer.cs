@@ -15,8 +15,6 @@ public class Archer : Hero
             instance = this;
         }
         
-        rank = Cell.FromId(25);
-        
         dices = new int[21] {
             3, 3, 3, 3, 3, 3, 3,
             4, 4, 4, 4, 4, 4, 4,
@@ -28,8 +26,6 @@ public class Archer : Hero
             "Pasco"
         };
 
-        color = new Color(0.4f, 0.75f, 0, 1);
-
-        Init(rank);
+        Setup(25, new Color(0.4f, 0.75f, 0, 1));
     }
 }

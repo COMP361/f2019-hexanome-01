@@ -15,8 +15,6 @@ public class Mage : Hero
             instance = this;
         }
 
-        rank = Cell.FromId(34);
-        
         dices = new int[21] {
             1, 1, 1, 1, 1, 1, 1,
             1, 1, 1, 1, 1, 1, 1,
@@ -28,8 +26,6 @@ public class Mage : Hero
             "Liphardus"
         };
 
-        color = new Color(0.6f, 0.2f, 1, 1);
-
-        Init(rank);
+        Setup(34, new Color(0.6f, 0.2f, 1, 1));
     }
 }

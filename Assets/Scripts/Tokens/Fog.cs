@@ -27,14 +27,15 @@ public class Fog {
                 fog = GameObject.Instantiate((GameObject) Resources.Load("Prefabs/Tokens/Fog")) as GameObject;
                 GameObject token = fog.transform.Find("Token").gameObject;    
                 token.GetComponent<SpriteRenderer>().sprite = sprite;
-                tokens.Add(new Token(sprite.name, fog));
+                tokens.Add(Token.Factory(sprite.name + "Fog", fog));
             }
         }
 
         tokens.Shuffle();
 
         for (int i = 0; i < tokens.Count; i++) {
-            tokens[i].addToCell(cellsID[i]);
+            Cell c = Cell.FromId(cellsID[i]);
+            tokens[i].Position(c);
         }
     }
 

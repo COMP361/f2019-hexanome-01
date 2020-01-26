@@ -15,8 +15,6 @@ public class Warrior : Hero
             instance = this;
         }
    
-        rank = Cell.FromId(14);
-        
         dices = new int[21] {
             2, 2, 2, 2, 2, 2, 2,
             3, 3, 3, 3, 3, 3, 3,
@@ -28,8 +26,6 @@ public class Warrior : Hero
             "Thorn"
         };
 
-        color = new Color(0.09f, 0.6f, 1, 1);
-
-        Init(rank);
+        Setup(14, new Color(0.09f, 0.6f, 1, 1));
     }
 }
