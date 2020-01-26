@@ -7,8 +7,7 @@ using UnityEngine.EventSystems;
 [RequireComponent(typeof(PolygonCollider2D))]
 
 public class Cell : MonoBehaviour {
-    public List<Transform> neighbours = new List<Transform>();
-    
+    public List<Transform> neighbours = new List<Transform>(); 
     public Cell enemyPath;
     private int index;
     private Cell parent;
@@ -129,33 +128,32 @@ public class Cell : MonoBehaviour {
 
 public class CellState : ICloneable
 {
-  GameManager gm;
   // Pickable
   private List<Token> tokens;
   private IEnemy enemy;
   private List<Hero> heroes; 
 
-  // Shuld we have well, fog?
-
-  public CellState() {
-    gm = GameManager.instance;
-  }
+  // Should we have well, fog?
 
   public object Clone() {
-    CellState cs = new CellState();
-    cs.tokens = tokens;
-    cs.enemy = enemy;
-    cs.heroes = heroes;
-
+    CellState cs = (CellState) this.MemberwiseClone();
     return cs;
   }
     
+  public void addToken(Token token){
+    tokens.Add(token);
+  }
+
+  public void removeToken(Token token){
+    tokens.Remove(token);
+  }
+
   public IEnemy Enemy {
     get { 
-        return enemy; 
+      return enemy; 
     }
     set {
-        enemy = value;
+      enemy = value;
     }
   }
 }

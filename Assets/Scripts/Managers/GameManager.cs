@@ -28,11 +28,13 @@ public class GameManager : Singleton<GameManager> {
   void OnEnable() {
     EventManager.MoveSelect += InitMove;
     EventManager.MoveCancel += ResetCommand;
+    EventManager.MoveConfirm += ExecuteMove;
   }
 
   void OnDisable() {
     EventManager.MoveSelect -= InitMove;
     EventManager.MoveCancel -= ResetCommand;
+    EventManager.MoveConfirm -= ExecuteMove;
   }
 
   void Start() {
@@ -96,6 +98,12 @@ public class GameManager : Singleton<GameManager> {
 
   void InitMove() {
     command = new MoveCommand(CurrentPlayer.Token, CurrentPlayer.State.cell);
+  }
+
+  void ExecuteMove() {
+    command.Execute();
+    //command.Dispose();
+    //command = new MoveCommand(CurrentPlayer.Token, CurrentPlayer.State.cell);
   }
 
   void ResetCommand() {
