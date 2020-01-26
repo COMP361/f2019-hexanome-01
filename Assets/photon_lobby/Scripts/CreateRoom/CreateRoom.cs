@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Photon.Realtime;
+using Photon.Pun;
 
 public class CreateRoom : MonoBehaviour
 {
@@ -15,7 +17,7 @@ public class CreateRoom : MonoBehaviour
     
     public void OnClick_CreateRoom()
     {
-        RoomOptions roomOptions = new RoomOptions() { isVisible = true, IsOpen = true, MaxPlayers = 4 };
+        RoomOptions roomOptions = new RoomOptions() { IsVisible = true, IsOpen = true, MaxPlayers = 4 };
 
         if(PhotonNetwork.CreateRoom(RoomName.text, roomOptions, TypedLobby.Default))
         {

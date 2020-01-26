@@ -1,4 +1,6 @@
 ﻿using UnityEngine;
+using Photon.Pun;
+using Photon.Realtime;
 
 public class LobbyNetwork : MonoBehaviour
 {
@@ -6,13 +8,14 @@ public class LobbyNetwork : MonoBehaviour
     void Start()
     {
         print("Connecting to server...");
-        PhotonNetwork.ConnectUsingSettings("0.0.0");
+        PhotonNetwork.ConnectUsingSettings();
+        PhotonNetwork.GameVersion = "0.0.0";
     }
 
     private void OnConnectedToMaster()
     {
         print("Connected to master.");
-        PhotonNetwork.playerName = PlayerNetwork.Instance.PlayerName;
+        PhotonNetwork.NickName = PlayerNetwork.Instance.PlayerName;
 
         PhotonNetwork.JoinLobby(TypedLobby.Default);
     }

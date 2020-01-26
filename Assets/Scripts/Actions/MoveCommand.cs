@@ -4,7 +4,7 @@ public class MoveCommand : ICommand {
     private readonly Token token;
     private readonly Cell origin;
     private Cell goal;
-    private Path path;
+    private MapPath path;
     private List<Cell> reachableCells;
 
     // Movable ?
@@ -24,7 +24,7 @@ public class MoveCommand : ICommand {
     void SetDestination(int cellID) {
         goal = Cell.FromId(cellID);
         if(path != null) path.Dispose();
-        path = new Path(origin, goal);
+        path = new MapPath(origin, goal);
     }
 
     public void Execute() {

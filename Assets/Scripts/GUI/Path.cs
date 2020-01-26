@@ -1,11 +1,11 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class Path {
+public class MapPath {
     GameObject pathContainer;
     List<GameObject> pathLines;
 
-    public Path(Cell origin, Cell goal) {
+    public MapPath(Cell origin, Cell goal) {
         Cells = new Pathfinding(origin, goal).SearchPath();
         pathLines = new List<GameObject>();
         pathContainer = GameObject.Find("Paths");
