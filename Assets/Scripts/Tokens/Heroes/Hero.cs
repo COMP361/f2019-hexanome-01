@@ -35,7 +35,9 @@ public class Hero : MonoBehaviour
 
   // TODO
   void OnTokenMoveComplete(Token token, Cell c) {
+    //State.cell.removeToken(token);
     State.cell = c;
+    //State.cell.addToken(token);
   }
 
   public bool IsDone { get; set; }
@@ -75,20 +77,17 @@ public class HeroState : ICloneable
   private int willpower;
   private int strength;
   private int golds;
+  private Timeline timeline;
 
   public HeroState(Cell cell) {
     this.cell = cell;
     action = Action.None;
+    timeline = new Timeline();
   }
 
   public object Clone() {
-    HeroState hs = new HeroState(cell);
-    hs.action = action;
-    hs.freeMove = freeMove;
-    hs.willpower = willpower;
-    hs.strength = strength;
-    hs.golds = golds;
-
+    HeroState hs = (HeroState) this.MemberwiseClone();
+    hs.timeline = (Timeline) timeline.Clone();
     return hs;
   }     
 }

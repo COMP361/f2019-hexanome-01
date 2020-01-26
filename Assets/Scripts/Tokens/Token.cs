@@ -12,8 +12,10 @@ using UnityEngine;
 public class Token : MonoBehaviour {
     GameObject go;
     //public string name;
+    public string description;
     int moveSpeed;  
-    List<Cell> path;  
+    List<Cell> path;
+    bool isMoving;  
     bool isDone;
 
     void Update() {
@@ -52,7 +54,7 @@ public class Token : MonoBehaviour {
         Token token = go.AddComponent<Token>();
         go.name = name;
         token.go = go;
-        token.moveSpeed = 5;
+        token.moveSpeed = 20;
         token.go.transform.parent = GameObject.Find("Tokens").transform;
         
         return token;
@@ -64,28 +66,31 @@ public class Token : MonoBehaviour {
     
     // Should we verify that all cells in path are adjacent?
     public void Move(List<Cell> path) {
+        isMoving = true;
         this.path = path;
     }
 
     public void Move(Cell c) {
+        isMoving = true;
         path = new List<Cell>();
         path.Add(c);
     }
 
-    public void Move() {
+    void Move() {
         isDone = false;
-
+        
         if(path == null || path.Count == 0) {
             isDone = true;
+            isMoving = false;
             return;
         }
         
         if(AtCell(path[0])) {
-          path.RemoveAt(0);
-          return;
+            path.RemoveAt(0);
+            return;
         }
         
-        go.transform.position = Vector2.MoveTowards(go.transform.position, path[0].Waypoint, moveSpeed * Time.deltaTime);
+        go.transform.position = Vector3.MoveTowards(go.transform.position, path[0].Waypoint, moveSpeed * Time.deltaTime);
     }
     
     public bool AtCell(Cell c) {

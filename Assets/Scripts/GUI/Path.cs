@@ -12,7 +12,7 @@ public class Path {
     
         if(Cells != null && Cells.Count > 0) {
             for(int i = 0; i < Cells.Count - 1; i++) {
-                GameObject line = Geometry.DrawLine(Cells[i].Waypoint, Cells[i + 1].Waypoint, Color.red);
+                GameObject line = Geometry.DrawLine(Cells[i].Waypoint + new Vector3(0, 0, -0.1f), Cells[i + 1].Waypoint + new Vector3(0, 0, -0.1f), Color.red);
                 line.transform.parent = pathContainer.transform;
                 pathLines.Add(line);
             }
