@@ -47,7 +47,6 @@ public class ChatManager : MonoBehaviour, IChatClientListener
 
     public void OnConnected()
     {
-        Debug.Log("Hello");
         this.chatClient.Subscribe(new string[] { "global" });
     }
 
@@ -60,7 +59,7 @@ public class ChatManager : MonoBehaviour, IChatClientListener
 
         if ((Input.GetKey(KeyCode.Return) || Input.GetKey(KeyCode.KeypadEnter)) && this.chatInputBox.text != "")
         {
-            this.chatClient.PublishMessage("global", this.chatInputBox.text);
+            this.chatClient.PublishMessage("global", this.username + ": " + this.chatInputBox.text);
             this.chatInputBox.text = "";
         }
     }
@@ -118,7 +117,7 @@ public class ChatManager : MonoBehaviour, IChatClientListener
         {
             string sender = senders[i];
             string msg = Convert.ToString(messages[i]);
-            this.SendMessageToChat(sender + ": " + msg);
+            this.SendMessageToChat(msg);
         }
     }
 
@@ -129,6 +128,7 @@ public class ChatManager : MonoBehaviour, IChatClientListener
     public void OnSubscribed(string[] channels, bool[] results)
     {
         Debug.Log("Subscribed to a new channel!");
+        this.chatClient.PublishMessage("global", this.username + " has connected to the chat!");
     }
 
     public void OnUnsubscribed(string[] channels)
