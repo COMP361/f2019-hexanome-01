@@ -42,7 +42,7 @@ public class PlayerLayoutGroup : MonoBehaviour
         }
     }
 
-        //Called by photon when a player joins the room.
+    //Called by photon when a player joins the room.
     private void OnPhotonPlayerConnected(PhotonPlayer photonPlayer)
     {
         PlayerJoinedRoom(photonPlayer);
