@@ -44,13 +44,8 @@ public class PlayerLayoutGroup : MonoBehaviourPunCallbacks
         }
     }
 
-<<<<<<< HEAD
     //Called by photon when a player joins the room.
-    private void OnPhotonPlayerConnected(PhotonPlayer photonPlayer)
-=======
-        //Called by photon when a player joins the room.
     private void OnPhotonPlayerConnected(Player player)
->>>>>>> 476b01f89500f1958cebc2de20498f8e2fb5cf72
     {
         PlayerJoinedRoom(player);
     }

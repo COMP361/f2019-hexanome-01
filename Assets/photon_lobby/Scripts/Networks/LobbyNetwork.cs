@@ -23,7 +23,7 @@ public class LobbyNetwork : MonoBehaviourPunCallbacks
     {
         print("Joined Lobby.");
 
-        if(!PhotonNetwork.inRoom)
+        if(!PhotonNetwork.InRoom)
             MainCanvasManager.Instance.LobbyCanvas.transform.SetAsLastSibling();
     }
 }
