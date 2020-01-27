@@ -1,8 +1,10 @@
-﻿using UnityEngine;
+﻿
+using UnityEngine;
 
 public class DDOL : MonoBehaviour
 {
-    // Start is called before the first frame update
+
+    // Use this for initialization
     private void Awake()
     {
         DontDestroyOnLoad(this);

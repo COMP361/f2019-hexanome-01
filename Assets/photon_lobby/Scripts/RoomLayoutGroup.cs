@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class RoomLayoutGroup : MonoBehaviour
 {
+
     [SerializeField]
     private GameObject _roomListingPrefab;
     private GameObject RoomListingPrefab
@@ -16,7 +17,8 @@ public class RoomLayoutGroup : MonoBehaviour
         get { return _roomListingButtons; }
     }
 
-    private void OnReceiveRoomListUpdate()
+
+    private void OnReceivedRoomListUpdate()
     {
         RoomInfo[] rooms = PhotonNetwork.GetRoomList();
 
@@ -27,16 +29,14 @@ public class RoomLayoutGroup : MonoBehaviour
 
         RemoveOldRooms();
     }
-    
-    // Checks if the rooms have been received.
+
     private void RoomReceived(RoomInfo room)
     {
-        // This is going to look through all the roomListingButtons and find the right one if it equals room
         int index = RoomListingButtons.FindIndex(x => x.RoomName == room.Name);
 
         if (index == -1)
         {
-            if(room.IsVisible && room.playerCount < room.MaxPlayers)
+            if (room.IsVisible && room.PlayerCount < room.MaxPlayers)
             {
                 GameObject roomListingObj = Instantiate(RoomListingPrefab);
                 roomListingObj.transform.SetParent(transform, false);
@@ -50,8 +50,8 @@ public class RoomLayoutGroup : MonoBehaviour
 
         if (index != -1)
         {
-            RoomListing roomListing = RoomListingButtons[index]; //find the room
-            roomListing.SetRoomNameText(room.Name); // Update the name
+            RoomListing roomListing = RoomListingButtons[index];
+            roomListing.SetRoomNameText(room.Name);
             roomListing.Updated = true;
         }
     }
@@ -60,9 +60,9 @@ public class RoomLayoutGroup : MonoBehaviour
     {
         List<RoomListing> removeRooms = new List<RoomListing>();
 
-        foreach(RoomListing roomListing in RoomListingButtons)
+        foreach (RoomListing roomListing in RoomListingButtons)
         {
-            if (roomListing.Updated)
+            if (!roomListing.Updated)
                 removeRooms.Add(roomListing);
             else
                 roomListing.Updated = false;
@@ -75,4 +75,5 @@ public class RoomLayoutGroup : MonoBehaviour
             Destroy(roomListingObj);
         }
     }
+
 }
