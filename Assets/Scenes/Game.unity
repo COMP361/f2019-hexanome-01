@@ -131,7 +131,6 @@ GameObject:
   - component: {fileID: 564521091}
   - component: {fileID: 564521090}
   - component: {fileID: 564521089}
-  - component: {fileID: 564521092}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -204,18 +203,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &564521092
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 564521088}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 59c69f565be05aeb2814bfe3f5a317bc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1843983310
 GameObject:
   m_ObjectHideFlags: 0
@@ -245,18 +232,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e2a64e02fa004af1add8c3b4950e813, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  farmer: {fileID: 7094996999662422215, guid: b4e90fc22cc307956aaec9187a7857c1, type: 3}
-  gor: {fileID: 2388775626535419195, guid: 04553d5e3ea554451992a8a02a1cad08, type: 3}
-  skral: {fileID: 4395708396436737644, guid: 069cfd4526ace12ba953991724bcb659, type: 3}
-  troll: {fileID: 8142462728544485147, guid: 4cfd4f1dce9f96454b834b997fdb4d42, type: 3}
-  wardrak: {fileID: 4802651633238990469, guid: 577280e5f0277109ca3100e164cbcee9, type: 3}
   players: []
   farmers: []
-  gors: []
-  skrals: []
-  trolls: []
-  wardraks: []
-  em: {fileID: 0}
+  well: {fileID: 0}
 --- !u!4 &1843983312
 Transform:
   m_ObjectHideFlags: 0

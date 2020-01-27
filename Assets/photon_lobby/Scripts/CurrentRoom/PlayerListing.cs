@@ -1,11 +1,14 @@
 ﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using Photon.Realtime;
+using Photon.Pun;
+
 
 public class PlayerListing : MonoBehaviour
 {
 
-    public PhotonPlayer PhotonPlayer { get; private set; }
+    public Player Player { get; private set; }
 
     [SerializeField]
     private Text _playerName;
@@ -21,20 +24,20 @@ public class PlayerListing : MonoBehaviour
         get { return _playerPing; }
     }
 
-    public void ApplyPhotonPlayer(PhotonPlayer photonPlayer)
+    public void ApplyPhotonPlayer(Player player)
     {
-        PhotonPlayer = photonPlayer;
-        PlayerName.text = photonPlayer.NickName;
+        Player = player;
+        PlayerName.text = player.NickName;
 
-        StartCoroutine(C_ShowPing());
+        //StartCoroutine(C_ShowPing());
     }
 
 
     private IEnumerator C_ShowPing()
     {
-        while (PhotonNetwork.connected)
+        while (PhotonNetwork.IsConnected)
         {
-            int ping = (int)PhotonPlayer.CustomProperties["Ping"];
+            int ping = (int)Player.CustomProperties["Ping"];
             m_playerPing.text = ping.ToString();
             yield return new WaitForSeconds(1f);
         }

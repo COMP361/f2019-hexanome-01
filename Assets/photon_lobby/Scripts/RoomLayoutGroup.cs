@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using Photon.Realtime;
+using Photon.Pun;
 
-public class RoomLayoutGroup : MonoBehaviour
+public class RoomLayoutGroup : MonoBehaviourPunCallbacks
 {
 
     [SerializeField]
@@ -16,13 +18,10 @@ public class RoomLayoutGroup : MonoBehaviour
     {
         get { return _roomListingButtons; }
     }
-
-
-    private void OnReceivedRoomListUpdate()
+    
+    public override void OnRoomListUpdate(List<RoomInfo> roomList) 
     {
-        RoomInfo[] rooms = PhotonNetwork.GetRoomList();
-
-        foreach (RoomInfo room in rooms)
+        foreach (RoomInfo room in roomList)
         {
             RoomReceived(room);
         }
@@ -36,7 +35,7 @@ public class RoomLayoutGroup : MonoBehaviour
 
         if (index == -1)
         {
-            if (room.IsVisible && room.PlayerCount < room.MaxPlayers)
+            if(room.IsVisible && room.PlayerCount < room.MaxPlayers)
             {
                 GameObject roomListingObj = Instantiate(RoomListingPrefab);
                 roomListingObj.transform.SetParent(transform, false);

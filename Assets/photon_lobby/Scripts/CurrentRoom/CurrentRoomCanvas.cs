@@ -1,11 +1,12 @@
 ﻿using UnityEngine;
+using Photon.Pun;
 
 public class CurrentRoomCanvas : MonoBehaviour
 {
 
     public void OnClickStartSync()
     {
-        if (!PhotonNetwork.isMasterClient)
+        if (!PhotonNetwork.IsMasterClient)
             return;
 
         PhotonNetwork.LoadLevel(1);
@@ -13,11 +14,11 @@ public class CurrentRoomCanvas : MonoBehaviour
 
     public void OnClickStartDelayed()
     {
-        if (!PhotonNetwork.isMasterClient)
+        if (!PhotonNetwork.IsMasterClient)
             return;
 
-        PhotonNetwork.room.IsOpen = false;
-        PhotonNetwork.room.IsVisible = false;
+        PhotonNetwork.CurrentRoom.IsOpen = false;
+        PhotonNetwork.CurrentRoom.IsVisible = false;
         PhotonNetwork.LoadLevel(1);
     }
 }

@@ -1,23 +1,25 @@
 ﻿using UnityEngine;
+using Photon.Pun;
+using Photon.Realtime;
 
-public class LobbyNetwork : MonoBehaviour
+public class LobbyNetwork : MonoBehaviourPunCallbacks
 {
     // Start is called before the first frame update
     void Start()
     {
         print("Connecting to server...");
-        PhotonNetwork.ConnectUsingSettings("0.0.0");
-    }
-
-    private void OnConnectedToMaster()
+        PhotonNetwork.ConnectUsingSettings();
+    }	
+    
+    public override void OnConnectedToMaster()
     {
         print("Connected to master.");
-        PhotonNetwork.playerName = PlayerNetwork.Instance.PlayerName;
+        PhotonNetwork.NickName = PlayerNetwork.Instance.PlayerName;
 
         PhotonNetwork.JoinLobby(TypedLobby.Default);
     }
 
-    private void OnJoinedLobby()
+    public override void OnJoinedLobby()
     {
         print("Joined Lobby.");
 
