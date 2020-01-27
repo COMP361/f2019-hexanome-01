@@ -3,7 +3,7 @@ using UnityEngine;
 using Photon.Realtime;
 using Photon.Pun;
 
-public class RoomLayoutGroup : MonoBehaviour
+public class RoomLayoutGroup : MonoBehaviourPunCallbacks
 {
 
     [SerializeField]
@@ -19,7 +19,7 @@ public class RoomLayoutGroup : MonoBehaviour
         get { return _roomListingButtons; }
     }
     
-    private void OnRoomListUpdate(List<RoomInfo> roomList) 
+    public override void OnRoomListUpdate(List<RoomInfo> roomList) 
     {
         foreach (RoomInfo room in roomList)
         {

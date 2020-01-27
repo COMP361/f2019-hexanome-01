@@ -4,7 +4,7 @@ using UnityEngine;
 using Photon.Realtime;
 using Photon.Pun;
 
-public class PlayerLayoutGroup : MonoBehaviour
+public class PlayerLayoutGroup : MonoBehaviourPunCallbacks
 {
 
     [SerializeField]
@@ -21,14 +21,14 @@ public class PlayerLayoutGroup : MonoBehaviour
     }
 
     //Called by photon whenever the master client is swithced.
-    private void OnMasterClientSwitched(Player newMasterClient)
+    public override void OnMasterClientSwitched(Player newMasterClient)
     {
         PhotonNetwork.LeaveRoom();
     }
 
 
     //Called by photon whenever you join a room.
-    private void OnJoinedRoom()
+    public override void OnJoinedRoom()
     {
         //    foreach (Transform child in transform)
         //    {

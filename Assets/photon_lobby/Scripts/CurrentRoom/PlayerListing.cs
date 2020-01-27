@@ -29,7 +29,7 @@ public class PlayerListing : MonoBehaviour
         Player = player;
         PlayerName.text = player.NickName;
 
-        StartCoroutine(C_ShowPing());
+        //StartCoroutine(C_ShowPing());
     }
 
 
