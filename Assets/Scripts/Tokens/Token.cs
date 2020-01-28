@@ -12,13 +12,13 @@ using UnityEngine;
 public class Token : MonoBehaviour {
     GameObject go;
     //public string name;
-    public string description;
+    string description;
     int moveSpeed;
     List<Cell> path;
     bool isMoving;
     bool isDone;
 
-    
+
 
     void Update() {
         Move();
@@ -33,7 +33,6 @@ public class Token : MonoBehaviour {
 
     public static Token Factory(string name, Color color) {
         Token token = Factory(name, GameObject.CreatePrimitive(PrimitiveType.Cylinder));
-
         token.transform.localScale = new Vector3(2, 0.1f, 2);
         token.transform.Rotate(90.0f, 0.0f, 0.0f, Space.Self);
 
@@ -102,6 +101,12 @@ public class Token : MonoBehaviour {
     public bool IsDone {
         get {
             return IsDone;
+        }
+    }
+
+    public String Name {
+        get {
+            return go.name;
         }
     }
 }

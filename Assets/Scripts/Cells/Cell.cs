@@ -158,31 +158,31 @@ public class CellState : ICloneable
     return cs;
   }
 
-  public void addHeroToken(Token token){
-    heroes.Add(token);
+  public void addEnemyToken(Token token){
+    enemies.Add(token);
   }
 
-  public void removeHeroToken(Token token){
-    heroes.Remove(token);
+  public void removeAddToken(Token token){
+    enemies.Remove(token);
   }
 
   public void formatDescription(){
 
     this.description = "Heroes: \n";
     foreach (var hero in heroes) {
-          this.description = description + "  - " + hero.description + " \n";
+          this.description = description + "  - " + hero.Name + " \n";
       }
     this.description = description + "Item: \n";
     foreach (var item in items) {
-          this.description = description + "  - " + item.description + " \n";
+          this.description = description + "  - " + item.Name + " \n";
       }
     this.description = description + "Monster: \n";
     foreach (var enemy in enemies) {
-          this.description = description + "  - " + enemy.description + " \n";
+          this.description = description + "  - " + enemy.Name + " \n";
       }
     this.description = description + "Gold: \n";
     foreach (var gold in golds) {
-          this.description = description + "  - " + gold.description + " \n";
+          this.description = description + "  - " + gold.Name + " \n";
       }
   }
 
