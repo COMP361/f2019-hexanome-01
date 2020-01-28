@@ -16,12 +16,14 @@ public class GameManager : Singleton<GameManager> {
   public EventCards eventCards;
   private ICommand command;
 
+  public static GameObject cellsDescription;
+
   void Awake() {
     SceneManager.LoadScene("Map", LoadSceneMode.Additive);
     //SceneManager.LoadScene("Chat", LoadSceneMode.Additive);
     SceneManager.LoadScene("Tokens", LoadSceneMode.Additive);
     SceneManager.LoadScene("UI", LoadSceneMode.Additive);
-    
+
     base.Awake();
   }
 
@@ -39,6 +41,8 @@ public class GameManager : Singleton<GameManager> {
 
   void Start() {
     playerCount = 4;
+    cellsDescription = GameObject.Find("cellsDescription");
+    cellsDescription.gameObject.SetActive(false);
     players = new List<Hero>();
     players.Add(Warrior.instance);
     players.Add(Archer.instance);
@@ -47,7 +51,7 @@ public class GameManager : Singleton<GameManager> {
 
     farmers = new List<Farmer>();
     farmers.Add(Farmer.Factory(24));
-    farmers.Add(Farmer.Factory(36)); 
+    farmers.Add(Farmer.Factory(36));
 
     gors = new List<IEnemy>();
     gors.Add(Gor.Factory(8));
@@ -58,15 +62,15 @@ public class GameManager : Singleton<GameManager> {
 
     skrals = new List<IEnemy>();
     skrals.Add(Skral.Factory(19));
-   
+
     trolls = new List<IEnemy>();
     wardraks = new List<IEnemy>();
-    
+
     legendCards = new LegendCards();
     eventCards = new EventCards();
 
     fog = new Fog();
-    
+
     //well = new Token();
     //well.addToken(55, Color.blue);
     //well.addToken(35, Color.blue);
@@ -76,7 +80,7 @@ public class GameManager : Singleton<GameManager> {
     giveTurn(0);
   }
 
-  void Update() { 
+  void Update() {
     //this doesnt really work it just changes the current player all the time.
     if(CurrentPlayer.IsDone) {
       endTurn(currentPlayerIndex);
