@@ -1,7 +1,7 @@
 using UnityEngine;
 
 class Geometry {
-    public static GameObject DrawLine(Vector3 start, Vector3 end, Color color, float width = 0.1f) {
+    public static GameObject Line(Vector3 start, Vector3 end, Color color, float width = 0.1f) {
         GameObject line = new GameObject();
         line.transform.position = start;
         line.AddComponent<LineRenderer>();
@@ -15,5 +15,18 @@ class Geometry {
         lr.SetPosition(1, end);
 
         return line;
+    }
+
+    public static GameObject Disc(Vector3 center, Color color, float radius = 2f) {
+        GameObject disc = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
+        disc.transform.position = center;
+        disc.transform.localScale = new Vector3(radius, 0.1f, radius);
+        disc.transform.Rotate(90.0f, 0.0f, 0.0f, Space.Self);
+
+        Renderer discRenderer = disc.GetComponent<Renderer>();
+        discRenderer.material.SetColor("_Color", color);
+        discRenderer.material.shader = Shader.Find("UI/Default");
+
+        return disc;
     }
 }

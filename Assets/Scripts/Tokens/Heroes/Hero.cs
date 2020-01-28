@@ -8,30 +8,10 @@ public enum Sex {
     Male
 }
 
-public class Hero : MonoBehaviour
-{
+public class Hero : Movable {
   protected Sex sex = Sex.Female;
   protected string[] names;
   protected int rank;
-  protected int[] dices;
-  protected string type;
-
-  public void Setup(int rank, Color color) {
-    this.rank = rank;
-    Color = color;
-    Cell c = Cell.FromId(rank);
-
-    State = new HeroState(c);
-    type = GetType().Name;
-    IsDone = false;
-
-    Token = Token.Factory(type, color);
-    Token.Position(c);
-  }
-  
-  public void Move(List<Cell> path) {
-    Token.Move(path);
-  }
 
   // TODO
   void OnTokenMoveComplete(Token token, Cell c) {
@@ -40,23 +20,19 @@ public class Hero : MonoBehaviour
     //State.cell.addToken(token);
   }
 
-  public bool IsDone { get; set; }
+  //public bool IsDone { get; set; }
   
-  public string Type { 
-    get {
-      return type;
-    } 
-  }
+  public string Type { get; protected set; }
 
   public HeroState State { get; set; }
 
-  public string Name {
+  public string HeroName {
     get {
       return names[(int)sex];
     }
   }
 
-  public int[] Dices { get; set; }
+  public int[] Dices { get; protected set; }
 
   public Action Action {
     get {
@@ -65,12 +41,9 @@ public class Hero : MonoBehaviour
   }
 
   public Color Color { get; set; }
-
-  public Token Token { get; set; }
 }
 
-public class HeroState : ICloneable
-{
+public class HeroState : ICloneable {
   public Action action;
   public Cell cell;
   private int freeMove;

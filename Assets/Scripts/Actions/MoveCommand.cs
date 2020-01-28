@@ -1,16 +1,16 @@
 using System.Collections.Generic;
 
 public class MoveCommand : ICommand {
-    private readonly Token token;
+    private readonly Movable movable;
     private readonly Cell origin;
     private Cell goal;
     private MapPath path;
     private List<Cell> reachableCells;
 
     // Movable ?
-    public MoveCommand(Token token, Cell origin) {
+    public MoveCommand(Movable movable, Cell origin) {
         EventManager.CellClick += SetDestination;
-        this.token = token;
+        this.movable = movable;
         this.origin = origin;
 
         //reachableCells = 
@@ -29,7 +29,7 @@ public class MoveCommand : ICommand {
 
     public void Execute() {
         if(path.Cells == null) return;
-        token.Move(new List<Cell>(path.Cells));
+        movable.Move(new List<Cell>(path.Cells));
         path.Cells = null;
 
         // TODO Update origin
