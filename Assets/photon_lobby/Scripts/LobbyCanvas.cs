@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-public class LobbyCanvas : MonoBehaviour
+public class LobbyCanvas : MonoBehaviourPunCallbacks
 {
 
     [SerializeField]

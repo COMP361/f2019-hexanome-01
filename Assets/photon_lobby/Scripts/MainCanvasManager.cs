@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Photon.Pun;
 using UnityEngine;
 
-public class MainCanvasManager : MonoBehaviour
+public class MainCanvasManager : MonoBehaviourPunCallbacks
 {
     public static MainCanvasManager Instance;
 

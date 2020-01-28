@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using Photon.Realtime;
 using Photon.Pun;
 
-public class CreateRoom : MonoBehaviour
+public class CreateRoom : MonoBehaviourPunCallbacks
 {
 
     [SerializeField]

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using Photon.Pun;
 
-public class CurrentRoomCanvas : MonoBehaviour
+public class CurrentRoomCanvas : MonoBehaviourPunCallbacks
 {
 
     public void OnClickStartSync()

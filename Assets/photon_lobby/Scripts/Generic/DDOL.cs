@@ -1,7 +1,7 @@
-﻿
+﻿using Photon.Pun;
 using UnityEngine;
 
-public class DDOL : MonoBehaviour
+public class DDOL : MonoBehaviourPunCallbacks
 {
 
     // Use this for initialization
