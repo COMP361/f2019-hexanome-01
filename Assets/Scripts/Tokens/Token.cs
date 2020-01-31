@@ -12,7 +12,7 @@ public class Token : MonoBehaviour {
     protected string description;
     protected Cell cell;
 
-    public void Awake() {
+    public void OnEnable() {
         this.transform.parent = GameObject.Find("Tokens").transform;
     }
 

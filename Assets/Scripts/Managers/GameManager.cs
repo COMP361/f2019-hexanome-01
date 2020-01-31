@@ -18,7 +18,7 @@ public class GameManager : Singleton<GameManager> {
 
   void Awake() {
     SceneManager.LoadScene("Map", LoadSceneMode.Additive);
-    //SceneManager.LoadScene("Chat", LoadSceneMode.Additive);
+    SceneManager.LoadScene("Chat", LoadSceneMode.Additive);
     SceneManager.LoadScene("Tokens", LoadSceneMode.Additive);
     SceneManager.LoadScene("UI", LoadSceneMode.Additive);
     
