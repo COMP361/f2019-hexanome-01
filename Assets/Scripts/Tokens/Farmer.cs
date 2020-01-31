@@ -3,16 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class Farmer : MonoBehaviour {
-  Token token;
+public class Farmer : Movable {
   static Color color = Color.white;
 
   public static Farmer Factory(int cellID) {
-    Token token = Token.Factory("Farmer", color);
-    token.Position(Cell.FromId(cellID));
-    Farmer farmer = token.gameObject.AddComponent<Farmer>();
-    farmer.token = token;
+    GameObject go = Geometry.Disc(Vector3.zero, color);
+    Farmer farmer = go.AddComponent<Farmer>();
+    farmer.TokenName = Type;
+
+    Cell cell = Cell.FromId(cellID);
+    farmer.Cell = cell;
 
     return farmer;
   }
+
+  public static string Type { get => typeof(Troll).ToString(); }
 }

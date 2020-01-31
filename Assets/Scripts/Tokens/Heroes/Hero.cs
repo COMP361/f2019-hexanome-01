@@ -8,11 +8,11 @@ public enum Sex {
     Male
 }
 
-public class Hero : MonoBehaviour
-{
+public class Hero : Movable {
   protected Sex sex = Sex.Female;
   protected string[] names;
   protected int rank;
+<<<<<<< HEAD
   protected int[] dices;
   protected string type;
 
@@ -32,6 +32,8 @@ public class Hero : MonoBehaviour
   public void Move(List<Cell> path) {
     Token.Move(path);
   }
+=======
+>>>>>>> Game-Network
 
   // TODO
   void OnTokenMoveComplete(Token token, Cell c) {
@@ -40,6 +42,7 @@ public class Hero : MonoBehaviour
     //State.cell.addToken(token);
   }
 
+<<<<<<< HEAD
   public bool IsDone { get; set; }
 
   public string Type {
@@ -47,16 +50,21 @@ public class Hero : MonoBehaviour
       return type;
     }
   }
+=======
+  //public bool IsDone { get; set; }
+  
+  public string Type { get; protected set; }
+>>>>>>> Game-Network
 
   public HeroState State { get; set; }
 
-  public string Name {
+  public string HeroName {
     get {
       return names[(int)sex];
     }
   }
 
-  public int[] Dices { get; set; }
+  public int[] Dices { get; protected set; }
 
   public Action Action {
     get {
@@ -65,12 +73,9 @@ public class Hero : MonoBehaviour
   }
 
   public Color Color { get; set; }
-
-  public Token Token { get; set; }
 }
 
-public class HeroState : ICloneable
-{
+public class HeroState : ICloneable {
   public Action action;
   public Cell cell;
   private int freeMove;

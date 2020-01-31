@@ -40,14 +40,18 @@ public class GameManager : Singleton<GameManager> {
   }
 
   void Start() {
+<<<<<<< HEAD
     playerCount = 4;
     cellsDescription = GameObject.Find("cellsDescription");
     cellsDescription.gameObject.SetActive(false);
+=======
+    playerCount = 1;
+>>>>>>> Game-Network
     players = new List<Hero>();
-    players.Add(Warrior.instance);
-    players.Add(Archer.instance);
-    players.Add(Mage.instance);
-    players.Add(Dwarf.instance);
+    players.Add(Warrior.Instance);
+    players.Add(Archer.Instance);
+    players.Add(Mage.Instance);
+    players.Add(Dwarf.Instance);
 
     farmers = new List<Farmer>();
     farmers.Add(Farmer.Factory(24));
@@ -82,10 +86,10 @@ public class GameManager : Singleton<GameManager> {
 
   void Update() {
     //this doesnt really work it just changes the current player all the time.
-    if(CurrentPlayer.IsDone) {
-      endTurn(currentPlayerIndex);
-      giveTurn(++currentPlayerIndex % playerCount);
-    }
+    //if(CurrentPlayer.IsDone) {
+    //  endTurn(currentPlayerIndex);
+    //  giveTurn(++currentPlayerIndex % playerCount);
+    //}
   }
 
   void giveTurn(int playerIndex) {
@@ -101,7 +105,13 @@ public class GameManager : Singleton<GameManager> {
   }
 
   void InitMove() {
-    command = new MoveCommand(CurrentPlayer.Token, CurrentPlayer.State.cell);
+    command = new MoveCommand(CurrentPlayer, CurrentPlayer.State.cell);
+  }
+
+  void ExecuteMove() {
+    command.Execute();
+    //command.Dispose();
+    //command = new MoveCommand(CurrentPlayer.Token, CurrentPlayer.State.cell);
   }
 
   void ExecuteMove() {

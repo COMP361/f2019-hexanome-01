@@ -4,28 +4,55 @@ using UnityEngine;
 
 public class Mage : Hero
 {
-    public static Mage instance;
+    static Mage _instance;
     
-    void Awake()
-    {
-        if (instance) {
-            Debug.LogError("Duplicate subclass of type " + typeof(Mage) + "! eliminating " + name + " while preserving " + instance.name);
-            Destroy(gameObject);
-        } else {
-            instance = this;
-        }
+    static void Factory() {
+        Color color = new Color(0.6f, 0.2f, 1, 1);
+        GameObject go = Geometry.Disc(Vector3.zero, color);
+        Mage mage = go.AddComponent<Mage>();
+        mage.Color = color;
 
-        dices = new int[21] {
+        mage.Type = typeof(Mage).ToString();
+        mage.TokenName = mage.Type;
+
+        mage.rank = 34;
+        Cell cell = Cell.FromId(mage.rank);
+        mage.Cell = cell;
+        mage.State = new HeroState(cell);
+
+        mage.IsDone = false;
+            
+        mage.Dices = new int[21] {
             1, 1, 1, 1, 1, 1, 1,
             1, 1, 1, 1, 1, 1, 1,
             1, 1, 1, 1, 1, 1, 1
         };
     
-        names = new string[2] {
+        mage.names = new string[2] {
             "Eara",
             "Liphardus"
         };
+    }
 
-        Setup(34, new Color(0.6f, 0.2f, 1, 1));
+    void Awake() {
+        if (_instance) {
+            Debug.LogError("Duplicate subclass of type " + typeof(Mage) + "! eliminating " + name + " while preserving " + Instance.name);
+            Destroy(gameObject);
+        } else {
+            Instance = this;
+        }
+    }
+
+    public static Mage Instance {
+        get {
+            if(!_instance) {
+                Mage.Factory();
+            } 
+
+            return _instance;
+        } 
+        private set {
+            _instance = value;
+        }
     }
 }

@@ -2,17 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Skral : MonoBehaviour, IEnemy {
+public class Skral : Movable, IEnemy {
     //int dices;
-    GameManager gm;
-    Token token;
     static Color color = Color.black;
 
     public static Skral Factory(int cellID) {
-        Token token = Token.Factory(Type, color);
-        token.Position(Cell.FromId(cellID));
-        Skral skral = token.gameObject.AddComponent<Skral>();
-        skral.token = token;
+        GameObject go = Geometry.Disc(Vector3.zero, color);
+        Skral skral = go.AddComponent<Skral>();
+        skral.TokenName = Type;
+
+        Cell cell = Cell.FromId(cellID);
+        skral.Cell = cell;
 
         skral.Will = 6;
         skral.Strength = 6;
@@ -21,17 +21,11 @@ public class Skral : MonoBehaviour, IEnemy {
         return skral;
     }
 
-    void Start() {
-        gm = GameManager.instance;
-    }
-
     public int Will { get; set; }
 
     public int Strength { get; set; }
 
     public int Reward { get; set; }
-
-    public Token Token { get; set; }
 
     public static string Type { get => typeof(Skral).ToString(); }
 }

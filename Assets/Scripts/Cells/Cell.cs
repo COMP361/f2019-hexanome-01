@@ -8,7 +8,11 @@ using UnityEngine.UI;
 [RequireComponent(typeof(PolygonCollider2D))]
 
 public class Cell : MonoBehaviour {
+<<<<<<< HEAD
     public List<Transform> neighbours = new List<Transform>();
+=======
+    public List<Transform> neighbours = new List<Transform>(); 
+>>>>>>> Game-Network
     public Cell enemyPath;
     private int index;
     private Cell parent;
@@ -19,8 +23,12 @@ public class Cell : MonoBehaviour {
     private Vector3 waypoint;
 
     private CellState state;
+<<<<<<< HEAD
 
 
+=======
+    
+>>>>>>> Game-Network
     private SpriteRenderer sprite;
     private Color32 color = new Color(1f,1f,1f,0f);
     private Color32 hoverColor = new Color(1f,1f,1f,.2f);
@@ -37,10 +45,14 @@ public class Cell : MonoBehaviour {
 
     void Start() {
         gm = GameManager.instance;
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> Game-Network
         sprite = GetComponent<SpriteRenderer>();
         sprite.color = color;
-
+        
         if (!int.TryParse(this.name, out index)) {
             index = -1;
         }
@@ -52,7 +64,7 @@ public class Cell : MonoBehaviour {
       Cell cell = null;
       GameObject go = GameObject.Find("Cells/" + id);
       if(go != null) cell = go.GetComponent<Cell>();
-
+      
       if(cell == null) {
         var message = string.Format("'{0}' is not a valid cell id.", id);
         throw new ApplicationException(message);
@@ -101,7 +113,7 @@ public class Cell : MonoBehaviour {
         return index;
       }
     }
-
+    
     public float Heuristic {
       get {
         return heuristic;
@@ -132,10 +144,10 @@ public class Cell : MonoBehaviour {
     public float f {
         get { return cost + heuristic; }
     }
-
+    
     public CellState State {
-        get {
-            return state;
+        get { 
+            return state; 
         }
     }
 }
@@ -143,6 +155,7 @@ public class Cell : MonoBehaviour {
 public class CellState : ICloneable
 {
   // Pickable
+<<<<<<< HEAD
   private String description;
   private List<Token> heroes = new List<Token>();
   private List<Token> enemies = new List<Token>();
@@ -153,10 +166,19 @@ public class CellState : ICloneable
 
   // Should we have well, fog?
 
+=======
+  private List<Token> tokens;
+  private IEnemy enemy;
+  private List<Hero> heroes; 
+
+  // Should we have well, fog?
+
+>>>>>>> Game-Network
   public object Clone() {
     CellState cs = (CellState) this.MemberwiseClone();
     return cs;
   }
+<<<<<<< HEAD
 
   public void addEnemyToken(Token token){
     enemies.Add(token);
@@ -195,6 +217,20 @@ public class CellState : ICloneable
   public IEnemy Enemy {
     get {
       return enemy;
+=======
+    
+  public void addToken(Token token){
+    tokens.Add(token);
+  }
+
+  public void removeToken(Token token){
+    tokens.Remove(token);
+  }
+
+  public IEnemy Enemy {
+    get { 
+      return enemy; 
+>>>>>>> Game-Network
     }
     set {
       enemy = value;
