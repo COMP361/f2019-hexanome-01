@@ -4,27 +4,55 @@ using UnityEngine;
 
 public class Dwarf : Hero
 {
-    public static Dwarf instance;
-    
-    void Awake() {
-        if (instance) {
-            Debug.LogError("Duplicate subclass of type " + typeof(Dwarf) + "! eliminating " + name + " while preserving " + instance.name);
-            Destroy(gameObject);
-        } else {
-            instance = this;
-        }
-        
-        dices = new int[21] {
+    static Dwarf _instance;
+
+    static void Factory() {
+        Color color = new Color(1, 0.9f, 0, 1);
+        GameObject go = Geometry.Disc(Vector3.zero, color);
+        Dwarf dwarf = go.AddComponent<Dwarf>();
+        dwarf.Color = color;
+
+        dwarf.Type = typeof(Dwarf).ToString();
+        dwarf.TokenName = dwarf.Type;
+
+        dwarf.rank = 7;
+        Cell cell = Cell.FromId(dwarf.rank);
+        dwarf.Cell = cell;
+        dwarf.State = new HeroState(cell);
+
+        dwarf.IsDone = false;
+            
+        dwarf.Dices = new int[21] {
             1, 1, 1, 1, 1, 1, 1,
             2, 2, 2, 2, 2, 2, 2,
             3, 3, 3, 3, 3, 3, 3
         };
     
-        names = new string[2] {
+        dwarf.names = new string[2] {
             "Brigha",
             "Kram"
         };
-        
-        Setup(7, new Color(1, 0.9f, 0, 1));
+    }
+
+    void Awake() {
+        if (_instance) {
+            Debug.LogError("Duplicate subclass of type " + typeof(Dwarf) + "! eliminating " + name + " while preserving " + Instance.name);
+            Destroy(gameObject);
+        } else {
+            Instance = this;
+        }
+    }
+
+    public static Dwarf Instance {
+        get {
+            if(!_instance) {
+                Dwarf.Factory();
+            } 
+
+            return _instance;
+        } 
+        private set {
+            _instance = value;
+        }
     }
 }

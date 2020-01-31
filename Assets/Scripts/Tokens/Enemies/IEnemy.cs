@@ -8,6 +8,4 @@ public interface IEnemy {
     int Strength { get; set; }
 
     int Reward { get; set; }
-
-    Token Token { get; set; }
 }

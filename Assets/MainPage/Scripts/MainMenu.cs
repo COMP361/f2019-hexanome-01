@@ -13,7 +13,6 @@ public class MainMenu : MonoBehaviour
 
     public void CreateGameClick()
     {
-        Debug.Log("test");
         SceneManager.LoadScene("PreGame_OnlineLobby");
     }
 }
