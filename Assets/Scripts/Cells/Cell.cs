@@ -3,11 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(PolygonCollider2D))]
 
 public class Cell : MonoBehaviour {
-    public List<Transform> neighbours = new List<Transform>(); 
+    public List<Transform> neighbours = new List<Transform>();
     public Cell enemyPath;
     private int index;
     private Cell parent;
@@ -18,33 +19,40 @@ public class Cell : MonoBehaviour {
     private Vector3 waypoint;
 
     private CellState state;
-    
+
+
     private SpriteRenderer sprite;
     private Color32 color = new Color(1f,1f,1f,0f);
     private Color32 hoverColor = new Color(1f,1f,1f,.2f);
     GameManager gm;
 
+
+
+
     void Awake() {
         waypoint = transform.Find("placeholders/waypoint").position;
         state = new CellState();
+
     }
 
     void Start() {
         gm = GameManager.instance;
-        
+
         sprite = GetComponent<SpriteRenderer>();
         sprite.color = color;
-        
+
         if (!int.TryParse(this.name, out index)) {
             index = -1;
         }
+
+        state.formatDescription();
     }
 
     public static Cell FromId(int id) {
       Cell cell = null;
       GameObject go = GameObject.Find("Cells/" + id);
       if(go != null) cell = go.GetComponent<Cell>();
-      
+
       if(cell == null) {
         var message = string.Format("'{0}' is not a valid cell id.", id);
         throw new ApplicationException(message);
@@ -58,6 +66,11 @@ public class Cell : MonoBehaviour {
       var color = gm.CurrentPlayer.Color;
       color.a = .4f;
       sprite.color = color;
+
+
+
+      GameManager.cellsDescription.GetComponent<Text>().text = state.Description;
+      GameManager.cellsDescription.gameObject.SetActive(true);
         //} else {
         //    sprite.color = hoverColor;
         //}
@@ -65,6 +78,7 @@ public class Cell : MonoBehaviour {
 
     void OnMouseExit() {
         sprite.color = color;
+        GameManager.cellsDescription.gameObject.SetActive(false);
     }
 
     void OnMouseDown() {
@@ -87,7 +101,7 @@ public class Cell : MonoBehaviour {
         return index;
       }
     }
-    
+
     public float Heuristic {
       get {
         return heuristic;
@@ -118,10 +132,10 @@ public class Cell : MonoBehaviour {
     public float f {
         get { return cost + heuristic; }
     }
-    
+
     public CellState State {
-        get { 
-            return state; 
+        get {
+            return state;
         }
     }
 }
@@ -129,9 +143,13 @@ public class Cell : MonoBehaviour {
 public class CellState : ICloneable
 {
   // Pickable
-  private List<Token> tokens;
-  private IEnemy enemy;
-  private List<Hero> heroes; 
+  private String description;
+  private List<Token> heroes = new List<Token>();
+  private List<Token> enemies = new List<Token>();
+  private List<Token> items = new List<Token>();
+  private List<Token> golds = new List<Token>();
+//  private IEnemy enemy;
+
 
   // Should we have well, fog?
 
@@ -139,21 +157,48 @@ public class CellState : ICloneable
     CellState cs = (CellState) this.MemberwiseClone();
     return cs;
   }
-    
-  public void addToken(Token token){
-    tokens.Add(token);
+
+  public void addEnemyToken(Token token){
+    enemies.Add(token);
   }
 
-  public void removeToken(Token token){
-    tokens.Remove(token);
+  public void removeAddToken(Token token){
+    enemies.Remove(token);
   }
 
+  public void formatDescription(){
+
+    this.description = "Heroes: \n";
+    foreach (var hero in heroes) {
+          this.description = description + "  - " + hero.Name + " \n";
+      }
+    this.description = description + "Item: \n";
+    foreach (var item in items) {
+          this.description = description + "  - " + item.Name + " \n";
+      }
+    this.description = description + "Monster: \n";
+    foreach (var enemy in enemies) {
+          this.description = description + "  - " + enemy.Name + " \n";
+      }
+    this.description = description + "Gold: \n";
+    foreach (var gold in golds) {
+          this.description = description + "  - " + gold.Name + " \n";
+      }
+  }
+
+  public String Description {
+      get {
+          return description;
+      }
+  }
+/*
   public IEnemy Enemy {
-    get { 
-      return enemy; 
+    get {
+      return enemy;
     }
     set {
       enemy = value;
     }
   }
+  */
 }

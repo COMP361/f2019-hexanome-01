@@ -10,6 +10,7 @@ public class Gor : MonoBehaviour, IEnemy {
     public static Gor Factory(int cellID) {
         Token token = Token.Factory(Type, color);
         token.Position(Cell.FromId(cellID));
+        Cell.FromId(cellID).State.addEnemyToken(token);
         Gor gor = token.gameObject.AddComponent<Gor>();
         gor.token = token;
 

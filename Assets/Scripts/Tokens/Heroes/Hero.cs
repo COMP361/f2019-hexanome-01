@@ -28,7 +28,7 @@ public class Hero : MonoBehaviour
     Token = Token.Factory(type, color);
     Token.Position(c);
   }
-  
+
   public void Move(List<Cell> path) {
     Token.Move(path);
   }
@@ -41,11 +41,11 @@ public class Hero : MonoBehaviour
   }
 
   public bool IsDone { get; set; }
-  
-  public string Type { 
+
+  public string Type {
     get {
       return type;
-    } 
+    }
   }
 
   public HeroState State { get; set; }
@@ -89,5 +89,5 @@ public class HeroState : ICloneable
     HeroState hs = (HeroState) this.MemberwiseClone();
     hs.timeline = (Timeline) timeline.Clone();
     return hs;
-  }     
+  }
 }
