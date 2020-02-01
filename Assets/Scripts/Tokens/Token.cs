@@ -38,8 +38,11 @@ public class Token : MonoBehaviour {
             return cell;
         } 
         set {
+            if(cell != null && cell.State != null) cell.State.removeToken(this);
+            
             cell = value;
             gameObject.transform.position = cell.Waypoint;
+            cell.State.addToken(this);
         }
     }
 }

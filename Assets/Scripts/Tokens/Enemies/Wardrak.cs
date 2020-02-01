@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Wardrak : Movable, IEnemy {
+public class Wardrak : Enemy {
     //int dices;
     static Color color = Color.black;
 
@@ -13,21 +13,13 @@ public class Wardrak : Movable, IEnemy {
 
         Cell cell = Cell.FromId(cellID);
         wardrak.Cell = cell;
-
-        cell.State.addEnemy(wardrak);
-
+        
         wardrak.Will = 7;
         wardrak.Strength = 10;
         wardrak.Reward = 6;
 
         return wardrak;
     }
-
-    public int Will { get; set; }
-
-    public int Strength { get; set; }
-
-    public int Reward { get; set; }
 
     public static string Type { get => typeof(Wardrak).ToString(); }
 }

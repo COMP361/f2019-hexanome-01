@@ -131,56 +131,67 @@ public class Cell : MonoBehaviour {
 public class CellState : ICloneable
 {
   // Pickable
-  private List<Token> heroes = new List<Token>();
-  private List<Token> enemies = new List<Token>();
-  private List<Token> items = new List<Token>();
-  private List<Token> golds = new List<Token>();
-
   // Should we have well, fog?
-
-  public void addEnemy(Token token){
-    enemies.Add(token);
+  public CellState() {
+    Heroes = new List<Hero>();
+    Enemies = new List<Enemy>();
+    Farmers = new List<Farmer>();
+    Tokens = new List<Token>();
+    Golds = new List<Token>();
   }
 
-  public void removeEnnemy(Token token){
-    enemies.Remove(token);
+  public void addToken(Token token){
+    Type listType;
+    
+    listType = Heroes.GetListType();
+    if(listType.IsCompatibleWith(token.GetType())) {
+      Heroes.Add((Hero) token); 
+      return;
+    }
+
+    listType = Enemies.GetListType();
+    if(listType.IsCompatibleWith(token.GetType())) {
+      Enemies.Add((Enemy) token); 
+      return;
+    }
+
+    listType = Farmers.GetListType();
+    if(listType.IsCompatibleWith(token.GetType())) {
+      Farmers.Add((Farmer) token); 
+      return;
+    }
   }
 
-  public void addHero(Token token){
-    heroes.Add(token);
-  }
+  public void removeToken(Token token){
+    Type listType;
+    
+    listType = Heroes.GetListType();
+    if(listType.IsCompatibleWith(token.GetType())) {
+      Heroes.Remove((Hero) token); 
+      return;
+    }
 
-  public void removeHero(Token token){
-    heroes.Remove(token);
-  }
+    listType = Enemies.GetListType();
+    if(listType.IsCompatibleWith(token.GetType())) {
+      Enemies.Remove((Enemy) token); 
+      return;
+    }
 
+    listType = Farmers.GetListType();
+    if(listType.IsCompatibleWith(token.GetType())) {
+      Farmers.Remove((Farmer) token); 
+      return;
+    }
+  }
+  
   public object Clone() {
     CellState cs = (CellState) this.MemberwiseClone();
     return cs;
   }
 
-  public List<Token> Heroes {
-      get {
-        return heroes;
-      }
-  }
-
-  public List<Token> Enemies {
-      get {
-          return enemies;
-      }
-  }
-
-  public List<Token> Items {
-      get {
-          return items;
-      }
-  }
-
-  public List<Token> Golds {
-      get {
-          return golds;
-      }
-  }
+  public List<Hero> Heroes { get; private set; }
+  public List<Enemy> Enemies { get; private set; }
+  public List<Farmer> Farmers { get; private set; }
+  public List<Token> Tokens { get; private set;  }
+  public List<Token> Golds { get; private set;  }
 }
-

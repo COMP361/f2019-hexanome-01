@@ -20,8 +20,6 @@ public class Mage : Hero
         mage.Cell = cell;
         mage.State = new HeroState(cell);
 
-        cell.State.addHero(mage);
-
         mage.IsDone = false;
             
         mage.Dices = new int[21] {

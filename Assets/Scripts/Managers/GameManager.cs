@@ -7,7 +7,7 @@ public class GameManager : Singleton<GameManager> {
   private int playerCount;
   public List<Hero> players;
   public List<Farmer> farmers;
-  public List<IEnemy> gors, skrals, trolls, wardraks;
+  public List<Enemy> gors, skrals, trolls, wardraks;
   private int currentPlayerIndex = -1;
   public Token well;
   public Fog fog;
@@ -49,18 +49,18 @@ public class GameManager : Singleton<GameManager> {
     farmers.Add(Farmer.Factory(24));
     farmers.Add(Farmer.Factory(36)); 
 
-    gors = new List<IEnemy>();
+    gors = new List<Enemy>();
     gors.Add(Gor.Factory(8));
     gors.Add(Gor.Factory(20));
     gors.Add(Gor.Factory(21));
     gors.Add(Gor.Factory(26));
     gors.Add(Gor.Factory(48));
 
-    skrals = new List<IEnemy>();
+    skrals = new List<Enemy>();
     skrals.Add(Skral.Factory(19));
    
-    trolls = new List<IEnemy>();
-    wardraks = new List<IEnemy>();
+    trolls = new List<Enemy>();
+    wardraks = new List<Enemy>();
     
     legendCards = new LegendCards();
     eventCards = new EventCards();

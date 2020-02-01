@@ -17,5 +17,5 @@ public class Farmer : Movable {
     return farmer;
   }
 
-  public static string Type { get => typeof(Troll).ToString(); }
+  public static string Type { get => typeof(Farmer).ToString(); }
 }
