@@ -2,16 +2,14 @@ using System.Collections.Generic;
 
 public class MoveCommand : ICommand {
     private readonly Movable movable;
-    private readonly Cell origin;
     private Cell goal;
     private MapPath path;
     private List<Cell> reachableCells;
 
     // Movable ?
-    public MoveCommand(Movable movable, Cell origin) {
+    public MoveCommand(Movable movable) {
         EventManager.CellClick += SetDestination;
         this.movable = movable;
-        this.origin = origin;
 
         //reachableCells = 
     }
@@ -24,7 +22,7 @@ public class MoveCommand : ICommand {
     void SetDestination(int cellID) {
         goal = Cell.FromId(cellID);
         if(path != null) path.Dispose();
-        path = new MapPath(origin, goal);
+        path = new MapPath(movable.Cell, goal);
     }
 
     public void Execute() {

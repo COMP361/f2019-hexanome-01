@@ -97,7 +97,7 @@ public class GameManager : Singleton<GameManager> {
   }
 
   void InitMove() {
-    command = new MoveCommand(CurrentPlayer, CurrentPlayer.State.cell);
+    command = new MoveCommand(CurrentPlayer);
   }
 
   void ExecuteMove() {

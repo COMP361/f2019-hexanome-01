@@ -35,6 +35,7 @@ public abstract class Movable : Token {
         }
         
         if(AtCell(path[0])) {
+            Cell = path[0];
             path.RemoveAt(0);
             return;
         }
