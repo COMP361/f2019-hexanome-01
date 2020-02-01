@@ -51,6 +51,7 @@ public class HeroState : ICloneable {
   private int strength;
   private int golds;
   private Timeline timeline;
+  private int hoursOfDay;
 
   public HeroState(Cell cell) {
     this.cell = cell;

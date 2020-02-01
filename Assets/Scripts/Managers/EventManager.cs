@@ -37,20 +37,11 @@ public class EventManager {
     public delegate void EndTurnHandler();
     public static event EndTurnHandler EndTurn;
 
-    /*void Start() {
-        gm = GameManager.instance;
-    }*/
+    public delegate void CellMouseEnterHandler(int cellID);
+    public static event CellMouseEnterHandler CellMouseEnter;
 
-    /*void Update() {
-        // Check if click is not over a UI element
-        if(Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject()) {
-            RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
-            
-            if(hit.collider != null) {
-                hit.collider.gameObject.GetComponent<IClickHandler>().OnClick();
-            }
-        }
-    }*/
+    public delegate void CellMouseLeaveHandler(int cellID);
+    public static event CellMouseLeaveHandler CellMouseLeave;
 
     public static void TriggerCellClick(int cellID) {
         if (CellClick != null) {
@@ -117,6 +108,18 @@ public class EventManager {
     public static void TriggerEndTurn() {
         if (EndTurn != null) {
             EndTurn();
+        }
+    }
+
+    public static void TriggerCellMouseEnter(int cellID) {
+        if (CellMouseEnter != null) {
+            CellMouseEnter(cellID);
+        }
+    }
+
+    public static void TriggerCellMouseLeave(int cellID) {
+        if (CellMouseLeave != null) {
+            CellMouseLeave(cellID);
         }
     }
 }

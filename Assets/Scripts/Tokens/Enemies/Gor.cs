@@ -13,6 +13,8 @@ public class Gor : Movable, IEnemy {
         Cell cell = Cell.FromId(cellID);
         gor.Cell = cell;
 
+        cell.State.addEnemy(gor);
+
         gor.Will = 4;
         gor.Strength = 2;
         gor.Reward = 2;

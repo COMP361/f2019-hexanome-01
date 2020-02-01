@@ -14,6 +14,8 @@ public class Skral : Movable, IEnemy {
         Cell cell = Cell.FromId(cellID);
         skral.Cell = cell;
 
+        cell.State.addEnemy(skral);
+
         skral.Will = 6;
         skral.Strength = 6;
         skral.Reward = 4;

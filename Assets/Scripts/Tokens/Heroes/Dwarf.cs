@@ -20,6 +20,8 @@ public class Dwarf : Hero
         dwarf.Cell = cell;
         dwarf.State = new HeroState(cell);
 
+        cell.State.addHero(dwarf);
+
         dwarf.IsDone = false;
             
         dwarf.Dices = new int[21] {

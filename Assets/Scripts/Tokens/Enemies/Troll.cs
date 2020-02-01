@@ -14,6 +14,8 @@ public class Troll : Movable, IEnemy {
         Cell cell = Cell.FromId(cellID);
         troll.Cell = cell;
 
+        cell.State.addEnemy(troll);
+
         troll.Will = 12;
         troll.Strength = 14;
         troll.Reward = 6;

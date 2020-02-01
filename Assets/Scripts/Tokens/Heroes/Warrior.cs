@@ -20,6 +20,8 @@ public class Warrior : Hero
         warrior.Cell = cell;
         warrior.State = new HeroState(cell);
 
+        cell.State.addHero(warrior);
+
         warrior.IsDone = false;
             
         warrior.Dices = new int[21] {

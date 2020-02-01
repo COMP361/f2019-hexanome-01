@@ -20,6 +20,8 @@ public class Archer : Hero
         archer.Cell = cell;
         archer.State = new HeroState(cell);
 
+        cell.State.addHero(archer);
+
         archer.IsDone = false;
             
         archer.Dices = new int[21] {

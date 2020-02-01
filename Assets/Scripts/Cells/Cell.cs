@@ -61,10 +61,12 @@ public class Cell : MonoBehaviour {
         //} else {
         //    sprite.color = hoverColor;
         //}
+      EventManager.TriggerCellMouseEnter(index);
     }
 
     void OnMouseExit() {
-        sprite.color = color;
+      sprite.color = color;
+      EventManager.TriggerCellMouseLeave(index);
     }
 
     void OnMouseDown() {
@@ -129,32 +131,56 @@ public class Cell : MonoBehaviour {
 public class CellState : ICloneable
 {
   // Pickable
-  private List<Token> tokens;
-  private IEnemy enemy;
-  private List<Hero> heroes; 
+  private List<Token> heroes = new List<Token>();
+  private List<Token> enemies = new List<Token>();
+  private List<Token> items = new List<Token>();
+  private List<Token> golds = new List<Token>();
 
   // Should we have well, fog?
+
+  public void addEnemy(Token token){
+    enemies.Add(token);
+  }
+
+  public void removeEnnemy(Token token){
+    enemies.Remove(token);
+  }
+
+  public void addHero(Token token){
+    heroes.Add(token);
+  }
+
+  public void removeHero(Token token){
+    heroes.Remove(token);
+  }
 
   public object Clone() {
     CellState cs = (CellState) this.MemberwiseClone();
     return cs;
   }
-    
-  public void addToken(Token token){
-    tokens.Add(token);
+
+  public List<Token> Heroes {
+      get {
+        return heroes;
+      }
   }
 
-  public void removeToken(Token token){
-    tokens.Remove(token);
+  public List<Token> Enemies {
+      get {
+          return enemies;
+      }
   }
 
-  public IEnemy Enemy {
-    get { 
-      return enemy; 
-    }
-    set {
-      enemy = value;
-    }
+  public List<Token> Items {
+      get {
+          return items;
+      }
+  }
+
+  public List<Token> Golds {
+      get {
+          return golds;
+      }
   }
 }
 

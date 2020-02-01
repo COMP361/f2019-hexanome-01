@@ -14,6 +14,8 @@ public class Wardrak : Movable, IEnemy {
         Cell cell = Cell.FromId(cellID);
         wardrak.Cell = cell;
 
+        cell.State.addEnemy(wardrak);
+
         wardrak.Will = 7;
         wardrak.Strength = 10;
         wardrak.Reward = 6;
