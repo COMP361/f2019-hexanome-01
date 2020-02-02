@@ -1,17 +1,33 @@
 using System.Collections.Generic;
+using UnityEngine;
 
 public class MoveCommand : ICommand {
     private readonly Movable movable;
     private Cell goal;
     private MapPath path;
-    private List<Cell> reachableCells;
+    private List<Cell> freeCells;
+    private List<Cell> extCells;
 
     // Movable ?
     public MoveCommand(Movable movable) {
         EventManager.CellClick += SetDestination;
         this.movable = movable;
 
-        //reachableCells = 
+        freeCells = movable.Cell.WithinRange(0, 2);
+        extCells = movable.Cell.WithinRange(3, 4); 
+        
+        foreach (Cell cell in Cell.cells) {
+            cell.Deactivate();
+        }
+        
+        foreach (Cell cell in freeCells) {
+            cell.Activate();
+        }
+
+        foreach (Cell cell in extCells) {
+            cell.Activate();
+            cell.Extended();
+        }
     }
 
     public void Dispose() {

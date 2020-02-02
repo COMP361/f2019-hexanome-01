@@ -7,6 +7,7 @@ using UnityEngine.EventSystems;
 [RequireComponent(typeof(PolygonCollider2D))]
 
 public class Cell : MonoBehaviour {
+    public static List<Cell> cells = new List<Cell>();
     public List<Transform> neighbours = new List<Transform>(); 
     public Cell enemyPath;
     private int index;
@@ -19,12 +20,33 @@ public class Cell : MonoBehaviour {
 
     private CellState state;
     
+    private GameManager gm;
     private SpriteRenderer sprite;
+
     private Color32 color = new Color(1f,1f,1f,0f);
     private Color32 hoverColor = new Color(1f,1f,1f,.2f);
-    GameManager gm;
+    
+    public void Deactivate() {
+      Active = false;
+      color = new Color(0f,0f,0f,0.7f);
+      sprite.color = color;
+    }
+
+    public void Activate() {
+      Active = true;
+      color = new Color(1f,1f,1f,0f);
+      sprite.color = color;
+    }
+    
+    public void Extended() {
+      Extension = true;
+      color = new Color(1f,0f,0f,0.3f);
+      sprite.color = color;
+    }
 
     void Awake() {
+        cells.Add(this);
+        Active = true;
         waypoint = transform.Find("placeholders/waypoint").position;
         state = new CellState();
     }
@@ -38,6 +60,35 @@ public class Cell : MonoBehaviour {
         if (!int.TryParse(this.name, out index)) {
             index = -1;
         }
+    }
+
+    // Return the list of cells between min distance and max distance 
+    public List<Cell> WithinRange (int min, int max) {
+      Queue<Tuple<int, Cell>> queue = new Queue<Tuple<int, Cell>>();
+      HashSet<Cell> visited = new HashSet<Cell>();
+      List<Cell> cells = new List<Cell>();
+
+      if(min < 0) min = 0;
+
+      queue.Enqueue(new Tuple<int, Cell>(0, this));
+      Tuple<int, Cell> t;
+      Cell c;
+      int i;
+
+      do {
+        t = queue.Dequeue();
+        i = t.Item1+1;
+
+        for (int j = 0; j < t.Item2.neighbours.Count; j++) {
+          c = t.Item2.neighbours[j].GetComponent<Cell>();  
+          if (visited.Add(c)) {
+              if(i >= min) cells.Add(c);
+              queue.Enqueue(new Tuple<int, Cell>(i, c));
+          }
+        }
+      } while(queue.Count > 0 && t.Item1 < max);
+
+      return cells;
     }
 
     public static Cell FromId(int id) {
@@ -55,6 +106,8 @@ public class Cell : MonoBehaviour {
 
     void OnMouseEnter() {
       //if(gm.state.Action == Action.Move) {
+      if(!Active) return;
+
       var color = gm.CurrentPlayer.Color;
       color.a = .4f;
       sprite.color = color;
@@ -70,6 +123,7 @@ public class Cell : MonoBehaviour {
     }
 
     void OnMouseDown() {
+      if(!Active) return;
       EventManager.TriggerCellClick(index);
     }
 
@@ -90,6 +144,9 @@ public class Cell : MonoBehaviour {
       }
     }
     
+    public bool Active { get; set; }
+    public bool Extension { get; set; }
+
     public float Heuristic {
       get {
         return heuristic;
