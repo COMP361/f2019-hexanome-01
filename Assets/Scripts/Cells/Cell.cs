@@ -10,20 +10,10 @@ public class Cell : MonoBehaviour {
     public static List<Cell> cells = new List<Cell>();
     public List<Transform> neighbours = new List<Transform>(); 
     public Cell enemyPath;
-    private int index;
-    private Cell parent;
-
-    private float heuristic;
-    private float cost;
-
-    private Vector3 waypoint;
-
-    private CellState state;
-    
     private GameManager gm;
     private SpriteRenderer sprite;
-
     private Color32 color = new Color(1f,1f,1f,0f);
+
     private Color32 hoverColor = new Color(1f,1f,1f,.2f);
     
     public void Deactivate() {
@@ -50,8 +40,11 @@ public class Cell : MonoBehaviour {
     void Awake() {
         cells.Add(this);
         Active = true;
-        waypoint = transform.Find("placeholders/waypoint").position;
-        state = new CellState();
+        Position = transform.position;
+        HeroesPosition = transform.Find("positions/heroes").position;
+        MovablesPosition = transform.Find("positions/movables").position;
+        TokensPosition = transform.Find("positions/tokens").position;
+        State = new CellState();
     }
 
     void Start() {
@@ -60,9 +53,7 @@ public class Cell : MonoBehaviour {
         sprite = GetComponent<SpriteRenderer>();
         sprite.color = color;
         
-        if (!int.TryParse(this.name, out index)) {
-            index = -1;
-        }
+        Index = int.Parse(this.name);
     }
 
     // Return the list of cells between min distance and max distance 
@@ -117,75 +108,44 @@ public class Cell : MonoBehaviour {
         //} else {
         //    sprite.color = hoverColor;
         //}
-      EventManager.TriggerCellMouseEnter(index);
+      EventManager.TriggerCellMouseEnter(Index);
     }
 
     void OnMouseExit() {
       sprite.color = color;
-      EventManager.TriggerCellMouseLeave(index);
+      EventManager.TriggerCellMouseLeave(Index);
     }
 
     void OnMouseDown() {
       if(!Active) return;
-      EventManager.TriggerCellClick(index);
+      EventManager.TriggerCellClick(Index);
     }
 
     void OnDrawGizmos() {
-        Gizmos.color = Color.blue;
-        Gizmos.DrawSphere(waypoint, 0.4f);
-    }
+      GameObject positions = transform.Find("positions").gameObject;
+      Gizmos.color = Color.blue;
 
-    public Vector3 Waypoint {
-      get {
-        return waypoint;
+      foreach (Transform child in positions.transform) {
+        Gizmos.DrawSphere(child.position, 0.6f);
       }
     }
 
-    public int Index {
-      get {
-        return index;
-      }
-    }
-    
+    public Vector3 HeroesPosition { get; private set; }
+    public Vector3 MovablesPosition { get; private set; }
+    public Vector3 TokensPosition { get; private set; }
+    public Vector3 Position { get; private set; }
+    public int Index { get; private set; }
     public bool Active { get; set; }
     public bool Extension { get; set; }
-
-    public float Heuristic {
-      get {
-        return heuristic;
-      }
-      set {
-        heuristic = value;
-      }
-    }
-
-    public float Cost {
-      get {
-        return cost;
-      }
-      set {
-        cost = value;
-      }
-    }
-
-    public Cell Parent {
-      get {
-        return parent;
-      }
-      set {
-        parent = value;
-      }
-    }
+    public float Heuristic { get; set; }
+    public float Cost { get; set; }
+    public Cell Parent { get; set; }
 
     public float f {
-        get { return cost + heuristic; }
+        get { return Cost + Heuristic; }
     }
-    
-    public CellState State {
-        get { 
-            return state; 
-        }
-    }
+
+    public CellState State { get; private set; }
 }
 
 public class CellState : ICloneable

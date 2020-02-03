@@ -17,7 +17,7 @@ class Geometry {
         return line;
     }
 
-    public static GameObject Disc(Vector3 center, Color color, float radius = 2f) {
+    public static GameObject Disc(Vector3 center, Color color, float radius = 1.2f) {
         GameObject disc = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
         disc.transform.position = center;
         disc.transform.localScale = new Vector3(radius, 0.1f, radius);

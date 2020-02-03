@@ -41,6 +41,10 @@ public class Hero : Movable {
   }
 
   public Color Color { get; set; }
+
+  protected override Vector3 getWaypoint(Cell cell) {
+    return cell.HeroesPosition;
+  }
 }
 
 public class HeroState : ICloneable {

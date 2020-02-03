@@ -12,7 +12,11 @@ public abstract class Movable : Token {
     void Update() {
         Move();
     }
-    
+
+    protected override Vector3 getWaypoint(Cell cell) {
+        return cell.MovablesPosition;
+    }
+
     // Should we verify that all cells in path are adjacent?
     public void Move(List<Cell> path) {
         isMoving = true;
@@ -37,14 +41,16 @@ public abstract class Movable : Token {
         if(AtCell(path[0])) {
             Cell = path[0];
             path.RemoveAt(0);
+
+            if(path.Count == 0) EventManager.TriggerMoveComplete(this);
             return;
         }
         
-        Position = Vector3.MoveTowards(Position, path[0].Waypoint, moveSpeed * Time.deltaTime);
+        Position = Vector3.MoveTowards(Position, getWaypoint(path[0]), moveSpeed * Time.deltaTime);
     }
     
     public bool AtCell(Cell c) {
-        return Vector3.Distance(Position, c.Waypoint) < 0.5; 
+        return Vector3.Distance(Position, getWaypoint(c)) < 0.5; 
     }
 
     public GameObject Token {

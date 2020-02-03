@@ -7,16 +7,21 @@ public class MoveCommand : ICommand {
     private MapPath path;
     private List<Cell> freeCells;
     private List<Cell> extCells;
+    private List<Farmer> farmers = new List<Farmer>();
 
     // Movable ?
     public MoveCommand(Movable movable) {
         EventManager.CellClick += SetDestination;
         EventManager.MoveCancel += Dispose;
+        EventManager.MoveComplete +=IsFarmerOnCell;
+        EventManager.PickFarmer += AttachFarmer;
+        
 
         this.movable = movable;
+        IsFarmerOnCell(movable);
 
         freeCells = movable.Cell.WithinRange(0, 2);
-        extCells = movable.Cell.WithinRange(3, 4); 
+        extCells = movable.Cell.WithinRange(3, 5); 
         
         foreach (Cell cell in Cell.cells) {
             cell.Deactivate();
@@ -31,9 +36,30 @@ public class MoveCommand : ICommand {
         }
     }
 
+    public void AttachFarmer() {
+        if(movable.Cell.State.Farmers.Count > 0) {
+            foreach(Farmer farmer in movable.Cell.State.Farmers) {
+                if(!farmers.Contains(farmer)) farmers.Add(farmer);
+                break;
+            }
+        }
+
+        Debug.Log(farmers);
+    }
+
+    public void IsFarmerOnCell(Movable movable) {
+        if(movable == this.movable) {
+            if(movable.Cell.State.Farmers.Count > 0) {
+                EventManager.TriggerFarmerOnCell();
+            }
+        }
+    }
+
     public void Dispose() {
         EventManager.CellClick -= SetDestination;
         EventManager.MoveCancel -= Dispose;
+        EventManager.MoveComplete -= IsFarmerOnCell;
+        EventManager.PickFarmer -= AttachFarmer;
 
         if(path != null) path.Dispose();
 
@@ -51,6 +77,10 @@ public class MoveCommand : ICommand {
     public void Execute() {
         if(path.Cells == null) return;
         movable.Move(new List<Cell>(path.Cells));
+        foreach(Farmer farmer in farmers) {
+            farmer.Move(new List<Cell>(path.Cells));
+        }
+
         path.Cells = null;
 
         // TODO Update origin

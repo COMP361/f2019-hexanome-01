@@ -33,6 +33,10 @@ public class Token : MonoBehaviour {
         }
     }
 
+    protected virtual Vector3 getWaypoint(Cell cell) {
+        return cell.TokensPosition;
+    }
+
     public Cell Cell { 
         get {
             return cell;
@@ -41,7 +45,7 @@ public class Token : MonoBehaviour {
             if(cell != null && cell.State != null) cell.State.removeToken(this);
             
             cell = value;
-            gameObject.transform.position = cell.Waypoint;
+            gameObject.transform.position = getWaypoint(cell);
             cell.State.addToken(this);
         }
     }

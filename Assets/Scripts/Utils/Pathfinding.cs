@@ -30,7 +30,7 @@ public class Pathfinding
         closedList.Clear();
         //int iterations = 0;
 
-        start.Heuristic = (goal.Waypoint - start.Waypoint).magnitude;
+        start.Heuristic = (goal.Position - start.Position).magnitude;
         openList.Enqueue(start, start.f);
 
         while (openList.Count > 0 /*&& iterations < maxIteration*/) {
@@ -47,8 +47,8 @@ public class Pathfinding
                     return ConstructPath(curCell);
                 }
 
-                var g = bestCell.Cost + (curCell.Waypoint - bestCell.Waypoint).magnitude;
-                var h = (goal.Waypoint - curCell.Waypoint).magnitude;
+                var g = bestCell.Cost + (curCell.Position - bestCell.Position).magnitude;
+                var h = (goal.Position - curCell.Position).magnitude;
 
                 if (openList.Contains(curCell) && curCell.f < (g + h))
                     continue;
