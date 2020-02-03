@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using Photon.Realtime;
 using Photon.Pun;
 
-public class CreateRoom : MonoBehaviourPunCallbacks
+public class CreateRoom : MonoBehaviourPunCallbacks, IMatchmakingCallbacks
 {
 
     [SerializeField]
@@ -29,6 +29,7 @@ public class CreateRoom : MonoBehaviourPunCallbacks
         }
     }
 
+    /*TO REVIEW : REFACTORING OF THIS METHOD'S INPUTS*/
     private void OnPhotonCreateRoomFailed(object[] codeAndMessage)
     {
         print("create room failed: " + codeAndMessage[1]);

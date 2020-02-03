@@ -4,7 +4,7 @@ using UnityEngine;
 using Photon.Realtime;
 using Photon.Pun;
 
-public class PlayerLayoutGroup : MonoBehaviourPunCallbacks
+public class PlayerLayoutGroup : MonoBehaviourPunCallbacks, IMatchmakingCallbacks, IInRoomCallbacks
 {
 
     [SerializeField]
@@ -37,16 +37,17 @@ public class PlayerLayoutGroup : MonoBehaviourPunCallbacks
 
         MainCanvasManager.Instance.CurrentRoomCanvas.transform.SetAsLastSibling();
 
-        Player[] players = PhotonNetwork.PlayerList;
-        for (int i = 0; i < players.Length; i++)
+        Player[] photonPlayers = PhotonNetwork.PlayerList;
+        for (int i = 0; i < photonPlayers.Length; i++)
         {
-            PlayerJoinedRoom(players[i]);
+            PlayerJoinedRoom(photonPlayers[i]);
         }
     }
 
     //Called by photon when a player joins the room.
-    private void OnPhotonPlayerConnected(Player player)
+    public override void OnPlayerEnteredRoom(Player player)
     {
+        print("OnPhotonPlayerConnected called.");
         PlayerJoinedRoom(player);
     }
 
@@ -62,7 +63,7 @@ public class PlayerLayoutGroup : MonoBehaviourPunCallbacks
         if (player == null)
             return;
 
-        PlayerLeftRoom(player);
+        PlayerLeftRoom(player); // Prevents getting duplicates.
 
         GameObject playerListingObj = Instantiate(PlayerListingPrefab);
         playerListingObj.transform.SetParent(transform, false);
@@ -75,7 +76,7 @@ public class PlayerLayoutGroup : MonoBehaviourPunCallbacks
 
     private void PlayerLeftRoom(Player player)
     {
-        int index = PlayerListings.FindIndex(x => x.Player == player);
+        int index = PlayerListings.FindIndex(x => x.PhotonPlayer == player);
         if (index != -1)
         {
             Destroy(PlayerListings[index].gameObject);
@@ -89,7 +90,10 @@ public class PlayerLayoutGroup : MonoBehaviourPunCallbacks
             return;
 
         PhotonNetwork.CurrentRoom.IsOpen = !PhotonNetwork.CurrentRoom.IsOpen;
-        PhotonNetwork.CurrentRoom.IsVisible = PhotonNetwork.CurrentRoom.IsOpen;
+        PhotonNetwork.CurrentRoom.IsVisible = !PhotonNetwork.CurrentRoom.IsVisible;
+
+        print("Locked the current room! Nobody should be able to enter until you reactivate it.\n" +
+            "isVisible is now set to: " + PhotonNetwork.CurrentRoom.IsVisible);
     }
 
     public void OnClickLeaveRoom()

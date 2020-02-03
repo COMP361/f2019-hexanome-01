@@ -3,7 +3,7 @@ using UnityEngine;
 using Photon.Realtime;
 using Photon.Pun;
 
-public class RoomLayoutGroup : MonoBehaviourPunCallbacks
+public class RoomLayoutGroup : MonoBehaviourPunCallbacks, ILobbyCallbacks
 {
 
     [SerializeField]

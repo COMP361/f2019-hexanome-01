@@ -5,10 +5,10 @@ using Photon.Realtime;
 using Photon.Pun;
 
 
-public class PlayerListing : MonoBehaviour
+public class PlayerListing : MonoBehaviourPunCallbacks
 {
 
-    public Player Player { get; private set; }
+    public Player PhotonPlayer { get; private set; }
 
     [SerializeField]
     private Text _playerName;
@@ -26,7 +26,7 @@ public class PlayerListing : MonoBehaviour
 
     public void ApplyPhotonPlayer(Player player)
     {
-        Player = player;
+        PhotonPlayer = player;
         PlayerName.text = player.NickName;
 
         //StartCoroutine(C_ShowPing());
@@ -37,7 +37,7 @@ public class PlayerListing : MonoBehaviour
     {
         while (PhotonNetwork.IsConnected)
         {
-            int ping = (int)Player.CustomProperties["Ping"];
+            int ping = (int)PhotonPlayer.CustomProperties["Ping"];
             m_playerPing.text = ping.ToString();
             yield return new WaitForSeconds(1f);
         }
