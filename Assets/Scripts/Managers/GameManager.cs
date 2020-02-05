@@ -7,7 +7,7 @@ public class GameManager : Singleton<GameManager> {
   private int playerCount;
   public List<Hero> players;
   public List<Farmer> farmers;
-  public List<IEnemy> gors, skrals, trolls, wardraks;
+  public List<Enemy> gors, skrals, trolls, wardraks;
   private int currentPlayerIndex = -1;
   public Token well;
   public Fog fog;
@@ -18,7 +18,7 @@ public class GameManager : Singleton<GameManager> {
 
   void Awake() {
     SceneManager.LoadScene("Map", LoadSceneMode.Additive);
-    //SceneManager.LoadScene("Chat", LoadSceneMode.Additive);
+    SceneManager.LoadScene("Chat", LoadSceneMode.Additive);
     SceneManager.LoadScene("Tokens", LoadSceneMode.Additive);
     SceneManager.LoadScene("UI", LoadSceneMode.Additive);
     
@@ -27,40 +27,38 @@ public class GameManager : Singleton<GameManager> {
 
   void OnEnable() {
     EventManager.MoveSelect += InitMove;
-    EventManager.MoveCancel += ResetCommand;
     EventManager.MoveConfirm += ExecuteMove;
   }
 
   void OnDisable() {
     EventManager.MoveSelect -= InitMove;
-    EventManager.MoveCancel -= ResetCommand;
     EventManager.MoveConfirm -= ExecuteMove;
   }
 
   void Start() {
-    playerCount = 4;
+    playerCount = 1;
     players = new List<Hero>();
-    players.Add(Warrior.instance);
-    players.Add(Archer.instance);
-    players.Add(Mage.instance);
-    players.Add(Dwarf.instance);
+    players.Add(Warrior.Instance);
+    players.Add(Archer.Instance);
+    players.Add(Mage.Instance);
+    players.Add(Dwarf.Instance);
 
     farmers = new List<Farmer>();
     farmers.Add(Farmer.Factory(24));
     farmers.Add(Farmer.Factory(36)); 
 
-    gors = new List<IEnemy>();
+    gors = new List<Enemy>();
     gors.Add(Gor.Factory(8));
     gors.Add(Gor.Factory(20));
     gors.Add(Gor.Factory(21));
     gors.Add(Gor.Factory(26));
     gors.Add(Gor.Factory(48));
 
-    skrals = new List<IEnemy>();
+    skrals = new List<Enemy>();
     skrals.Add(Skral.Factory(19));
    
-    trolls = new List<IEnemy>();
-    wardraks = new List<IEnemy>();
+    trolls = new List<Enemy>();
+    wardraks = new List<Enemy>();
     
     legendCards = new LegendCards();
     eventCards = new EventCards();
@@ -78,10 +76,10 @@ public class GameManager : Singleton<GameManager> {
 
   void Update() { 
     //this doesnt really work it just changes the current player all the time.
-    if(CurrentPlayer.IsDone) {
-      endTurn(currentPlayerIndex);
-      giveTurn(++currentPlayerIndex % playerCount);
-    }
+    //if(CurrentPlayer.IsDone) {
+    //  endTurn(currentPlayerIndex);
+    //  giveTurn(++currentPlayerIndex % playerCount);
+    //}
   }
 
   void giveTurn(int playerIndex) {
@@ -97,17 +95,13 @@ public class GameManager : Singleton<GameManager> {
   }
 
   void InitMove() {
-    command = new MoveCommand(CurrentPlayer.Token, CurrentPlayer.State.cell);
+    command = new MoveCommand(CurrentPlayer);
   }
 
   void ExecuteMove() {
     command.Execute();
     //command.Dispose();
     //command = new MoveCommand(CurrentPlayer.Token, CurrentPlayer.State.cell);
-  }
-
-  void ResetCommand() {
-    command.Dispose();
   }
 
   public Hero CurrentPlayer {

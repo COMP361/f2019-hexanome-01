@@ -4,28 +4,55 @@ using UnityEngine;
 
 public class Warrior : Hero
 {
-    public static Warrior instance;
-    
-    void Awake()
-    {    
-        if (instance) {
-            Debug.LogError("Duplicate subclass of type " + typeof(Warrior) + "! eliminating " + name + " while preserving " + instance.name);
-            Destroy(gameObject);
-        } else {
-            instance = this;
-        }
-   
-        dices = new int[21] {
+    static Warrior _instance;
+
+    static void Factory() {
+        Color color = new Color(0.09f, 0.6f, 1, 1);
+        GameObject go = Geometry.Disc(Vector3.zero, color);
+        Warrior warrior = go.AddComponent<Warrior>();
+        warrior.Color = color;
+
+        warrior.Type = typeof(Warrior).ToString();
+        warrior.TokenName = warrior.Type;
+
+        warrior.rank = 14;
+        Cell cell = Cell.FromId(warrior.rank);
+        warrior.Cell = cell;
+        warrior.State = new HeroState(cell);
+
+        warrior.IsDone = false;
+            
+        warrior.Dices = new int[21] {
             2, 2, 2, 2, 2, 2, 2,
             3, 3, 3, 3, 3, 3, 3,
             4, 4, 4, 4, 4, 4, 4
         };
     
-        names = new string[2] {
+        warrior.names = new string[2] {
             "Mairen",
             "Thorn"
         };
+    }
 
-        Setup(14, new Color(0.09f, 0.6f, 1, 1));
+    void Awake() {    
+        if (_instance) {
+            Debug.LogError("Duplicate subclass of type " + typeof(Warrior) + "! eliminating " + name + " while preserving " + Instance.name);
+            Destroy(gameObject);
+        } else {
+            Instance = this;
+        }
+    }
+
+    public static Warrior Instance {
+        get {
+            if(!_instance) {
+                Warrior.Factory();
+            } 
+
+            return _instance;
+        } 
+        private set {
+            _instance = value;
+        }
     }
 }

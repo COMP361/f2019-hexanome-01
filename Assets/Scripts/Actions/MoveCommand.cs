@@ -1,35 +1,86 @@
 using System.Collections.Generic;
+using UnityEngine;
 
 public class MoveCommand : ICommand {
-    private readonly Token token;
-    private readonly Cell origin;
+    private readonly Movable movable;
     private Cell goal;
     private MapPath path;
-    private List<Cell> reachableCells;
+    private List<Cell> freeCells;
+    private List<Cell> extCells;
+    private List<Farmer> farmers = new List<Farmer>();
 
     // Movable ?
-    public MoveCommand(Token token, Cell origin) {
+    public MoveCommand(Movable movable) {
         EventManager.CellClick += SetDestination;
-        this.token = token;
-        this.origin = origin;
+        EventManager.MoveCancel += Dispose;
+        EventManager.MoveComplete +=IsFarmerOnCell;
+        EventManager.PickFarmer += AttachFarmer;
+        
 
-        //reachableCells = 
+        this.movable = movable;
+        IsFarmerOnCell(movable);
+
+        freeCells = movable.Cell.WithinRange(0, 2);
+        extCells = movable.Cell.WithinRange(3, 5); 
+        
+        foreach (Cell cell in Cell.cells) {
+            cell.Deactivate();
+        }
+        
+        foreach (Cell cell in freeCells) {
+            cell.Reset();
+        }
+
+        foreach (Cell cell in extCells) {
+            cell.Extended();
+        }
+    }
+
+    public void AttachFarmer() {
+        if(movable.Cell.State.Farmers.Count > 0) {
+            foreach(Farmer farmer in movable.Cell.State.Farmers) {
+                if(!farmers.Contains(farmer)) farmers.Add(farmer);
+                break;
+            }
+        }
+
+        Debug.Log(farmers);
+    }
+
+    public void IsFarmerOnCell(Movable movable) {
+        if(movable == this.movable) {
+            if(movable.Cell.State.Farmers.Count > 0) {
+                EventManager.TriggerFarmerOnCell();
+            }
+        }
     }
 
     public void Dispose() {
         EventManager.CellClick -= SetDestination;
+        EventManager.MoveCancel -= Dispose;
+        EventManager.MoveComplete -= IsFarmerOnCell;
+        EventManager.PickFarmer -= AttachFarmer;
+
         if(path != null) path.Dispose();
+
+        foreach (Cell cell in Cell.cells) {
+            cell.Reset();
+        }
     }
 
     void SetDestination(int cellID) {
         goal = Cell.FromId(cellID);
         if(path != null) path.Dispose();
-        path = new MapPath(origin, goal);
+        path = new MapPath(movable.Cell, goal);
     }
 
     public void Execute() {
         if(path.Cells == null) return;
-        token.Move(new List<Cell>(path.Cells));
+        movable.Move(new List<Cell>(path.Cells));
+        foreach(Farmer farmer in farmers) {
+            farmer.Move(new List<Cell>(path.Cells));
+        }
+
         path.Cells = null;
 
         // TODO Update origin
@@ -41,3 +92,4 @@ public class MoveCommand : ICommand {
         }*/
     }
 }
+

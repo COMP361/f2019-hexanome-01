@@ -20,22 +20,25 @@ public class Fog {
         qty["gold"] = 3;
         qty["event"] = 5;   
 
+        cellsID.Shuffle();
+        
+        int j = 0;
         foreach(KeyValuePair<string, int> entry in qty) {
             Sprite sprite = Resources.Load<Sprite>("Sprites/Tokens/Fog/" + entry.Key);
 
-            for (int i = 0; i < entry.Value; i++) {
+            for (int i = 0; i < entry.Value && j < cellsID.Count; i++, j++) {
                 fog = GameObject.Instantiate((GameObject) Resources.Load("Prefabs/Tokens/Fog")) as GameObject;
-                GameObject token = fog.transform.Find("Token").gameObject;    
-                token.GetComponent<SpriteRenderer>().sprite = sprite;
-                tokens.Add(Token.Factory(sprite.name + "Fog", fog));
+                GameObject secretToken = fog.transform.Find("Token").gameObject;    
+                secretToken.GetComponent<SpriteRenderer>().sprite = sprite;
+
+                Token fogToken = fog.AddComponent<Token>();
+                fogToken.TokenName = sprite.name + "Fog";
+
+                Cell cell = Cell.FromId(cellsID[j]);
+                fogToken.Cell = cell;
+
+                tokens.Add(fogToken);
             }
-        }
-
-        tokens.Shuffle();
-
-        for (int i = 0; i < tokens.Count; i++) {
-            Cell c = Cell.FromId(cellsID[i]);
-            tokens[i].Position(c);
         }
     }
 
