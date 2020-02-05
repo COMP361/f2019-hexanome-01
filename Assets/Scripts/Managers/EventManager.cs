@@ -1,14 +1,16 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class EventManager {
+public class EventManager
+{
     //GameManager gm;
 
     public delegate void PlayerUpdateHandler(Hero hero);
     public static event PlayerUpdateHandler PlayerUpdate;
-    
+
     public delegate void ActionUpdateHandler(Action action);
     public static event ActionUpdateHandler ActionUpdate;
 
@@ -37,6 +39,11 @@ public class EventManager {
     public delegate void EndTurnHandler();
     public static event EndTurnHandler EndTurn;
 
+
+    public delegate void EndDayHandler();
+    // This is the publisher to which others can subscribe 
+    public static event EndDayHandler EndDay;
+
     /*void Start() {
         gm = GameManager.instance;
     }*/
@@ -52,70 +59,99 @@ public class EventManager {
         }
     }*/
 
-    public static void TriggerCellClick(int cellID) {
-        if (CellClick != null) {
+    public static void TriggerEndDaySelect()
+    {
+        //Debug.Log(" THE TRIGGER END DAY SELECT WORKS ");
+        if (EndDay != null)
+        {
+            EndDay();
+        }
+    }
+
+    public static void TriggerCellClick(int cellID)
+    {
+        if (CellClick != null)
+        {
             CellClick(cellID);
         }
     }
 
-    public static void TriggerActionUpdate(Action action) {
-        if (ActionUpdate != null) {
+    public static void TriggerActionUpdate(Action action)
+    {
+        if (ActionUpdate != null)
+        {
             ActionUpdate(action);
         }
     }
 
-    public static void TriggerPlayerUpdate(Hero hero) {
-        if (PlayerUpdate != null) {
+    public static void TriggerPlayerUpdate(Hero hero)
+    {
+        if (PlayerUpdate != null)
+        {
             PlayerUpdate(hero);
         }
     }
-    
-    public static void TriggerMoveSelect() {
+
+    public static void TriggerMoveSelect()
+    {
         EventManager.TriggerActionUpdate(Action.Move);
 
-        if (MoveSelect != null) {
+        if (MoveSelect != null)
+        {
             MoveSelect();
         }
     }
 
-    public static void TriggerFightSelect() {
+    public static void TriggerFightSelect()
+    {
         EventManager.TriggerActionUpdate(Action.Fight);
 
-        if (FightSelect != null) {
+        if (FightSelect != null)
+        {
             FightSelect();
         }
     }
 
-    public static void TriggerSkipSelect() {
+    public static void TriggerSkipSelect()
+    {
         EventManager.TriggerActionUpdate(Action.Skip);
 
-        if (SkipSelect != null) {
+        if (SkipSelect != null)
+        {
             SkipSelect();
         }
     }
 
-    public static void TriggerMoveCancel() {
+    public static void TriggerMoveCancel()
+    {
         EventManager.TriggerActionUpdate(Action.None);
 
-        if (MoveCancel != null) {
+        if (MoveCancel != null)
+        {
             MoveCancel();
         }
     }
 
-    public static void TriggerMoveConfirm() {
-        if (MoveConfirm != null) {
+    public static void TriggerMoveConfirm()
+    {
+        if (MoveConfirm != null)
+        {
             MoveConfirm();
         }
     }
 
-    public static void TriggerStartTurn() {
-        if (StartTurn != null) {
+    public static void TriggerStartTurn()
+    {
+        if (StartTurn != null)
+        {
             StartTurn();
         }
     }
-    
-    public static void TriggerEndTurn() {
-        if (EndTurn != null) {
+
+    public static void TriggerEndTurn()
+    {
+        if (EndTurn != null)
+        {
             EndTurn();
         }
     }

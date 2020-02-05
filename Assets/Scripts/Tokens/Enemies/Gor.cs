@@ -2,10 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Gor : Movable, IEnemy {
+public class Gor : Movable, IEnemy
+{
     static Color color = Color.black;
 
-    public static Gor Factory(int cellID) {
+
+    public static Gor Factory(int cellID)
+    {
         GameObject go = Geometry.Disc(Vector3.zero, color);
         Gor gor = go.AddComponent<Gor>();
         gor.TokenName = Type;

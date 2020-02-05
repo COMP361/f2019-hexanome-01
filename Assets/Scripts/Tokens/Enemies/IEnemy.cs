@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IEnemy {
+public interface IEnemy
+{
+
     int Will { get; set; }
 
     int Strength { get; set; }
