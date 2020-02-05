@@ -1,9 +1,10 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class EventManager {    
+public class EventManager {
     public delegate void CellClickHandler(int cellID);
     public static event CellClickHandler CellClick;
     public static void TriggerCellClick(int cellID) {
@@ -27,13 +28,15 @@ public class EventManager {
             PlayerUpdate(hero);
         }
     }
-    
+
     public delegate void FightSelectHandler();
     public static event FightSelectHandler FightSelect;
     public static void TriggerFightSelect() {
+
         EventManager.TriggerActionUpdate(Action.Fight);
 
-        if (FightSelect != null) {
+        if (FightSelect != null)
+        {
             FightSelect();
         }
     }
@@ -43,7 +46,8 @@ public class EventManager {
     public static void TriggerSkipSelect() {
         EventManager.TriggerActionUpdate(Action.Skip);
 
-        if (SkipSelect != null) {
+        if (SkipSelect != null)
+        {
             SkipSelect();
         }
     }
@@ -85,7 +89,8 @@ public class EventManager {
     public static void TriggerMoveCancel() {
         EventManager.TriggerActionUpdate(Action.None);
 
-        if (MoveCancel != null) {
+        if (MoveCancel != null)
+        {
             MoveCancel();
         }
     }
@@ -138,5 +143,13 @@ public class EventManager {
         if (DropFarmer != null) {
             DropFarmer();
         }
+    }
+
+    public delegate void EndDayHandler();
+    public static event EndDayHandler EndDay;
+    public static void TriggerEndDaySelect() {
+          if (EndDay != null) {
+            EndDay();   
+          }
     }
 }
