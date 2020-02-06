@@ -8,7 +8,7 @@ public class CharacterSelectionStartGame : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -19,6 +19,6 @@ public class CharacterSelectionStartGame : MonoBehaviour
 
     public void StartGameClick()
     {
-        SceneManager.LoadScene("board");
+        SceneManager.LoadScene("Game");
     }
 }
