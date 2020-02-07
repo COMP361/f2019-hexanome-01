@@ -57,12 +57,14 @@ public class GameManager : Singleton<GameManager>
         gors = new List<Enemy>();
 
         //Gor newGor = Gor.Factory(8);
-        gors.Add(Gor.Factory(3));
+        //gors.Add(Gor.Factory(3));
         //EventManager.EndDay += MonsterMove(newGor);
+        gors.Add(Gor.Factory(1));
         gors.Add(Gor.Factory(2));
-        gors.Add(Gor.Factory(19));
+        gors.Add(Gor.Factory(19));  //
         gors.Add(Gor.Factory(20));
         gors.Add(Gor.Factory(48));
+        gors.Add(Gor.Factory(84));
 
         skrals = new List<Enemy>();
         //skrals.Add(Skral.Factory(19));
@@ -107,44 +109,48 @@ public class GameManager : Singleton<GameManager>
     /*
      * Goes through a monster list and moves them in order.
      *
-     * Remaining: Allowing multiple enemies at the Zeroth cell.
      */
     void monsterMove(List<Enemy> enemy)
     {
+        int[] monsterList = new int[100];
         if (enemy != null)
         {
+            // Sort the list
+            enemy.Sort();
             foreach (var monster in enemy)
             {
-                Cell nextCell = monster.Cell.enemyPath;
-
-                // search for monster-free cell
-                do
+                int nextID;
+                if (monster.Cell.Index != 80)
                 {
-                    if (nextCell.State.Enemies != null)
+                    nextID = monster.Cell.enemyPath.Index;
+                }
+                else
+                {
+                    nextID = -1;
+                }
+                while (nextID != -1)
+                {
+                    if (monsterList[nextID] == 0)
                     {
+                        if (Cell.FromId(nextID).Index == 0)
+                        {
+                            // move monster to cell 80
+                            monster.Move(Cell.FromId(80));
 
-                        // update monster's prev cell's enemy state
-                        monster.Cell.State.Enemies[0] = null;
-
-                        // move monster to this cell
-                        monster.Move(nextCell);
-
-                        nextCell.State.Enemies.Add(monster);
-
-                        nextCell = null;
+                        }
+                        else
+                        {
+                            monster.Move(Cell.FromId(nextID));
+                            monsterList[nextID]++;
+                        }
+                        nextID = -1;
                     }
                     else
                     {
-                        // set next cell
-                        nextCell = nextCell.enemyPath;
+                        nextID = Cell.FromId(nextID).enemyPath.Index;
                     }
-
-                } while (nextCell != null);
-
+                }
             }
-
-            // sort the list according to monster cell position
-            //enemy.Sort.((a = enemy.Cell)
 
         }
 
