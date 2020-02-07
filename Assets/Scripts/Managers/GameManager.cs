@@ -110,50 +110,15 @@ public class GameManager : Singleton<GameManager>
      * Goes through a monster list and moves them in order.
      *
      */
-    void monsterMove(List<Enemy> enemy)
-    {
-        int[] monsterList = new int[100];
-        if (enemy != null)
-        {
-            // Sort the list
+    void monsterMove(List<Enemy> enemy) {
+        if (enemy != null) {
             enemy.Sort();
-            foreach (var monster in enemy)
-            {
-                int nextID;
-                if (monster.Cell.Index != 80)
-                {
-                    nextID = monster.Cell.enemyPath.Index;
-                }
-                else
-                {
-                    nextID = -1;
-                }
-                while (nextID != -1)
-                {
-                    if (monsterList[nextID] == 0)
-                    {
-                        if (Cell.FromId(nextID).Index == 0)
-                        {
-                            // move monster to cell 80
-                            monster.Move(Cell.FromId(80));
-
-                        }
-                        else
-                        {
-                            monster.Move(Cell.FromId(nextID));
-                            monsterList[nextID]++;
-                        }
-                        nextID = -1;
-                    }
-                    else
-                    {
-                        nextID = Cell.FromId(nextID).enemyPath.Index;
-                    }
-                }
+            foreach (var monster in enemy) {
+                Cell nextCell = monster.Cell.enemyPath;
+                while (nextCell != null && nextCell.State.Enemies.Count > 0 && nextCell.Index != 0) nextCell = nextCell.enemyPath;
+                if(nextCell != null) monster.Move(nextCell);
             }
-
         }
-
     }
 
     void giveTurn(int playerIndex)
