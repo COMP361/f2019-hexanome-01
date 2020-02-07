@@ -1,12 +1,15 @@
+using Photon.Pun;
+using Photon.Realtime;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class GameManager : Singleton<GameManager>
 {
-    private int playerCount;
-    public List<Hero> players;
+    public List<Player> players;
+    public List<Hero> heroes;
     public List<Farmer> farmers;
     public List<Enemy> gors, skrals, trolls, wardraks;
     private int currentPlayerIndex = -1;
@@ -19,11 +22,11 @@ public class GameManager : Singleton<GameManager>
 
     void Awake()
     {
-        SceneManager.LoadScene("Map", LoadSceneMode.Additive);
-        SceneManager.LoadScene("Chat", LoadSceneMode.Additive);
-        SceneManager.LoadScene("Tokens", LoadSceneMode.Additive);
-        SceneManager.LoadScene("UI", LoadSceneMode.Additive);
-
+        //SceneManager.LoadScene("Map", LoadSceneMode.Additive);
+        //SceneManager.LoadScene("Chat", LoadSceneMode.Additive);
+        //SceneManager.LoadScene("Tokens", LoadSceneMode.Additive);
+        //SceneManager.LoadScene("UI", LoadSceneMode.Additive);
+        players = PhotonNetwork.PlayerList.ToList();
         base.Awake();
     }
 
@@ -43,45 +46,50 @@ public class GameManager : Singleton<GameManager>
 
     void Start()
     {
-        playerCount = 1;
-        players = new List<Hero>();
-        players.Add(Warrior.Instance);
-        players.Add(Archer.Instance);
-        players.Add(Mage.Instance);
-        players.Add(Dwarf.Instance);
+        GameObject warriorGameObject = PhotonNetwork.InstantiateSceneObject("Warrior", Vector3.zero, Quaternion.identity, 0);
+        GameObject archerGameObject = PhotonNetwork.InstantiateSceneObject("Archer", Vector3.zero, Quaternion.identity, 0);
+        heroes = new List<Hero>();
+        Warrior warrior = warriorGameObject.GetComponent<Warrior>();
+        heroes.Add(warrior);
+        Archer archer = archerGameObject.GetComponent<Archer>();
+        heroes.Add(archer);
 
-        farmers = new List<Farmer>();
-        farmers.Add(Farmer.Factory(24));
-        farmers.Add(Farmer.Factory(36));
+            //players.Add(Warrior.Instance);
+            //players.Add(Archer.Instance);
+            //players.Add(Mage.Instance);
+            //players.Add(Dwarf.Instance);
 
-        gors = new List<Enemy>();
+            //farmers = new List<Farmer>();
+            //farmers.Add(Farmer.Factory(24));
+            //farmers.Add(Farmer.Factory(36));
 
-        //Gor newGor = Gor.Factory(8);
-        gors.Add(Gor.Factory(3));
-        //EventManager.EndDay += MonsterMove(newGor);
-        gors.Add(Gor.Factory(2));
-        gors.Add(Gor.Factory(19));
-        gors.Add(Gor.Factory(20));
-        gors.Add(Gor.Factory(48));
+            //gors = new List<Enemy>();
 
-        skrals = new List<Enemy>();
-        //skrals.Add(Skral.Factory(19));
+            ////Gor newGor = Gor.Factory(8);
+            //gors.Add(Gor.Factory(3));
+            ////EventManager.EndDay += MonsterMove(newGor);
+            //gors.Add(Gor.Factory(2));
+            //gors.Add(Gor.Factory(19));
+            //gors.Add(Gor.Factory(20));
+            //gors.Add(Gor.Factory(48));
 
-        trolls = new List<Enemy>();
-        wardraks = new List<Enemy>();
+            //skrals = new List<Enemy>();
+            ////skrals.Add(Skral.Factory(19));
 
-        legendCards = new LegendCards();
-        eventCards = new EventCards();
+            //trolls = new List<Enemy>();
+            //wardraks = new List<Enemy>();
 
-        fog = new Fog();
+            //legendCards = new LegendCards();
+            //eventCards = new EventCards();
 
-        //well = new Token();
-        //well.addToken(55, Color.blue);
-        //well.addToken(35, Color.blue);
-        //well.addToken(5, Color.blue);
-        //well.addToken(45, Color.blue);
-        EventManager.EndDay += MonsterEndDayEvents;
+            //fog = new Fog();
 
+            ////well = new Token();
+            ////well.addToken(55, Color.blue);
+            ////well.addToken(35, Color.blue);
+            ////well.addToken(5, Color.blue);
+            ////well.addToken(45, Color.blue);
+            //EventManager.EndDay += MonsterEndDayEvents;
 
         giveTurn(0);
     }
@@ -185,7 +193,7 @@ public class GameManager : Singleton<GameManager>
     {
         get
         {
-            return players[currentPlayerIndex];
+            return heroes[currentPlayerIndex];
         }
     }
 

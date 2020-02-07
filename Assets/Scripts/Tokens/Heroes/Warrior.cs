@@ -1,58 +1,86 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Warrior : Hero
 {
-    static Warrior _instance;
+    //static Warrior _instance;
+    static PhotonView photonView;
 
-    static void Factory() {
-        Color color = new Color(0.09f, 0.6f, 1, 1);
-        GameObject go = Geometry.Disc(Vector3.zero, color);
-        Warrior warrior = go.AddComponent<Warrior>();
-        warrior.Color = color;
+    public void Initialize()
+    {
+        this.Type = typeof(Warrior).ToString();
+        this.TokenName = this.Type;
 
-        warrior.Type = typeof(Warrior).ToString();
-        warrior.TokenName = warrior.Type;
+        this.rank = 14;
+        Cell cell = Cell.FromId(this.rank);
+        this.Cell = cell;
+        this.State = new HeroState(cell);
 
-        warrior.rank = 14;
-        Cell cell = Cell.FromId(warrior.rank);
-        warrior.Cell = cell;
-        warrior.State = new HeroState(cell);
+        this.IsDone = false;
 
-        warrior.IsDone = false;
-            
-        warrior.Dices = new int[21] {
-            2, 2, 2, 2, 2, 2, 2,
-            3, 3, 3, 3, 3, 3, 3,
-            4, 4, 4, 4, 4, 4, 4
-        };
-    
-        warrior.names = new string[2] {
-            "Mairen",
-            "Thorn"
-        };
+        this.Dices = new int[21] {
+                2, 2, 2, 2, 2, 2, 2,
+                3, 3, 3, 3, 3, 3, 3,
+                4, 4, 4, 4, 4, 4, 4
+            };
+
+        this.names = new string[2] {
+                "Mairen",
+                "Thorn"
+            };
     }
 
-    void Awake() {    
-        if (_instance) {
-            Debug.LogError("Duplicate subclass of type " + typeof(Warrior) + "! eliminating " + name + " while preserving " + Instance.name);
-            Destroy(gameObject);
-        } else {
-            Instance = this;
-        }
+    //static void Factory() {
+    //    Color color = new Color(0.09f, 0.6f, 1, 1);
+    //    GameObject go = Geometry.Disc(Vector3.zero, color);
+    //    Warrior warrior = go.AddComponent<Warrior>();
+    //    warrior.Color = color;
+
+    //    warrior.Type = typeof(Warrior).ToString();
+    //    warrior.TokenName = warrior.Type;
+
+    //    warrior.rank = 14;
+    //    Cell cell = Cell.FromId(warrior.rank);
+    //    warrior.Cell = cell;
+    //    warrior.State = new HeroState(cell);
+
+    //    warrior.IsDone = false;
+
+    //    warrior.Dices = new int[21] {
+    //        2, 2, 2, 2, 2, 2, 2,
+    //        3, 3, 3, 3, 3, 3, 3,
+    //        4, 4, 4, 4, 4, 4, 4
+    //    };
+
+    //    warrior.names = new string[2] {
+    //        "Mairen",
+    //        "Thorn"
+    //    };
+    //}
+
+    void Awake() {
+        Initialize();
+        photonView = GetComponent<PhotonView>();
+        //if (_instance) {
+        //    Debug.LogError("Duplicate subclass of type " + typeof(Warrior) + "! eliminating " + name + " while preserving " + Instance.name);
+        //    Destroy(gameObject);
+        //} else {
+        //    Instance = this;
+        //}
     }
 
-    public static Warrior Instance {
-        get {
-            if(!_instance) {
-                Warrior.Factory();
-            } 
+    //public static Warrior Instance {
+    //    get {
+    //        if(!_instance) {
+    //            Warrior.Factory();
+    //        } 
 
-            return _instance;
-        } 
-        private set {
-            _instance = value;
-        }
-    }
+    //        return _instance;
+    //    } 
+    //    private set {
+    //        _instance = value;
+    //    }
+    //}
 }
