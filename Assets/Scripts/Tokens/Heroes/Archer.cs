@@ -5,10 +5,17 @@ using UnityEngine;
 public class Archer : Hero
 {
     static Archer _instance;
-    
-    static void Factory() {
+
+    static void Factory()
+    {
         Color color = new Color(0.4f, 0.75f, 0, 1);
-        GameObject go = Geometry.Disc(Vector3.zero, color);
+        //GameObject go = Geometry.Disc(Vector3.zero, color);
+
+        Sprite sprite = Resources.Load<Sprite>("Sprites/heroes/male_archer");
+        GameObject go = new GameObject("Warrior"); //Geometry.Disc(Vector3.zero, color);
+        SpriteRenderer renderer = go.AddComponent<SpriteRenderer>();
+        renderer.sprite = sprite;
+
         Archer archer = go.AddComponent<Archer>();
         archer.Color = color;
 
@@ -21,37 +28,45 @@ public class Archer : Hero
         archer.State = new HeroState(cell);
 
         archer.IsDone = false;
-            
+
         archer.Dices = new int[21] {
             3, 3, 3, 3, 3, 3, 3,
             4, 4, 4, 4, 4, 4, 4,
             5, 5, 5, 5, 5, 5, 5
         };
-    
+
         archer.names = new string[2] {
             "Chada",
             "Pasco"
         };
     }
 
-    void Awake() {
-        if (_instance) {
+    void Awake()
+    {
+        if (_instance)
+        {
             Debug.LogError("Duplicate subclass of type " + typeof(Archer) + "! eliminating " + name + " while preserving " + Instance.name);
             Destroy(gameObject);
-        } else {
+        }
+        else
+        {
             Instance = this;
         }
     }
 
-    public static Archer Instance {
-        get {
-            if(!_instance) {
+    public static Archer Instance
+    {
+        get
+        {
+            if (!_instance)
+            {
                 Archer.Factory();
-            } 
+            }
 
             return _instance;
-        } 
-        private set {
+        }
+        private set
+        {
             _instance = value;
         }
     }

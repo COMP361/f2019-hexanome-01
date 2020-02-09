@@ -5,10 +5,17 @@ using UnityEngine;
 public class Mage : Hero
 {
     static Mage _instance;
-    
-    static void Factory() {
+
+    static void Factory()
+    {
         Color color = new Color(0.6f, 0.2f, 1, 1);
-        GameObject go = Geometry.Disc(Vector3.zero, color);
+        //GameObject go = Geometry.Disc(Vector3.zero, color);
+
+        Sprite sprite = Resources.Load<Sprite>("Sprites/heroes/male_wizard");
+        GameObject go = new GameObject("Warrior"); //Geometry.Disc(Vector3.zero, color);
+        SpriteRenderer renderer = go.AddComponent<SpriteRenderer>();
+        renderer.sprite = sprite;
+
         Mage mage = go.AddComponent<Mage>();
         mage.Color = color;
 
@@ -21,37 +28,45 @@ public class Mage : Hero
         mage.State = new HeroState(cell);
 
         mage.IsDone = false;
-            
+
         mage.Dices = new int[21] {
             1, 1, 1, 1, 1, 1, 1,
             1, 1, 1, 1, 1, 1, 1,
             1, 1, 1, 1, 1, 1, 1
         };
-    
+
         mage.names = new string[2] {
             "Eara",
             "Liphardus"
         };
     }
 
-    void Awake() {
-        if (_instance) {
+    void Awake()
+    {
+        if (_instance)
+        {
             Debug.LogError("Duplicate subclass of type " + typeof(Mage) + "! eliminating " + name + " while preserving " + Instance.name);
             Destroy(gameObject);
-        } else {
+        }
+        else
+        {
             Instance = this;
         }
     }
 
-    public static Mage Instance {
-        get {
-            if(!_instance) {
+    public static Mage Instance
+    {
+        get
+        {
+            if (!_instance)
+            {
                 Mage.Factory();
-            } 
+            }
 
             return _instance;
-        } 
-        private set {
+        }
+        private set
+        {
             _instance = value;
         }
     }
