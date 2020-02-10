@@ -33,6 +33,7 @@ public class Cell : MonoBehaviour, IComparable<Cell>
         sprite.color = color;
     }
 
+    // tag the Cell has an extension of the day: we have to pay willPoints for
     public void Extended()
     {
         Extension = true;
@@ -153,7 +154,10 @@ public class Cell : MonoBehaviour, IComparable<Cell>
     public Vector3 Position { get; private set; }
     public int Index { get; private set; }
     public bool Active { get; set; }
+    
+    // if true, we have to pay willPoints to reach the cell
     public bool Extension { get; set; }
+
     public float Heuristic { get; set; }
     public float Cost { get; set; }
     public Cell Parent { get; set; }
