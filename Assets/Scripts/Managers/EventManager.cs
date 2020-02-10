@@ -5,14 +5,19 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class EventManager {
+    // this class helps to register the events that are happening and trigger all the functions that are linked to this event.
+   
+    // Fired when a cell is clicked
     public delegate void CellClickHandler(int cellID);
     public static event CellClickHandler CellClick;
+
     public static void TriggerCellClick(int cellID) {
         if (CellClick != null) {
             CellClick(cellID);
         }
     }
 
+    // Fired when a new action is chosen (Fight/Skip/Move/End day)
     public delegate void ActionUpdateHandler(Action action);
     public static event ActionUpdateHandler ActionUpdate;
     public static void TriggerActionUpdate(Action action) {
@@ -21,6 +26,7 @@ public class EventManager {
         }
     }
 
+    // Fired on each turn (player turn)
     public delegate void PlayerUpdateHandler(Hero hero);
     public static event PlayerUpdateHandler PlayerUpdate;
     public static void TriggerPlayerUpdate(Hero hero) {
@@ -29,10 +35,10 @@ public class EventManager {
         }
     }
 
+    // Fired if fight action is selected
     public delegate void FightSelectHandler();
     public static event FightSelectHandler FightSelect;
     public static void TriggerFightSelect() {
-
         EventManager.TriggerActionUpdate(Action.Fight);
 
         if (FightSelect != null)
@@ -41,6 +47,7 @@ public class EventManager {
         }
     }
 
+    // Fired if skip action is selected
     public delegate void SkipSelectHandler();
     public static event SkipSelectHandler SkipSelect;
     public static void TriggerSkipSelect() {
@@ -52,6 +59,7 @@ public class EventManager {
         }
     }
 
+    // Fired at the beginning of turn
     public delegate void StartTurnHandler();
     public static event StartTurnHandler StartTurn;
     public static void TriggerStartTurn() {
@@ -60,6 +68,7 @@ public class EventManager {
         }
     }
 
+    // Fired at the end of turn
     public delegate void EndTurnHandler();
     public static event EndTurnHandler EndTurn;
     public static void TriggerEndTurn() {
@@ -68,6 +77,7 @@ public class EventManager {
         }
     }
 
+    // Fired when we enter a cell with mouse
     public delegate void CellMouseEnterHandler(int cellID);
     public static event CellMouseEnterHandler CellMouseEnter;
     public static void TriggerCellMouseEnter(int cellID) {
@@ -76,6 +86,7 @@ public class EventManager {
         }
     }
 
+    // Fired when we leave a cell with mouse
     public delegate void CellMouseLeaveHandler(int cellID);
     public static event CellMouseLeaveHandler CellMouseLeave;
     public static void TriggerCellMouseLeave(int cellID) {
@@ -84,6 +95,7 @@ public class EventManager {
         }
     }
 
+    // Fired when we cancel the move action before confirming
     public delegate void MoveCancelHandler();
     public static event MoveCancelHandler MoveCancel;
     public static void TriggerMoveCancel() {
@@ -95,6 +107,7 @@ public class EventManager {
         }
     }
 
+    // Fired when we confirm the move action
     public delegate void MoveConfirmHandler();
     public static event MoveConfirmHandler MoveConfirm;
     public static void TriggerMoveConfirm() {
@@ -103,6 +116,7 @@ public class EventManager {
         }
     }
 
+    // Fired when we select the move action (Move button)
     public delegate void MoveSelectHandler();
     public static event MoveSelectHandler MoveSelect;
     public static void TriggerMoveSelect() {
@@ -113,6 +127,7 @@ public class EventManager {
         }
     }
 
+    // Fired when the hero reached its final position after move
     public delegate void MoveCompleteHandler(Movable movable);
     public static event MoveCompleteHandler MoveComplete;
     public static void TriggerMoveComplete(Movable movable) {
@@ -121,6 +136,7 @@ public class EventManager {
         }
     }
 
+    // Fired when a farmer is on the final position
     public delegate void FarmerOnCellHandler();
     public static event FarmerOnCellHandler FarmerOnCell;
     public static void TriggerFarmerOnCell() {
@@ -129,6 +145,7 @@ public class EventManager {
         }
     }
 
+    // Fired when a farmer is picked up
     public delegate void PickFarmerHandler();
     public static event PickFarmerHandler PickFarmer;
     public static void TriggerPickFarmer() {
@@ -137,6 +154,7 @@ public class EventManager {
         }
     }
 
+    // Fired when a farmer is dropped    
     public delegate void DropFarmerHandler();
     public static event DropFarmerHandler DropFarmer;
     public static void TriggerDropFarmer() {
@@ -145,11 +163,12 @@ public class EventManager {
         }
     }
 
+    // Fired when end day is triggered
     public delegate void EndDayHandler();
     public static event EndDayHandler EndDay;
     public static void TriggerEndDaySelect() {
           if (EndDay != null) {
-            EndDay();   
+            EndDay();
           }
     }
 }
