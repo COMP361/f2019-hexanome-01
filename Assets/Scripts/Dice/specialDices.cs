@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public class Dice : MonoBehaviour {
+public class specialDices : MonoBehaviour {
 
     // Array of dice sides sprites to load from Resources folder
     private Sprite[] diceSides;
@@ -16,7 +16,7 @@ public class Dice : MonoBehaviour {
         rend = GetComponent<SpriteRenderer>();
 
         // Load dice sides sprites to array from DiceSides subfolder of Resources folder
-        diceSides = Resources.LoadAll<Sprite>("Dices/");
+        diceSides = Resources.LoadAll<Sprite>("Dices/specialDices/");
         Debug.Log(diceSides.Length);
 	}
 	

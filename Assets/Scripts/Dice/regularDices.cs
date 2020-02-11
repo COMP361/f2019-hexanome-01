@@ -1,14 +1,15 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public class Dice : MonoBehaviour {
+public class regularDices : MonoBehaviour {
 
     // Array of dice sides sprites to load from Resources folder
     private Sprite[] diceSides;
 
     // Reference to sprite renderer to change sprites
     private SpriteRenderer rend;
-
+    //
+    public int finalSide;
 	// Use this for initialization
 	private void Start () {
 
@@ -16,7 +17,7 @@ public class Dice : MonoBehaviour {
         rend = GetComponent<SpriteRenderer>();
 
         // Load dice sides sprites to array from DiceSides subfolder of Resources folder
-        diceSides = Resources.LoadAll<Sprite>("Dices/");
+        diceSides = Resources.LoadAll<Sprite>("Dices/regularDices/");
         Debug.Log(diceSides.Length);
 	}
 	
@@ -35,7 +36,7 @@ public class Dice : MonoBehaviour {
         int randomDiceSide = 0;
 
         // Final side or value that dice reads in the end of coroutine
-        int finalSide = 0;
+        finalSide = 0;
 
         // Loop to switch dice sides ramdomly
         // before final side appears. 20 itterations here.
@@ -45,7 +46,7 @@ public class Dice : MonoBehaviour {
             randomDiceSide = Random.Range(0, 5);
 
             // Set sprite to upper face of dice from array according to random value
-            Debug.Log(randomDiceSide);
+            
             rend.sprite = diceSides[randomDiceSide];
 
             // Pause before next itteration
@@ -59,4 +60,9 @@ public class Dice : MonoBehaviour {
         // Show final dice value in Console
         Debug.Log(finalSide);
     }
+    public int getFinalSize()
+    {
+        return finalSide;
+    }
+
 }
