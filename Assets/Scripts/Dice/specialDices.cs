@@ -27,7 +27,7 @@ public class specialDices : MonoBehaviour {
     }
 
     // Coroutine that rolls the dice
-    private IEnumerator RollTheDice()
+    public IEnumerator RollTheDice()
     {
 
         // Variable to contain random dice side number.

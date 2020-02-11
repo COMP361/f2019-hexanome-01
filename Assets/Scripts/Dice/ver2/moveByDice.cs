@@ -7,25 +7,28 @@ public class moveByDice : MonoBehaviour
     //stores waypoints
     public Transform[] waypoints;
     //initialize the waypoint to intex 0
+    //the current waipoint for player will be store in the attribute in player class
+    //and then take as input into waypointIndex
     public int waypointIndex = 0;
-    
+    private float moveSpeed = 1f;
+
     public bool canMove = false;
-    private static GameObject player1, player2,player3,player4;
+    
 
     // Start is called before the first frame update
     void Start()
     {
-        player1 = GameObject.Find("p1");
-        player2 = GameObject.Find("p2");
-        player3 = GameObject.Find("p3");
-        player4 = GameObject.Find("p4");
+        
         transform.position = waypoints[waypointIndex].transform.position;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        //if (canMove)
+        //{
+            
+        //}
         //while(whosTurn > 4)
         //{
         //    //if whosTurn>4 -> the 4th plyaer has done his/her action to restart from player1
@@ -35,16 +38,35 @@ public class moveByDice : MonoBehaviour
         //    switch (whosTurn)
         //    {
         //        case 1:
-                    
+
         //            break;
 
         //        case 2:
-                    
+
         //            break;
         //        case 3:
         //    }
         //}
     }
 
+    //private void Move()
+    //{
+    //    if (waypointIndex <= waypoints.Length - 1)
+    //    {
+
+    //        // move sprite towards the target location
+    //        // transform.position = Vector2.MoveTowards(transform.position, target, step);
+    //        transform.position = Vector2.MoveTowards(transform.position,
+    //        waypoints[waypointIndex].transform.position,
+    //        moveSpeed * Time.deltaTime);
+
+    //        if (transform.position == waypoints[waypointIndex].transform.position)
+    //        {
+    //            waypointIndex += 1;
+    //        }
+    //    }
+    //}
+
+    
 
 }
