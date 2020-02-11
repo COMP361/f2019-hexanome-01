@@ -33,18 +33,18 @@ public class FightPanel : MonoBehaviour
 
     private void SetNames()
     {
-        this.PlayerName.text = gm.CurrentPlayer.HeroName;
-        this.EnemyName.text = gm.CurrentPlayer.Cell.State.Enemies[0].TokenName;
+        PlayerName.text = gm.CurrentPlayer.HeroName;
+        EnemyName.text = gm.CurrentPlayer.Cell.State.Enemies[0].TokenName;
     }
 
     private void SetPlayerStrength()
     {
-        this.PlayerStrength.text = gm.CurrentPlayer.State.getStrength().ToString();
+        PlayerStrength.text = gm.CurrentPlayer.State.getStrength().ToString();
     }
 
     private void SetPlayerWP()
     {
-        this.PlayerWP.text = gm.CurrentPlayer.State.getWP().ToString();
+        PlayerWP.text = gm.CurrentPlayer.State.getWP().ToString();
     }
 
 
