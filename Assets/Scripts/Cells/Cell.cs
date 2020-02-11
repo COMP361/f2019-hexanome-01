@@ -33,7 +33,7 @@ public class Cell : MonoBehaviour, IComparable<Cell>
         sprite.color = color;
     }
 
-    // tag the Cell has an extension of the day: we have to pay willPoints for
+    // tag the Cell as an extension of the day: we have to pay willPoints to reach it
     public void Extended()
     {
         Extension = true;
@@ -113,15 +113,11 @@ public class Cell : MonoBehaviour, IComparable<Cell>
 
     void OnMouseEnter()
     {
-        //if(gm.state.Action == Action.Move) {
         if (!Active) return;
 
         var color = gm.CurrentPlayer.Color;
         color.a = .4f;
         sprite.color = color;
-        //} else {
-        //    sprite.color = hoverColor;
-        //}
         EventManager.TriggerCellMouseEnter(Index);
     }
 
