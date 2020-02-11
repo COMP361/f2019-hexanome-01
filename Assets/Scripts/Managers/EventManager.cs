@@ -10,7 +10,6 @@ public class EventManager {
     // Fired when a cell is clicked
     public delegate void CellClickHandler(int cellID);
     public static event CellClickHandler CellClick;
-
     public static void TriggerCellClick(int cellID) {
         if (CellClick != null) {
             CellClick(cellID);
@@ -92,6 +91,28 @@ public class EventManager {
     public static void TriggerCellMouseLeave(int cellID) {
         if (CellMouseLeave != null) {
             CellMouseLeave(cellID);
+        }
+    }
+
+    // Fired when we enter a merchant cell with mouse
+    public delegate void MerchCellMouseEnterHandler(int cellID);
+    public static event MerchCellMouseEnterHandler MerchCellMouseEnter;
+    public static void TriggerMerchCellMouseEnter(int cellID)
+    {
+        if (MerchCellMouseEnter != null)
+        {
+            MerchCellMouseEnter(cellID);
+        }
+    }
+
+    // Fired when we enter a merchant cell with mouse
+    public delegate void MerchCellMouseLeaveHandler(int cellID);
+    public static event MerchCellMouseEnterHandler MerchCellMouseLeave;
+    public static void TriggerMerchCellMouseLeave(int cellID)
+    {
+        if (MerchCellMouseLeave != null)
+        {
+            MerchCellMouseLeave(cellID);
         }
     }
 
