@@ -11,9 +11,9 @@ public class Cell : MonoBehaviour, IComparable<Cell>
     public static List<Cell> cells = new List<Cell>();
     public List<Transform> neighbours = new List<Transform>();
     public Cell enemyPath;
-    private GameManager gm;
-    private SpriteRenderer sprite;
-    private Color32 color = new Color(1f, 1f, 1f, 0f);
+    protected GameManager gm;
+    protected SpriteRenderer sprite;
+    protected Color32 color = new Color(1f, 1f, 1f, 0f);
 
     private Color32 hoverColor = new Color(1f, 1f, 1f, .2f);
 
@@ -42,7 +42,7 @@ public class Cell : MonoBehaviour, IComparable<Cell>
         sprite.color = color;
     }
 
-    void Awake()
+    protected virtual void Awake()
     {
         cells.Add(this);
         Active = true;
@@ -53,7 +53,7 @@ public class Cell : MonoBehaviour, IComparable<Cell>
         State = new CellState();
     }
 
-    void Start()
+    protected virtual void Start()
     {
         gm = GameManager.instance;
 
@@ -111,7 +111,7 @@ public class Cell : MonoBehaviour, IComparable<Cell>
         return cell;
     }
 
-    void OnMouseEnter()
+    protected virtual void OnMouseEnter()
     {
         //if(gm.state.Action == Action.Move) {
         if (!Active) return;
@@ -125,7 +125,7 @@ public class Cell : MonoBehaviour, IComparable<Cell>
         EventManager.TriggerCellMouseEnter(Index);
     }
 
-    void OnMouseExit()
+    protected virtual void OnMouseExit()
     {
         sprite.color = color;
         EventManager.TriggerCellMouseLeave(Index);
