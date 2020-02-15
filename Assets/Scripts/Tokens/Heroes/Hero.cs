@@ -51,8 +51,8 @@ public class HeroState : ICloneable {
   public Action action;
   public Cell cell;
   private int freeMove;
-  private int willpower;
-  private int strength;
+  private int willpower { get; set; }
+  private int strength { get; set; }
   private int golds;
   private Timeline timeline;
   private int hoursOfDay;
@@ -68,4 +68,14 @@ public class HeroState : ICloneable {
     hs.timeline = (Timeline) timeline.Clone();
     return hs;
   }     
+
+    public void setStrength(int value)
+    {
+        this.strength = value;
+    }
+
+    public void setWP(int value)
+    {
+        this.willpower = value;
+    }
 }
