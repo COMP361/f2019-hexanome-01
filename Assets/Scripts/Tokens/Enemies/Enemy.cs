@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+<<<<<<< HEAD
 public abstract class Enemy : Movable, IComparable<Enemy>
 {
     public int CompareTo(Enemy monster)
@@ -11,8 +12,18 @@ public abstract class Enemy : Movable, IComparable<Enemy>
     }
 
     protected int Will { get; set; }
+=======
+public abstract class Enemy : Movable, IComparable<Enemy>
+{
+    public int CompareTo(Enemy monster)
+    {
+        return cell.CompareTo(monster.cell);
+    }
 
-    protected int Strength { get; set; }
+    public int Will { get; set; }
+>>>>>>> d5da44c... working attack
 
-    protected int Reward { get; set; }
+    public int Strength { get; set; }
+
+    public int Reward { get; set; }
 }
