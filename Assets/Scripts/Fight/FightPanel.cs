@@ -5,19 +5,15 @@ using UnityEngine.UI;
 
 public class FightPanel : MonoBehaviour
 {
-    [SerializeField]
     private Text _playerName;
     private Text PlayerName { get; set; }
 
-    [SerializeField]
     private Text _enemyName;
     private Text EnemyName { get; set; }
 
-    [SerializeField]
     private Text _playerStrength;
     private Text PlayerStrength { get; set; }
 
-    [SerializeField]
     private Text _playerWP;
     private Text PlayerWP { get; set; }
 
