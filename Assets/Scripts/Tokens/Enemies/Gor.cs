@@ -2,11 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Gor : Enemy {
+public class Gor : Enemy
+{
     static Color color = Color.black;
 
-    public static Gor Factory(int cellID) {
-        GameObject go = Geometry.Disc(Vector3.zero, color);
+    public static Gor Factory(int cellID)
+    {
+
+        Sprite sprite = Resources.Load<Sprite>("Sprites/Enemies/gor");
+        GameObject go = new GameObject("Gor"); //Geometry.Disc(Vector3.zero, color);
+        SpriteRenderer renderer = go.AddComponent<SpriteRenderer>();
+        renderer.sprite = sprite;
+
         Gor gor = go.AddComponent<Gor>();
         gor.TokenName = Type;
 
