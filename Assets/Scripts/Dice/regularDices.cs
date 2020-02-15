@@ -4,12 +4,12 @@ using UnityEngine;
 public class regularDices : MonoBehaviour {
 
     // Array of dice sides sprites to load from Resources folder
-    private Sprite[] diceSides;
+    private static Sprite[] diceSides;
 
     // Reference to sprite renderer to change sprites
-    private SpriteRenderer rend;
+    private static SpriteRenderer rend;
     //
-    public int finalSide;
+    public static int finalSide;
 	// Use this for initialization
 	private void Start () {
 
@@ -28,7 +28,7 @@ public class regularDices : MonoBehaviour {
     }
 
     // Coroutine that rolls the dice
-    private IEnumerator RollTheDice()
+    private static IEnumerator RollTheDice()
     {
 
         // Variable to contain random dice side number.
@@ -60,7 +60,7 @@ public class regularDices : MonoBehaviour {
         // Show final dice value in Console
         Debug.Log(finalSide);
     }
-    public int getFinalSize()
+    public int getFinalSide()
     {
         return finalSide;
     }
