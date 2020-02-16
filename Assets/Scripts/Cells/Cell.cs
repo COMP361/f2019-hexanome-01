@@ -154,7 +154,7 @@ public class Cell : MonoBehaviour, IComparable<Cell>
     public Vector3 Position { get; private set; }
     public int Index { get; private set; }
     public bool Active { get; set; }
-    
+
     // if true, we have to pay willPoints to reach the cell
     public bool Extension { get; set; }
 
@@ -186,6 +186,17 @@ public class CellState : ICloneable
         Farmers = new List<Farmer>();
         Tokens = new List<Token>();
         Golds = new List<Token>();
+        int numGoldenShields;
+    }
+
+    public void initGoldenShields(int numOfPlayers)
+    {
+        if (numOfPlayers == 4) { numGoldenShields = 1; }
+    }
+    public int decrementGoldenShields()
+    {
+        if (numGoldenShields > 0) { numGoldenShields--; return 1; }
+        else { return -1; }   // game over
     }
 
     public void addToken(Token token)
@@ -246,9 +257,11 @@ public class CellState : ICloneable
         return cs;
     }
 
+    public int numGoldenShields { get; private set; }
     public List<Hero> Heroes { get; private set; }
     public List<Enemy> Enemies { get; private set; }
     public List<Farmer> Farmers { get; private set; }
     public List<Token> Tokens { get; private set; }
     public List<Token> Golds { get; private set; }
+
 }
