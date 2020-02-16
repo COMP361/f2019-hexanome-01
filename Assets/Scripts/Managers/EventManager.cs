@@ -234,4 +234,14 @@ public class EventManager {
             EndDay();
           }
     }
+
+    public delegate void InventoryUIHandler();
+    public static event InventoryUIHandler InventoryUI;
+    public static void TriggerInventoryUI() {
+          if (InventoryUI != null) {
+            InventoryUI();
+          }
+    }
+
+
 }

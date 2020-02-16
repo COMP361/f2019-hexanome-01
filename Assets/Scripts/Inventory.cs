@@ -4,33 +4,46 @@ using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
+    public List<Item> items = new List<Item>();
+
+
     private bool inventoryEnable;
-    public GameObject inventory;
+    private int space = 3;
 
-    private int allSpots;
-    private int enabledSpots;
-    private GameObject[] spot;
 
-    public GameObject spotHolder ;
+    void OnEnable() {
+      EventManager.InventoryUI += updateUI;
+    }
+
+    void OnDisable() {
+      EventManager.InventoryUI -= updateUI;
+    }
+
+
+
+
 
     void start(){
-      allSpots = 3;
-      spot = new GameObject[allSpots];
-      for(int i = 0; i < allSpots; i++){
-        spot[i] = spotHolder.transform.GetChild(i).gameObject;
-      }
+
     }
 
     void update(){
-       if(Input.GetKeyDown(KeyCode.I)){
-         inventoryEnable = !inventoryEnable;
-       }
-
-       if(inventoryEnable){
-         inventory.SetActive(true);
-       }else{
-         inventory.SetActive(false);
-       }
-
+      
     }
+
+    public bool  Add(Item item){
+      if(items.Count >= space){
+        Debug.Log("Not enough room ");
+        return false;
+      }
+       items.Add(item);
+       return true;
+    }
+
+    public void Remove(Item item){
+      items.Remove(item);
+    }
+
+
+    public void updateUI(){}
 }
