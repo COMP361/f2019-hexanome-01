@@ -18,6 +18,10 @@ public class GameManager : Singleton<GameManager>
     private ICommand command;
     List<Enemy> monstersToMove;
 
+    bool IsCastle(Cell cell) {
+        return cell.Index == 0;
+    }
+
     void Awake()
     {
         SceneManager.LoadScene("Map", LoadSceneMode.Additive);
@@ -45,27 +49,26 @@ public class GameManager : Singleton<GameManager>
     void Start()
     {
         monstersToMove = new List<Enemy>();
-        
+        // PLAYERS
         playerCount = 1;
         players = new List<Hero>();
         players.Add(Warrior.Instance);
         players.Add(Archer.Instance);
         players.Add(Mage.Instance);
         players.Add(Dwarf.Instance);
+        Cell.FromId(0).State.initGoldenShields(players.Count);
 
+        // FARMERS
         farmers = new List<Farmer>();
         farmers.Add(Farmer.Factory(24));
         farmers.Add(Farmer.Factory(36));
 
+        // MONSTERS
         gors = new List<Enemy>();
-
-        //Gor newGor = Gor.Factory(8);
-        //gors.Add(Gor.Factory(3));
-        //EventManager.EndDay += MonsterMove(newGor);
-        gors.Add(Gor.Factory(1));
+        //gors.Add(Gor.Factory(1));
         gors.Add(Gor.Factory(2));
-        gors.Add(Gor.Factory(19));  //
-        gors.Add(Gor.Factory(20));
+        gors.Add(Gor.Factory(19));
+        //gors.Add(Gor.Factory(20));
         gors.Add(Gor.Factory(48));
         gors.Add(Gor.Factory(84));
 
@@ -125,12 +128,13 @@ public class GameManager : Singleton<GameManager>
         
         bool move = false;
         //foreach (var monster in enemy) {
-        while(!move && monstersToMove.Count > 0 && i < 20) {
+        while(!move && monstersToMove.Count > 0) {
             Enemy monster = monstersToMove[0];
             Cell nextCell = monster.Cell.enemyPath;
             while (nextCell != null && nextCell.State.Enemies.Count > 0 && nextCell.Index != 0) nextCell = nextCell.enemyPath;
             if(nextCell != null) {
                 monster.Move(nextCell);
+                if (IsCastle(nextCell) && nextCell.State.decrementGoldenShields() == -1) { EventManager.TriggerGameOver(); }
                 move = true;
             } else {
                 monstersToMove.Remove(monster);
