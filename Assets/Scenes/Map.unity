@@ -3090,16 +3090,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 227672555}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d76f01ce9ced02bffb9b9aaa0002da73, type: 3}
+  m_Script: {fileID: 11500000, guid: e87aad0e5584a424e833ea2048f1c796, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   neighbours:
-  - {fileID: 265365921}
   - {fileID: 1141056512}
+  - {fileID: 265365921}
   - {fileID: 1849537950}
-  - {fileID: 842820947}
   - {fileID: 310075423}
   - {fileID: 1424877874}
+  - {fileID: 842820947}
   enemyPath: {fileID: 1141056513}
 --- !u!60 &227672558
 PolygonCollider2D:
@@ -3529,17 +3529,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 232730961}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d76f01ce9ced02bffb9b9aaa0002da73, type: 3}
+  m_Script: {fileID: 11500000, guid: e87aad0e5584a424e833ea2048f1c796, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   neighbours:
-  - {fileID: 453873365}
   - {fileID: 31166489}
+  - {fileID: 453873365}
+  - {fileID: 1299630856}
   - {fileID: 251620072}
-  - {fileID: 693206756}
   - {fileID: 495167028}
   - {fileID: 1181657586}
-  - {fileID: 1299630856}
+  - {fileID: 693206756}
   enemyPath: {fileID: 453873368}
 --- !u!1 &240886595
 GameObject:
@@ -5145,7 +5145,7 @@ MonoBehaviour:
   - {fileID: 1327121794}
   - {fileID: 1929401220}
   - {fileID: 842820947}
-  enemyPath: {fileID: 227672557}
+  enemyPath: {fileID: 0}
 --- !u!60 &310075425
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -7761,7 +7761,7 @@ MonoBehaviour:
   - {fileID: 693206756}
   - {fileID: 987996053}
   - {fileID: 232730962}
-  enemyPath: {fileID: 232730965}
+  enemyPath: {fileID: 0}
 --- !u!60 &495167030
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -11296,7 +11296,7 @@ MonoBehaviour:
   - {fileID: 987996053}
   - {fileID: 495167028}
   - {fileID: 232730962}
-  enemyPath: {fileID: 232730965}
+  enemyPath: {fileID: 0}
 --- !u!60 &693206758
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -11829,7 +11829,7 @@ GameObject:
   m_Component:
   - component: {fileID: 770195822}
   - component: {fileID: 770195825}
-  - component: {fileID: 770195823}
+  - component: {fileID: 770195826}
   - component: {fileID: 770195824}
   m_Layer: 0
   m_Name: 71
@@ -11854,21 +11854,6 @@ Transform:
   m_Father: {fileID: 1678188925}
   m_RootOrder: 71
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &770195823
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 770195821}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d76f01ce9ced02bffb9b9aaa0002da73, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  neighbours:
-  - {fileID: 1906173847}
-  enemyPath: {fileID: 1906173848}
 --- !u!60 &770195824
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -11989,6 +11974,21 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &770195826
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 770195821}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e87aad0e5584a424e833ea2048f1c796, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  neighbours:
+  - {fileID: 1906173847}
+  enemyPath: {fileID: 1906173848}
 --- !u!1 &793162391
 GameObject:
   m_ObjectHideFlags: 0
@@ -22733,7 +22733,7 @@ MonoBehaviour:
   - {fileID: 947504551}
   - {fileID: 310075423}
   - {fileID: 227672556}
-  enemyPath: {fileID: 227672557}
+  enemyPath: {fileID: 0}
 --- !u!60 &1424877876
 PolygonCollider2D:
   m_ObjectHideFlags: 0

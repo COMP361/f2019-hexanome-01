@@ -16,6 +16,11 @@ public class GameManager : Singleton<GameManager>
     public LegendCards legendCards;
     public EventCards eventCards;
     private ICommand command;
+    List<Enemy> monstersToMove;
+
+    bool IsCastle(Cell cell) {
+        return cell.Index == 0;
+    }
 
     void Awake()
     {
@@ -43,26 +48,27 @@ public class GameManager : Singleton<GameManager>
 
     void Start()
     {
+        monstersToMove = new List<Enemy>();
+        // PLAYERS
         playerCount = 1;
         players = new List<Hero>();
         players.Add(Warrior.Instance);
         players.Add(Archer.Instance);
         players.Add(Mage.Instance);
         players.Add(Dwarf.Instance);
+        Cell.FromId(0).State.initGoldenShields(players.Count);
 
+        // FARMERS
         farmers = new List<Farmer>();
         farmers.Add(Farmer.Factory(24));
         farmers.Add(Farmer.Factory(36));
 
+        // MONSTERS
         gors = new List<Enemy>();
-
-        //Gor newGor = Gor.Factory(8);
-        //gors.Add(Gor.Factory(3));
-        //EventManager.EndDay += MonsterMove(newGor);
-        gors.Add(Gor.Factory(1));
+        //gors.Add(Gor.Factory(1));
         gors.Add(Gor.Factory(2));
-        gors.Add(Gor.Factory(19));  //
-        gors.Add(Gor.Factory(20));
+        gors.Add(Gor.Factory(19));
+        //gors.Add(Gor.Factory(20));
         gors.Add(Gor.Factory(48));
         gors.Add(Gor.Factory(84));
 
@@ -83,40 +89,55 @@ public class GameManager : Singleton<GameManager>
         //well.addToken(5, Color.blue);
         //well.addToken(45, Color.blue);
         EventManager.EndDay += MonsterEndDayEvents;
-
+        EventManager.MoveComplete += UpdateMonsterToMove;
 
         giveTurn(0);
     }
 
-    void Update()
-    {
-        //this doesnt really work it just changes the current player all the time.
-        //if(CurrentPlayer.IsDone) {
-        //  endTurn(currentPlayerIndex);
-        //  giveTurn(++currentPlayerIndex % playerCount);
-        //}
-    }
-
     void MonsterEndDayEvents()
     {
-        monsterMove(gors);
-        monsterMove(skrals);
-        monsterMove(wardraks);
-        monsterMove(trolls);
+        gors.Sort();
+        skrals.Sort();
+        wardraks.Sort();
+        trolls.Sort();
+
+        monstersToMove.AddRange(gors);
+        monstersToMove.AddRange(skrals);
+        monstersToMove.AddRange(wardraks);
+        monstersToMove.AddRange(trolls);
+        monstersToMove.AddRange(wardraks);
+
+        Debug.Log(monstersToMove.Count);
+
+        monsterMove();
     }
 
 
+    void UpdateMonsterToMove(Movable movable) {
+        if(!typeof(Enemy).IsCompatibleWith(movable.GetType())) return;
+        monstersToMove.Remove((Enemy)movable);
+        monsterMove();
+    }
+    
     /*
      * Goes through a monster list and moves them in order.
      *
      */
-    void monsterMove(List<Enemy> enemy) {
-        if (enemy != null) {
-            enemy.Sort();
-            foreach (var monster in enemy) {
-                Cell nextCell = monster.Cell.enemyPath;
-                while (nextCell != null && nextCell.State.Enemies.Count > 0 && nextCell.Index != 0) nextCell = nextCell.enemyPath;
-                if(nextCell != null) monster.Move(nextCell);
+    void monsterMove() {
+        if(monstersToMove.Count == 0) return;
+        
+        bool move = false;
+        //foreach (var monster in enemy) {
+        while(!move && monstersToMove.Count > 0) {
+            Enemy monster = monstersToMove[0];
+            Cell nextCell = monster.Cell.enemyPath;
+            while (nextCell != null && nextCell.State.Enemies.Count > 0 && nextCell.Index != 0) nextCell = nextCell.enemyPath;
+            if(nextCell != null) {
+                monster.Move(nextCell);
+                if (IsCastle(nextCell) && nextCell.State.decrementGoldenShields() == -1) { EventManager.TriggerGameOver(); }
+                move = true;
+            } else {
+                monstersToMove.Remove(monster);
             }
         }
     }
