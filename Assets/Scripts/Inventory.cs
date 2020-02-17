@@ -28,7 +28,7 @@ public class Inventory : MonoBehaviour
     }
 
     void update(){
-      
+
     }
 
     public bool  Add(Item item){
@@ -45,5 +45,5 @@ public class Inventory : MonoBehaviour
     }
 
 
-    public void updateUI(){}
+    public void updateUI(Inventory inventory){}
 }

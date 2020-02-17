@@ -14,9 +14,11 @@ public class Item : ScriptableObject
 
     }
 
-    // Update is called once per frame
-    void Update()
-    {
+    public virtual void use(){
+        // Use the item
+        // Something might happen
+
+        Debug.Log("Using " + name );
 
     }
 }

@@ -235,11 +235,11 @@ public class EventManager {
           }
     }
 
-    public delegate void InventoryUIHandler();
+    public delegate void InventoryUIHandler(Inventory inventory);
     public static event InventoryUIHandler InventoryUI;
-    public static void TriggerInventoryUI() {
+    public static void TriggerInventoryUI(Inventory inventory) {
           if (InventoryUI != null) {
-            InventoryUI();
+            InventoryUI(inventory);
           }
     }
 
