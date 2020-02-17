@@ -8,9 +8,9 @@ public class specialDices : MonoBehaviour {
 
     // Reference to sprite renderer to change sprites
     private SpriteRenderer rend;
-
-	// Use this for initialization
-	private void Start () {
+    public static int finalSide;
+    // Use this for initialization
+    private void Start () {
 
         // Assign Renderer component
         rend = GetComponent<SpriteRenderer>();
@@ -35,7 +35,7 @@ public class specialDices : MonoBehaviour {
         int randomDiceSide = 0;
 
         // Final side or value that dice reads in the end of coroutine
-        int finalSide = 0;
+        finalSide = 0;
 
         // Loop to switch dice sides ramdomly
         // before final side appears. 20 itterations here.
@@ -59,4 +59,9 @@ public class specialDices : MonoBehaviour {
         // Show final dice value in Console
         Debug.Log(finalSide);
     }
+    public int getFinalSide()
+    {
+        return finalSide;
+    }
+
 }
