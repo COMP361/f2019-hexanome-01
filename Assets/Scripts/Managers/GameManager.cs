@@ -8,6 +8,7 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : Singleton<GameManager>
 {
+    private int playerCount;
     public List<Player> players;
     public List<Hero> heroes;
     public List<Farmer> farmers;
@@ -19,6 +20,8 @@ public class GameManager : Singleton<GameManager>
     public LegendCards legendCards;
     public EventCards eventCards;
     private ICommand command;
+
+    public PhotonView photonView;
 
     void Awake()
     {
@@ -46,50 +49,44 @@ public class GameManager : Singleton<GameManager>
 
     void Start()
     {
-        GameObject warriorGameObject = PhotonNetwork.InstantiateSceneObject("Warrior", Vector3.zero, Quaternion.identity, 0);
-        GameObject archerGameObject = PhotonNetwork.InstantiateSceneObject("Archer", Vector3.zero, Quaternion.identity, 0);
+        playerCount = 1;
         heroes = new List<Hero>();
-        Warrior warrior = warriorGameObject.GetComponent<Warrior>();
-        heroes.Add(warrior);
-        Archer archer = archerGameObject.GetComponent<Archer>();
-        heroes.Add(archer);
+        heroes.Add(Warrior.Instance);
+        heroes.Add(Archer.Instance);
+        heroes.Add(Mage.Instance);
+        heroes.Add(Dwarf.Instance);
 
-            //players.Add(Warrior.Instance);
-            //players.Add(Archer.Instance);
-            //players.Add(Mage.Instance);
-            //players.Add(Dwarf.Instance);
+        farmers = new List<Farmer>();
+        farmers.Add(Farmer.Factory(24));
+        farmers.Add(Farmer.Factory(36));
 
-            //farmers = new List<Farmer>();
-            //farmers.Add(Farmer.Factory(24));
-            //farmers.Add(Farmer.Factory(36));
+        gors = new List<Enemy>();
 
-            //gors = new List<Enemy>();
+        //Gor newGor = Gor.Factory(8);
+        gors.Add(Gor.Factory(3));
+        //EventManager.EndDay += MonsterMove(newGor);
+        gors.Add(Gor.Factory(2));
+        gors.Add(Gor.Factory(19));
+        gors.Add(Gor.Factory(20));
+        gors.Add(Gor.Factory(48));
 
-            ////Gor newGor = Gor.Factory(8);
-            //gors.Add(Gor.Factory(3));
-            ////EventManager.EndDay += MonsterMove(newGor);
-            //gors.Add(Gor.Factory(2));
-            //gors.Add(Gor.Factory(19));
-            //gors.Add(Gor.Factory(20));
-            //gors.Add(Gor.Factory(48));
+        skrals = new List<Enemy>();
+        //skrals.Add(Skral.Factory(19));
 
-            //skrals = new List<Enemy>();
-            ////skrals.Add(Skral.Factory(19));
+        trolls = new List<Enemy>();
+        wardraks = new List<Enemy>();
 
-            //trolls = new List<Enemy>();
-            //wardraks = new List<Enemy>();
+        legendCards = new LegendCards();
+        eventCards = new EventCards();
 
-            //legendCards = new LegendCards();
-            //eventCards = new EventCards();
+        fog = new Fog();
 
-            //fog = new Fog();
-
-            ////well = new Token();
-            ////well.addToken(55, Color.blue);
-            ////well.addToken(35, Color.blue);
-            ////well.addToken(5, Color.blue);
-            ////well.addToken(45, Color.blue);
-            //EventManager.EndDay += MonsterEndDayEvents;
+        //well = new Token();
+        //well.addToken(55, Color.blue);
+        //well.addToken(35, Color.blue);
+        //well.addToken(5, Color.blue);
+        //well.addToken(45, Color.blue);
+        EventManager.EndDay += MonsterEndDayEvents;
 
         giveTurn(0);
     }
@@ -174,14 +171,28 @@ public class GameManager : Singleton<GameManager>
 
     void InitMove()
     {
-        command = new MoveCommand(CurrentPlayer);
+        photonView.RPC("NetworkInitMove", RpcTarget.All);
+        //command = new MoveCommand(CurrentPlayer);
     }
 
     void ExecuteMove()
     {
-        command.Execute();
+        //command.Execute();
+        photonView.RPC("NetworkExecuteMove", RpcTarget.All);
         //command.Dispose();
         //command = new MoveCommand(CurrentPlayer.Token, CurrentPlayer.State.cell);
+    }
+
+    [PunRPC]
+    void NetworkInitMove()
+    {
+        command = new MoveCommand(CurrentPlayer);
+    }
+
+    [PunRPC]
+    void NetworkExecuteMove()
+    {
+        command.Execute();
     }
 
     void ResetCommand()
