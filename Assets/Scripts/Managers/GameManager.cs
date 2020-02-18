@@ -89,6 +89,7 @@ public class GameManager : Singleton<GameManager>
         EventManager.EndDay += MonsterEndDayEvents;
 
         giveTurn(0);
+
     }
 
     void Update()
@@ -171,27 +172,29 @@ public class GameManager : Singleton<GameManager>
 
     void InitMove()
     {
-        photonView.RPC("NetworkInitMove", RpcTarget.All);
+        photonView.RPC("NetworkInitMove", RpcTarget.AllBuffered);
         //command = new MoveCommand(CurrentPlayer);
+    }
+
+    [PunRPC]
+    void ReceiveInitMove()
+    {
+        Debug.Log("Init Move Reached");
+        command = new MoveCommand(CurrentPlayer);
     }
 
     void ExecuteMove()
     {
         //command.Execute();
-        photonView.RPC("NetworkExecuteMove", RpcTarget.All);
+        photonView.RPC("NetworkExecuteMove", RpcTarget.AllBuffered);
         //command.Dispose();
         //command = new MoveCommand(CurrentPlayer.Token, CurrentPlayer.State.cell);
     }
 
     [PunRPC]
-    void NetworkInitMove()
+    void ReceiveExecuteMove()
     {
-        command = new MoveCommand(CurrentPlayer);
-    }
-
-    [PunRPC]
-    void NetworkExecuteMove()
-    {
+        Debug.Log("Execute Move Reached");
         command.Execute();
     }
 
