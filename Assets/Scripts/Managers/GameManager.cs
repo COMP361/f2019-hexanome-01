@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : Singleton<GameManager>
 {
+    #region Fields
     private int playerCount;
     public List<Hero> players;
     public List<Farmer> farmers;
@@ -21,14 +22,16 @@ public class GameManager : Singleton<GameManager>
     bool IsCastle(Cell cell) {
         return cell.Index == 0;
     }
+    #endregion
 
+    #region Functions [Unity]
     void Awake()
     {
-        SceneManager.LoadScene("Map", LoadSceneMode.Additive);
-        SceneManager.LoadScene("Chat", LoadSceneMode.Additive);
-        SceneManager.LoadScene("Tokens", LoadSceneMode.Additive);
-        SceneManager.LoadScene("UI", LoadSceneMode.Additive);
-
+        //thought this was more extensible -Eamonn
+        string[] boardScenes = { "Map", "Chat", "Tokens", "UI" };
+        foreach (string name in boardScenes) {
+            SceneManager.LoadScene(name, LoadSceneMode.Additive);
+        }
         base.Awake();
     }
 
@@ -94,6 +97,9 @@ public class GameManager : Singleton<GameManager>
         giveTurn(0);
     }
 
+    #endregion
+
+    #region Functions [GameManager]
     void MonsterEndDayEvents()
     {
         gors.Sort();
@@ -180,5 +186,6 @@ public class GameManager : Singleton<GameManager>
             return players[currentPlayerIndex];
         }
     }
+    #endregion
 
 }

@@ -136,4 +136,15 @@ public class GoldDistribution : MonoBehaviour
     }
 
     #endregion
+
+    #region
+    public void OnDefaultClick() {
+        mageGold = 1;
+        warriorGold = 1;
+        archerGold = 1;
+        remainingGold = 0;
+        dwarfGold = 2;
+        window.SetActive(false);
+    }
+    #endregion
 }

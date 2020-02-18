@@ -50,7 +50,7 @@ public class MerchantInventory : CellInventory
 
         this.description = string.Empty;
 
-        foreach (KeyValuePair<string, int> product in merchCell.productsAvailable)
+        foreach (KeyValuePair<string, int> product in merchCell.products)
         {
             this.description += product.Key + " - " + product.Value + "\n";
         }
