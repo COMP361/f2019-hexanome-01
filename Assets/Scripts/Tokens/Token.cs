@@ -4,10 +4,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /* --------------------------------------------- 
-    Graphic represensation of elements on board
+    
    --------------------------------------------- 
 */
-
+/// <summary>
+/// Graphic represensation of elements on board
+/// </summary>
 public class Token : MonoBehaviour {
     protected string description;
     protected Cell cell;

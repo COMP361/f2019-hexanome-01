@@ -67,7 +67,7 @@ public class CellInventory : MonoBehaviour
   private void addMerchantDescription(MerchantCell merchCell)
   {
         this.description += "\nMerchant\n[item-cost]";
-        foreach(KeyValuePair<string, int> product in merchCell.productsAvailable) {
+        foreach(KeyValuePair<string, int> product in merchCell.products) {
             this.description += "\n" + product.Key + " - " + product.Value;
         }
   }

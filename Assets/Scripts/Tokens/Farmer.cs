@@ -4,18 +4,34 @@ using UnityEngine;
 using System;
 
 public class Farmer : Movable {
-  static Color color = Color.white;
+    static Color color = Color.white;
 
-  public static Farmer Factory(int cellID) {
-    GameObject go = Geometry.Disc(Vector3.zero, color);
-    Farmer farmer = go.AddComponent<Farmer>();
-    farmer.TokenName = Type;
+    protected override void Awake() {
+        Sprite iconSprite = Resources.Load<Sprite>("Sprites/icons/farmer");
 
-    Cell cell = Cell.FromId(cellID);
-    farmer.Cell = cell;
+        if (iconSprite != null) {
+            SpriteRenderer sr = gameObject.AddComponent<SpriteRenderer>();
+            sr.sprite = iconSprite;
+        }
 
-    return farmer;
-  }
+        transform.localScale.Set(1f, 1f, 1f);
+        base.Awake();
+    }
+    public static Farmer Factory(int cellID) {
+        //GameObject go = Geometry.Disc(Vector3.zero, color);
+       
+        GameObject go = new GameObject("farmer");
 
-  public static string Type { get => typeof(Farmer).ToString(); }
+        Farmer farmer = go.AddComponent<Farmer>();
+        farmer.TokenName = Type;
+
+        Cell cell = Cell.FromId(cellID);
+        farmer.Cell = cell;
+
+        return farmer;
+    }
+
+    public static string Type { get => typeof(Farmer).ToString(); }
+
+
 }
