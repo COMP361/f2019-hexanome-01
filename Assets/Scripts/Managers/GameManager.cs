@@ -172,7 +172,7 @@ public class GameManager : Singleton<GameManager>
 
     void InitMove()
     {
-        photonView.RPC("NetworkInitMove", RpcTarget.AllBuffered);
+        photonView.RPC("ReceiveInitMove", RpcTarget.AllBuffered);
         //command = new MoveCommand(CurrentPlayer);
     }
 
@@ -186,7 +186,7 @@ public class GameManager : Singleton<GameManager>
     void ExecuteMove()
     {
         //command.Execute();
-        photonView.RPC("NetworkExecuteMove", RpcTarget.AllBuffered);
+        photonView.RPC("ReceiveExecuteMove", RpcTarget.AllBuffered);
         //command.Dispose();
         //command = new MoveCommand(CurrentPlayer.Token, CurrentPlayer.State.cell);
     }
