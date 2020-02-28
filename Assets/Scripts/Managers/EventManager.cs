@@ -235,4 +235,14 @@ public class EventManager
             GameOver();
         }
     }
+
+    public delegate void InventoryUIHandler(Inventory inventory);
+    public static event InventoryUIHandler InventoryUI;
+    public static void TriggerInventoryUI(Inventory inventory) {
+          if (InventoryUI != null) {
+            InventoryUI(inventory);
+          }
+    }
+
+
 }

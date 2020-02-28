@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
+
 public enum Sex {
     Female,
     Male
 }
+
+[RequireComponent(typeof(Inventory))]
 
 public class Hero : Movable {
   protected Sex sex = Sex.Female;
@@ -21,7 +24,7 @@ public class Hero : Movable {
   }
 
   //public bool IsDone { get; set; }
-  
+
   public string Type { get; protected set; }
 
   public HeroState State { get; set; }
@@ -67,5 +70,5 @@ public class HeroState : ICloneable {
     HeroState hs = (HeroState) this.MemberwiseClone();
     hs.timeline = (Timeline) timeline.Clone();
     return hs;
-  }     
+  }
 }
