@@ -2,14 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InventoryUICell : MonoBehaviour
+public class InventoryUICell : Singleton<InventoryUICell>
 {
     // Start is called before the first frame update
     public Transform  itemsParent;
     public GameObject inventoryUICell;
     InventorySpot[] spots;
 
-    public static InventoryUICell instance;
 
     void Awake(){
       if(instance != null){
