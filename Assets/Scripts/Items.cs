@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Item : ScriptableObject
+public class Items : ScriptableObject
 {
 
     public string name = "New Item";

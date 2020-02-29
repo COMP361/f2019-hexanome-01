@@ -297,11 +297,11 @@ public class EventManager {
           }
     }
 
-    public delegate void InventoryUIHandler(Inventory inventory);
-    public static event InventoryUIHandler InventoryUI;
-    public static void TriggerInventoryUI(Inventory inventory) {
-          if (InventoryUI != null) {
-            InventoryUI(inventory);
+    public delegate void InventoryUICellHandler(CellInventory cellInventory);
+    public static event InventoryUICellHandler InventoryUICell;
+    public static void TriggerInventoryUICell(CellInventory cellInventory) {
+          if (InventoryUICell != null) {
+            InventoryUICell(cellInventory);
           }
     }
 

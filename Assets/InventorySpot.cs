@@ -6,10 +6,10 @@ using UnityEngine.UI;
 public class InventorySpot : MonoBehaviour
 {
     // Start is called before the first frame update
-    Item item;
+    Items item;
     public Image icon;
 
-    public void AddItem(Item newItem)
+    public void AddItem(Items newItem)
     {
       item = newItem;
       icon.sprite = item.icon;
