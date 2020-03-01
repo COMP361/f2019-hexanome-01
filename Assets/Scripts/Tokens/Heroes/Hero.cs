@@ -67,5 +67,25 @@ public class HeroState : ICloneable {
     HeroState hs = (HeroState) this.MemberwiseClone();
     hs.timeline = (Timeline) timeline.Clone();
     return hs;
-  }     
+  }
+
+    public int getStrength()
+    {
+        return this.strength;
+    } 
+
+    public int getWP()
+    {
+        return this.willpower;
+    }
+
+    public void setWP(int wp)
+    {
+        this.willpower = wp;
+    }
+
+    public void setStrength(int s)
+    {
+        this.strength = s;
+    }
 }
