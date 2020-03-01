@@ -11,9 +11,8 @@ public class MoveCommand : ICommand {
 
     // Movable ?
     public MoveCommand(Movable movable) {
-        EventManager.CellClick += SetDestination;
         EventManager.MoveCancel += Dispose;
-        EventManager.MoveComplete +=IsFarmerOnCell;
+        EventManager.MoveComplete += IsFarmerOnCell;
         EventManager.PickFarmer += AttachFarmer;
         
 
@@ -56,7 +55,6 @@ public class MoveCommand : ICommand {
     }
 
     public void Dispose() {
-        EventManager.CellClick -= SetDestination;
         EventManager.MoveCancel -= Dispose;
         EventManager.MoveComplete -= IsFarmerOnCell;
         EventManager.PickFarmer -= AttachFarmer;
@@ -68,7 +66,7 @@ public class MoveCommand : ICommand {
         }
     }
 
-    void SetDestination(int cellID) {
+    public void SetDestination(int cellID) {
         goal = Cell.FromId(cellID);
         if(path != null) path.Dispose();
         path = new MapPath(movable.Cell, goal);

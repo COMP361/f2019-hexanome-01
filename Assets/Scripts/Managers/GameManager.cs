@@ -38,6 +38,7 @@ public class GameManager : Singleton<GameManager>
         EventManager.MoveSelect += InitMove;
         EventManager.MoveCancel += ResetCommand;
         EventManager.MoveConfirm += ExecuteMove;
+        EventManager.CellClick += SetDestination;
     }
 
     void OnDisable()
@@ -45,6 +46,8 @@ public class GameManager : Singleton<GameManager>
         EventManager.MoveSelect -= InitMove;
         EventManager.MoveCancel -= ResetCommand;
         EventManager.MoveConfirm -= ExecuteMove;
+        EventManager.CellClick -= SetDestination;
+
     }
 
     void Start()
@@ -203,10 +206,20 @@ public class GameManager : Singleton<GameManager>
         command.Dispose();
     }
 
+    void SetDestination(int cellID) {
+        photonView.RPC("ReceiveSetDestination", RpcTarget.AllBuffered, cellID);
+    }
+    
+    [PunRPC]
+    void ReceiveSetDestination(int cellID)
+    {
+        Debug.Log("Execute Set Destination Reached");
+        command.SetDestination(cellID);
+    }
+
     public Hero CurrentPlayer
     {
-        get
-        {
+        get {
             return heroes[currentPlayerIndex];
         }
     }
