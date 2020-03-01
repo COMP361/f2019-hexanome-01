@@ -297,12 +297,30 @@ public class EventManager {
           }
     }
 
-    public delegate void InventoryUICellHandler(CellInventory cellInventory);
-    public static event InventoryUICellHandler InventoryUICell;
-    public static void TriggerInventoryUICell(CellInventory cellInventory) {
-          if (InventoryUICell != null) {
-            InventoryUICell(cellInventory);
+    public delegate void InventoryUICellEnterHandler(CellInventory cellInventory);
+    public static event InventoryUICellEnterHandler InventoryUICellEnter;
+    public static void TriggerInventoryUICellEnter(CellInventory cellInventory) {
+          if (InventoryUICellEnter != null) {
+            InventoryUICellEnter(cellInventory);
           }
+    }
+
+    public delegate void InventoryUICellExitHandler();
+    public static event InventoryUICellExitHandler InventoryUICellExit;
+    public static void TriggerInventoryUICellExit() {
+          if (InventoryUICellExit != null) {
+            InventoryUICellExit();
+          }
+    }
+
+    public delegate void GameOverHandler();
+    public static event GameOverHandler GameOver;
+    public static void TriggerGameOver()
+    {
+        if (EndDay != null)
+        {
+            GameOver();
+        }
     }
 
 

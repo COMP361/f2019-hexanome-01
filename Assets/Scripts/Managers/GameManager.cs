@@ -124,20 +124,20 @@ public class GameManager : Singleton<GameManager>
         monstersToMove.Remove((Enemy)movable);
         monsterMove();
     }
-    
+
     /*
      * Goes through a monster list and moves them in order.
      *
      */
     void monsterMove() {
         if(monstersToMove.Count == 0) return;
-        
+
         bool move = false;
         //foreach (var monster in enemy) {
         while(!move && monstersToMove.Count > 0) {
             Enemy monster = monstersToMove[0];
             Cell nextCell = monster.Cell.enemyPath;
-            while (nextCell != null && nextCell.State.Enemies.Count > 0 && nextCell.Index != 0) nextCell = nextCell.enemyPath;
+            while (nextCell != null && nextCell.State.cellInventory.Enemies.Count > 0 && nextCell.Index != 0) nextCell = nextCell.enemyPath;
             if(nextCell != null) {
                 monster.Move(nextCell);
                 if (IsCastle(nextCell) && nextCell.State.decrementGoldenShields() == -1) { EventManager.TriggerGameOver(); }

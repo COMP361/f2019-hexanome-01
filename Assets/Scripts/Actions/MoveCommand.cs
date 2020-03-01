@@ -15,18 +15,18 @@ public class MoveCommand : ICommand {
         EventManager.MoveCancel += Dispose;
         EventManager.MoveComplete +=IsFarmerOnCell;
         EventManager.PickFarmer += AttachFarmer;
-        
+
 
         this.movable = movable;
         IsFarmerOnCell(movable);
 
         freeCells = movable.Cell.WithinRange(0, 2);
-        extCells = movable.Cell.WithinRange(3, 5); 
-        
+        extCells = movable.Cell.WithinRange(3, 5);
+
         foreach (Cell cell in Cell.cells) {
             cell.Deactivate();
         }
-        
+
         foreach (Cell cell in freeCells) {
             cell.Reset();
         }
@@ -37,8 +37,8 @@ public class MoveCommand : ICommand {
     }
 
     public void AttachFarmer() {
-        if(movable.Cell.State.Farmers.Count > 0) {
-            foreach(Farmer farmer in movable.Cell.State.Farmers) {
+        if(movable.Cell.State.cellInventory.Farmers.Count > 0) {
+            foreach(Farmer farmer in movable.Cell.State.cellInventory.Farmers) {
                 if(!farmers.Contains(farmer)) farmers.Add(farmer);
                 break;
             }
@@ -49,7 +49,7 @@ public class MoveCommand : ICommand {
 
     public void IsFarmerOnCell(Movable movable) {
         if(movable == this.movable) {
-            if(movable.Cell.State.Farmers.Count > 0) {
+            if(movable.Cell.State.cellInventory.Farmers.Count > 0) {
                 EventManager.TriggerFarmerOnCell();
             }
         }
@@ -92,4 +92,3 @@ public class MoveCommand : ICommand {
         }*/
     }
 }
-

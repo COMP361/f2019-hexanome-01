@@ -12,11 +12,11 @@ public class Inventory : MonoBehaviour
 
 
     void OnEnable() {
-      EventManager.InventoryUI += updateUI;
+      EventManager.InventoryUICellEnter += updateUI;
     }
 
     void OnDisable() {
-      EventManager.InventoryUI -= updateUI;
+      EventManager.InventoryUICellEnter -= updateUI;
     }
 
 
@@ -45,5 +45,5 @@ public class Inventory : MonoBehaviour
     }
 
 
-    public void updateUI(Inventory inventory){}
+    public void updateUI(CellInventory inventory){}
 }

@@ -76,11 +76,13 @@ public class Cell : MonoBehaviour, IComparable<Cell>
         color.a = .4f;
         sprite.color = color;
         EventManager.TriggerCellMouseEnter(Index);
+        EventManager.TriggerInventoryUICellEnter(State.cellInventory);
     }
 
     protected virtual void OnMouseExit() {
         sprite.color = color;
         EventManager.TriggerCellMouseLeave(Index);
+        EventManager.TriggerInventoryUICellExit();
     }
 
     void OnMouseDown() {
@@ -115,7 +117,7 @@ public class Cell : MonoBehaviour, IComparable<Cell>
         sprite.color = color;
     }
 
-    ///<summary> 
+    ///<summary>
     ///Sets the state of <see cref="Extension"/> to true:
     ///<para> If a cell is an extension of the day, we have to pay willPoints to reach it. </para>
     ///</summary>
@@ -126,7 +128,7 @@ public class Cell : MonoBehaviour, IComparable<Cell>
         sprite.color = color;
     }
 
-    /// <summary> 
+    /// <summary>
     /// Returns the list of cells between <paramref name="min"/> and <paramref name="max"/>.
     /// </summary>
     public List<Cell> WithinRange(int min, int max) {
@@ -195,26 +197,31 @@ public class Cell : MonoBehaviour, IComparable<Cell>
 
 public class CellState : ICloneable
 {
-    #region Fields 
+    #region Fields
     public int numGoldenShields { get; private set; }
+    public CellInventory cellInventory { get; private set; }
+    /*
     public List<Hero> Heroes { get; private set; }
     public List<Enemy> Enemies { get; private set; }
     public List<Farmer> Farmers { get; private set; }
     public List<Token> Tokens { get; private set; }
     public List<Token> Golds { get; private set; }
-    #endregion 
-    
+    */
+    #endregion
+
     // Pickable
     // Should we have well, fog?
     #region Functions [Constructor]
     public CellState()
     {
+      cellInventory =  new CellInventory();
+      /*
         Heroes = new List<Hero>();
         Enemies = new List<Enemy>();
         Farmers = new List<Farmer>();
         Tokens = new List<Token>();
         Golds = new List<Token>();
-        //int numGoldenShields;
+        int numGoldenShields; */
     }
     #endregion
 
@@ -227,7 +234,9 @@ public class CellState : ICloneable
     }
 
     public void addToken(Token token) {
-        Type listType;
+
+      cellInventory.addToken(token);
+      /*  Type listType;
 
         listType = Heroes.GetListType();
         if (listType.IsCompatibleWith(token.GetType())) {
@@ -246,10 +255,13 @@ public class CellState : ICloneable
             Farmers.Add((Farmer)token);
             return;
         }
+        */
     }
 
     public void removeToken(Token token) {
-        Type listType;
+
+      cellInventory.removeToken(token);
+      /*  Type listType;
 
         listType = Heroes.GetListType();
         if (listType.IsCompatibleWith(token.GetType())) {
@@ -268,6 +280,7 @@ public class CellState : ICloneable
             Farmers.Remove((Farmer)token);
             return;
         }
+        */
     }
 
     public object Clone() {
@@ -276,5 +289,5 @@ public class CellState : ICloneable
     }
     #endregion
 
-    
+
 }
