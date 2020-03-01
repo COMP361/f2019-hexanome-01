@@ -19,8 +19,8 @@ public class GameManager : Singleton<GameManager>
     public HeroState state;
     public LegendCards legendCards;
     public EventCards eventCards;
-    private ICommand command;
 
+    private ICommand command;
     public PhotonView photonView;
 
     void Awake()
@@ -38,7 +38,6 @@ public class GameManager : Singleton<GameManager>
         EventManager.MoveSelect += InitMove;
         EventManager.MoveCancel += ResetCommand;
         EventManager.MoveConfirm += ExecuteMove;
-        EventManager.CellClick += SetDestination;
     }
 
     void OnDisable()
@@ -46,8 +45,6 @@ public class GameManager : Singleton<GameManager>
         EventManager.MoveSelect -= InitMove;
         EventManager.MoveCancel -= ResetCommand;
         EventManager.MoveConfirm -= ExecuteMove;
-        EventManager.CellClick -= SetDestination;
-
     }
 
     void Start()
@@ -183,7 +180,12 @@ public class GameManager : Singleton<GameManager>
     void ReceiveInitMove()
     {
         Debug.Log("Init Move Reached");
-        command = new MoveCommand(CurrentPlayer);
+
+        //if (PhotonNetwork.isMasterClient) {
+        GameObject commandGO = PhotonNetwork.Instantiate("Prefabs/Commands/MoveCommand", Vector3.zero, Quaternion.identity, 0);
+        command = commandGO.GetComponent<MoveCommand>();
+        ((MoveCommand)command).Init(CurrentPlayer);
+        //}
     }
 
     void ExecuteMove()
@@ -204,17 +206,6 @@ public class GameManager : Singleton<GameManager>
     void ResetCommand()
     {
         command.Dispose();
-    }
-
-    void SetDestination(int cellID) {
-        photonView.RPC("ReceiveSetDestination", RpcTarget.AllBuffered, cellID);
-    }
-    
-    [PunRPC]
-    void ReceiveSetDestination(int cellID)
-    {
-        Debug.Log("Execute Set Destination Reached");
-        command.SetDestination(cellID);
     }
 
     public Hero CurrentPlayer
