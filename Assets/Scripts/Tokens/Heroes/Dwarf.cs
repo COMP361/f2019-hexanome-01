@@ -6,9 +6,16 @@ public class Dwarf : Hero
 {
     static Dwarf _instance;
 
-    static void Factory() {
+    static void Factory()
+    {
         Color color = new Color(1, 0.9f, 0, 1);
-        GameObject go = Geometry.Disc(Vector3.zero, color);
+        //GameObject go = Geometry.Disc(Vector3.zero, color);
+
+        Sprite sprite = Resources.Load<Sprite>("Sprites/heroes/male_dwarf");
+        GameObject go = new GameObject("Warrior"); //Geometry.Disc(Vector3.zero, color);
+        SpriteRenderer renderer = go.AddComponent<SpriteRenderer>();
+        renderer.sprite = sprite;
+
         Dwarf dwarf = go.AddComponent<Dwarf>();
         dwarf.Color = color;
 
@@ -21,37 +28,45 @@ public class Dwarf : Hero
         dwarf.State = new HeroState(cell);
 
         dwarf.IsDone = false;
-            
+
         dwarf.Dices = new int[21] {
             1, 1, 1, 1, 1, 1, 1,
             2, 2, 2, 2, 2, 2, 2,
             3, 3, 3, 3, 3, 3, 3
         };
-    
+
         dwarf.names = new string[2] {
             "Brigha",
             "Kram"
         };
     }
 
-    void Awake() {
-        if (_instance) {
+    void Awake()
+    {
+        if (_instance)
+        {
             Debug.LogError("Duplicate subclass of type " + typeof(Dwarf) + "! eliminating " + name + " while preserving " + Instance.name);
             Destroy(gameObject);
-        } else {
+        }
+        else
+        {
             Instance = this;
         }
     }
 
-    public static Dwarf Instance {
-        get {
-            if(!_instance) {
+    public static Dwarf Instance
+    {
+        get
+        {
+            if (!_instance)
+            {
                 Dwarf.Factory();
-            } 
+            }
 
             return _instance;
-        } 
-        private set {
+        }
+        private set
+        {
             _instance = value;
         }
     }

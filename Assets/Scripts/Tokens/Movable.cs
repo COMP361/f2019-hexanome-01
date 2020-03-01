@@ -9,7 +9,15 @@ public abstract class Movable : Token
     int moveSpeed = 20;
     List<Cell> path;
     bool isMoving;
+    Sprite icon;
+    protected virtual string IconPath => String.Empty;
 
+
+    protected virtual void Awake() {
+        //if (IconPath != String.Empty)
+
+        
+    }
     void Update()
     {
         Move();

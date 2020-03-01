@@ -10,7 +10,13 @@ public class Warrior : Hero
     static void Factory()
     {
         Color color = new Color(0.09f, 0.6f, 1, 1);
-        GameObject go = Geometry.Disc(Vector3.zero, color);
+        //GameObject go = Geometry.Disc(Vector3.zero, color);
+
+        Sprite sprite = Resources.Load<Sprite>("Sprites/heroes/male_warrior");
+        GameObject go = new GameObject("Warrior"); //Geometry.Disc(Vector3.zero, color);
+        SpriteRenderer renderer = go.AddComponent<SpriteRenderer>();
+        renderer.sprite = sprite;
+
         Warrior warrior = go.AddComponent<Warrior>();
         warrior.Color = color;
 
@@ -36,7 +42,8 @@ public class Warrior : Hero
         };
     }
 
-    void Awake() {
+    void Awake()
+    {
         if (_instance)
         {
             Debug.LogError("Duplicate subclass of type " + typeof(Warrior) + "! eliminating " + name + " while preserving " + Instance.name);

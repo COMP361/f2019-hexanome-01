@@ -2,12 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Skral : Enemy {
+public class Skral : Enemy
+{
     //int dices;
     static Color color = Color.black;
 
-    public static Skral Factory(int cellID) {
-        GameObject go = Geometry.Disc(Vector3.zero, color);
+    public static Skral Factory(int cellID)
+    {
+
+        Sprite sprite = Resources.Load<Sprite>("Sprites/Enemies/skral");
+        GameObject go = new GameObject("Skral"); //Geometry.Disc(Vector3.zero, color);
+        SpriteRenderer renderer = go.AddComponent<SpriteRenderer>();
+        renderer.sprite = sprite;
+
         Skral skral = go.AddComponent<Skral>();
         skral.TokenName = Type;
 
