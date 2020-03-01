@@ -6,56 +6,69 @@ using UnityEngine.UI;
 public class CellInventory : MonoBehaviour
 {
 
-  string description;
+  protected string description;
+  protected Transform textTransform;
 
-  void Start() {
-    transform.Find("cellsDescription").gameObject.SetActive(false);
+  protected virtual void Start() {
+    textTransform = transform.Find("cellsDescription");
+    textTransform.gameObject.SetActive(false);
   }
 
-  void OnEnable() {
+  protected virtual void OnEnable() {
     EventManager.CellMouseEnter += Show;
     EventManager.CellMouseLeave += UnShow;
   }
 
-  void OnDisable() {
+  protected virtual void OnDisable() {
     EventManager.CellMouseEnter -= Show;
     EventManager.CellMouseLeave -= UnShow;
   }
 
-  void Show(int CellId){
+  protected virtual void Show(int CellId){
     formatDescription(CellId);
-    transform.Find("cellsDescription").GetComponent<Text>().text = description;
-    transform.Find("cellsDescription").gameObject.SetActive(true);
+    textTransform.GetComponent<Text>().text = description;
+    textTransform.gameObject.SetActive(true);
   }
 
-  void UnShow(int CellId){
-    transform.Find("cellsDescription").gameObject.SetActive(false);
+  protected virtual void UnShow(int CellId){
+    textTransform.gameObject.SetActive(false);
   }
 
-  public void formatDescription(int CellId) {
+  public virtual void formatDescription(int CellId) {
+    
+    Cell describedCell = Cell.FromId(CellId);
+
     this.description = "Heroes: \n";
-    foreach (var hero in Cell.FromId(CellId).State.Heroes) {
-      this.description = description + "  - " + hero.TokenName + " \n";
+    foreach (var hero in describedCell.State.Heroes) {
+      this.description += "  - " + hero.TokenName + " \n";
     }
 
-    this.description = description + "Monster: \n";
-    foreach (var enemy in Cell.FromId(CellId).State.Enemies) {
-      this.description = description + "  - " + enemy.TokenName + " \n";
+    this.description += "Monster: \n";
+    foreach (var enemy in describedCell.State.Enemies) {
+      this.description += "  - " + enemy.TokenName + " \n";
     }
 
-    this.description = description + "Farmers: \n";
-    foreach (var farmer in Cell.FromId(CellId).State.Farmers) {
-      this.description = description + "  - " + farmer.TokenName + " \n";
+    this.description += "Farmers: \n";
+    foreach (var farmer in describedCell.State.Farmers) {
+      this.description += "  - " + farmer.TokenName + " \n";
     }
 
-    this.description = description + "Item: \n";    
-    foreach (var token in Cell.FromId(CellId).State.Tokens) {
-      this.description = description + "  - " + token.TokenName + " \n";
+    this.description += "Item: \n";    
+    foreach (var token in describedCell.State.Tokens) {
+      this.description += "  - " + token.TokenName + " \n";
     }
     
     this.description = description + "Gold: \n";
-    foreach (var gold in Cell.FromId(CellId).State.Golds) {
-      this.description = description + "  - " + gold.TokenName + " \n";
+    foreach (var gold in describedCell.State.Golds) {
+      this.description += "  - " + gold.TokenName + " \n";
     }
+  }
+  
+  private void addMerchantDescription(MerchantCell merchCell)
+  {
+        this.description += "\nMerchant\n[item-cost]";
+        foreach(KeyValuePair<string, int> product in merchCell.products) {
+            this.description += "\n" + product.Key + " - " + product.Value;
+        }
   }
 }
