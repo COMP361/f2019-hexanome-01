@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
 using Photon.Pun;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class CurrentRoomCanvas : MonoBehaviourPunCallbacks
 {
-
     public void OnClickStartSync()
     {
         if (!PhotonNetwork.IsMasterClient)

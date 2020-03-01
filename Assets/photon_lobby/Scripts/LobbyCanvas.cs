@@ -1,11 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Photon.Pun;
 
 public class LobbyCanvas : MonoBehaviourPunCallbacks
 {
-
     [SerializeField]
     private RoomLayoutGroup RoomLayoutGroup { get; set; }
 
