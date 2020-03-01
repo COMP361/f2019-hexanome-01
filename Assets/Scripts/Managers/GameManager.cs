@@ -172,18 +172,21 @@ public class GameManager : Singleton<GameManager>
 
     void InitMove()
     {
-        photonView.RPC("ReceiveInitMove", RpcTarget.AllBuffered);
+        GameObject commandGO = PhotonNetwork.InstantiateSceneObject("Prefabs/Commands/MoveCommand", Vector3.zero, Quaternion.identity, 0);
+        int viewId = commandGO.GetComponent<PhotonView>().ViewID;
+        photonView.RPC("ReceiveInitMove", RpcTarget.AllBuffered, viewId);
         //command = new MoveCommand(CurrentPlayer);
     }
 
     [PunRPC]
-    void ReceiveInitMove()
+    void ReceiveInitMove(int viewId)
     {
         Debug.Log("Init Move Reached");
 
         //if (PhotonNetwork.isMasterClient) {
-        GameObject commandGO = PhotonNetwork.Instantiate("Prefabs/Commands/MoveCommand", Vector3.zero, Quaternion.identity, 0);
-        command = commandGO.GetComponent<MoveCommand>();
+        //GameObject commandGO = PhotonNetwork.InstantiateSceneObject("Prefabs/Commands/MoveCommand", Vector3.zero, Quaternion.identity, 0);
+        //int viewId = commandGO.GetComponent<PhotonView>().ViewID;
+        command = PhotonView.Find(viewId).GetComponentInParent<MoveCommand>();
         ((MoveCommand)command).Init(CurrentPlayer);
         //}
     }
