@@ -23,11 +23,12 @@ public class PlayerNetwork : MonoBehaviourPunCallbacks
     private void saveUsername()
     {
         PlayerName = _playerName.text;
+        PhotonNetwork.LocalPlayer.NickName = _playerName.text;
     }
 
     public void Update()
     {
-        saveUsername();
+        //saveUsername();
     }
 
     private void OnSceneFinishedLoading(Scene scene, LoadSceneMode mode)
