@@ -171,6 +171,16 @@ public class EventManager
     }
 
     // Fired when the hero reached its final position after move
+    public delegate void MoveStartHandler(Movable movable);
+    public static event MoveStartHandler MoveStart;
+    public static void TriggerMoveStart(Movable movable)
+    {
+        if (MoveStart != null) {
+            MoveStart(movable);
+        }
+    }
+
+    // Fired when the hero reached its final position after move
     public delegate void MoveCompleteHandler(Movable movable);
     public static event MoveCompleteHandler MoveComplete;
     public static void TriggerMoveComplete(Movable movable)
@@ -181,14 +191,12 @@ public class EventManager
         }
     }
 
-    // Fired when a farmer is on the final position
-    public delegate void FarmerOnCellHandler();
-    public static event FarmerOnCellHandler FarmerOnCell;
-    public static void TriggerFarmerOnCell()
+    public delegate void FarmersInventoriesUpdateHandler(int hero, int cell);
+    public static event FarmersInventoriesUpdateHandler FarmersInventoriesUpdate;
+    public static void TriggerFarmersInventoriesUpdate(int hero, int cell) 
     {
-        if (FarmerOnCell != null)
-        {
-            FarmerOnCell();
+        if (FarmersInventoriesUpdate != null) {
+            FarmersInventoriesUpdate(hero, cell);
         }
     }
 

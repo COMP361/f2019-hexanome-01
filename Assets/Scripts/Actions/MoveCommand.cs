@@ -16,12 +16,12 @@ public class MoveCommand : MonoBehaviour, ICommand {
     public void Init(Movable movable) {
         EventManager.CellClick += SetDestination;
         EventManager.MoveCancel += Dispose;
-        EventManager.MoveComplete += IsFarmerOnCell;
+        EventManager.MoveComplete += FarmersInventoriesUpdate;
         EventManager.PickFarmer += AttachFarmer;
-        
+        EventManager.DropFarmer += DetachFarmer;
 
         this.movable = movable;
-        IsFarmerOnCell(movable);
+        FarmersInventoriesUpdate(movable);
 
         freeCells = movable.Cell.WithinRange(0, 2);
         extCells = movable.Cell.WithinRange(3, 5); 
@@ -46,23 +46,50 @@ public class MoveCommand : MonoBehaviour, ICommand {
                 break;
             }
         }
+        
+        EventManager.TriggerFarmersInventoriesUpdate(farmers.Count, movable.Cell.State.Farmers.Count);
+    }
 
-        Debug.Log(farmers);
+    public void DetachFarmer() {
+        if(farmers.Count > 0) {
+            farmers.RemoveAt(0);
+        }
+
+        EventManager.TriggerFarmersInventoriesUpdate(farmers.Count, movable.Cell.State.Farmers.Count);
+    }
+
+    /*public bool IsDetachedFarmerOnCell() {
+        if(movable.Cell.State.Farmers.Count > 0) {
+            foreach(Farmer farmer in movable.Cell.State.Farmers) {
+                if(!farmers.Contains(farmer)) return true;
+            }
+        }
+        return false;
     }
 
     public void IsFarmerOnCell(Movable movable) {
+        // Check if the move callback is from us
         if(movable == this.movable) {
             if(movable.Cell.State.Farmers.Count > 0) {
-                EventManager.TriggerFarmerOnCell();
+                //EventManager.TriggerFarmerOnCell();
+                return;
             }
+        }
+    }*/
+
+    public void FarmersInventoriesUpdate(Movable movable) {
+        // Check if the move callback is from us
+        if(movable == this.movable) {
+            EventManager.TriggerFarmersInventoriesUpdate(farmers.Count, movable.Cell.State.Farmers.Count);
         }
     }
 
     public void Dispose() {
         EventManager.CellClick -= SetDestination;
         EventManager.MoveCancel -= Dispose;
-        EventManager.MoveComplete -= IsFarmerOnCell;
+        EventManager.MoveComplete -= FarmersInventoriesUpdate;
         EventManager.PickFarmer -= AttachFarmer;
+        EventManager.DropFarmer -= DetachFarmer;
 
         if(path != null) path.Dispose();
 

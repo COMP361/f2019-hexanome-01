@@ -32,6 +32,7 @@ public abstract class Movable : Token
     {
         isMoving = true;
         this.path = path;
+        EventManager.TriggerMoveStart(this);
     }
 
     public void Move(Cell c)
@@ -39,6 +40,7 @@ public abstract class Movable : Token
         isMoving = true;
         path = new List<Cell>();
         path.Add(c);
+        EventManager.TriggerMoveStart(this);
     }
 
     void Move()
