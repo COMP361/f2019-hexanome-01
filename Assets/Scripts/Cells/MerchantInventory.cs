@@ -17,29 +17,6 @@ public class MerchantInventory : CellInventory
     //    displayUI.SetActive(false);
     }
 */
-    protected override void OnEnable()
-    {
-        EventManager.MerchCellMouseEnter += Show;
-        EventManager.MerchCellMouseLeave += UnShow;
-    }
-
-    protected override void OnDisable()
-    {
-        EventManager.MerchCellMouseEnter -= Show;
-        EventManager.MerchCellMouseLeave -= UnShow;
-    }
-
-    protected override void Show(int CellId)
-    {
-//       formatDescription(CellId);
-//        textTransform.GetComponent<Text>().text = description;
-//        displayUI.SetActive(true);
-    }
-
-    protected override void UnShow(int CellId)
-    {
-//       displayUI.SetActive(false);
-    }
 
 
   //  public override void formatDescription(int CellId)

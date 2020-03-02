@@ -8,8 +8,7 @@ public class InventoryUICell : Singleton<InventoryUICell>
 {
     // Start is called before the first frame update
     public Transform  itemsParent;
-    public GameObject inventoryUICell;
-    InventorySpot[] spots;
+    protected InventorySpotCell[] spots;
 
     protected string description;
     protected string title;
@@ -38,7 +37,7 @@ public class InventoryUICell : Singleton<InventoryUICell>
     titleTransform = transform.FindDeepChild("cellTitle");
     descTransform.gameObject.SetActive(false);
     titleTransform.gameObject.SetActive(false);
-    spots = itemsParent.GetComponentsInChildren<InventorySpot>();
+    spots = itemsParent.GetComponentsInChildren<InventorySpotCell>();
   }
 
   void Update(){
@@ -65,8 +64,8 @@ public class InventoryUICell : Singleton<InventoryUICell>
 
       else{
       for(int i = 0; i < spots.Length; i++){
-        if(i < cellInv.items.Count){
-          spots[i].AddItem(cellInv.items[i]);
+        if(i < cellInv.allTokens.Count){
+          spots[i].AddItem(cellInv.allTokens[i]);
         }
         else{
          spots[i].ClearSpot();

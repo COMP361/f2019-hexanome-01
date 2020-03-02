@@ -3,9 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-/* --------------------------------------------- 
-    
-   --------------------------------------------- 
+/* ---------------------------------------------
+
+   ---------------------------------------------
 */
 /// <summary>
 /// Graphic represensation of elements on board
@@ -18,20 +18,29 @@ public class Token : MonoBehaviour {
         this.transform.parent = GameObject.Find("Tokens").transform;
     }
 
-    public string TokenName { 
+    public string TokenName {
         get {
             return gameObject.name;        }
         set {
             gameObject.name = value;
         }
-    }   
+    }
 
-    public Vector3 Position { 
+    public Vector3 Position {
         get {
             return gameObject.transform.position;
-        } 
+        }
         protected set {
             gameObject.transform.position = value;
+        }
+    }
+
+    public Sprite getSprite(){
+        if(gameObject.GetComponent<SpriteRenderer>() != null){
+          return gameObject.GetComponent<SpriteRenderer>().sprite;
+        }
+        else{
+          return  null;
         }
     }
 
@@ -39,13 +48,13 @@ public class Token : MonoBehaviour {
         return cell.TokensPosition;
     }
 
-    public Cell Cell { 
+    public Cell Cell {
         get {
             return cell;
-        } 
+        }
         set {
             if(cell != null && cell.State != null) cell.State.removeToken(this);
-            
+
             cell = value;
             gameObject.transform.position = getWaypoint(cell);
             cell.State.addToken(this);
