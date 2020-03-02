@@ -25,11 +25,12 @@ public class MerchantCell : Cell {
     #region Fields
     public Dictionary<string, int> products;
     public Dictionary<Item, int> specialProducts;
+
     #endregion
 
     #region Functions [Unity] // Overriding
     protected override void Start() {
-    
+
         // Initialize Merchant products with the basics
         products = new Dictionary<string, int>();
         foreach (Item pname in BaseProducts) {
@@ -37,8 +38,9 @@ public class MerchantCell : Cell {
         }
 
         base.Start();
+
     }
-    
+
     protected override void OnMouseEnter() {
 
         base.OnMouseEnter();

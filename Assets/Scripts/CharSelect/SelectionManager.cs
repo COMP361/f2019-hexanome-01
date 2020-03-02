@@ -11,25 +11,26 @@ public class SelectionManager : MonoBehaviour {
 
     void Start() {
         PlayerCards[currentPlayer].setAsCurrent();
-        player1_username.text = players[0].NickName;
-        player2_username.text = players[1].NickName;
-        player3_username.text = players[2].NickName;
+  //      player1_username.text = players[0].NickName;
+  //      player2_username.text = players[1].NickName;
+  //      player3_username.text = players[2].NickName;
     }
 
+/*
     public void currentPlayerLock()
     {
         pv.RPC("receiveCurrentPlayerLock", RpcTarget.AllBuffered);
     }
-
+    */
     public void currentPlayerLock() {
-        
+
         HeroType chosenHero = PlayerCards[currentPlayer].CurrentHero; //chosenHero=index of the current player's hero selection at the given time
         PlayerCards[currentPlayer++].setAsLocked();
 
         if (currentPlayer < playerCount) {
             PlayerCards[currentPlayer].setAsCurrent();
             updatePlayerCards(chosenHero);
-        } 
+        }
 
     }
 

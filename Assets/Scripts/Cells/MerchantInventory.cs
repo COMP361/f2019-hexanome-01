@@ -31,7 +31,7 @@ public class MerchantInventory : CellInventory
 
     protected override void Show(int CellId)
     {
-//        formatDescription(CellId);
+//       formatDescription(CellId);
 //        textTransform.GetComponent<Text>().text = description;
 //        displayUI.SetActive(true);
     }

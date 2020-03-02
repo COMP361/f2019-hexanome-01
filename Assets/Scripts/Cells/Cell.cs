@@ -220,8 +220,8 @@ public class CellState : ICloneable
         Enemies = new List<Enemy>();
         Farmers = new List<Farmer>();
         Tokens = new List<Token>();
-        Golds = new List<Token>();
-        int numGoldenShields; */
+        Golds = new List<Token>(); */
+        int numGoldenShields;
     }
     #endregion
 
