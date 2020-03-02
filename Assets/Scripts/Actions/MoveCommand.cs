@@ -1,19 +1,22 @@
+using Photon.Pun;
+using Photon.Realtime;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MoveCommand : ICommand {
-    private readonly Movable movable;
+public class MoveCommand : MonoBehaviour, ICommand {
+    private Movable movable;
     private Cell goal;
     private MapPath path;
     private List<Cell> freeCells;
     private List<Cell> extCells;
     private List<Farmer> farmers = new List<Farmer>();
+    public PhotonView photonView;
 
     // Movable ?
-    public MoveCommand(Movable movable) {
+    public void Init(Movable movable) {
         EventManager.CellClick += SetDestination;
         EventManager.MoveCancel += Dispose;
-        EventManager.MoveComplete +=IsFarmerOnCell;
+        EventManager.MoveComplete += IsFarmerOnCell;
         EventManager.PickFarmer += AttachFarmer;
         
 
@@ -69,6 +72,13 @@ public class MoveCommand : ICommand {
     }
 
     void SetDestination(int cellID) {
+        photonView.RPC("ReceiveSetDestination", RpcTarget.AllBuffered, cellID);
+    }
+    
+    [PunRPC]
+    void ReceiveSetDestination(int cellID)
+    {
+        Debug.Log("Execute Set Destination Reached");
         goal = Cell.FromId(cellID);
         if(path != null) path.Dispose();
         path = new MapPath(movable.Cell, goal);

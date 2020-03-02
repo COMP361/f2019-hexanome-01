@@ -224,13 +224,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e2a64e02fa004af1add8c3b4950e813, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  players: []
+  heroes: []
   farmers: []
   gors: []
   skrals: []
   trolls: []
   wardraks: []
   well: {fileID: 0}
+  photonView: {fileID: 1843983313}
 --- !u!4 &1843983312
 Transform:
   m_ObjectHideFlags: 0
@@ -254,9 +255,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 1843983310}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c1d1a5ed4ff994099afef42a775b3c01, type: 3}
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  popUpBox: {fileID: 0}
-  animator: {fileID: 0}
-  popUpText: {fileID: 0}
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 0
+  OwnershipTransfer: 0
+  ObservedComponents:
+  - {fileID: 0}
+  viewIdField: 2
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
