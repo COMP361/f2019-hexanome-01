@@ -76,7 +76,7 @@ public class Cell : MonoBehaviour, IComparable<Cell>
         color.a = .4f;
         sprite.color = color;
         EventManager.TriggerCellMouseEnter(Index);
-        EventManager.TriggerInventoryUICellEnter(State.cellInventory);
+        EventManager.TriggerInventoryUICellEnter(State.cellInventory, Index);
     }
 
     protected virtual void OnMouseExit() {

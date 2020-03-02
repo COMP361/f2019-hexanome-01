@@ -297,11 +297,11 @@ public class EventManager {
           }
     }
 
-    public delegate void InventoryUICellEnterHandler(CellInventory cellInventory);
+    public delegate void InventoryUICellEnterHandler(CellInventory cellInventory, int index);
     public static event InventoryUICellEnterHandler InventoryUICellEnter;
-    public static void TriggerInventoryUICellEnter(CellInventory cellInventory) {
+    public static void TriggerInventoryUICellEnter(CellInventory cellInventory, int index) {
           if (InventoryUICellEnter != null) {
-            InventoryUICellEnter(cellInventory);
+            InventoryUICellEnter(cellInventory,index);
           }
     }
 

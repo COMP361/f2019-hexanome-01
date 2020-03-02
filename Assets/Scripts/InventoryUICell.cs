@@ -12,7 +12,9 @@ public class InventoryUICell : Singleton<InventoryUICell>
     InventorySpot[] spots;
 
     protected string description;
-    protected Transform textTransform;
+    protected string title;
+    protected Transform descTransform;
+    protected Transform titleTransform;
     protected bool isText;
     protected bool isLocked;
 
@@ -32,8 +34,10 @@ public class InventoryUICell : Singleton<InventoryUICell>
   {
     isText = true;
     isLocked = false;
-    textTransform = transform.Find("cellsDescription");
-    textTransform.gameObject.SetActive(false);
+    descTransform = transform.Find("cellDescription");
+    titleTransform = transform.Find("cellTitle");
+    descTransform.gameObject.SetActive(false);
+    titleTransform.gameObject.SetActive(false);
     spots = itemsParent.GetComponentsInChildren<InventorySpot>();
   }
 
@@ -48,12 +52,15 @@ public class InventoryUICell : Singleton<InventoryUICell>
     }
 
 
-    void UpdateUIEnter(CellInventory cellInv){
+    void UpdateUIEnter(CellInventory cellInv, int index){
       if(!isLocked){
       if(isText){
         formatDescription(cellInv);
-        textTransform.GetComponent<Text>().text = description;
-        textTransform.gameObject.SetActive(true);
+        formatTitle(index);
+        descTransform.GetComponent<Text>().text = description;
+        descTransform.gameObject.SetActive(true);
+        titleTransform.GetComponent<Text>().text = title;
+        titleTransform.gameObject.SetActive(true);
       }
 
       else{
@@ -71,7 +78,7 @@ public class InventoryUICell : Singleton<InventoryUICell>
 
    void UpdateUIExit(){
      if(!isLocked){
-     textTransform.gameObject.SetActive(false);
+     descTransform.gameObject.SetActive(false);
    }
    }
 
@@ -103,5 +110,9 @@ public class InventoryUICell : Singleton<InventoryUICell>
      foreach (var gold in cellInv.Golds) {
        this.description += "  - " + gold.TokenName + " \n";
      }
+   }
+
+   public virtual void formatTitle(int index){
+        title = "Cell: " + index;
    }
 }

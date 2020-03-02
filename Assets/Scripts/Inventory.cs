@@ -45,5 +45,5 @@ public class Inventory : MonoBehaviour
     }
 
 
-    public void updateUI(CellInventory inventory){}
+    public void updateUI(CellInventory inventory, int index){}
 }
