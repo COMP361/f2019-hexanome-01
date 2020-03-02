@@ -24,20 +24,22 @@ public class SelectionManager : MonoBehaviour {
 
     private int currentPlayer = 0;
 
-    void Awake() {
+    void Start() {
+        PlayerCards[currentPlayer].setAsCurrent();
         player1_username.text = players[0].NickName;
-        //player2_username.text = players[1].NickName;
-        //player3_username.text = players[2].NickName;
-        //player4_username.text = players[3].NickName;
+        player2_username.text = players[1].NickName;
+        player3_username.text = players[2].NickName;
 
-        playerTurn = new Queue<Player>();
+        if(playerCount == 4)
+        {
+            player4_username.text = players[3].NickName;
+        }
 
         foreach (Player p in players)
         {
             playerTurn.Enqueue(p);
         }
 
-        PlayerCards[currentPlayer].setAsCurrent();
     }
 
     public void currentPlayerLock()
