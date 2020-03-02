@@ -10,11 +10,17 @@ public class SelectionManager : MonoBehaviour {
 
     public static readonly int playerCount = 4;
     public PlayerCard[] PlayerCards;
+    private Queue<Player> playerTurn;
     public PhotonView pv;
     public List<Player> players = PhotonNetwork.PlayerList.ToList();
     public Text player1_username;
     public Text player2_username;
     public Text player3_username;
+    public Text player4_username;
+    public GameObject cardSelection1;
+    public GameObject cardSelection2;
+    public GameObject cardSelection3;
+    public GameObject cardSelection4;
 
     private int currentPlayer = 0;
 
@@ -23,6 +29,17 @@ public class SelectionManager : MonoBehaviour {
         player1_username.text = players[0].NickName;
         player2_username.text = players[1].NickName;
         player3_username.text = players[2].NickName;
+
+        if(playerCount == 4)
+        {
+            player4_username.text = players[3].NickName;
+        }
+
+        foreach (Player p in players)
+        {
+            playerTurn.Enqueue(p);
+        }
+
     }
 
     public void currentPlayerLock()
@@ -39,7 +56,10 @@ public class SelectionManager : MonoBehaviour {
         if (currentPlayer < playerCount) {
             PlayerCards[currentPlayer].setAsCurrent();
             updatePlayerCards(chosenHero);
-            PhotonNetwork.LocalPlayer.NickName = chosenHero.ToString();
+            ExitGames.Client.Photon.Hashtable classTable = new ExitGames.Client.Photon.Hashtable();
+            classTable.Add("Class", chosenHero.ToString());
+            PhotonNetwork.LocalPlayer.SetCustomProperties(classTable);
+            playerTurn.Dequeue();
         } 
     }
 
@@ -56,6 +76,24 @@ public class SelectionManager : MonoBehaviour {
 
     public void Update()
     {
-        
+        ShowCards();
+    }
+
+    private void ShowCards()
+    {
+        if (playerTurn.Peek().Equals(PhotonNetwork.LocalPlayer))
+        {
+            cardSelection1.gameObject.GetComponent<Collider2D>().enabled = true;
+            cardSelection2.gameObject.GetComponent<Collider2D>().enabled = true;
+            cardSelection3.gameObject.GetComponent<Collider2D>().enabled = true;
+            cardSelection4.gameObject.GetComponent<Collider2D>().enabled = true;
+        }
+        else
+        {
+            cardSelection1.gameObject.GetComponent<Collider2D>().enabled= false;
+            cardSelection2.gameObject.GetComponent<Collider2D>().enabled = false;
+            cardSelection3.gameObject.GetComponent<Collider2D>().enabled = false;
+            cardSelection4.gameObject.GetComponent<Collider2D>().enabled = false;
+        }
     }
 }
