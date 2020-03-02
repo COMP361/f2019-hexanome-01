@@ -34,8 +34,8 @@ public class InventoryUICell : Singleton<InventoryUICell>
   {
     isText = true;
     isLocked = false;
-    descTransform = transform.Find("cellDescription");
-    titleTransform = transform.Find("cellTitle");
+    descTransform = transform.FindDeepChild("cellDescription");
+    titleTransform = transform.FindDeepChild("cellTitle");
     descTransform.gameObject.SetActive(false);
     titleTransform.gameObject.SetActive(false);
     spots = itemsParent.GetComponentsInChildren<InventorySpot>();
