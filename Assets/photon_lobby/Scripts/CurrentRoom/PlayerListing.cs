@@ -27,6 +27,7 @@ public class PlayerListing : MonoBehaviourPunCallbacks
     public void ApplyPhotonPlayer(Player player)
     {
         PhotonPlayer = player;
+        player.NickName = 
         PlayerName.text = player.NickName;
 
         //StartCoroutine(C_ShowPing());
