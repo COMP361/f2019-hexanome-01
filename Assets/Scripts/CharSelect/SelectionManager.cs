@@ -20,9 +20,9 @@ public class SelectionManager : MonoBehaviour {
 
     void Start() {
         PlayerCards[currentPlayer].setAsCurrent();
-        player1_username.text = players[0].UserId;
-        player2_username.text = players[1].UserId;
-        player3_username.text = players[2].UserId;
+        player1_username.text = players[0].NickName;
+        player2_username.text = players[1].NickName;
+        player3_username.text = players[2].NickName;
     }
 
     public void currentPlayerLock()

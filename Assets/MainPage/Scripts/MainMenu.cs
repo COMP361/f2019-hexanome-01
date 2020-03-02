@@ -13,6 +13,6 @@ public class MainMenu : MonoBehaviour
 
     public void CreateGameClick()
     {
-        SceneManager.LoadScene("PreGame_OnlineLobby");
+        SceneManager.LoadScene("PhotonLobby");
     }
 }
