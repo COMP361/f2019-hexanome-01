@@ -24,11 +24,10 @@ public class SelectionManager : MonoBehaviour {
 
     private int currentPlayer = 0;
 
-    void Awake() {
+    void awake() {
         player1_username.text = players[0].NickName;
-        //player2_username.text = players[1].NickName;
+        player2_username.text = players[1].NickName;
         //player3_username.text = players[2].NickName;
-        //player4_username.text = players[3].NickName;
 
         playerTurn = new Queue<Player>();
 
@@ -88,7 +87,7 @@ public class SelectionManager : MonoBehaviour {
         }
         else
         {
-            cardSelection1.gameObject.GetComponent<Collider2D>().enabled= false;
+            cardSelection1.gameObject.GetComponent<Collider2D>().enabled = false;
             cardSelection2.gameObject.GetComponent<Collider2D>().enabled = false;
             cardSelection3.gameObject.GetComponent<Collider2D>().enabled = false;
             cardSelection4.gameObject.GetComponent<Collider2D>().enabled = false;

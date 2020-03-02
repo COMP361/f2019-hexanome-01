@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Photon.Pun;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -15,6 +16,8 @@ public class PlayerCard : MonoBehaviour {
     GameObject m_stage2;
     HeroUI[] m_heroUI;
     private bool m_isMale = true;
+
+    public PhotonView photonView;
 
     //Properties
     public HeroType CurrentHero { get; private set; }
@@ -38,6 +41,12 @@ public class PlayerCard : MonoBehaviour {
 
     // Button Functions
     public void updateHero(int newHero) {
+        photonView.RPC("receiveUpdateHero", RpcTarget.AllBuffered, newHero);
+    }
+
+    [PunRPC]
+    public void receiveUpdateHero(int newHero)
+    {
         m_heroUI[(int)CurrentHero].toggleCards(false);
         m_heroUI[newHero].toggleCards(true);
         toggleHeroSelection(false);
