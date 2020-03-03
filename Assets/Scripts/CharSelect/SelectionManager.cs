@@ -39,7 +39,9 @@ public class SelectionManager : MonoBehaviour {
 
         PlayerCards[currentPlayer].setAsCurrent();
     }
+  }
 
+/*
     public void currentPlayerLock()
     {
         pv.RPC("receiveCurrentPlayerLock", RpcTarget.AllBuffered);
@@ -47,7 +49,7 @@ public class SelectionManager : MonoBehaviour {
 
     [PunRPC]
     public void receiveCurrentPlayerLock() {
-        
+
         HeroType chosenHero = PlayerCards[currentPlayer].CurrentHero; //chosenHero=index of the current player's hero selection at the given time
         PlayerCards[currentPlayer++].setAsLocked();
 
@@ -58,7 +60,7 @@ public class SelectionManager : MonoBehaviour {
             classTable.Add("Class", chosenHero.ToString());
             PhotonNetwork.LocalPlayer.SetCustomProperties(classTable);
             playerTurn.Dequeue();
-        } 
+        }
     }
 
     private void updatePlayerCards(HeroType heroLocked) {
@@ -95,3 +97,4 @@ public class SelectionManager : MonoBehaviour {
         }
     }
 }
+*/

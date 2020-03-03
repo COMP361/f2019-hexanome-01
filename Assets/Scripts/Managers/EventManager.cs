@@ -4,10 +4,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class EventManager
-{
-    // this class helps to register the events that are happening and trigger all the functions that are linked to this event.
 
+public class EventManager {
+   // this class helps to register the events that are happening and trigger all the functions that are linked to this event.
+    
     // Fired when a cell is clicked
     public delegate void CellClickHandler(int cellID);
     public static event CellClickHandler CellClick;
@@ -41,7 +41,6 @@ public class EventManager
         }
     }
 
-    // Fired if fight action is selected
     public delegate void FightSelectHandler();
     public static event FightSelectHandler FightSelect;
     public static void TriggerFightSelect()
@@ -170,6 +169,23 @@ public class EventManager
         }
     }
 
+    // if some functions are waiting for the event to happen, call the event.
+    public delegate void CellHoverInHandler(int cellID);
+    public static event CellHoverInHandler CellHoverIn;
+    public static void TriggerCellHoverIn(int cellID) {
+        if (CellHoverIn != null) {
+            CellHoverIn(cellID);
+        }
+    }
+
+    public delegate void CellHoverOutHandler();
+    public static event CellHoverOutHandler CellHoverOut;
+    public static void TriggerCellHoverOut() {
+        if (CellHoverOut != null) {
+            CellHoverOut();
+        }
+    }
+
     // Fired when the hero reached its final position after move
     public delegate void MoveStartHandler(Movable movable);
     public static event MoveStartHandler MoveStart;
@@ -211,7 +227,7 @@ public class EventManager
         }
     }
 
-    // Fired when a farmer is dropped    
+    // Fired when a farmer is dropped
     public delegate void DropFarmerHandler();
     public static event DropFarmerHandler DropFarmer;
     public static void TriggerDropFarmer()
@@ -225,15 +241,29 @@ public class EventManager
     // Fired when end day is triggered
     public delegate void EndDayHandler();
     public static event EndDayHandler EndDay;
-    public static void TriggerEndDaySelect()
-    {
-        if (EndDay != null)
-        {
+
+    public static void TriggerEndDaySelect() {
+          if (EndDay != null) {
             EndDay();
+          }
+    }
+
+    public delegate void InventoryUICellEnterHandler(CellInventory cellInventory, int index);
+    public static event InventoryUICellEnterHandler InventoryUICellEnter;
+    public static void TriggerInventoryUICellEnter(CellInventory cellInventory, int index) {
+          if (InventoryUICellEnter != null) {
+            InventoryUICellEnter(cellInventory,index);
+          }
+    }
+
+    public delegate void InventoryUICellExitHandler();
+    public static event InventoryUICellExitHandler InventoryUICellExit;
+    public static void TriggerInventoryUICellExit() {
+        if (InventoryUICellExit != null) {
+            InventoryUICellExit();
         }
     }
 
-    // Fired when game over is triggered
     public delegate void GameOverHandler();
     public static event GameOverHandler GameOver;
     public static void TriggerGameOver()

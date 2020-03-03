@@ -19,6 +19,6 @@ public class CharacterSelectionStartGame : MonoBehaviour
 
     public void StartGameClick()
     {
-        SceneManager.LoadScene("2");
+        SceneManager.LoadScene("Game");
     }
 }

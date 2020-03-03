@@ -14,5 +14,5 @@ public abstract class Enemy : Movable, IComparable<Enemy>
 
     public int Strength { get; set; }
 
-    protected int Reward { get; set; }
+    public int Reward { get; set; }
 }

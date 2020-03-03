@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
+
 public enum Sex {
     Female,
     Male
 }
+
+[RequireComponent(typeof(Inventory))]
 
 public class Hero : Movable {
   protected Sex sex = Sex.Female;
@@ -21,7 +24,7 @@ public class Hero : Movable {
   }
 
   //public bool IsDone { get; set; }
-  
+
   public string Type { get; protected set; }
 
   public HeroState State { get; set; }
@@ -68,24 +71,4 @@ public class HeroState : ICloneable {
     hs.timeline = (Timeline) timeline.Clone();
     return hs;
   }
-
-    public int getStrength()
-    {
-        return this.strength;
-    } 
-
-    public int getWP()
-    {
-        return this.willpower;
-    }
-
-    public void setWP(int wp)
-    {
-        this.willpower = wp;
-    }
-
-    public void setStrength(int s)
-    {
-        this.strength = s;
-    }
 }
