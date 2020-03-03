@@ -17,7 +17,7 @@ public class SelectionManager : MonoBehaviour {
     public Text player2_username;
     public Text player3_username;
     public Text player4_username;
-    public GameObject cardSelection1;
+    public Button cardSelection1;
     public GameObject cardSelection2;
     public GameObject cardSelection3;
     public GameObject cardSelection4;
@@ -26,7 +26,7 @@ public class SelectionManager : MonoBehaviour {
 
     void Awake() {
         player1_username.text = players[0].NickName;
-        //player2_username.text = players[1].NickName;
+        player2_username.text = players[1].NickName;
         //player3_username.text = players[2].NickName;
         //player4_username.text = players[3].NickName;
 
