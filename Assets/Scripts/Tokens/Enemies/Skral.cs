@@ -14,6 +14,8 @@ public class Skral : Enemy
         GameObject go = new GameObject("Skral"); //Geometry.Disc(Vector3.zero, color);
         SpriteRenderer renderer = go.AddComponent<SpriteRenderer>();
         renderer.sprite = sprite;
+        renderer.sortingOrder = 2;
+        go.transform.localScale = new Vector3(10, 10, 10);
 
         Skral skral = go.AddComponent<Skral>();
         skral.TokenName = Type;

@@ -27,11 +27,6 @@ public class GameManager : Singleton<GameManager>
     #region Functions [Unity]
     void Awake()
     {
-        //thought this was more extensible -Eamonn
-        string[] boardScenes = { "Map", "Chat", "Tokens", "UI" };
-        foreach (string name in boardScenes) {
-            SceneManager.LoadScene(name, LoadSceneMode.Additive);
-        }
         base.Awake();
     }
 
@@ -68,15 +63,15 @@ public class GameManager : Singleton<GameManager>
 
         // MONSTERS
         gors = new List<Enemy>();
-        //gors.Add(Gor.Factory(1));
-        gors.Add(Gor.Factory(2));
-        gors.Add(Gor.Factory(19));
-        //gors.Add(Gor.Factory(20));
+        gors.Add(Gor.Factory(8));
+        gors.Add(Gor.Factory(20));
+        gors.Add(Gor.Factory(21));
+        gors.Add(Gor.Factory(26));
         gors.Add(Gor.Factory(48));
-        gors.Add(Gor.Factory(84));
 
         skrals = new List<Enemy>();
-        //skrals.Add(Skral.Factory(19));
+        skrals.Add(Skral.Factory(19));
+
 
         trolls = new List<Enemy>();
         wardraks = new List<Enemy>();

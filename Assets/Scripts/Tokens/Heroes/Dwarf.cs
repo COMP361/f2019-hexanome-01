@@ -12,10 +12,12 @@ public class Dwarf : Hero
         //GameObject go = Geometry.Disc(Vector3.zero, color);
 
         Sprite sprite = Resources.Load<Sprite>("Sprites/heroes/male_dwarf");
-        GameObject go = new GameObject("Warrior"); //Geometry.Disc(Vector3.zero, color);
+        GameObject go = new GameObject("Warrior");
         SpriteRenderer renderer = go.AddComponent<SpriteRenderer>();
         renderer.sprite = sprite;
-
+        renderer.sortingOrder = 2;
+        go.transform.localScale = new Vector3(10, 10, 10);
+        
         Dwarf dwarf = go.AddComponent<Dwarf>();
         dwarf.Color = color;
 

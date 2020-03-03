@@ -4,11 +4,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CellInventory
+public class CellInventory : MonoBehaviour
 {
   #region Fields
 
-  // protected string description;
+  protected string description;
   // protected Transform textTransform;
 
 
@@ -40,8 +40,7 @@ public class CellInventory
   #endregion
 /*
   protected virtual void Start() {
-    /*
-    textTransform = transform.Find("cellsDescription");
+    textTransform = transform.Find("Description");
     textTransform.gameObject.SetActive(false);
 
 

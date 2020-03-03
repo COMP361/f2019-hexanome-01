@@ -6,6 +6,18 @@ public class ActionOptions : MonoBehaviour
 
     Button moveBtn, fightBtn, skipBtn, endDayBtn;
 
+    void OnEnable() {
+        EventManager.MoveSelect += LockMove;
+        EventManager.MoveCancel += UnlockMove;
+        EventManager.MoveConfirm += UnlockMove;
+    }
+
+    void OnDisable() {
+        EventManager.MoveSelect -= LockMove;
+        EventManager.MoveCancel -= UnlockMove;
+        EventManager.MoveConfirm -= UnlockMove;
+    }
+
     void Awake()
     {
         moveBtn = transform.Find("Move Button").GetComponent<Button>();
@@ -19,11 +31,17 @@ public class ActionOptions : MonoBehaviour
 
         endDayBtn = transform.Find("End Day Button").GetComponent<Button>();
         endDayBtn.onClick.AddListener(delegate { EventManager.TriggerEndDaySelect(); });
-
     }
 
-    public void Show()
-    {
+    void UnlockMove() {
+        Buttons.Unlock(moveBtn);
+    }
+
+    void LockMove() {
+        Buttons.Lock(moveBtn);
+    }
+
+    public void Show() {
         gameObject.SetActive(true);
     }
 

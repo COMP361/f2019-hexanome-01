@@ -10,9 +10,9 @@ public abstract class Enemy : Movable, IComparable<Enemy>
         return cell.CompareTo(monster.cell);
     }
 
-    protected int Will { get; set; }
+    public int Will { get; set; }
 
-    protected int Strength { get; set; }
+    public int Strength { get; set; }
 
-    protected int Reward { get; set; }
+    public int Reward { get; set; }
 }

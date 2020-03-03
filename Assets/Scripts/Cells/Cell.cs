@@ -95,7 +95,7 @@ public class Cell : MonoBehaviour, IComparable<Cell>
         Gizmos.color = Color.blue;
 
         foreach (Transform child in positions.transform) {
-            Gizmos.DrawSphere(child.position, 0.6f);
+            Gizmos.DrawSphere(child.position, 3f);
         }
     }
 

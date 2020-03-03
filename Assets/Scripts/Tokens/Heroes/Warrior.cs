@@ -12,9 +12,11 @@ public class Warrior : Hero
         //GameObject go = Geometry.Disc(Vector3.zero, color);
 
         Sprite sprite = Resources.Load<Sprite>("Sprites/heroes/male_warrior");
-        GameObject go = new GameObject("Warrior"); //Geometry.Disc(Vector3.zero, color);
+        GameObject go = new GameObject("Warrior");
         SpriteRenderer renderer = go.AddComponent<SpriteRenderer>();
         renderer.sprite = sprite;
+        renderer.sortingOrder = 20;
+        go.transform.localScale = new Vector3(10, 10, 1);
 
         Warrior warrior = go.AddComponent<Warrior>();
         warrior.Color = color;
