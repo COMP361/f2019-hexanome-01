@@ -4,66 +4,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
+
 public class EventManager {
-    //GameManager gm;
-
-    // this class helps to register the events that are happening and trigger all the functions that are linked to this event.
-
-
-  //  public delegate void PlayerUpdateHandler(Hero hero);
-  //  public static event PlayerUpdateHandler PlayerUpdate;
-
-  //  public delegate void ActionUpdateHandler(Action action);
-  //  public static event ActionUpdateHandler ActionUpdate;
-
-  //  public delegate void MoveSelectHandler();
-//    public static event MoveSelectHandler MoveSelect;
-
-//    public delegate void SkipSelectHandler();
-//    public static event SkipSelectHandler SkipSelect;
-
-  //  public delegate void FightSelectHandler();
-  //  public static event FightSelectHandler FightSelect;
-
+   // this class helps to register the events that are happening and trigger all the functions that are linked to this event.
+    
+    // Fired when a cell is clicked
     public delegate void CellClickHandler(int cellID);
     public static event CellClickHandler CellClick;
-
-  //  public delegate void MoveConfirmHandler();
-  //  public static event MoveConfirmHandler MoveConfirm;
-
-//    public delegate void MoveCancelHandler();
-//    public static event MoveCancelHandler MoveCancel;
-
-//    public delegate void StartTurnHandler();
-//    public static event StartTurnHandler StartTurn;
-
-//    public delegate void EndTurnHandler();
-  //  public static event EndTurnHandler EndTurn;
-
-    //
-    public delegate void CellHoverInHandler(int cellID);
-    public static event CellHoverInHandler CellHoverIn;
-
-    public delegate void CellHoverOutHandler();
-    public static event CellHoverOutHandler CellHoverOut;
-
-    /*void Start() {
-        gm = GameManager.instance;
-    }*/
-
-    /*void Update() {
-        // Check if click is not over a UI element
-        if(Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject()) {
-            RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
-
-            if(hit.collider != null) {
-                hit.collider.gameObject.GetComponent<IClickHandler>().OnClick();
-            }
-        }
-    }*/
-
-    public static void TriggerCellClick(int cellID) {
-        if (CellClick != null) {
+    public static void TriggerCellClick(int cellID)
+    {
+        if (CellClick != null)
+        {
             CellClick(cellID);
         }
     }
@@ -90,14 +41,6 @@ public class EventManager {
         }
     }
 
-  /*  public static void TriggerMoveSelect() {
-        EventManager.TriggerActionUpdate(Action.Move);
-
-        if (MoveSelect != null) {
-            MoveSelect();
-        }
-    }
-*/
     public delegate void FightSelectHandler();
     public static event FightSelectHandler FightSelect;
     public static void TriggerFightSelect()
@@ -226,25 +169,34 @@ public class EventManager {
         }
     }
 
-/*
-    public static void TriggerEndTurn() {
-        if (EndTurn != null) {
-            EndTurn();
-        }
-    } */
-
     // if some functions are waiting for the event to happen, call the event.
+    public delegate void CellHoverInHandler(int cellID);
+    public static event CellHoverInHandler CellHoverIn;
     public static void TriggerCellHoverIn(int cellID) {
         if (CellHoverIn != null) {
             CellHoverIn(cellID);
         }
     }
 
+    public delegate void CellHoverOutHandler();
+    public static event CellHoverOutHandler CellHoverOut;
     public static void TriggerCellHoverOut() {
         if (CellHoverOut != null) {
             CellHoverOut();
         }
-      }
+    }
+
+    // Fired when the hero reached its final position after move
+    public delegate void MoveStartHandler(Movable movable);
+    public static event MoveStartHandler MoveStart;
+    public static void TriggerMoveStart(Movable movable)
+    {
+        if (MoveStart != null) {
+            MoveStart(movable);
+        }
+    }
+
+    // Fired when the hero reached its final position after move
     public delegate void MoveCompleteHandler(Movable movable);
     public static event MoveCompleteHandler MoveComplete;
     public static void TriggerMoveComplete(Movable movable)
@@ -255,14 +207,12 @@ public class EventManager {
         }
     }
 
-    // Fired when a farmer is on the final position
-    public delegate void FarmerOnCellHandler();
-    public static event FarmerOnCellHandler FarmerOnCell;
-    public static void TriggerFarmerOnCell()
+    public delegate void FarmersInventoriesUpdateHandler(int hero, int cell);
+    public static event FarmersInventoriesUpdateHandler FarmersInventoriesUpdate;
+    public static void TriggerFarmersInventoriesUpdate(int hero, int cell) 
     {
-        if (FarmerOnCell != null)
-        {
-            FarmerOnCell();
+        if (FarmersInventoriesUpdate != null) {
+            FarmersInventoriesUpdate(hero, cell);
         }
     }
 
@@ -291,6 +241,7 @@ public class EventManager {
     // Fired when end day is triggered
     public delegate void EndDayHandler();
     public static event EndDayHandler EndDay;
+
     public static void TriggerEndDaySelect() {
           if (EndDay != null) {
             EndDay();
@@ -308,9 +259,9 @@ public class EventManager {
     public delegate void InventoryUICellExitHandler();
     public static event InventoryUICellExitHandler InventoryUICellExit;
     public static void TriggerInventoryUICellExit() {
-          if (InventoryUICellExit != null) {
+        if (InventoryUICellExit != null) {
             InventoryUICellExit();
-          }
+        }
     }
 
     public delegate void GameOverHandler();
@@ -322,6 +273,4 @@ public class EventManager {
             GameOver();
         }
     }
-
-
 }

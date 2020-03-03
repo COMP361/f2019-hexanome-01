@@ -8,6 +8,8 @@ public class Wardrak : Enemy {
 
     public static Wardrak Factory(int cellID) {
         GameObject go = Geometry.Disc(Vector3.zero, color);
+        go.transform.localScale = new Vector3(10, 10, 10);
+        
         Wardrak wardrak = go.AddComponent<Wardrak>();
         wardrak.TokenName = Type;
 

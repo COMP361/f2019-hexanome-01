@@ -6,22 +6,23 @@ using UnityEngine.UI;
 public class MerchantInventory : CellInventory
 {
     // Start is called before the first frame update
-  //  GameObject displayUI;
-  /*  protected override void Start()
+    GameObject displayUI;
+    
+    protected override void OnEnable()
     {
-    //    Transform uiTransform = transform.Find("MerchantUI");
-
-    //    displayUI = uiTransform.gameObject;
-    //    textTransform = uiTransform.Find("merchantDescription");
-
-    //    displayUI.SetActive(false);
+        EventManager.MerchCellMouseEnter += Show;
+        EventManager.MerchCellMouseLeave += UnShow;
     }
-*/
 
+    protected override void OnDisable()
+    {
+        EventManager.MerchCellMouseEnter -= Show;
+        EventManager.MerchCellMouseLeave -= UnShow;
+    }
 
-  //  public override void formatDescription(int CellId)
-  //  {
-      /*  MerchantCell merchCell = Cell.FromId(CellId) as MerchantCell;
+    public void formatDescription(int CellId)
+    {
+        MerchantCell merchCell = Cell.FromId(CellId) as MerchantCell;
 
         if (merchCell == null) return;
 
@@ -30,6 +31,6 @@ public class MerchantInventory : CellInventory
         foreach (KeyValuePair<string, int> product in merchCell.products)
         {
             this.description += product.Key + " - " + product.Value + "\n";
-        }*/
-  //  }
+        }
+    }
 }

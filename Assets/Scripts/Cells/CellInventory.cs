@@ -4,11 +4,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CellInventory
+public class CellInventory : MonoBehaviour
 {
   #region Fields
 
-  // protected string description;
+  protected string description;
   // protected Transform textTransform;
 
 
@@ -39,6 +39,43 @@ public class CellInventory
       //int numGoldenShields;
   }
   #endregion
+/*
+  protected virtual void Start() {
+    textTransform = transform.Find("Description");
+    textTransform.gameObject.SetActive(false);
+
+
+    Heroes = new List<Hero>();
+    Enemies = new List<Enemy>();
+    Farmers = new List<Farmer>();
+    Tokens = new List<Token>();
+    Golds = new List<Token>();
+
+    // Should maybe be in inventoryUICell
+//  textTransform = transform.Find("cellsDescription");
+//  textTransform.gameObject.SetActive(false);
+    //int numGoldenShields;
+  }  */
+  protected virtual void OnEnable() {
+    EventManager.CellMouseEnter += Show;
+    EventManager.CellMouseLeave += UnShow;
+  }
+
+  protected virtual void OnDisable() {
+    EventManager.CellMouseEnter -= Show;
+    EventManager.CellMouseLeave -= UnShow;
+  }
+
+  protected virtual void Show(int CellId){
+//    formatDescription(CellId);
+  //  textTransform.GetComponent<Text>().text = description;
+  //  textTransform.gameObject.SetActive(true);
+  }
+
+  protected virtual void UnShow(int CellId){
+//    textTransform.gameObject.SetActive(false);
+  }
+
 
 
   public void addToken(Token token) {

@@ -13,12 +13,12 @@ public class MoveCommand : ICommand {
     public MoveCommand(Movable movable) {
         EventManager.CellClick += SetDestination;
         EventManager.MoveCancel += Dispose;
-        EventManager.MoveComplete +=IsFarmerOnCell;
+        EventManager.MoveComplete += FarmersInventoriesUpdate;
         EventManager.PickFarmer += AttachFarmer;
-
+        EventManager.DropFarmer += DetachFarmer;
 
         this.movable = movable;
-        IsFarmerOnCell(movable);
+        FarmersInventoriesUpdate(movable);
 
         freeCells = movable.Cell.WithinRange(0, 2);
         extCells = movable.Cell.WithinRange(3, 5);
@@ -43,23 +43,31 @@ public class MoveCommand : ICommand {
                 break;
             }
         }
-
-        Debug.Log(farmers);
+        
+        EventManager.TriggerFarmersInventoriesUpdate(farmers.Count, movable.Cell.State.cellInventory.Farmers.Count);
     }
 
-    public void IsFarmerOnCell(Movable movable) {
+    public void DetachFarmer() {
+        if(farmers.Count > 0) {
+            farmers.RemoveAt(0);
+        }
+
+        EventManager.TriggerFarmersInventoriesUpdate(farmers.Count, movable.Cell.State.cellInventory.Farmers.Count);
+    }
+
+    public void FarmersInventoriesUpdate(Movable movable) {
+        // Check if the move callback is from us
         if(movable == this.movable) {
-            if(movable.Cell.State.cellInventory.Farmers.Count > 0) {
-                EventManager.TriggerFarmerOnCell();
-            }
+            EventManager.TriggerFarmersInventoriesUpdate(farmers.Count, movable.Cell.State.cellInventory.Farmers.Count);
         }
     }
 
     public void Dispose() {
         EventManager.CellClick -= SetDestination;
         EventManager.MoveCancel -= Dispose;
-        EventManager.MoveComplete -= IsFarmerOnCell;
+        EventManager.MoveComplete -= FarmersInventoriesUpdate;
         EventManager.PickFarmer -= AttachFarmer;
+        EventManager.DropFarmer -= DetachFarmer;
 
         if(path != null) path.Dispose();
 

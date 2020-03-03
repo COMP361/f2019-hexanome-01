@@ -6,7 +6,7 @@ using UnityEngine;
 public abstract class Movable : Token
 {
     public bool IsDone { get; set; }
-    int moveSpeed = 20;
+    int moveSpeed = 200;
     List<Cell> path;
     bool isMoving;
     Sprite icon;
@@ -32,6 +32,7 @@ public abstract class Movable : Token
     {
         isMoving = true;
         this.path = path;
+        EventManager.TriggerMoveStart(this);
     }
 
     public void Move(Cell c)
@@ -39,6 +40,7 @@ public abstract class Movable : Token
         isMoving = true;
         path = new List<Cell>();
         path.Add(c);
+        EventManager.TriggerMoveStart(this);
     }
 
     void Move()

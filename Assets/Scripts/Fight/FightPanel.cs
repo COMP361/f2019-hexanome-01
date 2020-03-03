@@ -45,22 +45,22 @@ public class FightPanel : MonoBehaviour
     private void SetStrength()
     {
         //TO REMOVE BC TESTING PURPOSES
-        GameManager.instance.CurrentPlayer.State.setStrength(2);
+        //GameManager.instance.CurrentPlayer.State.Strength(2);
 
-        HeroStrength.text = GameManager.instance.CurrentPlayer.State.getStrength().ToString();
+        //HeroStrength.text = GameManager.instance.CurrentPlayer.State.Strength.ToString();
         EnemyStrength.text = GameManager.instance.CurrentPlayer.Cell.State.cellInventory.Enemies[0].Strength.ToString();
     }
 
     private void SetWP()
     {
-        HeroWP.text = GameManager.instance.CurrentPlayer.State.getWP().ToString();
+        //HeroWP.text = GameManager.instance.CurrentPlayer.State.Will.ToString();
         EnemyWP.text = GameManager.instance.CurrentPlayer.Cell.State.cellInventory.Enemies[0].Will.ToString();
     }
 
     public void OnClickAttack()
     {
         // ADD DICE ROLL
-        int hero_strength = GameManager.instance.CurrentPlayer.State.getStrength();
+        /*int hero_strength = GameManager.instance.CurrentPlayer.State.getStrength();
         int hero_wp = GameManager.instance.CurrentPlayer.State.getWP();
         int monster_strength = GameManager.instance.CurrentPlayer.Cell.State.cellInventory.Enemies[0].Strength;
         int monster_wp = GameManager.instance.CurrentPlayer.Cell.State.cellInventory.Enemies[0].Will;
@@ -80,8 +80,7 @@ public class FightPanel : MonoBehaviour
         {
             GameManager.instance.CurrentPlayer.Cell.State.cellInventory.Enemies[0].gameObject.SetActive(false);
             this.gameObject.SetActive(!this.gameObject.activeSelf);
-        }
-
+        }*/
     }
 
     // Update is called once per frame
