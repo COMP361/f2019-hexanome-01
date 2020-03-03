@@ -40,7 +40,10 @@ public class Token : MonoBehaviour {
           return gameObject.GetComponent<SpriteRenderer>().sprite;
         }
         else{
-          return  null;
+        //GameObject go = new GameObject("New Sprite");
+        // renderer = go.AddComponent<SpriteRenderer>();
+        //renderer.sprite = Resources.Load("Sprites/dot");
+        return Resources.Load<Sprite>("Sprites/dot");
         }
     }
 

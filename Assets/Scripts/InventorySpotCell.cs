@@ -11,12 +11,14 @@ public class InventorySpotCell : MonoBehaviour
 
     void Start()
     {
-        icon = 
+
     }
 
     // Update is called once per frame
     void Update()
     {
+
+
 
     }
 
@@ -30,7 +32,7 @@ public class InventorySpotCell : MonoBehaviour
 
     public void ClearSpot()
     {
-        token = null;
+      token = null;
       icon.sprite = null;
       icon.enabled = false;
     }
@@ -39,6 +41,7 @@ public class InventorySpotCell : MonoBehaviour
 
       if(token != null){
   //      token.use();
+        Debug.Log("wistiti + " + token.TokenName);
       }
     }
 }

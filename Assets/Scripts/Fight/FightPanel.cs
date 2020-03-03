@@ -80,7 +80,7 @@ public class FightPanel : MonoBehaviour
         {
             GameManager.instance.CurrentPlayer.Cell.State.cellInventory.Enemies[0].gameObject.SetActive(false);
             this.gameObject.SetActive(!this.gameObject.activeSelf);
-        }*/
+        }
     }
 
     // Update is called once per frame

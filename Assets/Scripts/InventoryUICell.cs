@@ -67,8 +67,10 @@ public class InventoryUICell : Singleton<InventoryUICell>
 
       else{
       for(int i = 0; i < spots.Length; i++){
+        Debug.Log("here");
         if(i < cellInv.allTokens.Count){
           spots[i].AddItem(cellInv.allTokens[i]);
+          Debug.Log("There is an item");
         }
         else{
          spots[i].ClearSpot();

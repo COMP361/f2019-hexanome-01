@@ -39,49 +39,11 @@ public class CellInventory : MonoBehaviour
       //int numGoldenShields;
   }
   #endregion
-/*
-  protected virtual void Start() {
-    textTransform = transform.Find("Description");
-    textTransform.gameObject.SetActive(false);
-
-
-    Heroes = new List<Hero>();
-    Enemies = new List<Enemy>();
-    Farmers = new List<Farmer>();
-    Tokens = new List<Token>();
-    Golds = new List<Token>();
-
-    // Should maybe be in inventoryUICell
-//  textTransform = transform.Find("cellsDescription");
-//  textTransform.gameObject.SetActive(false);
-    //int numGoldenShields;
-  }  */
-  protected virtual void OnEnable() {
-    EventManager.CellMouseEnter += Show;
-    EventManager.CellMouseLeave += UnShow;
-  }
-
-  protected virtual void OnDisable() {
-    EventManager.CellMouseEnter -= Show;
-    EventManager.CellMouseLeave -= UnShow;
-  }
-
-  protected virtual void Show(int CellId){
-//    formatDescription(CellId);
-  //  textTransform.GetComponent<Text>().text = description;
-  //  textTransform.gameObject.SetActive(true);
-  }
-
-  protected virtual void UnShow(int CellId){
-//    textTransform.gameObject.SetActive(false);
-  }
-
-
 
   public void addToken(Token token) {
   //  Debug.Log("Inventory addToken");
       Type listType;
-
+      allTokens.Add(token);
       listType = Heroes.GetListType();
       if (listType.IsCompatibleWith(token.GetType())) {
           Heroes.Add((Hero)token);
@@ -99,12 +61,11 @@ public class CellInventory : MonoBehaviour
           Farmers.Add((Farmer)token);
           return;
       }
-
-      allTokens.Add(token);
   }
 
   public void removeToken(Token token) {
       Type listType;
+      allTokens.Remove(token);
 
       listType = Heroes.GetListType();
       if (listType.IsCompatibleWith(token.GetType())) {
@@ -124,6 +85,6 @@ public class CellInventory : MonoBehaviour
           return;
       }
 
-      allTokens.Remove(token);
+
   }
 }

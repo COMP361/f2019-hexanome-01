@@ -7,8 +7,8 @@ public class MerchantInventory : CellInventory
 {
     // Start is called before the first frame update
     GameObject displayUI;
-    
-    protected override void OnEnable()
+
+  /*  protected override void OnEnable()
     {
         EventManager.MerchCellMouseEnter += Show;
         EventManager.MerchCellMouseLeave += UnShow;
@@ -19,7 +19,7 @@ public class MerchantInventory : CellInventory
         EventManager.MerchCellMouseEnter -= Show;
         EventManager.MerchCellMouseLeave -= UnShow;
     }
-
+*/
     public void formatDescription(int CellId)
     {
         MerchantCell merchCell = Cell.FromId(CellId) as MerchantCell;

@@ -70,9 +70,9 @@ public class Cell : MonoBehaviour, IComparable<Cell>
     }
 
     protected virtual void OnMouseEnter() {
-        Debug.Log("I'm here1 " + Index);
+    //    Debug.Log("I'm here1 " + Index);
         if (!Active) return;
-        Debug.Log("I'm here2 " + Index);
+    //    Debug.Log("I'm here2 " + Index);
 
         var color = gm.CurrentPlayer.Color;
         color.a = .4f;
