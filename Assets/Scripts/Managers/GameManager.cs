@@ -28,10 +28,11 @@ public class GameManager : Singleton<GameManager>
     void Awake()
     {
         //thought this was more extensible -Eamonn
-        string[] boardScenes = { "Map", "Chat", "Tokens", "UI" };
+  /*     string[] boardScenes = { "Map", "Chat", "Tokens", "UI"};
         foreach (string name in boardScenes) {
             SceneManager.LoadScene(name, LoadSceneMode.Additive);
         }
+        */
         base.Awake();
     }
 

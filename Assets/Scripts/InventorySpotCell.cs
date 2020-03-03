@@ -11,7 +11,7 @@ public class InventorySpotCell : MonoBehaviour
 
     void Start()
     {
-
+        icon = 
     }
 
     // Update is called once per frame
@@ -23,16 +23,16 @@ public class InventorySpotCell : MonoBehaviour
 
     public void AddItem(Token newToken)
     {
-//      token = newToken;
-//      icon.sprite = token.icon;
-//      icon.enabled = true;
+      token = newToken;
+      icon.sprite = token.getSprite();
+      icon.enabled = true;
     }
 
     public void ClearSpot()
     {
-//      token = null;
-//      icon.sprite = null;
-//      icon.enabled = false;
+        token = null;
+      icon.sprite = null;
+      icon.enabled = false;
     }
 
     public void UseItem(){

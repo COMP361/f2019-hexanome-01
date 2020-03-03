@@ -48,6 +48,9 @@ public class InventoryUICell : Singleton<InventoryUICell>
       if(Input.GetButtonDown("LockCellInventory")){
           isLocked = !isLocked;
           }
+      if(Input.GetButtonDown("displayCellInv")){
+          isText = !isText;
+        }
     }
 
 

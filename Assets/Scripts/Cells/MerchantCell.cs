@@ -36,9 +36,11 @@ public class MerchantCell : Cell {
         foreach (Item pname in BaseProducts) {
             this.products.Add(pname.ToString(), 2);
         }
-
         base.Start();
+    }
 
+    protected override void Awake() {
+      base.Awake();
     }
 
     protected override void OnMouseEnter() {
