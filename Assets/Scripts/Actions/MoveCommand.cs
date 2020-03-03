@@ -39,15 +39,29 @@ public class MoveCommand : MonoBehaviour, ICommand {
         }
     }
 
+    public int getDetachedFarmerCount() {
+        int count = 0;
+        Debug.Log("At cell " + movable.Cell.Index);
+        foreach(Farmer farmer in movable.Cell.State.Farmers) {
+            if(!farmers.Contains(farmer)) {
+                count++;
+                Debug.Log("Not contained in cell");
+            }
+        }
+        return count;
+    }
+
     public void AttachFarmer() {
         if(movable.Cell.State.Farmers.Count > 0) {
             foreach(Farmer farmer in movable.Cell.State.Farmers) {
-                if(!farmers.Contains(farmer)) farmers.Add(farmer);
-                break;
+                if(!farmers.Contains(farmer)) {
+                    farmers.Add(farmer);
+                    break;
+                }
             }
         }
         
-        EventManager.TriggerFarmersInventoriesUpdate(farmers.Count, movable.Cell.State.Farmers.Count);
+        EventManager.TriggerFarmersInventoriesUpdate(farmers.Count, getDetachedFarmerCount());
     }
 
     public void DetachFarmer() {
@@ -55,7 +69,7 @@ public class MoveCommand : MonoBehaviour, ICommand {
             farmers.RemoveAt(0);
         }
 
-        EventManager.TriggerFarmersInventoriesUpdate(farmers.Count, movable.Cell.State.Farmers.Count);
+        EventManager.TriggerFarmersInventoriesUpdate(farmers.Count, getDetachedFarmerCount());
     }
 
     /*public bool IsDetachedFarmerOnCell() {
@@ -80,7 +94,7 @@ public class MoveCommand : MonoBehaviour, ICommand {
     public void FarmersInventoriesUpdate(Movable movable) {
         // Check if the move callback is from us
         if(movable == this.movable) {
-            EventManager.TriggerFarmersInventoriesUpdate(farmers.Count, movable.Cell.State.Farmers.Count);
+            EventManager.TriggerFarmersInventoriesUpdate(farmers.Count, getDetachedFarmerCount());
         }
     }
 

@@ -57,7 +57,7 @@ public class Cell : MonoBehaviour, IComparable<Cell>
         HeroesPosition = transform.Find("positions/heroes").position;
         MovablesPosition = transform.Find("positions/movables").position;
         TokensPosition = transform.Find("positions/tokens").position;
-        State = new CellState();
+        State = new CellState(gameObject.name);
     }
 
     protected virtual void Start() {
@@ -202,18 +202,21 @@ public class CellState : ICloneable
     public List<Farmer> Farmers { get; private set; }
     public List<Token> Tokens { get; private set; }
     public List<Token> Golds { get; private set; }
+    string index;
+
     #endregion 
     
     // Pickable
     // Should we have well, fog?
     #region Functions [Constructor]
-    public CellState()
+    public CellState(string index)
     {
         Heroes = new List<Hero>();
         Enemies = new List<Enemy>();
         Farmers = new List<Farmer>();
         Tokens = new List<Token>();
         Golds = new List<Token>();
+        this.index = index;
         //int numGoldenShields;
     }
     #endregion
@@ -243,6 +246,7 @@ public class CellState : ICloneable
 
         listType = Farmers.GetListType();
         if (listType.IsCompatibleWith(token.GetType())) {
+            Debug.Log("Add Farmer to Cell " + index);
             Farmers.Add((Farmer)token);
             return;
         }
@@ -265,6 +269,7 @@ public class CellState : ICloneable
 
         listType = Farmers.GetListType();
         if (listType.IsCompatibleWith(token.GetType())) {
+            Debug.Log("Remove Farmer from Cell "  + index);
             Farmers.Remove((Farmer)token);
             return;
         }
