@@ -6,7 +6,7 @@ using UnityEngine;
 public abstract class Movable : Token
 {
     public bool IsDone { get; set; }
-    int moveSpeed = 20;
+    int moveSpeed = 200;
     List<Cell> path;
     bool isMoving;
     Sprite icon;

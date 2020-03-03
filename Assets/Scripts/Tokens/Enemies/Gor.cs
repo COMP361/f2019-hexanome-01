@@ -10,9 +10,11 @@ public class Gor : Enemy
     {
 
         Sprite sprite = Resources.Load<Sprite>("Sprites/Enemies/gor");
-        GameObject go = new GameObject("Gor"); //Geometry.Disc(Vector3.zero, color);
+        GameObject go = new GameObject("Gor");
         SpriteRenderer renderer = go.AddComponent<SpriteRenderer>();
         renderer.sprite = sprite;
+        renderer.sortingOrder = 2;
+        go.transform.localScale = new Vector3(10, 10, 10);
 
         Gor gor = go.AddComponent<Gor>();
         gor.TokenName = Type;

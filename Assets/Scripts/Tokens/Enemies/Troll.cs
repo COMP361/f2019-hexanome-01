@@ -8,6 +8,8 @@ public class Troll : Enemy {
 
     public static Troll Factory(int cellID) {
         GameObject go = Geometry.Disc(Vector3.zero, color);
+        go.transform.localScale = new Vector3(10, 10, 10);
+        
         Troll troll = go.AddComponent<Troll>();
         troll.TokenName = Type;
 

@@ -35,7 +35,6 @@ public class MoveOptions : MonoBehaviour {
 
     void Awake() {
         panel = transform.Find("Panel").gameObject;
-        Hide();
         
         cancelBtn = panel.transform.Find("Cancel Button").GetComponent<Button>();
         cancelBtn.onClick.AddListener(delegate { EventManager.TriggerMoveCancel(); });
