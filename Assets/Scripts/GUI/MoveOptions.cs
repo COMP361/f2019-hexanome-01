@@ -15,9 +15,7 @@ public class MoveOptions : MonoBehaviour {
 
         EventManager.FarmersInventoriesUpdate += LockDropFarmer;
         EventManager.FarmersInventoriesUpdate += LockPickFarmer;
-        
         EventManager.MoveStart += LockPickFarmer;
-        EventManager.PickFarmer += UnlockDropFarmer;
     }
 
     void OnDisable() {
@@ -28,9 +26,7 @@ public class MoveOptions : MonoBehaviour {
         
         EventManager.FarmersInventoriesUpdate -= LockPickFarmer;
         EventManager.FarmersInventoriesUpdate -= LockDropFarmer;
-
         EventManager.MoveStart -= LockPickFarmer;
-        EventManager.PickFarmer -= UnlockDropFarmer;
     }
 
     void Awake() {
@@ -65,20 +61,19 @@ public class MoveOptions : MonoBehaviour {
         Buttons.Lock(pickFarmerBtn);
     }
 
-    void LockPickFarmer(int farmersWithHero, int farmersOnCell) {
-        if(farmersOnCell > farmersWithHero) {
+    void LockPickFarmer(int attachedfarmers, int detachedFarmers) {
+        Debug.Log(attachedfarmers);
+        Debug.Log(detachedFarmers);
+        
+        if(detachedFarmers > 0) {
             Buttons.Unlock(pickFarmerBtn);
         } else {
             Buttons.Lock(pickFarmerBtn);
         }
     }
 
-    void UnlockDropFarmer() {
-        Buttons.Unlock(dropFarmerBtn);
-    }
-
-    void LockDropFarmer(int farmersWithHero, int farmersOnCell) {
-        if(farmersWithHero > 0) {
+    void LockDropFarmer(int attachedfarmers, int detachedFarmers) {
+        if(attachedfarmers > 0) {
             Buttons.Unlock(dropFarmerBtn);
         } else {
             Buttons.Lock(dropFarmerBtn);

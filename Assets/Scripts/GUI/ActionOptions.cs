@@ -9,13 +9,13 @@ public class ActionOptions : MonoBehaviour
     void OnEnable() {
         EventManager.MoveSelect += LockMove;
         EventManager.MoveCancel += UnlockMove;
-        EventManager.MoveConfirm += UnlockMove;
+        //EventManager.MoveConfirm += UnlockMove;
     }
 
     void OnDisable() {
         EventManager.MoveSelect -= LockMove;
         EventManager.MoveCancel -= UnlockMove;
-        EventManager.MoveConfirm -= UnlockMove;
+        //EventManager.MoveConfirm -= UnlockMove;
     }
 
     void Awake()
