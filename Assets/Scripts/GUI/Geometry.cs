@@ -1,7 +1,7 @@
 using UnityEngine;
 
 class Geometry {
-    public static GameObject Line(Vector3 start, Vector3 end, Color color, float width = 0.1f) {
+    public static GameObject Line(Vector3 start, Vector3 end, Color color, float width = 1f) {
         GameObject line = new GameObject();
         line.transform.position = start;
         line.AddComponent<LineRenderer>();

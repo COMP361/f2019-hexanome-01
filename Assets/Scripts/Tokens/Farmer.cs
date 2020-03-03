@@ -23,6 +23,7 @@ public class Farmer : Movable {
         GameObject go = new GameObject("farmer");
 
         Farmer farmer = go.AddComponent<Farmer>();
+        go.transform.localScale = new Vector3(15, 15, 15);
         farmer.TokenName = Type;
 
         Cell cell = Cell.FromId(cellID);

@@ -10,7 +10,7 @@ public class CellInventory : MonoBehaviour
   protected Transform textTransform;
 
   protected virtual void Start() {
-    textTransform = transform.Find("cellsDescription");
+    textTransform = transform.Find("Description");
     textTransform.gameObject.SetActive(false);
   }
 

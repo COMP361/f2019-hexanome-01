@@ -12,7 +12,12 @@ public class MoveOptions : MonoBehaviour {
         EventManager.MoveCancel += Hide;
         EventManager.MoveCancel += LockConfirm;
         EventManager.CellClick += UnlockConfirm;
-        EventManager.FarmerOnCell += UnlockPickFarmer;
+
+        EventManager.FarmersInventoriesUpdate += LockDropFarmer;
+        EventManager.FarmersInventoriesUpdate += LockPickFarmer;
+        
+        EventManager.MoveStart += LockPickFarmer;
+        EventManager.PickFarmer += UnlockDropFarmer;
     }
 
     void OnDisable() {
@@ -20,12 +25,16 @@ public class MoveOptions : MonoBehaviour {
         EventManager.MoveCancel -= Hide;
         EventManager.MoveCancel -= LockConfirm;
         EventManager.CellClick -= UnlockConfirm;
-        EventManager.FarmerOnCell -= UnlockPickFarmer;
+        
+        EventManager.FarmersInventoriesUpdate -= LockPickFarmer;
+        EventManager.FarmersInventoriesUpdate -= LockDropFarmer;
+
+        EventManager.MoveStart -= LockPickFarmer;
+        EventManager.PickFarmer -= UnlockDropFarmer;
     }
 
     void Awake() {
         panel = transform.Find("Panel").gameObject;
-        Hide();
         
         cancelBtn = panel.transform.Find("Cancel Button").GetComponent<Button>();
         cancelBtn.onClick.AddListener(delegate { EventManager.TriggerMoveCancel(); });
@@ -41,23 +50,39 @@ public class MoveOptions : MonoBehaviour {
     }
 
     void UnlockConfirm(int cellID) {
-        UnlockBtn(confirmBtn);
+        Buttons.Unlock(confirmBtn);
     }
 
     void LockConfirm() {
-        LockBtn(confirmBtn);
+        Buttons.Lock(confirmBtn);
     }
 
-    void UnlockPickFarmer() {
-        UnlockBtn(pickFarmerBtn);
+    //void UnlockPickFarmer(int farmersWithHero, int farmersOnCell) {
+    //    if(farmersOnCell > farmersWithHero) Buttons.Unlock(pickFarmerBtn);
+    //}
+
+    void LockPickFarmer(Movable movable) {
+        Buttons.Lock(pickFarmerBtn);
     }
 
-    void UnlockBtn(Button btn) {
-        btn.interactable = true;
+    void LockPickFarmer(int farmersWithHero, int farmersOnCell) {
+        if(farmersOnCell > farmersWithHero) {
+            Buttons.Unlock(pickFarmerBtn);
+        } else {
+            Buttons.Lock(pickFarmerBtn);
+        }
     }
 
-    void LockBtn(Button btn) {
-        confirmBtn.interactable = false;
+    void UnlockDropFarmer() {
+        Buttons.Unlock(dropFarmerBtn);
+    }
+
+    void LockDropFarmer(int farmersWithHero, int farmersOnCell) {
+        if(farmersWithHero > 0) {
+            Buttons.Unlock(dropFarmerBtn);
+        } else {
+            Buttons.Lock(dropFarmerBtn);
+        }
     }
 
     public void Show() {
