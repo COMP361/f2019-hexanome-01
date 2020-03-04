@@ -16,10 +16,12 @@ public class GameManager : Singleton<GameManager>
     public HeroState state;
     public LegendCards legendCards;
     public EventCards eventCards;
+    public Castle castle;
     private ICommand command;
     List<Enemy> monstersToMove;
 
-    bool IsCastle(Cell cell) {
+    bool IsCastle(Cell cell)
+    {
         return cell.Index == 0;
     }
     #endregion
@@ -46,6 +48,7 @@ public class GameManager : Singleton<GameManager>
 
     void Start()
     {
+        castle = new Castle();
         monstersToMove = new List<Enemy>();
         // PLAYERS
         playerCount = 1;
@@ -54,7 +57,8 @@ public class GameManager : Singleton<GameManager>
         players.Add(Archer.Instance);
         players.Add(Mage.Instance);
         players.Add(Dwarf.Instance);
-        Cell.FromId(0).State.initGoldenShields(players.Count);
+        castle.initGoldenShields(players.Count);
+        Debug.Log("Castle instantiate: " + castle.getNumGoldenShield());
 
         // FARMERS
         farmers = new List<Farmer>();
@@ -114,8 +118,9 @@ public class GameManager : Singleton<GameManager>
     }
 
 
-    void UpdateMonsterToMove(Movable movable) {
-        if(!typeof(Enemy).IsCompatibleWith(movable.GetType())) return;
+    void UpdateMonsterToMove(Movable movable)
+    {
+        if (!typeof(Enemy).IsCompatibleWith(movable.GetType())) return;
         monstersToMove.Remove((Enemy)movable);
         monsterMove();
     }
@@ -124,20 +129,25 @@ public class GameManager : Singleton<GameManager>
      * Goes through a monster list and moves them in order.
      *
      */
-    void monsterMove() {
-        if(monstersToMove.Count == 0) return;
+    void monsterMove()
+    {
+        if (monstersToMove.Count == 0) return;
 
         bool move = false;
         //foreach (var monster in enemy) {
-        while(!move && monstersToMove.Count > 0) {
+        while (!move && monstersToMove.Count > 0)
+        {
             Enemy monster = monstersToMove[0];
             Cell nextCell = monster.Cell.enemyPath;
             while (nextCell != null && nextCell.State.cellInventory.Enemies.Count > 0 && nextCell.Index != 0) nextCell = nextCell.enemyPath;
-            if(nextCell != null) {
+            if (nextCell != null)
+            {
                 monster.Move(nextCell);
-                if (IsCastle(nextCell) && nextCell.State.decrementGoldenShields() == -1) { EventManager.TriggerGameOver(); }
+                if (IsCastle(nextCell) && castle.decrementGoldenShields() == -1) { EventManager.TriggerGameOver(); }
                 move = true;
-            } else {
+            }
+            else
+            {
                 monstersToMove.Remove(monster);
             }
         }
