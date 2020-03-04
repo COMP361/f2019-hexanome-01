@@ -3,11 +3,23 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-class Timeline : ICloneable {
-  private int index = 0;
+public class Timeline : ICloneable {
+  public int Index { get; set; }
+  private int freeLimit = 7;
+  private int extendedLimit = 10;
+  GameObject token;
 
-  public Timeline() {
+  public Timeline(Color color) {
+    Index = 0;
+    token = Geometry.Disc(Vector3.zero, color);
+  }
 
+  public int GetFreeHours() {
+    return freeLimit - Index;
+  }
+
+  public int GetExtendedHours() {
+    return Math.Min(extendedLimit - Index, extendedLimit - freeLimit);
   }
 
   void OnEnable() {
@@ -30,6 +42,6 @@ class Timeline : ICloneable {
   }     
 
   void EndDay() {
-    index = 0;
+    Index = 0;
   }
 }

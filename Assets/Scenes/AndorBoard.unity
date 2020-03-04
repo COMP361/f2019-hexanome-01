@@ -210,13 +210,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e2a64e02fa004af1add8c3b4950e813, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  players: []
+  heroes: []
   farmers: []
   gors: []
   skrals: []
   trolls: []
   wardraks: []
   well: {fileID: 0}
+  photonView: {fileID: 780264662}
 --- !u!4 &780264661
 Transform:
   m_ObjectHideFlags: 0
@@ -2316,6 +2317,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2768507553007534162}
     m_Modifications:
+    - target: {fileID: 3023200728129244427, guid: 58bdeeeaefb5db267b2835a676f6f04d,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5727437478987750460, guid: 58bdeeeaefb5db267b2835a676f6f04d,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2851,7 +2857,7 @@ PrefabInstance:
     - target: {fileID: 5397242402087138708, guid: 556317e587ba1953886bbb18ba308406,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 556317e587ba1953886bbb18ba308406, type: 3}

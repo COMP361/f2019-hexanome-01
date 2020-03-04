@@ -53,17 +53,17 @@ public class Hero : Movable {
 public class HeroState : ICloneable {
   public Action action;
   public Cell cell;
+  public Timeline timeline;
+
   private int freeMove;
   private int willpower;
   private int strength;
   private int golds;
-  private Timeline timeline;
-  private int hoursOfDay;
 
-  public HeroState(Cell cell) {
+  public HeroState(Cell cell, Color color) {
     this.cell = cell;
     action = Action.None;
-    timeline = new Timeline();
+    timeline = new Timeline(color);
   }
 
   public object Clone() {
@@ -72,23 +72,23 @@ public class HeroState : ICloneable {
     return hs;
   }
 
-    public int getStrength()
-    {
-        return strength;
-    }
+  public int getStrength()
+  {
+    return strength;
+  }
 
-    public int getWP()
-    {
-        return willpower;
-    }
+  public int getWP()
+  {
+    return willpower;
+  }
 
-    public void setWP(int hero_wp)
-    {
-        willpower = hero_wp;
-    }
+  public void setWP(int hero_wp)
+  {
+    willpower = hero_wp;
+  }
 
-    public void setStrength(int s)
-    {
-        strength = s;
-    }
+  public void setStrength(int s)
+  {
+    strength = s;
+  }
 }

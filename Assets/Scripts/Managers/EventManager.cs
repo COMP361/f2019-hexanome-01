@@ -156,6 +156,28 @@ public class EventManager {
         }
     }
 
+    // Fired when we confirm the move action
+    public delegate void ClearPathHandler();
+    public static event ClearPathHandler ClearPath;
+    public static void TriggerClearPath()
+    {
+        if (ClearPath != null)
+        {
+            ClearPath();
+        }
+    }
+
+    public delegate void PathUpdateHandler(int count);
+    public static event PathUpdateHandler PathUpdate;
+    public static void TriggerPathUpdate(int count)
+    {
+        if (PathUpdate != null)
+        {
+            PathUpdate(count);
+        }
+    }
+
+
     // Fired when we select the move action (Move button)
     public delegate void MoveSelectHandler();
     public static event MoveSelectHandler MoveSelect;
@@ -207,12 +229,12 @@ public class EventManager {
         }
     }
 
-    public delegate void FarmersInventoriesUpdateHandler(int hero, int cell);
+    public delegate void FarmersInventoriesUpdateHandler(int attachedFarmers, int noTargetFarmers, int detachedFarmers);
     public static event FarmersInventoriesUpdateHandler FarmersInventoriesUpdate;
-    public static void TriggerFarmersInventoriesUpdate(int hero, int cell) 
+    public static void TriggerFarmersInventoriesUpdate(int attachedFarmers, int noTargetFarmers, int detachedFarmers)
     {
         if (FarmersInventoriesUpdate != null) {
-            FarmersInventoriesUpdate(hero, cell);
+            FarmersInventoriesUpdate(attachedFarmers, noTargetFarmers, detachedFarmers);
         }
     }
 
@@ -271,6 +293,27 @@ public class EventManager {
         if (EndDay != null)
         {
             GameOver();
+        }
+    }
+
+    public delegate void MonsterOnCellHandler(Token token);
+    public static event MonsterOnCellHandler MonsterOnCell;
+    public static void TriggerMonsterOnCell(Token token)
+    {
+        if (MonsterOnCell != null)
+        {
+            MonsterOnCell(token);
+        }
+    }
+
+    
+    public delegate void FarmerDestroyedHandler(Farmer farmer);
+    public static event FarmerDestroyedHandler FarmerDestroyed;
+    public static void TriggerFarmerDestroyed(Farmer farmer)
+    {
+        if (FarmerDestroyed != null)
+        {
+            FarmerDestroyed(farmer);
         }
     }
 }

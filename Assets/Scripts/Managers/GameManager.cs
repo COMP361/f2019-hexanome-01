@@ -1,3 +1,9 @@
+
+using Photon.Pun;
+using Photon.Realtime;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,7 +13,8 @@ public class GameManager : Singleton<GameManager>
 {
     #region Fields
     private int playerCount;
-    public List<Hero> players;
+    public List<Player> players;
+    public List<Hero> heroes;
     public List<Farmer> farmers;
     public List<Enemy> gors, skrals, trolls, wardraks;
     private int currentPlayerIndex = -1;
@@ -18,6 +25,7 @@ public class GameManager : Singleton<GameManager>
     public EventCards eventCards;
     public Castle castle;
     private ICommand command;
+    public PhotonView photonView;
     List<Enemy> monstersToMove;
 
     bool IsCastle(Cell cell)
@@ -29,6 +37,7 @@ public class GameManager : Singleton<GameManager>
     #region Functions [Unity]
     void Awake()
     {
+        players = PhotonNetwork.PlayerList.ToList();
         base.Awake();
     }
 
@@ -50,16 +59,16 @@ public class GameManager : Singleton<GameManager>
     {
         castle = new Castle();
         monstersToMove = new List<Enemy>();
-        // PLAYERS
-        playerCount = 1;
-        players = new List<Hero>();
-        players.Add(Warrior.Instance);
-        players.Add(Archer.Instance);
-        players.Add(Mage.Instance);
-        players.Add(Dwarf.Instance);
+    
         castle.initGoldenShields(players.Count);
         Debug.Log("Castle instantiate: " + castle.getNumGoldenShield());
 
+        heroes = new List<Hero>();
+        heroes.Add(Warrior.Instance);
+        heroes.Add(Archer.Instance);
+        heroes.Add(Mage.Instance);
+        heroes.Add(Dwarf.Instance);
+        
         // FARMERS
         farmers = new List<Farmer>();
         farmers.Add(Farmer.Factory(24));
@@ -94,6 +103,7 @@ public class GameManager : Singleton<GameManager>
         EventManager.MoveComplete += UpdateMonsterToMove;
 
         giveTurn(0);
+
     }
 
     #endregion
@@ -124,15 +134,14 @@ public class GameManager : Singleton<GameManager>
         monstersToMove.Remove((Enemy)movable);
         monsterMove();
     }
-
+    
     /*
      * Goes through a monster list and moves them in order.
      *
      */
-    void monsterMove()
-    {
-        if (monstersToMove.Count == 0) return;
-
+    void monsterMove() {
+        if(monstersToMove.Count == 0) return;
+        
         bool move = false;
         //foreach (var monster in enemy) {
         while (!move && monstersToMove.Count > 0)
@@ -140,8 +149,8 @@ public class GameManager : Singleton<GameManager>
             Enemy monster = monstersToMove[0];
             Cell nextCell = monster.Cell.enemyPath;
             while (nextCell != null && nextCell.State.cellInventory.Enemies.Count > 0 && nextCell.Index != 0) nextCell = nextCell.enemyPath;
-            if (nextCell != null)
-            {
+
+            if(nextCell != null) {
                 monster.Move(nextCell);
                 if (IsCastle(nextCell) && castle.decrementGoldenShields() == -1) { EventManager.TriggerGameOver(); }
                 move = true;
@@ -163,20 +172,37 @@ public class GameManager : Singleton<GameManager>
 
     void endTurn(int playerIndex)
     {
-        CurrentPlayer.IsDone = false;
         CurrentPlayer.State.action = Action.None;
     }
 
     void InitMove()
     {
-        command = new MoveCommand(CurrentPlayer);
+        GameObject commandGO = PhotonNetwork.InstantiateSceneObject("Prefabs/Commands/MoveCommand", Vector3.zero, Quaternion.identity, 0);
+        int viewId = commandGO.GetComponent<PhotonView>().ViewID;
+        Debug.Log(viewId);
+        Debug.Log(photonView);
+        
+        photonView.RPC("ReceiveInitMove", RpcTarget.AllBuffered, viewId);
+    }
+
+    [PunRPC]
+    void ReceiveInitMove(int viewId)
+    {
+        Debug.Log("Init Move Reached");
+        command = PhotonView.Find(viewId).GetComponentInParent<MoveCommand>();
+        ((MoveCommand)command).Init(CurrentPlayer);
     }
 
     void ExecuteMove()
     {
+        photonView.RPC("ReceiveExecuteMove", RpcTarget.AllBuffered);
+    }
+
+    [PunRPC]
+    void ReceiveExecuteMove()
+    {
+        Debug.Log("Execute Move Reached");
         command.Execute();
-        //command.Dispose();
-        //command = new MoveCommand(CurrentPlayer.Token, CurrentPlayer.State.cell);
     }
 
     void ResetCommand()
@@ -186,11 +212,10 @@ public class GameManager : Singleton<GameManager>
 
     public Hero CurrentPlayer
     {
-        get
-        {
-            return players[currentPlayerIndex];
+        get {
+            return heroes[currentPlayerIndex];
         }
     }
-    #endregion
 
+    #endregion
 }

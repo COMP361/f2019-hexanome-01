@@ -11,7 +11,7 @@ public class Skral : Enemy
     {
 
         Sprite sprite = Resources.Load<Sprite>("Sprites/Enemies/skral");
-        GameObject go = new GameObject("Skral"); //Geometry.Disc(Vector3.zero, color);
+        GameObject go = new GameObject("Skral");
         SpriteRenderer renderer = go.AddComponent<SpriteRenderer>();
         renderer.sprite = sprite;
         renderer.sortingOrder = 2;
