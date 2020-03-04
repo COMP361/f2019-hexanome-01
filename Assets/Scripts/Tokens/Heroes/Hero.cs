@@ -60,15 +60,35 @@ public class HeroState : ICloneable {
   private int strength;
   private int golds;
 
-  public HeroState(Cell cell) {
+  public HeroState(Cell cell, Color color) {
     this.cell = cell;
     action = Action.None;
-    timeline = new Timeline();
+    timeline = new Timeline(color);
   }
 
   public object Clone() {
     HeroState hs = (HeroState) this.MemberwiseClone();
     hs.timeline = (Timeline) timeline.Clone();
     return hs;
+  }
+
+  public int getStrength()
+  {
+    return strength;
+  }
+
+  public int getWP()
+  {
+    return willpower;
+  }
+
+  public void setWP(int hero_wp)
+  {
+    willpower = hero_wp;
+  }
+
+  public void setStrength(int s)
+  {
+    strength = s;
   }
 }

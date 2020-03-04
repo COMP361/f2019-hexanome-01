@@ -1,3 +1,5 @@
+using Photon.Pun;
+using Photon.Realtime;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
@@ -12,13 +14,13 @@ public class Pair<T1, T2> {
     }
 }
 
-public class MoveCommand : ICommand {
+public class MoveCommand : MonoBehaviour, ICommand {
     public enum Action {
         DetachFarmer,
         SetDestination
     }
     
-    private readonly Hero hero;
+    private Hero hero;
     private Cell origin;
     private Cell goal;
     private MapPath path;
@@ -29,9 +31,10 @@ public class MoveCommand : ICommand {
     private List<Cell> stops;
     Action action;
     List<GameObject> farmerTargets;
+    public PhotonView photonView;
 
     // Movable ?
-    public MoveCommand(Hero hero) {
+    public void Init(Hero hero) {
         origin = hero.Cell;
         farmers = new List<Pair<Farmer, Cell>>();
         action = Action.SetDestination;
@@ -257,6 +260,7 @@ public class MoveCommand : ICommand {
         EventManager.TriggerFarmersInventoriesUpdate(farmers.Count, GetDroppableFarmerCount(), GetDetachedFarmerCount());
     }
 
+    [PunRPC]
     void SetDestination(int cellID) {
         if(action == Action.DetachFarmer) return;
 

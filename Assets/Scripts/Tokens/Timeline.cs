@@ -7,10 +7,11 @@ public class Timeline : ICloneable {
   public int Index { get; set; }
   private int freeLimit = 7;
   private int extendedLimit = 10;
-  Token token;
+  GameObject token;
 
-  public Timeline() {
+  public Timeline(Color color) {
     Index = 0;
+    token = Geometry.Disc(Vector3.zero, color);
   }
 
   public int GetFreeHours() {
