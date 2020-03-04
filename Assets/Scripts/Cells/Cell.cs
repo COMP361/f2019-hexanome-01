@@ -12,7 +12,7 @@ public class Cell : MonoBehaviour, IComparable<Cell>
     #region Fields
     /****** [Variables] ******/
     public static List<Cell> cells = new List<Cell>();
-    public static GameObject[] Farmers = new GameObject[4];
+    //public static GameObject[] Farmers = new GameObject[4];
     public List<Transform> neighbours = new List<Transform>();
     public Cell enemyPath;
     protected GameManager gm;
@@ -32,6 +32,7 @@ public class Cell : MonoBehaviour, IComparable<Cell>
     ///<summary>
     ///if true, we have to pay willPoints to reach the cell
     ///</summary>
+
     public bool Extension { get; set; }
     public float Heuristic { get; set; }
     public float Cost { get; set; }
@@ -70,9 +71,7 @@ public class Cell : MonoBehaviour, IComparable<Cell>
     }
 
     protected virtual void OnMouseEnter() {
-    //    Debug.Log("I'm here1 " + Index);
         if (!Active) return;
-    //    Debug.Log("I'm here2 " + Index);
 
         var color = gm.CurrentPlayer.Color;
         color.a = .4f;
@@ -151,8 +150,9 @@ public class Cell : MonoBehaviour, IComparable<Cell>
 
             for (int j = 0; j < t.Item2.neighbours.Count; j++) {
                 c = t.Item2.neighbours[j].GetComponent<Cell>();
+                
                 if (visited.Add(c)) {
-                    if (i >= min) cells.Add(c);
+                    if (i >= min && i <= max) cells.Add(c);
                     queue.Enqueue(new Tuple<int, Cell>(i, c));
                 }
             }
@@ -176,11 +176,8 @@ public class Cell : MonoBehaviour, IComparable<Cell>
     }
 
     protected bool setIcon(string spriteName) {
-
         Sprite spriteIcon=Resources.Load<Sprite>("Sprites/icons/merchant");
 
-
-        Debug.Log(spriteIcon);
         if (spriteIcon != null) {
             GameObject spriteObject = new GameObject(spriteName);
 

@@ -4,8 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CellInventory : MonoBehaviour
-{
+public class CellInventory {
   #region Fields
 
   protected string description;
@@ -22,24 +21,35 @@ public class CellInventory : MonoBehaviour
   public List<Token> Golds { get; private set; }
   #endregion
 
-
   #region Functions [Constructor]
-  public CellInventory()
-  {
-      allTokens = new List<Token>();
-      Heroes = new List<Hero>();
-      Enemies = new List<Enemy>();
-      Farmers = new List<Farmer>();
-      Tokens = new List<Token>();
-      Golds = new List<Token>();
+    
+  ~CellInventory() {
+    EventManager.FarmerDestroyed -= FarmerDestroyed;
+  }
 
-      // Should maybe be in inventoryUICell
-// textTransform = transform.Find("cellsDescription");
-// textTransform.gameObject.SetActive(false);
-      //int numGoldenShields;
+  public CellInventory() {
+    allTokens = new List<Token>();
+    Heroes = new List<Hero>();
+    Enemies = new List<Enemy>();
+    Farmers = new List<Farmer>();
+    Tokens = new List<Token>();
+    Golds = new List<Token>();
+
+    EventManager.FarmerDestroyed += FarmerDestroyed;
+
+    // Should maybe be in inventoryUICell
+    // textTransform = transform.Find("cellsDescription");
+    // textTransform.gameObject.SetActive(false);
+    // int numGoldenShields;
   }
   #endregion
-
+  
+  void FarmerDestroyed(Farmer farmer) {
+    if(Farmers.Contains(farmer)) {
+        Farmers.Remove(farmer);
+    }
+  }
+  
   public void addToken(Token token) {
   //  Debug.Log("Inventory addToken");
       Type listType;
@@ -84,7 +94,5 @@ public class CellInventory : MonoBehaviour
           Farmers.Remove((Farmer)token);
           return;
       }
-
-
   }
 }

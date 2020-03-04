@@ -6,6 +6,7 @@ class Geometry {
         line.transform.position = start;
         line.AddComponent<LineRenderer>();
         LineRenderer lr = line.GetComponent<LineRenderer>();
+        lr.material = new Material(Shader.Find("Sprites/Default"));
         lr.startWidth = width;
         lr.endWidth = width;
         lr.startColor = color;

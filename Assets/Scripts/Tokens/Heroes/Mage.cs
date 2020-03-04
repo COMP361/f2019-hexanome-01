@@ -29,7 +29,7 @@ public class Mage : Hero
         mage.Cell = cell;
         mage.State = new HeroState(cell);
 
-        mage.IsDone = false;
+        //mage.IsDone = false;
 
         mage.Dices = new int[21] {
             1, 1, 1, 1, 1, 1, 1,

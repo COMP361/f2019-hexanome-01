@@ -5,13 +5,14 @@ public class MoveOptions : MonoBehaviour {
     
     GameObject panel;
 
-    Button cancelBtn, confirmBtn, setDestBtn, pickFarmerBtn, dropFarmerBtn;
+    Button cancelBtn, confirmBtn, clearPathBtn, pickFarmerBtn, dropFarmerBtn;
 
     void OnEnable() {
         EventManager.MoveSelect += Show;
         EventManager.MoveCancel += Hide;
-        EventManager.MoveCancel += LockConfirm;
-        EventManager.CellClick += UnlockConfirm;
+        EventManager.MoveConfirm += Hide;
+        EventManager.PathUpdate += LockConfirm;
+        EventManager.PathUpdate += LockClearPath;
 
         EventManager.FarmersInventoriesUpdate += LockDropFarmer;
         EventManager.FarmersInventoriesUpdate += LockPickFarmer;
@@ -21,8 +22,9 @@ public class MoveOptions : MonoBehaviour {
     void OnDisable() {
         EventManager.MoveSelect -= Show;
         EventManager.MoveCancel -= Hide;
-        EventManager.MoveCancel -= LockConfirm;
-        EventManager.CellClick -= UnlockConfirm;
+        EventManager.MoveConfirm -= Hide;
+        EventManager.PathUpdate -= LockConfirm;
+        EventManager.PathUpdate -= LockClearPath;
         
         EventManager.FarmersInventoriesUpdate -= LockPickFarmer;
         EventManager.FarmersInventoriesUpdate -= LockDropFarmer;
@@ -35,6 +37,9 @@ public class MoveOptions : MonoBehaviour {
         cancelBtn = panel.transform.Find("Cancel Button").GetComponent<Button>();
         cancelBtn.onClick.AddListener(delegate { EventManager.TriggerMoveCancel(); });
 
+        clearPathBtn = panel.transform.Find("Clear Path Button").GetComponent<Button>();
+        clearPathBtn.onClick.AddListener(delegate { EventManager.TriggerClearPath(); });
+
         confirmBtn = panel.transform.Find("Confirm Button").GetComponent<Button>();
         confirmBtn.onClick.AddListener(delegate { EventManager.TriggerMoveConfirm(); });
 
@@ -45,26 +50,27 @@ public class MoveOptions : MonoBehaviour {
         dropFarmerBtn.onClick.AddListener(delegate { EventManager.TriggerDropFarmer(); });
     }
 
-    void UnlockConfirm(int cellID) {
-        Buttons.Unlock(confirmBtn);
+    void LockConfirm(int count) {
+        if(count > 0) {
+            Buttons.Unlock(confirmBtn);
+        } else {
+            Buttons.Lock(confirmBtn);
+        }
     }
 
-    void LockConfirm() {
-        Buttons.Lock(confirmBtn);
+    void LockClearPath(int count) {
+        if(count > 0) {
+            Buttons.Unlock(clearPathBtn);
+        } else {
+            Buttons.Lock(clearPathBtn);
+        }
     }
-
-    //void UnlockPickFarmer(int farmersWithHero, int farmersOnCell) {
-    //    if(farmersOnCell > farmersWithHero) Buttons.Unlock(pickFarmerBtn);
-    //}
 
     void LockPickFarmer(Movable movable) {
         Buttons.Lock(pickFarmerBtn);
     }
 
-    void LockPickFarmer(int attachedfarmers, int detachedFarmers) {
-        Debug.Log(attachedfarmers);
-        Debug.Log(detachedFarmers);
-        
+    void LockPickFarmer(int attachedFarmers, int noTargetFarmers, int detachedFarmers) {
         if(detachedFarmers > 0) {
             Buttons.Unlock(pickFarmerBtn);
         } else {
@@ -72,8 +78,8 @@ public class MoveOptions : MonoBehaviour {
         }
     }
 
-    void LockDropFarmer(int attachedfarmers, int detachedFarmers) {
-        if(attachedfarmers > 0) {
+    void LockDropFarmer(int attachedFarmers, int noTargetFarmers, int detachedFarmers) {
+        if(noTargetFarmers > 0) {
             Buttons.Unlock(dropFarmerBtn);
         } else {
             Buttons.Lock(dropFarmerBtn);

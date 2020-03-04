@@ -153,7 +153,7 @@ public class GameManager : Singleton<GameManager>
 
     void endTurn(int playerIndex)
     {
-        CurrentPlayer.IsDone = false;
+        //CurrentPlayer.IsDone = false;
         CurrentPlayer.State.action = Action.None;
     }
 

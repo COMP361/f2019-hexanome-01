@@ -61,6 +61,8 @@ public class Token : MonoBehaviour {
             cell = value;
             gameObject.transform.position = getWaypoint(cell);
             cell.State.addToken(this);
+
+            if(cell.State.cellInventory.Enemies.Count > 0) EventManager.TriggerMonsterOnCell(this);
         }
     }
 }

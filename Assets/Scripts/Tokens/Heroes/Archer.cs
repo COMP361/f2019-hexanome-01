@@ -29,7 +29,7 @@ public class Archer : Hero
         archer.Cell = cell;
         archer.State = new HeroState(cell);
 
-        archer.IsDone = false;
+        //archer.IsDone = false;
 
         archer.Dices = new int[21] {
             3, 3, 3, 3, 3, 3, 3,

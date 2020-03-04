@@ -53,12 +53,12 @@ public class Hero : Movable {
 public class HeroState : ICloneable {
   public Action action;
   public Cell cell;
+  public Timeline timeline;
+
   private int freeMove;
   private int willpower;
   private int strength;
   private int golds;
-  private Timeline timeline;
-  private int hoursOfDay;
 
   public HeroState(Cell cell) {
     this.cell = cell;

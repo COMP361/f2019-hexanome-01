@@ -29,7 +29,7 @@ public class Dwarf : Hero
         dwarf.Cell = cell;
         dwarf.State = new HeroState(cell);
 
-        dwarf.IsDone = false;
+        //dwarf.IsDone = false;
 
         dwarf.Dices = new int[21] {
             1, 1, 1, 1, 1, 1, 1,
