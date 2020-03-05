@@ -18,12 +18,8 @@ public class Hero : Movable {
 
   // TODO
   void OnTokenMoveComplete(Token token, Cell c) {
-    //State.cell.removeToken(token);
     State.cell = c;
-    //State.cell.addToken(token);
   }
-
-  //public bool IsDone { get; set; }
 
   public string Type { get; protected set; }
 

@@ -169,7 +169,7 @@ public class MoveCommand : MonoBehaviour, ICommand {
     private List<Farmer> GetPathFarmer() {
         List<Farmer> pathFarmers = new List<Farmer>(); 
         foreach(Cell cell in path.Cells) {
-            foreach(Farmer farmer in cell.State.cellInventory.Farmers) {
+            foreach(Farmer farmer in cell.Inventory.Farmers) {
                 pathFarmers.Add(farmer);
             }
         }
@@ -305,7 +305,7 @@ public class MoveCommand : MonoBehaviour, ICommand {
             Cell start = hero.Cell;
 
             int startIndex = path.Cells.IndexOf(start);
-            foreach(Farmer f in start.State.cellInventory.Farmers) {
+            foreach(Farmer f in start.Inventory.Farmers) {
                 foreach(Pair<Farmer, Cell> farmer in farmers) {
                     if(farmer.First == f) {
                         int stopInd = -1;

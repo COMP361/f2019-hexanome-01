@@ -28,10 +28,6 @@ public class GameManager : Singleton<GameManager>
     public PhotonView photonView;
     List<Enemy> monstersToMove;
 
-    bool IsCastle(Cell cell)
-    {
-        return cell.Index == 0;
-    }
     #endregion
 
     #region Functions [Unity]
@@ -46,6 +42,8 @@ public class GameManager : Singleton<GameManager>
         EventManager.MoveSelect += InitMove;
         EventManager.MoveCancel += ResetCommand;
         EventManager.MoveConfirm += ExecuteMove;
+        EventManager.EnemyDestroyed += RemoveEnemy;
+        EventManager.FarmerDestroyed += RemoveFarmer;
     }
 
     void OnDisable()
@@ -53,16 +51,32 @@ public class GameManager : Singleton<GameManager>
         EventManager.MoveSelect -= InitMove;
         EventManager.MoveCancel -= ResetCommand;
         EventManager.MoveConfirm -= ExecuteMove;
+        EventManager.EnemyDestroyed -= RemoveEnemy;
+        EventManager.FarmerDestroyed -= RemoveFarmer;
+    }
+
+    void RemoveEnemy(Enemy enemy) {
+        if (typeof(Gor).IsCompatibleWith(enemy.GetType())) {
+            gors.Remove((Gor)enemy);
+        } else if (typeof(Skral).IsCompatibleWith(enemy.GetType())) {
+            skrals.Remove((Skral)enemy);
+        } else if (typeof(Troll).IsCompatibleWith(enemy.GetType())) {
+            trolls.Remove((Troll)enemy);
+        } else if (typeof(Wardrak).IsCompatibleWith(enemy.GetType())) {
+            wardraks.Remove((Wardrak)enemy);
+        }
+    }
+
+    void RemoveFarmer(Farmer farmer) {
+        farmers.Remove(farmer);
     }
 
     void Start()
     {
-        castle = new Castle();
+        castle = Castle.Instance;
+        castle.Init(players.Count);
         monstersToMove = new List<Enemy>();
     
-        castle.initGoldenShields(players.Count);
-        Debug.Log("Castle instantiate: " + castle.getNumGoldenShield());
-
         heroes = new List<Hero>();
         heroes.Add(Warrior.Instance);
         heroes.Add(Archer.Instance);
@@ -122,8 +136,6 @@ public class GameManager : Singleton<GameManager>
         monstersToMove.AddRange(trolls);
         monstersToMove.AddRange(wardraks);
 
-        Debug.Log(monstersToMove.Count);
-
         monsterMove();
     }
 
@@ -143,20 +155,19 @@ public class GameManager : Singleton<GameManager>
         if(monstersToMove.Count == 0) return;
         
         bool move = false;
-        //foreach (var monster in enemy) {
-        while (!move && monstersToMove.Count > 0)
-        {
+        while (!move && monstersToMove.Count > 0) {
             Enemy monster = monstersToMove[0];
             Cell nextCell = monster.Cell.enemyPath;
-            while (nextCell != null && nextCell.State.cellInventory.Enemies.Count > 0 && nextCell.Index != 0) nextCell = nextCell.enemyPath;
+
+            Debug.Log(monster.Cell);
+            Debug.Log(nextCell);
+
+            while (nextCell != null && nextCell.Inventory.Enemies.Count > 0 && !Castle.IsCastle(nextCell)) nextCell = nextCell.enemyPath;
 
             if(nextCell != null) {
                 monster.Move(nextCell);
-                if (IsCastle(nextCell) && castle.decrementGoldenShields() == -1) { EventManager.TriggerGameOver(); }
                 move = true;
-            }
-            else
-            {
+            } else {
                 monstersToMove.Remove(monster);
             }
         }
