@@ -12,17 +12,21 @@ public class FightPanel : MonoBehaviour
     public Text EnemyStrength;
     public Text EnemyWP;
 
+    public Text rollMessage;
+
     public GameObject rd1;
     public GameObject rd2;
     public GameObject rd3;
     public GameObject rd4;
     public GameObject sd1;
     public GameObject sd2;
-
+    private List<GameObject> regular_dice = new List<GameObject>();
+    private List<GameObject> special_dice = new List<GameObject>();
 
     // Start is called before the first frame update
     public void Start()
     {
+        // PLEASE DONT DELETE THESE COMMENTS
         //HeroName = GameObject.Find("AndorBoard/Canvas/Action Options/Fight/Player Name").GetComponent<Text>();
         //HeroStrength = GameObject.Find("AndorBoard/Canvas/Action Options/Fight/PS Value").GetComponent<Text>();
         //HeroWP = GameObject.Find("AndorBoard/Canvas/Action Options/Fight/PWP Value").GetComponent<Text>();
@@ -34,7 +38,53 @@ public class FightPanel : MonoBehaviour
         SetNames();
         SetStrength();
         SetWP();
-        
+        int nb_rd = GameManager.instance.CurrentPlayer.Dices[GameManager.instance.CurrentPlayer.State.getWP()];
+        //int nb_sd = GameManager.instance.CurrentPlayer.SpecialDice;
+
+        switch (nb_rd)
+        {
+            case 1:
+                regular_dice.Add(rd1);
+                break;
+            case 2:
+                regular_dice.Add(rd1);
+                regular_dice.Add(rd2);
+                break;
+            case 3:
+                regular_dice.Add(rd1);
+                regular_dice.Add(rd2);
+                regular_dice.Add(rd3);
+                break;
+            case 4:
+                regular_dice.Add(rd1);
+                regular_dice.Add(rd2);
+                regular_dice.Add(rd3);
+                regular_dice.Add(rd4);
+                break;
+            default:
+                break;
+        }
+        //switch (nb_sd)
+        //{
+        //    case 1:
+        //        special_dice.Add(sd1);
+        //        break;
+        //    case 2:
+        //        special_dice.Add(sd1);
+        //        special_dice.Add(sd2);
+        //        break;
+        //    default:
+        //        break;
+        //}
+
+        foreach(GameObject g in regular_dice)
+        {
+            g.SetActive(true);
+        }
+        //foreach (GameObject g in special_dice)
+        //{
+        //    g.SetActive(true);
+        //}
     }
 
     private void SetNames()
@@ -60,7 +110,17 @@ public class FightPanel : MonoBehaviour
 
     public void OnClickAttack()
     {
-        // ADD DICE ROLL
+
+    }
+
+    public void Attack()
+    {
+        foreach(GameObject g in regular_dice)
+        {
+            
+        }
+
+
         int hero_strength = GameManager.instance.CurrentPlayer.State.getStrength();
         int hero_wp = GameManager.instance.CurrentPlayer.State.getWP();
         int monster_strength = GameManager.instance.CurrentPlayer.Cell.State.cellInventory.Enemies[0].Strength;
