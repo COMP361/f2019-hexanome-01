@@ -156,6 +156,28 @@ public class EventManager {
         }
     }
 
+    // Fired when we confirm the move action
+    public delegate void ClearPathHandler();
+    public static event ClearPathHandler ClearPath;
+    public static void TriggerClearPath()
+    {
+        if (ClearPath != null)
+        {
+            ClearPath();
+        }
+    }
+
+    public delegate void PathUpdateHandler(int count);
+    public static event PathUpdateHandler PathUpdate;
+    public static void TriggerPathUpdate(int count)
+    {
+        if (PathUpdate != null)
+        {
+            PathUpdate(count);
+        }
+    }
+
+
     // Fired when we select the move action (Move button)
     public delegate void MoveSelectHandler();
     public static event MoveSelectHandler MoveSelect;
@@ -207,12 +229,12 @@ public class EventManager {
         }
     }
 
-    public delegate void FarmersInventoriesUpdateHandler(int hero, int cell);
+    public delegate void FarmersInventoriesUpdateHandler(int attachedFarmers, int noTargetFarmers, int detachedFarmers);
     public static event FarmersInventoriesUpdateHandler FarmersInventoriesUpdate;
-    public static void TriggerFarmersInventoriesUpdate(int hero, int cell) 
+    public static void TriggerFarmersInventoriesUpdate(int attachedFarmers, int noTargetFarmers, int detachedFarmers)
     {
         if (FarmersInventoriesUpdate != null) {
-            FarmersInventoriesUpdate(hero, cell);
+            FarmersInventoriesUpdate(attachedFarmers, noTargetFarmers, detachedFarmers);
         }
     }
 
@@ -243,17 +265,17 @@ public class EventManager {
     public static event EndDayHandler EndDay;
 
     public static void TriggerEndDaySelect() {
-          if (EndDay != null) {
+        if (EndDay != null) {
             EndDay();
-          }
+        }
     }
 
     public delegate void InventoryUICellEnterHandler(CellInventory cellInventory, int index);
     public static event InventoryUICellEnterHandler InventoryUICellEnter;
     public static void TriggerInventoryUICellEnter(CellInventory cellInventory, int index) {
-          if (InventoryUICellEnter != null) {
-            InventoryUICellEnter(cellInventory,index);
-          }
+        if (InventoryUICellEnter != null) {
+            InventoryUICellEnter(cellInventory, index);
+        }
     }
 
     public delegate void InventoryUICellExitHandler();
@@ -268,9 +290,45 @@ public class EventManager {
     public static event GameOverHandler GameOver;
     public static void TriggerGameOver()
     {
-        if (EndDay != null)
+        if (GameOver != null)
         {
             GameOver();
+        }
+    }
+
+    public delegate void CellUpdateHandler(Token token);
+    public static event CellUpdateHandler CellUpdate;
+    public static void TriggerCellUpdate(Token token)
+    {
+        if (CellUpdate != null)
+        {
+            CellUpdate(token);
+        }
+    }
+
+    public delegate void FarmerDestroyedHandler(Farmer farmer);
+    public static event FarmerDestroyedHandler FarmerDestroyed;
+    public static void TriggerFarmerDestroyed(Farmer farmer)
+    {
+        if (FarmerDestroyed != null) {
+            FarmerDestroyed(farmer);
+        }
+    }
+
+    public delegate void EnemyDestroyedHandler(Enemy enemy);
+    public static event EnemyDestroyedHandler EnemyDestroyed;
+    public static void TriggerEnemyDestroyed(Enemy enemy)
+    {
+        if (EnemyDestroyed != null) {
+            EnemyDestroyed(enemy);
+        }
+    }
+
+    public delegate void ShieldsUpdateHandler(int shields);
+    public static event ShieldsUpdateHandler ShieldsUpdate;
+    public static void TriggerShieldsUpdate(int shields) {
+        if (ShieldsUpdate != null) {
+            ShieldsUpdate(shields);
         }
     }
 }

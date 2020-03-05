@@ -39,7 +39,7 @@ public class FightPanel : MonoBehaviour
     private void SetNames()
     {
         HeroName.text = GameManager.instance.CurrentPlayer.HeroName;
-        EnemyName.text = GameManager.instance.CurrentPlayer.Cell.State.cellInventory.Enemies[0].TokenName;
+        EnemyName.text = GameManager.instance.CurrentPlayer.Cell.Inventory.Enemies[0].TokenName;
     }
 
     private void SetStrength()
@@ -48,13 +48,13 @@ public class FightPanel : MonoBehaviour
         GameManager.instance.CurrentPlayer.State.setStrength(2);
 
         HeroStrength.text = GameManager.instance.CurrentPlayer.State.getStrength().ToString();
-        EnemyStrength.text = GameManager.instance.CurrentPlayer.Cell.State.cellInventory.Enemies[0].Strength.ToString();
+        EnemyStrength.text = GameManager.instance.CurrentPlayer.Cell.Inventory.Enemies[0].Strength.ToString();
     }
 
     private void SetWP()
     {
         HeroWP.text = GameManager.instance.CurrentPlayer.State.getWP().ToString();
-        EnemyWP.text = GameManager.instance.CurrentPlayer.Cell.State.cellInventory.Enemies[0].Will.ToString();
+        EnemyWP.text = GameManager.instance.CurrentPlayer.Cell.Inventory.Enemies[0].Will.ToString();
     }
 
     public void OnClickAttack()
@@ -62,13 +62,13 @@ public class FightPanel : MonoBehaviour
         // ADD DICE ROLL
         int hero_strength = GameManager.instance.CurrentPlayer.State.getStrength();
         int hero_wp = GameManager.instance.CurrentPlayer.State.getWP();
-        int monster_strength = GameManager.instance.CurrentPlayer.Cell.State.cellInventory.Enemies[0].Strength;
-        int monster_wp = GameManager.instance.CurrentPlayer.Cell.State.cellInventory.Enemies[0].Will;
+        int monster_strength = GameManager.instance.CurrentPlayer.Cell.Inventory.Enemies[0].Strength;
+        int monster_wp = GameManager.instance.CurrentPlayer.Cell.Inventory.Enemies[0].Will;
 
         if (hero_strength >= monster_strength)
         {
             monster_wp -= (hero_strength);
-            GameManager.instance.CurrentPlayer.Cell.State.cellInventory.Enemies[0].Will = monster_wp;
+            GameManager.instance.CurrentPlayer.Cell.Inventory.Enemies[0].Will = monster_wp;
         }
         else
         {
@@ -76,9 +76,9 @@ public class FightPanel : MonoBehaviour
             GameManager.instance.CurrentPlayer.State.setWP(hero_wp);
         }
 
-        if (GameManager.instance.CurrentPlayer.Cell.State.cellInventory.Enemies[0].Will == 0)
+        if (GameManager.instance.CurrentPlayer.Cell.Inventory.Enemies[0].Will == 0)
         {
-            GameManager.instance.CurrentPlayer.Cell.State.cellInventory.Enemies[0].gameObject.SetActive(false);
+            GameManager.instance.CurrentPlayer.Cell.Inventory.Enemies[0].gameObject.SetActive(false);
             this.gameObject.SetActive(!this.gameObject.activeSelf);
         }
     }

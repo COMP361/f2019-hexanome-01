@@ -1,3 +1,9 @@
+
+using Photon.Pun;
+using Photon.Realtime;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,7 +13,8 @@ public class GameManager : Singleton<GameManager>
 {
     #region Fields
     private int playerCount;
-    public List<Hero> players;
+    public List<Player> players;
+    public List<Hero> heroes;
     public List<Farmer> farmers;
     public List<Enemy> gors, skrals, trolls, wardraks;
     private int currentPlayerIndex = -1;
@@ -16,17 +23,17 @@ public class GameManager : Singleton<GameManager>
     public HeroState state;
     public LegendCards legendCards;
     public EventCards eventCards;
+    public Castle castle;
     private ICommand command;
+    public PhotonView photonView;
     List<Enemy> monstersToMove;
 
-    bool IsCastle(Cell cell) {
-        return cell.Index == 0;
-    }
     #endregion
 
     #region Functions [Unity]
     void Awake()
     {
+        players = PhotonNetwork.PlayerList.ToList();
         base.Awake();
     }
 
@@ -35,6 +42,8 @@ public class GameManager : Singleton<GameManager>
         EventManager.MoveSelect += InitMove;
         EventManager.MoveCancel += ResetCommand;
         EventManager.MoveConfirm += ExecuteMove;
+        EventManager.EnemyDestroyed += RemoveEnemy;
+        EventManager.FarmerDestroyed += RemoveFarmer;
     }
 
     void OnDisable()
@@ -42,20 +51,38 @@ public class GameManager : Singleton<GameManager>
         EventManager.MoveSelect -= InitMove;
         EventManager.MoveCancel -= ResetCommand;
         EventManager.MoveConfirm -= ExecuteMove;
+        EventManager.EnemyDestroyed -= RemoveEnemy;
+        EventManager.FarmerDestroyed -= RemoveFarmer;
+    }
+
+    void RemoveEnemy(Enemy enemy) {
+        if (typeof(Gor).IsCompatibleWith(enemy.GetType())) {
+            gors.Remove((Gor)enemy);
+        } else if (typeof(Skral).IsCompatibleWith(enemy.GetType())) {
+            skrals.Remove((Skral)enemy);
+        } else if (typeof(Troll).IsCompatibleWith(enemy.GetType())) {
+            trolls.Remove((Troll)enemy);
+        } else if (typeof(Wardrak).IsCompatibleWith(enemy.GetType())) {
+            wardraks.Remove((Wardrak)enemy);
+        }
+    }
+
+    void RemoveFarmer(Farmer farmer) {
+        farmers.Remove(farmer);
     }
 
     void Start()
     {
+        castle = Castle.Instance;
+        castle.Init(players.Count);
         monstersToMove = new List<Enemy>();
-        // PLAYERS
-        playerCount = 1;
-        players = new List<Hero>();
-        players.Add(Warrior.Instance);
-        players.Add(Archer.Instance);
-        players.Add(Mage.Instance);
-        players.Add(Dwarf.Instance);
-        Cell.FromId(0).State.initGoldenShields(players.Count);
-
+    
+        heroes = new List<Hero>();
+        heroes.Add(Warrior.Instance);
+        heroes.Add(Archer.Instance);
+        heroes.Add(Mage.Instance);
+        heroes.Add(Dwarf.Instance);
+        
         // FARMERS
         farmers = new List<Farmer>();
         farmers.Add(Farmer.Factory(24));
@@ -90,6 +117,7 @@ public class GameManager : Singleton<GameManager>
         EventManager.MoveComplete += UpdateMonsterToMove;
 
         giveTurn(0);
+
     }
 
     #endregion
@@ -108,34 +136,36 @@ public class GameManager : Singleton<GameManager>
         monstersToMove.AddRange(trolls);
         monstersToMove.AddRange(wardraks);
 
-        Debug.Log(monstersToMove.Count);
-
         monsterMove();
     }
 
 
-    void UpdateMonsterToMove(Movable movable) {
-        if(!typeof(Enemy).IsCompatibleWith(movable.GetType())) return;
+    void UpdateMonsterToMove(Movable movable)
+    {
+        if (!typeof(Enemy).IsCompatibleWith(movable.GetType())) return;
         monstersToMove.Remove((Enemy)movable);
         monsterMove();
     }
-
+    
     /*
      * Goes through a monster list and moves them in order.
      *
      */
     void monsterMove() {
         if(monstersToMove.Count == 0) return;
-
+        
         bool move = false;
-        //foreach (var monster in enemy) {
-        while(!move && monstersToMove.Count > 0) {
+        while (!move && monstersToMove.Count > 0) {
             Enemy monster = monstersToMove[0];
             Cell nextCell = monster.Cell.enemyPath;
-            while (nextCell != null && nextCell.State.cellInventory.Enemies.Count > 0 && nextCell.Index != 0) nextCell = nextCell.enemyPath;
+
+            Debug.Log(monster.Cell);
+            Debug.Log(nextCell);
+
+            while (nextCell != null && nextCell.Inventory.Enemies.Count > 0 && !Castle.IsCastle(nextCell)) nextCell = nextCell.enemyPath;
+
             if(nextCell != null) {
                 monster.Move(nextCell);
-                if (IsCastle(nextCell) && nextCell.State.decrementGoldenShields() == -1) { EventManager.TriggerGameOver(); }
                 move = true;
             } else {
                 monstersToMove.Remove(monster);
@@ -153,20 +183,37 @@ public class GameManager : Singleton<GameManager>
 
     void endTurn(int playerIndex)
     {
-        CurrentPlayer.IsDone = false;
         CurrentPlayer.State.action = Action.None;
     }
 
     void InitMove()
     {
-        command = new MoveCommand(CurrentPlayer);
+        GameObject commandGO = PhotonNetwork.InstantiateSceneObject("Prefabs/Commands/MoveCommand", Vector3.zero, Quaternion.identity, 0);
+        int viewId = commandGO.GetComponent<PhotonView>().ViewID;
+        Debug.Log(viewId);
+        Debug.Log(photonView);
+        
+        photonView.RPC("ReceiveInitMove", RpcTarget.AllBuffered, viewId);
+    }
+
+    [PunRPC]
+    void ReceiveInitMove(int viewId)
+    {
+        Debug.Log("Init Move Reached");
+        command = PhotonView.Find(viewId).GetComponentInParent<MoveCommand>();
+        ((MoveCommand)command).Init(CurrentPlayer);
     }
 
     void ExecuteMove()
     {
+        photonView.RPC("ReceiveExecuteMove", RpcTarget.AllBuffered);
+    }
+
+    [PunRPC]
+    void ReceiveExecuteMove()
+    {
+        Debug.Log("Execute Move Reached");
         command.Execute();
-        //command.Dispose();
-        //command = new MoveCommand(CurrentPlayer.Token, CurrentPlayer.State.cell);
     }
 
     void ResetCommand()
@@ -176,11 +223,10 @@ public class GameManager : Singleton<GameManager>
 
     public Hero CurrentPlayer
     {
-        get
-        {
-            return players[currentPlayerIndex];
+        get {
+            return heroes[currentPlayerIndex];
         }
     }
-    #endregion
 
+    #endregion
 }

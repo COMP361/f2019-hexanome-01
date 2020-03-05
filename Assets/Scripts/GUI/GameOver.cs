@@ -6,21 +6,18 @@ public class GameOver : MonoBehaviour
 {
     GameObject panel;
 
-    void Awake()
-    {
+    void Awake() {
         panel = this.gameObject;
         Hide();
 
         EventManager.GameOver += Show;
     }
 
-    public void Show()
-    {
+    public void Show() {
         panel.SetActive(true);
     }
 
-    public void Hide()
-    {
+    public void Hide() {
         panel.SetActive(false);
     }
 }

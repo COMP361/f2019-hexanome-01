@@ -5,21 +5,29 @@ using System;
 
 public class Farmer : Movable {
     static Color color = Color.white;
+    bool isAttached;
+
+    Sprite sprite;
+    Sprite attachedSprite;
+    SpriteRenderer sr;
+
+    void OnEnable() {
+        EventManager.CellUpdate += Destroy;
+    }
+
+    void OnDisable() {
+        EventManager.CellUpdate -= Destroy;
+    }
 
     protected override void Awake() {
-        Sprite iconSprite = Resources.Load<Sprite>("Sprites/icons/farmer");
-
-        if (iconSprite != null) {
-            SpriteRenderer sr = gameObject.AddComponent<SpriteRenderer>();
-            sr.sprite = iconSprite;
-        }
-
-        transform.localScale.Set(1f, 1f, 1f);
+        sprite = Resources.Load<Sprite>("Sprites/icons/farmer");
+        attachedSprite = Resources.Load<Sprite>("Sprites/icons/farmer-attached");
+        sr = gameObject.AddComponent<SpriteRenderer>();
+        Detach() ;
         base.Awake();
     }
+    
     public static Farmer Factory(int cellID) {
-        //GameObject go = Geometry.Disc(Vector3.zero, color);
-       
         GameObject go = new GameObject("farmer");
 
         Farmer farmer = go.AddComponent<Farmer>();
@@ -32,7 +40,27 @@ public class Farmer : Movable {
         return farmer;
     }
 
+    void Destroy(Token token) {
+        if(Cell.Inventory.Enemies.Count > 0) {
+            EventManager.TriggerFarmerDestroyed(this);
+            Destroy(gameObject);
+        }
+    }
+    
+    public void Attach() {
+        if (attachedSprite != null) {
+            sr.sprite = attachedSprite;
+        }
+        isAttached = true;
+    }
+
+    public void Detach() {
+        if (attachedSprite != null) {
+            sr.sprite = sprite;
+        }
+
+        isAttached = false;
+    }
+
     public static string Type { get => typeof(Farmer).ToString(); }
-
-
 }
