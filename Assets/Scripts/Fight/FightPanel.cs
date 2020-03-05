@@ -13,6 +13,8 @@ public class FightPanel : MonoBehaviour
     public Text EnemyWP;
 
     public Text rollMessage;
+    public bool hasRolled = false;
+    public int nb_rd;
 
     public regularDices rd1;
     public regularDices rd2;
@@ -38,7 +40,7 @@ public class FightPanel : MonoBehaviour
         SetNames();
         SetStrength();
         SetWP();
-        int nb_rd = GameManager.instance.CurrentPlayer.Dices[GameManager.instance.CurrentPlayer.State.getWP()];
+        nb_rd = GameManager.instance.CurrentPlayer.Dices[GameManager.instance.CurrentPlayer.State.getWP()];
         //int nb_sd = GameManager.instance.CurrentPlayer.SpecialDice;
 
         switch (nb_rd)
@@ -79,7 +81,7 @@ public class FightPanel : MonoBehaviour
 
         foreach(regularDices d in regular_dice)
         {
-            d.SetActive(true);
+            d.gameObject.SetActive(true);
         }
         //foreach (GameObject g in special_dice)
         //{
@@ -113,9 +115,9 @@ public class FightPanel : MonoBehaviour
         rollMessage.text = "*PLEASE ROLL THE DICE*";
     }
 
-    public void Attack()
+    public void Attack(int attack_str)
     {
-        foreach(GameObject g in regular_dice)
+        foreach(regularDices d in regular_dice)
         {
             
         }

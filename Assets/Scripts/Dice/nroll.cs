@@ -10,20 +10,24 @@ public class nroll : MonoBehaviour
     public regularDices regularDice4;
     public specialDices specialDice1;
     public specialDices specialDice2;
-    public static bool hasSpecial;
-    public static int numRegularDices;
-    public static int numSpecialDices;
+    public static bool hasSpecial = false; // REMEMBER TO SET CORRECT THIS
+    FightPanel fp = GameObject.Find("AndorBoard/Canvas/Action Options/Fight").GetComponent<FightPanel>();
+    public int numRegularDices;
+    public int numSpecialDices;
 
 
     // Start is called before the first frame update
     void Start()
     {
-        regularDice1 = GameObject.FindGameObjectWithTag("rd1").GetComponent<regularDices>();
-        regularDice2 = GameObject.FindGameObjectWithTag("rd2").GetComponent<regularDices>();
-        regularDice3 = GameObject.FindGameObjectWithTag("rd3").GetComponent<regularDices>();
-        regularDice4 = GameObject.FindGameObjectWithTag("rd4").GetComponent<regularDices>();
-        specialDice1 = GameObject.FindGameObjectWithTag("s1").GetComponent<specialDices>();
-        specialDice2 = GameObject.FindGameObjectWithTag("s2").GetComponent<specialDices>();
+
+        //regularDice1 = GameObject.FindGameObjectWithTag("rd1").GetComponent<regularDices>();
+        //regularDice2 = GameObject.FindGameObjectWithTag("rd2").GetComponent<regularDices>();
+        //regularDice3 = GameObject.FindGameObjectWithTag("rd3").GetComponent<regularDices>();
+        //regularDice4 = GameObject.FindGameObjectWithTag("rd4").GetComponent<regularDices>();
+        //specialDice1 = GameObject.FindGameObjectWithTag("s1").GetComponent<specialDices>();
+        //specialDice2 = GameObject.FindGameObjectWithTag("s2").GetComponent<specialDices>();
+
+        numRegularDices = fp.nb_rd;
     }
 
     // Update is called once per frame
@@ -31,12 +35,13 @@ public class nroll : MonoBehaviour
     {
         regularDice1.RollTheDice();
     }
-    private void OnMouseDown()
+    public void OnMouseDown()
     {
         StartCoroutine("activatedAllDices");
+        fp.hasRolled = true; 
     }
 
-    public int activatedAllDices()
+    public int activatedAllDices(int numRegularDices, int numSpecialDices)
     {
         if (numRegularDices == 1)
         {
@@ -48,7 +53,9 @@ public class nroll : MonoBehaviour
             {
                 smax1 = activeSpecialDice();
             }
-            return getBigger(rmax1,smax1);
+            int temp = getBigger(rmax1, smax1);
+            sendStrength(temp);
+            return temp;
         }
         else if(numRegularDices == 2)
         {
@@ -64,7 +71,9 @@ public class nroll : MonoBehaviour
             {
                 smax2 = activeSpecialDice();
             }
-            return getBigger(rmax2,smax2);
+            int temp = getBigger(rmax2, smax2);
+            sendStrength(temp);
+            return temp;
         }
         else if(numRegularDices == 3)
         {
@@ -81,7 +90,9 @@ public class nroll : MonoBehaviour
             {
                 smax3 = activeSpecialDice();
             }
-            return getBigger(rmax3, smax3) ;
+            int temp = getBigger(rmax3, smax3);
+            sendStrength(temp);
+            return temp;
         }
         else if(numRegularDices == 4)
         {
@@ -99,7 +110,9 @@ public class nroll : MonoBehaviour
             {
                 smax4 = activeSpecialDice();
             }
-            return getBigger(rmax4,smax4);
+            int temp = getBigger(rmax4, smax4);
+            sendStrength(temp);
+            return temp;
         }
         else
         {
@@ -107,6 +120,11 @@ public class nroll : MonoBehaviour
             Debug.Log("number of regular dice wrong");
            
         }
+    }
+
+    private void sendStrength(int strength)
+    {
+        fp.Attack(strength);
     }
 
 
