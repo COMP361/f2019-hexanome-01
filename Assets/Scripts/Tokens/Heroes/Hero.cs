@@ -13,13 +13,13 @@ public enum Sex {
 
 public class Hero : Movable {
   protected Sex sex = Sex.Female;
+  
   protected string[] names;
   protected int rank;
 
-  // TODO
-  void OnTokenMoveComplete(Token token, Cell c) {
-    State.cell = c;
-  }
+  //void OnTokenMoveComplete(Token token, Cell c) {
+  //  State.cell = c;
+  //}
 
   public string Type { get; protected set; }
 
@@ -49,22 +49,22 @@ public class Hero : Movable {
 public class HeroState : ICloneable {
   public Action action;
   public Cell cell;
-  public Timeline timeline;
+  public TimeOfDay TimeOfDay;
 
   private int freeMove;
   private int willpower = 7;
   private int strength = 1;
   private int golds;
 
-  public HeroState(Cell cell, Color color) {
+  public HeroState(Cell cell, Color color, string heroName) {
     this.cell = cell;
     action = Action.None;
-    timeline = new Timeline(color);
+    TimeOfDay = new TimeOfDay(color, heroName);
   }
 
   public object Clone() {
     HeroState hs = (HeroState) this.MemberwiseClone();
-    hs.timeline = (Timeline) timeline.Clone();
+    hs.TimeOfDay = (TimeOfDay) TimeOfDay.Clone();
     return hs;
   }
 
