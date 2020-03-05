@@ -14,14 +14,14 @@ public class FightPanel : MonoBehaviour
 
     public Text rollMessage;
 
-    public GameObject rd1;
-    public GameObject rd2;
-    public GameObject rd3;
-    public GameObject rd4;
-    public GameObject sd1;
-    public GameObject sd2;
-    private List<GameObject> regular_dice = new List<GameObject>();
-    private List<GameObject> special_dice = new List<GameObject>();
+    public regularDices rd1;
+    public regularDices rd2;
+    public regularDices rd3;
+    public regularDices rd4;
+    public specialDices sd1;
+    public specialDices sd2;
+    private List<regularDices> regular_dice = new List<regularDices>();
+    private List<specialDices> special_dice = new List<specialDices>();
 
     // Start is called before the first frame update
     public void Start()
@@ -77,9 +77,9 @@ public class FightPanel : MonoBehaviour
         //        break;
         //}
 
-        foreach(GameObject g in regular_dice)
+        foreach(regularDices d in regular_dice)
         {
-            g.SetActive(true);
+            d.SetActive(true);
         }
         //foreach (GameObject g in special_dice)
         //{
@@ -110,7 +110,7 @@ public class FightPanel : MonoBehaviour
 
     public void OnClickAttack()
     {
-
+        rollMessage.text = "*PLEASE ROLL THE DICE*";
     }
 
     public void Attack()
