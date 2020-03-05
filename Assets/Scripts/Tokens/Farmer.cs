@@ -12,11 +12,11 @@ public class Farmer : Movable {
     SpriteRenderer sr;
 
     void OnEnable() {
-        EventManager.MonsterOnCell += Destroy;
+        EventManager.CellUpdate += Destroy;
     }
 
     void OnDisable() {
-        EventManager.MonsterOnCell -= Destroy;
+        EventManager.CellUpdate -= Destroy;
     }
 
     protected override void Awake() {
@@ -41,7 +41,7 @@ public class Farmer : Movable {
     }
 
     void Destroy(Token token) {
-        if(token == this) {
+        if(Cell.Inventory.Enemies.Count > 0) {
             EventManager.TriggerFarmerDestroyed(this);
             Destroy(gameObject);
         }

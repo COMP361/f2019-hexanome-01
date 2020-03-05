@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-
 public class PlayerBoard : MonoBehaviour
 {
     Text farmerCount;
@@ -28,7 +27,7 @@ public class PlayerBoard : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        farmerCount = transform.Find("Farmer/Count").GetComponent<UnityEngine.UI.Text>();
+        farmerCount = transform.Find("Farmer/Count").GetComponent<Text>();
     }
     private void updatePlayerStats(Hero hero)
     {
