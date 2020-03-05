@@ -40,6 +40,17 @@ public class EventManager : MonoBehaviour {
         {
             PlayerUpdate(hero);
         }
+    }    
+    
+    // Fired on each turn (player turn)
+    public delegate void CurrentPlayerUpdateHandler(Hero hero);
+    public static event PlayerUpdateHandler CurrentPlayerUpdate;
+    public static void TriggerCurrentPlayerUpdate(Hero hero)
+    {
+        if (CurrentPlayerUpdate != null)
+        {
+            CurrentPlayerUpdate(hero);
+        }
     }
 
     public delegate void FightHandler();

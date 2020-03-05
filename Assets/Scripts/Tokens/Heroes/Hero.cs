@@ -52,8 +52,8 @@ public class HeroState : ICloneable {
   public Timeline timeline;
 
   private int freeMove;
-  private int willpower;
-  private int strength;
+  private int willpower = 7;
+  private int strength = 1;
   private int golds;
 
   public HeroState(Cell cell, Color color) {
