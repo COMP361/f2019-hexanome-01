@@ -3,10 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using Photon.Pun;
+using Photon.Realtime;
 
-
-public class EventManager {
-   // this class helps to register the events that are happening and trigger all the functions that are linked to this event.
+public class EventManager : MonoBehaviour {
+    // this class helps to register the events that are happening and trigger all the functions that are linked to this event.
     
     // Fired when a cell is clicked
     public delegate void CellClickHandler(int cellID);
@@ -41,28 +42,24 @@ public class EventManager {
         }
     }
 
-    public delegate void FightSelectHandler();
-    public static event FightSelectHandler FightSelect;
-    public static void TriggerFightSelect()
-    {
+    public delegate void FightHandler();
+    public static event FightHandler Fight;
+    public static void TriggerFight() {
         EventManager.TriggerActionUpdate(Action.Fight);
 
-        if (FightSelect != null)
-        {
-            FightSelect();
+        if (Fight != null) {
+            Fight();
         }
     }
 
     // Fired if skip action is selected
-    public delegate void SkipSelectHandler();
-    public static event SkipSelectHandler SkipSelect;
-    public static void TriggerSkipSelect()
-    {
+    public delegate void SkipHandler();
+    public static event SkipHandler Skip;
+    public static void TriggerSkip() {
         EventManager.TriggerActionUpdate(Action.Skip);
 
-        if (SkipSelect != null)
-        {
-            SkipSelect();
+        if (Skip != null) {
+            Skip();
         }
     }
 
@@ -263,11 +260,17 @@ public class EventManager {
     // Fired when end day is triggered
     public delegate void EndDayHandler();
     public static event EndDayHandler EndDay;
-
-    public static void TriggerEndDaySelect() {
-        if (EndDay != null) {
-            EndDay();
+    public static void TriggerEndDay() {
+        if(!PhotonNetwork.OfflineMode) {
+            GameManager.instance.photonView.RPC("TriggerEndDayRPC", RpcTarget.AllViaServer);
+        } else {
+            TriggerEndDayRPC();   
         }
+    }
+
+    [PunRPC]
+    public static void TriggerEndDayRPC() {
+        if (EndDay != null) EndDay();
     }
 
     public delegate void InventoryUICellEnterHandler(CellInventory cellInventory, int index);
@@ -288,6 +291,7 @@ public class EventManager {
 
     public delegate void GameOverHandler();
     public static event GameOverHandler GameOver;
+    
     public static void TriggerGameOver()
     {
         if (GameOver != null)

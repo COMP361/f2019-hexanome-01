@@ -33,6 +33,7 @@ public class GameManager : Singleton<GameManager>
     #region Functions [Unity]
     void Awake()
     {
+        PhotonNetwork.OfflineMode = true;
         players = PhotonNetwork.PlayerList.ToList();
         base.Awake();
     }
@@ -44,6 +45,8 @@ public class GameManager : Singleton<GameManager>
         EventManager.MoveConfirm += ExecuteMove;
         EventManager.EnemyDestroyed += RemoveEnemy;
         EventManager.FarmerDestroyed += RemoveFarmer;
+        EventManager.EndDay += MonsterEndDayEvents;
+        EventManager.MoveComplete += UpdateMonsterToMove;
     }
 
     void OnDisable()
@@ -53,6 +56,8 @@ public class GameManager : Singleton<GameManager>
         EventManager.MoveConfirm -= ExecuteMove;
         EventManager.EnemyDestroyed -= RemoveEnemy;
         EventManager.FarmerDestroyed -= RemoveFarmer;
+        EventManager.EndDay -= MonsterEndDayEvents;
+        EventManager.MoveComplete -= UpdateMonsterToMove;
     }
 
     void RemoveEnemy(Enemy enemy) {
@@ -113,8 +118,6 @@ public class GameManager : Singleton<GameManager>
         //well.addToken(35, Color.blue);
         //well.addToken(5, Color.blue);
         //well.addToken(45, Color.blue);
-        EventManager.EndDay += MonsterEndDayEvents;
-        EventManager.MoveComplete += UpdateMonsterToMove;
 
         giveTurn(0);
 
@@ -187,17 +190,20 @@ public class GameManager : Singleton<GameManager>
     }
 
     void InitMove()
-    {
-        GameObject commandGO = PhotonNetwork.InstantiateSceneObject("Prefabs/Commands/MoveCommand", Vector3.zero, Quaternion.identity, 0);
-        int viewId = commandGO.GetComponent<PhotonView>().ViewID;
-        Debug.Log(viewId);
-        Debug.Log(photonView);
-        
-        photonView.RPC("ReceiveInitMove", RpcTarget.AllBuffered, viewId);
+    {    
+        if(!PhotonNetwork.OfflineMode) {
+            GameObject commandGO = PhotonNetwork.Instantiate("Prefabs/Commands/MoveCommand", Vector3.zero, Quaternion.identity, 0);
+            int viewId = commandGO.GetComponent<PhotonView>().ViewID;
+            photonView.RPC("InitMoveRPC", RpcTarget.AllViaServer, viewId);
+        } else {
+            GameObject commandGO = GameObject.Instantiate((GameObject) Resources.Load("Prefabs/Commands/MoveCommand")) as GameObject;
+            command = commandGO.GetComponent<MoveCommand>();
+            ((MoveCommand)command).Init(CurrentPlayer);
+        }
     }
 
     [PunRPC]
-    void ReceiveInitMove(int viewId)
+    void InitMoveRPC(int viewId)
     {
         Debug.Log("Init Move Reached");
         command = PhotonView.Find(viewId).GetComponentInParent<MoveCommand>();
@@ -206,13 +212,6 @@ public class GameManager : Singleton<GameManager>
 
     void ExecuteMove()
     {
-        photonView.RPC("ReceiveExecuteMove", RpcTarget.AllBuffered);
-    }
-
-    [PunRPC]
-    void ReceiveExecuteMove()
-    {
-        Debug.Log("Execute Move Reached");
         command.Execute();
     }
 
