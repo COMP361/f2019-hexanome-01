@@ -29,7 +29,7 @@ public class Farmer : Movable {
     
     public static Farmer Factory(int cellID) {
         GameObject go = new GameObject("farmer");
-
+        go.transform.parent = GameObject.Find("Tokens").transform;
         Farmer farmer = go.AddComponent<Farmer>();
         go.transform.localScale = new Vector3(15, 15, 15);
         farmer.TokenName = Type;

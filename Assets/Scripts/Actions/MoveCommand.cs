@@ -27,7 +27,7 @@ public class MoveCommand : MonoBehaviour, ICommand {
     private List<Cell> freeCells;
     private List<Cell> extCells;
     private List<Pair<Farmer, Cell>> farmers;
-    private Timeline timeline;
+    private TimeOfDay TimeOfDay;
     private List<Cell> stops;
     Action action;
     List<GameObject> farmerTargets;
@@ -67,7 +67,7 @@ public class MoveCommand : MonoBehaviour, ICommand {
         origin = hero.Cell;
         goal = origin;
         path = new MapPath(origin, Color.red);
-        timeline = (Timeline)hero.State.timeline.Clone();
+        TimeOfDay = (TimeOfDay)hero.State.TimeOfDay.Clone();
         //ShowMovableArea();
         
         foreach(Pair<Farmer, Cell> farmer in farmers) {
@@ -93,10 +93,10 @@ public class MoveCommand : MonoBehaviour, ICommand {
             cell.Reset();
         }
         
-        freeCells = goal.WithinRange(0, timeline.GetFreeHours());
+        freeCells = goal.WithinRange(0, TimeOfDay.GetFreeHours());
         
-        int min = timeline.GetFreeHours() + 1;
-        int max = timeline.GetFreeHours() + timeline.GetExtendedHours();
+        int min = TimeOfDay.GetFreeHours() + 1;
+        int max = TimeOfDay.GetFreeHours() + TimeOfDay.GetExtendedHours();
         extCells = goal.WithinRange(min, max);
 
         foreach (Cell cell in Cell.cells) {
@@ -308,7 +308,7 @@ public class MoveCommand : MonoBehaviour, ICommand {
         path.Extend(goal);
 
         // Path contains source cell so substract it
-        timeline.Index += path.Cells.Count - 1;
+        TimeOfDay.Index += path.Cells.Count - 1;
         ShowMovableArea();
 
         EventManager.TriggerFarmersInventoriesUpdate(farmers.Count, GetDroppableFarmerCount(), GetDetachedFarmerCount());
