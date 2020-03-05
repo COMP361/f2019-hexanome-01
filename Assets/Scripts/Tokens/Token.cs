@@ -40,10 +40,10 @@ public class Token : MonoBehaviour {
           return gameObject.GetComponent<SpriteRenderer>().sprite;
         }
         else{
-        //GameObject go = new GameObject("New Sprite");
-        // renderer = go.AddComponent<SpriteRenderer>();
-        //renderer.sprite = Resources.Load("Sprites/dot");
-        return Resources.Load<Sprite>("Sprites/dot");
+            //GameObject go = new GameObject("New Sprite");
+            // renderer = go.AddComponent<SpriteRenderer>();
+            //renderer.sprite = Resources.Load("Sprites/dot");
+            return Resources.Load<Sprite>("Sprites/dot");
         }
     }
 
@@ -56,13 +56,13 @@ public class Token : MonoBehaviour {
             return cell;
         }
         set {
-            if(cell != null && cell.State != null) cell.State.removeToken(this);
+            if(cell != null && cell.Inventory != null) cell.Inventory.RemoveToken(this);
 
             cell = value;
             gameObject.transform.position = getWaypoint(cell);
-            cell.State.addToken(this);
+            cell.Inventory.addToken(this);
 
-            if(cell.State.cellInventory.Enemies.Count > 0) EventManager.TriggerMonsterOnCell(this);
+            EventManager.TriggerCellUpdate(this);
         }
     }
 }

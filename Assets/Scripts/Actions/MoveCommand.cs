@@ -27,13 +27,12 @@ public class MoveCommand : MonoBehaviour, ICommand {
     private List<Cell> freeCells;
     private List<Cell> extCells;
     private List<Pair<Farmer, Cell>> farmers;
-    private Timeline timeline;
+    private TimeOfDay TimeOfDay;
     private List<Cell> stops;
     Action action;
     List<GameObject> farmerTargets;
     public PhotonView photonView;
 
-    // Movable ?
     public void Init(Hero hero) {
         origin = hero.Cell;
         farmers = new List<Pair<Farmer, Cell>>();
@@ -68,7 +67,7 @@ public class MoveCommand : MonoBehaviour, ICommand {
         origin = hero.Cell;
         goal = origin;
         path = new MapPath(origin, Color.red);
-        timeline = (Timeline)hero.State.timeline.Clone();
+        TimeOfDay = (TimeOfDay)hero.State.TimeOfDay.Clone();
         //ShowMovableArea();
         
         foreach(Pair<Farmer, Cell> farmer in farmers) {
@@ -94,10 +93,10 @@ public class MoveCommand : MonoBehaviour, ICommand {
             cell.Reset();
         }
         
-        freeCells = goal.WithinRange(0, timeline.GetFreeHours());
+        freeCells = goal.WithinRange(0, TimeOfDay.GetFreeHours());
         
-        int min = timeline.GetFreeHours() + 1;
-        int max = timeline.GetFreeHours() + timeline.GetExtendedHours();
+        int min = TimeOfDay.GetFreeHours() + 1;
+        int max = TimeOfDay.GetFreeHours() + TimeOfDay.GetExtendedHours();
         extCells = goal.WithinRange(min, max);
 
         foreach (Cell cell in Cell.cells) {
@@ -169,7 +168,7 @@ public class MoveCommand : MonoBehaviour, ICommand {
     private List<Farmer> GetPathFarmer() {
         List<Farmer> pathFarmers = new List<Farmer>(); 
         foreach(Cell cell in path.Cells) {
-            foreach(Farmer farmer in cell.State.cellInventory.Farmers) {
+            foreach(Farmer farmer in cell.Inventory.Farmers) {
                 pathFarmers.Add(farmer);
             }
         }
@@ -177,6 +176,15 @@ public class MoveCommand : MonoBehaviour, ICommand {
     }
 
     public void AttachFarmer() {
+        if(!PhotonNetwork.OfflineMode) {
+            photonView.RPC("AttachFarmerRPC", RpcTarget.AllViaServer);
+        } else {
+            AttachFarmerRPC();   
+        } 
+    }
+    
+    [PunRPC]
+    public void AttachFarmerRPC() {
         foreach(Farmer pathFarmer in GetPathFarmer()) {
             bool found = false;
 
@@ -198,12 +206,32 @@ public class MoveCommand : MonoBehaviour, ICommand {
     }
 
     public void DetachFarmer() {
+        if(!PhotonNetwork.OfflineMode) {
+            photonView.RPC("DetachFarmerRPC", RpcTarget.AllViaServer);
+        } else {
+            DetachFarmerRPC();   
+        }      
+    }
+
+    [PunRPC]
+    public void DetachFarmerRPC() {
         action = Action.DetachFarmer;
         if(farmers.Count == 0) return;
         ShowDropableArea();        
     }
 
+
     void SetFarmerDestination(int cellID) {
+        if(!PhotonNetwork.OfflineMode) {
+            photonView.RPC("SetFarmerDestinationRPC", RpcTarget.AllViaServer, cellID);
+        } else {
+            SetFarmerDestinationRPC(cellID);   
+        }
+    }
+    
+    [PunRPC]
+
+    void SetFarmerDestinationRPC(int cellID) {
         if(action == Action.SetDestination) return;
 
         int index = -1;
@@ -218,7 +246,7 @@ public class MoveCommand : MonoBehaviour, ICommand {
 
         if(cellID == farmers[index].First.Cell.Index) {
             farmers[index].First.Detach();
-            farmers.RemoveAt(0);
+            farmers.RemoveAt(index);
         } else {
             Cell c = Cell.FromId(cellID);
             farmers[index].Second = c;
@@ -251,7 +279,9 @@ public class MoveCommand : MonoBehaviour, ICommand {
         EventManager.ClearPath -= ClearPath;
 
         ClearPath();
+        Destroy(gameObject);
     }
+
 
     public void ClearPath() {
         if(path != null) path.Dispose();
@@ -260,15 +290,25 @@ public class MoveCommand : MonoBehaviour, ICommand {
         EventManager.TriggerFarmersInventoriesUpdate(farmers.Count, GetDroppableFarmerCount(), GetDetachedFarmerCount());
     }
 
-    [PunRPC]
     void SetDestination(int cellID) {
+        if(!PhotonNetwork.OfflineMode) {
+            photonView.RPC("SetDestinationRPC", RpcTarget.AllViaServer, cellID);
+        } else {
+            SetDestinationRPC(cellID);   
+        }
+    }
+    
+    [PunRPC]
+    void SetDestinationRPC(int cellID) {
         if(action == Action.DetachFarmer) return;
+
+        Debug.Log("Execute Set Destination Reached");
 
         goal = Cell.FromId(cellID);
         path.Extend(goal);
 
         // Path contains source cell so substract it
-        timeline.Index += path.Cells.Count - 1;
+        TimeOfDay.Index += path.Cells.Count - 1;
         ShowMovableArea();
 
         EventManager.TriggerFarmersInventoriesUpdate(farmers.Count, GetDroppableFarmerCount(), GetDetachedFarmerCount());
@@ -276,6 +316,17 @@ public class MoveCommand : MonoBehaviour, ICommand {
     }
 
     public void Execute() {
+        if(!PhotonNetwork.OfflineMode) {
+            photonView.RPC("ExecuteRPC", RpcTarget.AllViaServer);
+        } else {
+            ExecuteRPC();
+        }
+    }
+
+    [PunRPC]
+    public void ExecuteRPC() {
+        Debug.Log("Execute Move Reached");
+
         foreach (Cell cell in Cell.cells) {
             cell.Reset();
         }
@@ -305,7 +356,7 @@ public class MoveCommand : MonoBehaviour, ICommand {
             Cell start = hero.Cell;
 
             int startIndex = path.Cells.IndexOf(start);
-            foreach(Farmer f in start.State.cellInventory.Farmers) {
+            foreach(Farmer f in start.Inventory.Farmers) {
                 foreach(Pair<Farmer, Cell> farmer in farmers) {
                     if(farmer.First == f) {
                         int stopInd = -1;

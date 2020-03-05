@@ -12,11 +12,11 @@ public class Farmer : Movable {
     SpriteRenderer sr;
 
     void OnEnable() {
-        EventManager.MonsterOnCell += Destroy;
+        EventManager.CellUpdate += Destroy;
     }
 
     void OnDisable() {
-        EventManager.MonsterOnCell -= Destroy;
+        EventManager.CellUpdate -= Destroy;
     }
 
     protected override void Awake() {
@@ -29,7 +29,7 @@ public class Farmer : Movable {
     
     public static Farmer Factory(int cellID) {
         GameObject go = new GameObject("farmer");
-
+        go.transform.parent = GameObject.Find("Tokens").transform;
         Farmer farmer = go.AddComponent<Farmer>();
         go.transform.localScale = new Vector3(15, 15, 15);
         farmer.TokenName = Type;
@@ -41,7 +41,7 @@ public class Farmer : Movable {
     }
 
     void Destroy(Token token) {
-        if(token == this) {
+        if(Cell.Inventory.Enemies.Count > 0) {
             EventManager.TriggerFarmerDestroyed(this);
             Destroy(gameObject);
         }

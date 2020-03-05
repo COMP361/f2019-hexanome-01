@@ -82,7 +82,12 @@ public class ChooseManager : MonoBehaviour
         ExitGames.Client.Photon.Hashtable classTable = new ExitGames.Client.Photon.Hashtable();
         classTable.Add("Class", currentSelection);
         PhotonNetwork.LocalPlayer.SetCustomProperties(classTable);
-        photonView.RPC("ReceiveOnClickedConfirmButton", RpcTarget.All, currentSelection);
+            
+        if(!PhotonNetwork.OfflineMode) {
+            photonView.RPC("ReceiveOnClickedConfirmButton", RpcTarget.All, currentSelection);
+        } else {
+            ReceiveOnClickedConfirmButton(currentSelection);
+        }
     }
 
     [PunRPC]

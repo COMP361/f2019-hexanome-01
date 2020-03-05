@@ -3,10 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using Photon.Pun;
+using Photon.Realtime;
 
-
-public class EventManager {
-   // this class helps to register the events that are happening and trigger all the functions that are linked to this event.
+public class EventManager : MonoBehaviour {
+    // this class helps to register the events that are happening and trigger all the functions that are linked to this event.
     
     // Fired when a cell is clicked
     public delegate void CellClickHandler(int cellID);
@@ -39,31 +40,48 @@ public class EventManager {
         {
             PlayerUpdate(hero);
         }
+    }    
+    
+    // Fired on each turn (player turn)
+    public delegate void CurrentPlayerUpdateHandler(Hero hero);
+    public static event PlayerUpdateHandler CurrentPlayerUpdate;
+    public static void TriggerCurrentPlayerUpdate(Hero hero)
+    {
+        if (CurrentPlayerUpdate != null)
+        {
+            CurrentPlayerUpdate(hero);
+        }
     }
 
-    public delegate void FightSelectHandler();
-    public static event FightSelectHandler FightSelect;
-    public static void TriggerFightSelect()
-    {
+    public delegate void FightHandler();
+    public static event FightHandler Fight;
+    public static void TriggerFight() {
         EventManager.TriggerActionUpdate(Action.Fight);
 
-        if (FightSelect != null)
-        {
-            FightSelect();
+        if (Fight != null) {
+            Fight();
         }
     }
 
     // Fired if skip action is selected
-    public delegate void SkipSelectHandler();
-    public static event SkipSelectHandler SkipSelect;
-    public static void TriggerSkipSelect()
+    public delegate void SkipHandler();
+    public static event SkipHandler Skip;
+    public static void TriggerSkip() {
+        if (!PhotonNetwork.OfflineMode)
+        {
+            GameManager.instance.photonView.RPC("TriggerSkipRPC", RpcTarget.AllViaServer);
+        }
+        else
+        {
+            if (Skip != null) Skip();
+        }
+    }
+
+    [PunRPC]
+    public void TriggerSkipRPC()
     {
         EventManager.TriggerActionUpdate(Action.Skip);
-
-        if (SkipSelect != null)
-        {
-            SkipSelect();
-        }
+        if (Skip != null) Skip();
     }
 
     // Fired at the beginning of turn
@@ -263,19 +281,25 @@ public class EventManager {
     // Fired when end day is triggered
     public delegate void EndDayHandler();
     public static event EndDayHandler EndDay;
+    public static void TriggerEndDay() {
+        if(!PhotonNetwork.OfflineMode) {
+            GameManager.instance.photonView.RPC("TriggerEndDayRPC", RpcTarget.AllViaServer);
+        } else {
+            if (EndDay != null) EndDay();
+        }
+    }
 
-    public static void TriggerEndDaySelect() {
-          if (EndDay != null) {
-            EndDay();
-          }
+    [PunRPC]
+    public void TriggerEndDayRPC() {
+        if (EndDay != null) EndDay();
     }
 
     public delegate void InventoryUICellEnterHandler(CellInventory cellInventory, int index);
     public static event InventoryUICellEnterHandler InventoryUICellEnter;
     public static void TriggerInventoryUICellEnter(CellInventory cellInventory, int index) {
-          if (InventoryUICellEnter != null) {
-            InventoryUICellEnter(cellInventory,index);
-          }
+        if (InventoryUICellEnter != null) {
+            InventoryUICellEnter(cellInventory, index);
+        }
     }
 
     public delegate void InventoryUICellExitHandler();
@@ -288,32 +312,48 @@ public class EventManager {
 
     public delegate void GameOverHandler();
     public static event GameOverHandler GameOver;
+    
     public static void TriggerGameOver()
     {
-        if (EndDay != null)
+        if (GameOver != null)
         {
             GameOver();
         }
     }
 
-    public delegate void MonsterOnCellHandler(Token token);
-    public static event MonsterOnCellHandler MonsterOnCell;
-    public static void TriggerMonsterOnCell(Token token)
+    public delegate void CellUpdateHandler(Token token);
+    public static event CellUpdateHandler CellUpdate;
+    public static void TriggerCellUpdate(Token token)
     {
-        if (MonsterOnCell != null)
+        if (CellUpdate != null)
         {
-            MonsterOnCell(token);
+            CellUpdate(token);
         }
     }
 
-    
     public delegate void FarmerDestroyedHandler(Farmer farmer);
     public static event FarmerDestroyedHandler FarmerDestroyed;
     public static void TriggerFarmerDestroyed(Farmer farmer)
     {
-        if (FarmerDestroyed != null)
-        {
+        if (FarmerDestroyed != null) {
             FarmerDestroyed(farmer);
+        }
+    }
+
+    public delegate void EnemyDestroyedHandler(Enemy enemy);
+    public static event EnemyDestroyedHandler EnemyDestroyed;
+    public static void TriggerEnemyDestroyed(Enemy enemy)
+    {
+        if (EnemyDestroyed != null) {
+            EnemyDestroyed(enemy);
+        }
+    }
+
+    public delegate void ShieldsUpdateHandler(int shields);
+    public static event ShieldsUpdateHandler ShieldsUpdate;
+    public static void TriggerShieldsUpdate(int shields) {
+        if (ShieldsUpdate != null) {
+            ShieldsUpdate(shields);
         }
     }
 }

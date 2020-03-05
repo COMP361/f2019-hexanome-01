@@ -11,6 +11,7 @@ class Geometry {
         lr.endWidth = width;
         lr.startColor = color;
         lr.endColor = color;
+        lr.sortingOrder = 18;
 
         lr.SetPosition(0, start);
         lr.SetPosition(1, end);

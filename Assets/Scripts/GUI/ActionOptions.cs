@@ -24,13 +24,13 @@ public class ActionOptions : MonoBehaviour
         moveBtn.onClick.AddListener(delegate { EventManager.TriggerMoveSelect(); });
 
         fightBtn = transform.Find("Fight Button").GetComponent<Button>();
-        fightBtn.onClick.AddListener(delegate { EventManager.TriggerFightSelect(); });
+        fightBtn.onClick.AddListener(delegate { EventManager.TriggerFight(); });
 
         skipBtn = transform.Find("Skip Button").GetComponent<Button>();
-        skipBtn.onClick.AddListener(delegate { EventManager.TriggerSkipSelect(); });
+        skipBtn.onClick.AddListener(delegate { EventManager.TriggerSkip(); });
 
         endDayBtn = transform.Find("End Day Button").GetComponent<Button>();
-        endDayBtn.onClick.AddListener(delegate { EventManager.TriggerEndDaySelect(); });
+        endDayBtn.onClick.AddListener(delegate { EventManager.TriggerEndDay(); });
     }
 
     void UnlockMove() {

@@ -3,15 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class Timeline : ICloneable {
+public class TimeOfDay : ICloneable {
   public int Index { get; set; }
   private int freeLimit = 7;
   private int extendedLimit = 10;
   GameObject token;
+  Hero hero;
 
-  public Timeline(Color color) {
+  public TimeOfDay(Color color, string heroName) {
     Index = 0;
-    token = Geometry.Disc(Vector3.zero, color);
+    token = Geometry.Disc(Vector3.zero, color, 10);
+    token.name = "TimeOfDay" + heroName;
+    token.transform.parent = GameObject.Find("Tokens").transform;
+    this.hero = hero;
+
+    token.transform.position = GameObject.Find("Timeline/Sunrise/" + heroName).transform.position;
   }
 
   public int GetFreeHours() {
@@ -37,7 +43,7 @@ public class Timeline : ICloneable {
   }
 
   public object Clone() {
-    Timeline tl = (Timeline) this.MemberwiseClone();
+    TimeOfDay tl = (TimeOfDay) this.MemberwiseClone();
     return tl;
   }     
 
