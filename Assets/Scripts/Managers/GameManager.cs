@@ -33,7 +33,7 @@ public class GameManager : Singleton<GameManager>
     #region Functions [Unity]
     void Awake()
     {
-        PhotonNetwork.OfflineMode = true;
+        //PhotonNetwork.OfflineMode = true;
         players = PhotonNetwork.PlayerList.ToList();
         base.Awake();
     }
