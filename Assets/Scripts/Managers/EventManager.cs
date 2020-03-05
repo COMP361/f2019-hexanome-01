@@ -32,19 +32,8 @@ public class EventManager : MonoBehaviour {
     }
 
     // Fired on each turn (player turn)
-    public delegate void PlayerUpdateHandler(Hero hero);
-    public static event PlayerUpdateHandler PlayerUpdate;
-    public static void TriggerPlayerUpdate(Hero hero)
-    {
-        if (PlayerUpdate != null)
-        {
-            PlayerUpdate(hero);
-        }
-    }    
-    
-    // Fired on each turn (player turn)
     public delegate void CurrentPlayerUpdateHandler(Hero hero);
-    public static event PlayerUpdateHandler CurrentPlayerUpdate;
+    public static event CurrentPlayerUpdateHandler CurrentPlayerUpdate;
     public static void TriggerCurrentPlayerUpdate(Hero hero)
     {
         if (CurrentPlayerUpdate != null)
@@ -52,6 +41,17 @@ public class EventManager : MonoBehaviour {
             CurrentPlayerUpdate(hero);
         }
     }
+
+    // Fired on hero setup
+    public delegate void MainHeroInitHandler(Hero hero);
+    public static event MainHeroInitHandler MainHeroInit;
+    public static void TriggerMainHeroInit(Hero hero)
+    {
+        if (MainHeroInit != null)
+        {
+            MainHeroInit(hero);
+        }
+    }    
 
     public delegate void FightHandler();
     public static event FightHandler Fight;

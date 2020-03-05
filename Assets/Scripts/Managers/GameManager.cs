@@ -19,6 +19,8 @@ public class GameManager : Singleton<GameManager>
     public List<Hero> heroes;
     public List<Farmer> farmers;
     public List<Enemy> gors, skrals, trolls, wardraks;
+    private int currentPlayerIndex = 0;
+    private int chosenHeroIndex = 0;
     public Token well;
     public Fog fog;
     public HeroState state;
@@ -35,7 +37,7 @@ public class GameManager : Singleton<GameManager>
     #region Functions [Unity]
     void Awake()
     {
-        //PhotonNetwork.OfflineMode = true;
+        PhotonNetwork.OfflineMode = true;
         players = PhotonNetwork.PlayerList.ToList();
         base.Awake();
     }
@@ -87,14 +89,29 @@ public class GameManager : Singleton<GameManager>
         monstersToMove = new List<Enemy>();
 
         heroes = new List<Hero>();
-        if (!PhotonNetwork.OfflineMode)
-        {
+        heroes.Add(Warrior.Instance);
+        heroes.Add(Archer.Instance);
+        heroes.Add(Mage.Instance);
+        heroes.Add(Dwarf.Instance);
+        
+        string hero = (string)PhotonNetwork.LocalPlayer.CustomProperties["Class"];
+        if(hero != null) {
+            for (int i = 0; i < heroes.Count; i++) {
+                if(hero.Equals(heroes[i].name)) {
+                    chosenHeroIndex = i;
+                    break;
+                }
+            }
+        }
+        
+        EventManager.TriggerMainHeroInit(ChosenHero);
+        
+        /*if (!PhotonNetwork.OfflineMode) {
             // Add each player's respective hero
             foreach(Player p in players)
             {
                 string playerClass = (string)p.CustomProperties["Class"];
-                switch (playerClass)
-                {
+                switch (playerClass) {
                     case "Warrior": heroes.Add(Warrior.Instance); break;
                     case "Archer": heroes.Add(Archer.Instance); break;
                     case "Mage": heroes.Add(Mage.Instance); break;
@@ -102,14 +119,13 @@ public class GameManager : Singleton<GameManager>
                 }
             }
             playerTurn = new Queue<Player>(players);
-        }
-        else
-        {
+        
+        } else {
             heroes.Add(Warrior.Instance);
             heroes.Add(Archer.Instance);
             heroes.Add(Mage.Instance);
             heroes.Add(Dwarf.Instance);
-        }
+        }*/
 
         // FARMERS
         farmers = new List<Farmer>();
@@ -201,16 +217,13 @@ public class GameManager : Singleton<GameManager>
 
     void giveTurn()
     {
-        if (PhotonNetwork.LocalPlayer.Equals(playerTurn.Peek()))
-        {
+        if (PhotonNetwork.OfflineMode || PhotonNetwork.LocalPlayer.Equals(playerTurn.Peek())) {
             actionOptions.Show();
-        }
-        else
-        {
+        } else {
             actionOptions.Hide();
         }
+
         EventManager.TriggerActionUpdate(Action.None);
-        EventManager.TriggerPlayerUpdate(CurrentPlayer);
         EventManager.TriggerCurrentPlayerUpdate(CurrentPlayer);
         state = (HeroState)CurrentPlayer.State.Clone();
     }
@@ -278,6 +291,13 @@ public class GameManager : Singleton<GameManager>
             {
                 return heroes[0];
             }
+        }
+    }
+
+    public Hero ChosenHero
+    {
+        get {
+            return heroes[chosenHeroIndex];
         }
     }
 
