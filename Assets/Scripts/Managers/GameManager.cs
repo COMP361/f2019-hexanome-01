@@ -17,7 +17,8 @@ public class GameManager : Singleton<GameManager>
     public List<Hero> heroes;
     public List<Farmer> farmers;
     public List<Enemy> gors, skrals, trolls, wardraks;
-    private int currentPlayerIndex = -1;
+    private int currentPlayerIndex = 0;
+    private int chosenHeroIndex = 0;
     public Token well;
     public Fog fog;
     public HeroState state;
@@ -87,6 +88,19 @@ public class GameManager : Singleton<GameManager>
         heroes.Add(Archer.Instance);
         heroes.Add(Mage.Instance);
         heroes.Add(Dwarf.Instance);
+        
+        
+        string hero = (string)PhotonNetwork.LocalPlayer.CustomProperties["Class"];
+        if(hero != null) {
+            for (int i = 0; i < heroes.Count; i++) {
+                if(hero.Equals(heroes[i].name)) {
+                    chosenHeroIndex = i;
+                    break;
+                }
+            }
+        }
+        
+        EventManager.TriggerMainHeroInit(ChosenHero);
         
         // FARMERS
         farmers = new List<Farmer>();
@@ -180,7 +194,6 @@ public class GameManager : Singleton<GameManager>
     {
         currentPlayerIndex = playerIndex;
         EventManager.TriggerActionUpdate(Action.None);
-        EventManager.TriggerPlayerUpdate(CurrentPlayer);
         EventManager.TriggerCurrentPlayerUpdate(CurrentPlayer);
         state = (HeroState)CurrentPlayer.State.Clone();
     }
@@ -225,6 +238,13 @@ public class GameManager : Singleton<GameManager>
     {
         get {
             return heroes[currentPlayerIndex];
+        }
+    }
+
+    public Hero ChosenHero
+    {
+        get {
+            return heroes[chosenHeroIndex];
         }
     }
 
