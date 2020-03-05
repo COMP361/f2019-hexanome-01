@@ -6,19 +6,19 @@ using UnityEngine.UI;
 public class FightPanel : MonoBehaviour
 {
     public Text HeroName;
-
-    //private Text _enemyName;
-    public Text EnemyName;
-
-    //private Text _playerStrength;
     public Text HeroStrength;
-
-    //private Text _playerWP;
     public Text HeroWP;
-
+    public Text EnemyName;
     public Text EnemyStrength;
-
     public Text EnemyWP;
+
+    public GameObject rd1;
+    public GameObject rd2;
+    public GameObject rd3;
+    public GameObject rd4;
+    public GameObject sd1;
+    public GameObject sd2;
+
 
     // Start is called before the first frame update
     public void Start()
@@ -34,6 +34,7 @@ public class FightPanel : MonoBehaviour
         SetNames();
         SetStrength();
         SetWP();
+        
     }
 
     private void SetNames()
