@@ -167,6 +167,7 @@ public class GameManager : Singleton<GameManager>
         currentPlayerIndex = playerIndex;
         EventManager.TriggerActionUpdate(Action.None);
         EventManager.TriggerPlayerUpdate(CurrentPlayer);
+        EventManager.TriggerCurrentPlayerUpdate(CurrentPlayer);
         state = (HeroState)CurrentPlayer.State.Clone();
     }
 
