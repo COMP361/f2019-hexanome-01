@@ -224,6 +224,8 @@ public class GameManager : Singleton<GameManager>
 
     void EndPlayerDay()
     {
+        CurrentPlayer.State.action = Action.None;
+        ResetCommand();
         playerTurn.Dequeue();
         if (playerTurn.Count() == 0)
         {
@@ -261,7 +263,7 @@ public class GameManager : Singleton<GameManager>
 
     void ResetCommand()
     {
-        if(command != null)
+        if(!command.Equals(null))
         {
             command.Dispose();
         }
