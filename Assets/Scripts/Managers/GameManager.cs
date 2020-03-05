@@ -8,16 +8,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System;
 
 public class GameManager : Singleton<GameManager>
 {
     #region Fields
     private int playerCount;
     public List<Player> players;
+    public Queue<Player> playerTurn;
     public List<Hero> heroes;
     public List<Farmer> farmers;
     public List<Enemy> gors, skrals, trolls, wardraks;
-    private int currentPlayerIndex = -1;
     public Token well;
     public Fog fog;
     public HeroState state;
@@ -26,6 +27,7 @@ public class GameManager : Singleton<GameManager>
     public Castle castle;
     private ICommand command;
     public PhotonView photonView;
+    public ActionOptions actionOptions;
     List<Enemy> monstersToMove;
 
     #endregion
@@ -45,7 +47,8 @@ public class GameManager : Singleton<GameManager>
         EventManager.MoveConfirm += ExecuteMove;
         EventManager.EnemyDestroyed += RemoveEnemy;
         EventManager.FarmerDestroyed += RemoveFarmer;
-        EventManager.EndDay += MonsterEndDayEvents;
+        EventManager.Skip += EndTurn;
+        EventManager.EndDay += EndPlayerDay;
         EventManager.MoveComplete += UpdateMonsterToMove;
     }
 
@@ -56,7 +59,8 @@ public class GameManager : Singleton<GameManager>
         EventManager.MoveConfirm -= ExecuteMove;
         EventManager.EnemyDestroyed -= RemoveEnemy;
         EventManager.FarmerDestroyed -= RemoveFarmer;
-        EventManager.EndDay -= MonsterEndDayEvents;
+        EventManager.Skip -= EndTurn;
+        EventManager.EndDay -= EndPlayerDay;
         EventManager.MoveComplete -= UpdateMonsterToMove;
     }
 
@@ -81,13 +85,32 @@ public class GameManager : Singleton<GameManager>
         castle = Castle.Instance;
         castle.Init(players.Count);
         monstersToMove = new List<Enemy>();
-    
+
         heroes = new List<Hero>();
-        heroes.Add(Warrior.Instance);
-        heroes.Add(Archer.Instance);
-        heroes.Add(Mage.Instance);
-        heroes.Add(Dwarf.Instance);
-        
+        if (!PhotonNetwork.OfflineMode)
+        {
+            // Add each player's respective hero
+            foreach(Player p in players)
+            {
+                string playerClass = (string)p.CustomProperties["Class"];
+                switch (playerClass)
+                {
+                    case "Warrior": heroes.Add(Warrior.Instance); break;
+                    case "Archer": heroes.Add(Archer.Instance); break;
+                    case "Mage": heroes.Add(Mage.Instance); break;
+                    case "Dwarf": heroes.Add(Dwarf.Instance); break;
+                }
+            }
+            playerTurn = new Queue<Player>(players);
+        }
+        else
+        {
+            heroes.Add(Warrior.Instance);
+            heroes.Add(Archer.Instance);
+            heroes.Add(Mage.Instance);
+            heroes.Add(Dwarf.Instance);
+        }
+
         // FARMERS
         farmers = new List<Farmer>();
         farmers.Add(Farmer.Factory(24));
@@ -119,7 +142,7 @@ public class GameManager : Singleton<GameManager>
         //well.addToken(5, Color.blue);
         //well.addToken(45, Color.blue);
 
-        giveTurn(0);
+        giveTurn();
 
     }
 
@@ -176,18 +199,39 @@ public class GameManager : Singleton<GameManager>
         }
     }
 
-    void giveTurn(int playerIndex)
+    void giveTurn()
     {
-        currentPlayerIndex = playerIndex;
+        if (PhotonNetwork.LocalPlayer.Equals(playerTurn.Peek()))
+        {
+            actionOptions.Show();
+        }
+        else
+        {
+            actionOptions.Hide();
+        }
         EventManager.TriggerActionUpdate(Action.None);
         EventManager.TriggerPlayerUpdate(CurrentPlayer);
         EventManager.TriggerCurrentPlayerUpdate(CurrentPlayer);
         state = (HeroState)CurrentPlayer.State.Clone();
     }
-
-    void endTurn(int playerIndex)
+    
+    void EndTurn()
     {
         CurrentPlayer.State.action = Action.None;
+        playerTurn.Enqueue(playerTurn.Dequeue());
+        giveTurn();
+    }
+
+    void EndPlayerDay()
+    {
+        CurrentPlayer.State.action = Action.None;
+        playerTurn.Dequeue();
+        if (playerTurn.Count() == 0)
+        {
+            MonsterEndDayEvents();
+            playerTurn = new Queue<Player>(players);
+        }
+        giveTurn();
     }
 
     void InitMove()
@@ -224,9 +268,18 @@ public class GameManager : Singleton<GameManager>
     public Hero CurrentPlayer
     {
         get {
-            return heroes[currentPlayerIndex];
+            if (!PhotonNetwork.OfflineMode)
+            {
+                Player currentPlayer = playerTurn.Peek();
+                string playerHero = (string)currentPlayer.CustomProperties["Class"];
+                return heroes.Where(x => x.Type.ToString() == playerHero).FirstOrDefault();
+            }
+            else
+            {
+                return heroes[0];
+            }
         }
     }
 
-    #endregion
+    #endregion 
 }

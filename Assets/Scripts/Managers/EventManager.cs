@@ -67,11 +67,21 @@ public class EventManager : MonoBehaviour {
     public delegate void SkipHandler();
     public static event SkipHandler Skip;
     public static void TriggerSkip() {
-        EventManager.TriggerActionUpdate(Action.Skip);
-
-        if (Skip != null) {
-            Skip();
+        if (!PhotonNetwork.OfflineMode)
+        {
+            GameManager.instance.photonView.RPC("TriggerSkipRPC", RpcTarget.AllViaServer);
         }
+        else
+        {
+            if (Skip != null) Skip();
+        }
+    }
+
+    [PunRPC]
+    public void TriggerSkipRPC()
+    {
+        EventManager.TriggerActionUpdate(Action.Skip);
+        if (Skip != null) Skip();
     }
 
     // Fired at the beginning of turn
@@ -275,7 +285,7 @@ public class EventManager : MonoBehaviour {
         if(!PhotonNetwork.OfflineMode) {
             GameManager.instance.photonView.RPC("TriggerEndDayRPC", RpcTarget.AllViaServer);
         } else {
-            if (EndDay != null) EndDay();  
+            if (EndDay != null) EndDay();
         }
     }
 
