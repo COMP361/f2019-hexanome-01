@@ -19,7 +19,7 @@ public class ShieldCounter : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        shieldCount = transform.Find("Count").GetComponent<UnityEngine.UI.Text>();
+        shieldCount = transform.Find("Count").GetComponent<Text>();
     }
 
     void UpdateShieldCount(int shields) {
