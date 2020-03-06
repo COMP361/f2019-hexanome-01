@@ -28,13 +28,6 @@ public class FightPanel : MonoBehaviour
     private List<regularDices> regular_dice = new List<regularDices>();
     private List<specialDices> special_dice = new List<specialDices>();
 
-    public GameObject rd1;
-    public GameObject rd2;
-    public GameObject rd3;
-    public GameObject rd4;
-    public GameObject sd1;
-    public GameObject sd2;
-
 
     // Start is called before the first frame update
     public void Start()
@@ -117,7 +110,7 @@ public class FightPanel : MonoBehaviour
 
     private void SetWP()
     {
-        og_WPMonster = GameManager.instance.CurrentPlayer.Cell.State.cellInventory.Enemies[0].Will;
+        og_WPMonster = GameManager.instance.CurrentPlayer.Cell.Inventory.Enemies[0].Will;
         HeroWP.text = GameManager.instance.CurrentPlayer.State.getWP().ToString();
         EnemyWP.text = GameManager.instance.CurrentPlayer.Cell.Inventory.Enemies[0].Will.ToString();
     }
@@ -147,7 +140,7 @@ public class FightPanel : MonoBehaviour
             GameManager.instance.CurrentPlayer.State.setWP(hero_wp);
         }
 
-        if (GameManager.instance.CurrentPlayer.Cell.State.cellInventory.Enemies[0].Will <= 0)
+        if (GameManager.instance.CurrentPlayer.Cell.Inventory.Enemies[0].Will <= 0)
         {
             GameManager.instance.CurrentPlayer.Cell.Inventory.Enemies[0].gameObject.SetActive(false);
             this.gameObject.SetActive(!this.gameObject.activeSelf);

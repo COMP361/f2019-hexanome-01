@@ -392,6 +392,12 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &568017534 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1002551775722425512, guid: e4fdac4d5979edc4b95b06c7ca9dd518,
+    type: 3}
+  m_PrefabInstance: {fileID: 1621192228}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &606564096 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4134565129043352398, guid: aa705635ece8ec545af247e8f0c4d769,
@@ -541,13 +547,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e2a64e02fa004af1add8c3b4950e813, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  players: []
+  heroes: []
   farmers: []
   gors: []
   skrals: []
   trolls: []
   wardraks: []
   well: {fileID: 0}
+  castle: {fileID: 0}
+  photonView: {fileID: 0}
+  actionOptions: {fileID: 0}
 --- !u!4 &780264661
 Transform:
   m_ObjectHideFlags: 0
@@ -1834,6 +1843,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Fight
+      objectReference: {fileID: 0}
+    - target: {fileID: 1002551775722425512, guid: e4fdac4d5979edc4b95b06c7ca9dd518,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6046677986397478451, guid: e4fdac4d5979edc4b95b06c7ca9dd518,
         type: 3}
@@ -4467,7 +4481,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 568017534}
     - target: {fileID: 6207454042058427811, guid: e1e7db4b61b539f6fb7de8a5a47a5112,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName

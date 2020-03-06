@@ -19,14 +19,6 @@ public class nroll : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
-        //regularDice1 = GameObject.FindGameObjectWithTag("rd1").GetComponent<regularDices>();
-        //regularDice2 = GameObject.FindGameObjectWithTag("rd2").GetComponent<regularDices>();
-        //regularDice3 = GameObject.FindGameObjectWithTag("rd3").GetComponent<regularDices>();
-        //regularDice4 = GameObject.FindGameObjectWithTag("rd4").GetComponent<regularDices>();
-        //specialDice1 = GameObject.FindGameObjectWithTag("s1").GetComponent<specialDices>();
-        //specialDice2 = GameObject.FindGameObjectWithTag("s2").GetComponent<specialDices>();
-
         numRegularDices = fp.nb_rd;
         numSpecialDices = fp.nb_sd;
         if(numSpecialDices == 0) { hasSpecial = false; } else { hasSpecial = true; }
@@ -49,7 +41,7 @@ public class nroll : MonoBehaviour
         if (numRegularDices == 1)
         {
             
-            regularDice1.RollTheDice();
+            regularDice1.OnMouseDown();
             int rmax1 = regularDice1.getFinalSide();
             int smax1 = 0;
             if (hasSpecial == true)
@@ -80,9 +72,9 @@ public class nroll : MonoBehaviour
         }
         else if(numRegularDices == 3)
         {
-            regularDice1.RollTheDice();
-            regularDice2.RollTheDice();
-            regularDice3.RollTheDice();
+            regularDice1.OnMouseDown();
+            regularDice2.OnMouseDown();
+            regularDice3.OnMouseDown();
             regularDices[] r3List = new regularDices[3];
             r3List[0] = regularDice1;
             r3List[1] = regularDice2;
@@ -99,9 +91,10 @@ public class nroll : MonoBehaviour
         }
         else if(numRegularDices == 4)
         {
-            regularDice1.RollTheDice();
-            regularDice2.RollTheDice();
-            regularDice3.RollTheDice();
+            regularDice1.OnMouseDown();
+            regularDice2.OnMouseDown();
+            regularDice3.OnMouseDown();
+            regularDice4.OnMouseDown();
             regularDices[] r4List = new regularDices[4];
             r4List[0] = regularDice1;
             r4List[1] = regularDice2;
