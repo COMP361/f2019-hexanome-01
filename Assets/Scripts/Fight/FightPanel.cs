@@ -1,3 +1,4 @@
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,6 +17,7 @@ public class FightPanel : MonoBehaviour
     public Text rollMessage;
     public bool hasRolled = false;
     public int nb_rd;
+    public int nb_sd;
 
     public regularDices rd1;
     public regularDices rd2;
@@ -67,27 +69,27 @@ public class FightPanel : MonoBehaviour
             default:
                 break;
         }
-        //switch (nb_sd)
-        //{
-        //    case 1:
-        //        special_dice.Add(sd1);
-        //        break;
-        //    case 2:
-        //        special_dice.Add(sd1);
-        //        special_dice.Add(sd2);
-        //        break;
-        //    default:
-        //        break;
-        //}
+        switch (nb_sd)
+        {
+            case 1:
+                special_dice.Add(sd1);
+                break;
+            case 2:
+                special_dice.Add(sd1);
+                special_dice.Add(sd2);
+                break;
+            default:
+                break;
+        }
 
-        foreach(regularDices d in regular_dice)
+        foreach (regularDices d in regular_dice)
         {
             d.gameObject.SetActive(true);
         }
-        //foreach (GameObject g in special_dice)
-        //{
-        //    g.SetActive(true);
-        //}
+        foreach (specialDices d in special_dice)
+        {
+            d.gameObject.SetActive(true);
+        }
     }
 
     private void SetNames()
@@ -131,21 +133,20 @@ public class FightPanel : MonoBehaviour
             monster_wp -= (hero_strength);
             GameManager.instance.CurrentPlayer.Cell.State.cellInventory.Enemies[0].Will = monster_wp;
         }
-        else if(total_strength > monster_strength)
+        else if (total_strength > monster_strength)
         {
             hero_wp -= (monster_strength);
             GameManager.instance.CurrentPlayer.State.setWP(hero_wp);
         }
 
-        if (GameManager.instance.CurrentPlayer.Cell.State.cellInventory.Enemies[0].Will == 0)
+        if (GameManager.instance.CurrentPlayer.Cell.State.cellInventory.Enemies[0].Will <= 0)
         {
             GameManager.instance.CurrentPlayer.Cell.State.cellInventory.Enemies[0].gameObject.SetActive(false);
             this.gameObject.SetActive(!this.gameObject.activeSelf);
         }
 
-        //if (GameManager.instance.CurrentPlayer.State.getWP() == 0)
+        //if (GameManager.instance.CurrentPlayer.State.getWP() <= 0)
         //{
-            
         //    this.gameObject.SetActive(!this.gameObject.activeSelf);
         //}
 
@@ -154,8 +155,8 @@ public class FightPanel : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        GameManager.instance.CurrentPlayer.Cell.State.cellInventory.Enemies[0].Will = og_WPMonster;
-        GameManager.instance.CurrentPlayer.State.setStrength(GameManager.instance.CurrentPlayer.State.getStrength() - 11);
+        //GameManager.instance.CurrentPlayer.Cell.State.cellInventory.Enemies[0].Will = og_WPMonster;
+        GameManager.instance.CurrentPlayer.State.setStrength(GameManager.instance.CurrentPlayer.State.getStrength() - 1);
         SetStrength();
         SetWP();
     }

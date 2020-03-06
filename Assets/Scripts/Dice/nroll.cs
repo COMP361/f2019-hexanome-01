@@ -28,6 +28,8 @@ public class nroll : MonoBehaviour
         //specialDice2 = GameObject.FindGameObjectWithTag("s2").GetComponent<specialDices>();
 
         numRegularDices = fp.nb_rd;
+        numSpecialDices = fp.nb_sd;
+        if(numSpecialDices == 0) { hasSpecial = false; } else { hasSpecial = true; }
     }
 
     // Update is called once per frame
@@ -39,7 +41,7 @@ public class nroll : MonoBehaviour
     {
         //StartCoroutine("activatedAllDices");
         fp.hasRolled = true;
-        activatedAllDices(numRegularDices, 0);
+        activatedAllDices(numRegularDices, numSpecialDices);
     }
 
     public int activatedAllDices(int numRegularDices, int numSpecialDices)
