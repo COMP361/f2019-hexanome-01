@@ -4,11 +4,13 @@ using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
-    public List<Item> items = new List<Item>();
+    public List<Token> smallTokens = new List<Token>();
+    public Token bigToken;
+    public Token helm;
+    public Token gold;
 
-
-    private bool inventoryEnable;
-    private int space = 3;
+    private int spaceSmall;
+    private int numOfGold;
 
 
     void OnEnable() {
@@ -24,24 +26,28 @@ public class Inventory : MonoBehaviour
 
 
     void start(){
-
+      bigToken = null;
+      helm = null;
+      gold =null;
+      spaceSmall = 3;
+      numOfGold = 0;
     }
 
-    void update(){
 
-    }
 
-    public bool  Add(Item item){
+    public void  Add(Token item){
+      /*
       if(items.Count >= space){
         Debug.Log("Not enough room ");
         return false;
       }
        items.Add(item);
        return true;
+       */
     }
 
-    public void Remove(Item item){
-      items.Remove(item);
+    public void Remove(Token item){
+    //  tokens.Remove(item);
     }
 
 
