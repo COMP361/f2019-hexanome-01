@@ -4,12 +4,12 @@ using UnityEngine;
 public class regularDices : MonoBehaviour {
 
     // Array of dice sides sprites to load from Resources folder
-    private static Sprite[] diceSides;
+    private Sprite[] diceSides;
 
     // Reference to sprite renderer to change sprites
-    private static SpriteRenderer rend;
+    private SpriteRenderer rend;
     //
-    public static int finalSide;
+    public int finalSide;
 	// Use this for initialization
 	private void Start () {
 
@@ -22,7 +22,7 @@ public class regularDices : MonoBehaviour {
 	}
 	
     // If you left click over the dice then RollTheDice coroutine is started
-    private void OnMouseDown()
+    public void OnMouseDown()
     {
         StartCoroutine("RollTheDice");
     }
@@ -59,6 +59,7 @@ public class regularDices : MonoBehaviour {
 
         // Show final dice value in Console
         Debug.Log(finalSide);
+        //yield return new WaitForSeconds(0.05f);
     }
     public int getFinalSide()
     {
