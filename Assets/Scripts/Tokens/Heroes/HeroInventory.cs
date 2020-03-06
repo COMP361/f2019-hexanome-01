@@ -2,17 +2,54 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NewBehaviourScript : MonoBehaviour
+public class Inventory : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
+    public List<Token> smallTokens = new List<Token>();
+    public Token bigToken;
+    public Token helm;
+    public Token gold;
+
+    private int spaceSmall;
+    private int numOfGold;
+
+
+    void OnEnable() {
+      EventManager.InventoryUICellEnter += updateUI;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    void OnDisable() {
+      EventManager.InventoryUICellEnter -= updateUI;
     }
+
+
+
+
+
+    void start(){
+      bigToken = null;
+      helm = null;
+      gold =null;
+      spaceSmall = 3;
+      numOfGold = 0;
+    }
+
+
+
+    public void  Add(Token item){
+      /*
+      if(items.Count >= space){
+        Debug.Log("Not enough room ");
+        return false;
+      }
+       items.Add(item);
+       return true;
+       */
+    }
+
+    public void Remove(Token item){
+    //  tokens.Remove(item);
+    }
+
+
+    public void updateUI(CellInventory inventory, int index){}
 }
