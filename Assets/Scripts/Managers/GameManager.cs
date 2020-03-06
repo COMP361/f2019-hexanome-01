@@ -91,24 +91,8 @@ public class GameManager : Singleton<GameManager>
         monstersToMove = new List<Enemy>();
 
         heroes = new List<Hero>();
-        heroes.Add(Warrior.Instance);
-        heroes.Add(Archer.Instance);
-        heroes.Add(Mage.Instance);
-        heroes.Add(Dwarf.Instance);
 
-        string hero = (string)PhotonNetwork.LocalPlayer.CustomProperties["Class"];
-        if(hero != null) {
-            for (int i = 0; i < heroes.Count; i++) {
-                if(hero.Equals(heroes[i].name)) {
-                    chosenHeroIndex = i;
-                    break;
-                }
-            }
-        }
-
-        EventManager.TriggerMainHeroInit(ChosenHero);
-
-        /*if (!PhotonNetwork.OfflineMode) {
+        if (!PhotonNetwork.OfflineMode) {
             // Add each player's respective hero
             foreach(Player p in players) {
                 string hero = (string)p.CustomProperties["Class"];
@@ -138,6 +122,7 @@ public class GameManager : Singleton<GameManager>
             }
 
             playerTurn = new Queue<Player>(players);
+            EventManager.TriggerMainHeroInit(MainHero);
 
         } else {
             heroes.Add(Warrior.Instance);
@@ -170,13 +155,6 @@ public class GameManager : Singleton<GameManager>
         eventCards = new EventCards();
 
         fog = new Fog();
-
-
-    //  Token goldCoin;
-    //  goldCoin = GoldCoin.Factory(70);
-    //  heroes[0].State.heroInventory.AddGold(goldCoin);
-      //  cell.Inventory.addToken(goldCoin);
-
 
         //well = new Token();
         //well.addToken(55, Color.blue);
