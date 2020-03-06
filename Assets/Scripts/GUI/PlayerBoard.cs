@@ -39,7 +39,6 @@ public class PlayerBoard : MonoBehaviour
     }
 
     void InitHero(Hero hero) {
-        Debug.Log("entering");
         Transform heroes = transform.Find("Heroes");
 
         foreach (Transform child in heroes) {
@@ -47,8 +46,6 @@ public class PlayerBoard : MonoBehaviour
                 grandChild.gameObject.SetActive(false);
             }
         }
-
-        Debug.Log(hero.name + "/" + hero.HeroName);
 
         GameObject go = heroes.Find(hero.name + "/" + hero.HeroName).gameObject;
         go.SetActive(true);
