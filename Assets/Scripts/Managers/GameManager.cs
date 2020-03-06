@@ -31,6 +31,7 @@ public class GameManager : Singleton<GameManager>
     public PhotonView photonView;
     public ActionOptions actionOptions;
     List<Enemy> monstersToMove;
+    List<WellCell> wells;
 
     #endregion
 
@@ -159,6 +160,16 @@ public class GameManager : Singleton<GameManager>
     //    Token goldCoin;
   //      goldCoin = GoldCoin.Factory();
     //    heroes[0].State.heroInventory.AddGold(goldCoin);
+
+      wells = new List<WellCell>();
+      wells.Add(Cell.FromId(5) as WellCell);
+      wells.Add(Cell.FromId(35) as WellCell);
+      wells.Add(Cell.FromId(45) as WellCell);
+      wells.Add(Cell.FromId(55) as WellCell);
+
+      foreach (WellCell well in wells) {
+        well.resetWell();
+      }
 
         //well = new Token();
         //well.addToken(55, Color.blue);
