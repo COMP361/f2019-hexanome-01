@@ -8,7 +8,7 @@ public class GoldCoin : Token
 //  protected static GameObject goldCoin;
 
 
-      public static GoldCoin Factory(int cellID)
+      public static GoldCoin Factory()
       {
 
           Sprite sprite = Resources.Load<Sprite>("Sprites/Tokens/Fog/Gold");
@@ -20,8 +20,8 @@ public class GoldCoin : Token
           GoldCoin goldCoin = go.AddComponent<GoldCoin>();
           goldCoin.TokenName = "GoldCoin";
 
-          Cell cell = Cell.FromId(cellID);
-          goldCoin.Cell = cell;
+      //    Cell cell = Cell.FromId(cellID);
+    //      goldCoin.Cell = cell;
 
           return goldCoin;
       }
