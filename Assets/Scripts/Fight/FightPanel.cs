@@ -143,11 +143,11 @@ public class FightPanel : MonoBehaviour
             this.gameObject.SetActive(!this.gameObject.activeSelf);
         }
 
-        if (GameManager.instance.CurrentPlayer.State.getWP() == 0)
-        {
+        //if (GameManager.instance.CurrentPlayer.State.getWP() == 0)
+        //{
             
-            this.gameObject.SetActive(!this.gameObject.activeSelf);
-        }
+        //    this.gameObject.SetActive(!this.gameObject.activeSelf);
+        //}
 
     }
 
