@@ -11,7 +11,7 @@ public class nroll : MonoBehaviour
     public specialDices specialDice1;
     public specialDices specialDice2;
     public static bool hasSpecial = false; // REMEMBER TO SET CORRECT THIS
-    FightPanel fp = GameObject.Find("AndorBoard/Canvas/Action Options/Fight").GetComponent<FightPanel>();
+    public FightPanel fp;
     public int numRegularDices;
     public int numSpecialDices;
 
@@ -33,12 +33,13 @@ public class nroll : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        regularDice1.RollTheDice();
+        //regularDice1.RollTheDice();
     }
     public void OnMouseDown()
     {
-        StartCoroutine("activatedAllDices");
-        fp.hasRolled = true; 
+        //StartCoroutine("activatedAllDices");
+        fp.hasRolled = true;
+        activatedAllDices(numRegularDices, 0);
     }
 
     public int activatedAllDices(int numRegularDices, int numSpecialDices)
@@ -59,9 +60,9 @@ public class nroll : MonoBehaviour
         }
         else if(numRegularDices == 2)
         {
-
-            regularDice1.RollTheDice();
-            regularDice2.RollTheDice();
+            regularDice1.OnMouseDown();
+            //var x = regularDice1.RollTheDice();
+            regularDice2.OnMouseDown();
             regularDices[] r2List = new regularDices[2];
             r2List[0] = regularDice1;
             r2List[1] = regularDice2;

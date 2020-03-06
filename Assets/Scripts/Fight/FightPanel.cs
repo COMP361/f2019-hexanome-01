@@ -11,6 +11,7 @@ public class FightPanel : MonoBehaviour
     public Text EnemyName;
     public Text EnemyStrength;
     public Text EnemyWP;
+    private int og_WPMonster;
 
     public Text rollMessage;
     public bool hasRolled = false;
@@ -106,6 +107,7 @@ public class FightPanel : MonoBehaviour
 
     private void SetWP()
     {
+        og_WPMonster = GameManager.instance.CurrentPlayer.Cell.State.cellInventory.Enemies[0].Will;
         HeroWP.text = GameManager.instance.CurrentPlayer.State.getWP().ToString();
         EnemyWP.text = GameManager.instance.CurrentPlayer.Cell.State.cellInventory.Enemies[0].Will.ToString();
     }
@@ -117,23 +119,19 @@ public class FightPanel : MonoBehaviour
 
     public void Attack(int attack_str)
     {
-        foreach(regularDices d in regular_dice)
-        {
-            
-        }
-
-
         int hero_strength = GameManager.instance.CurrentPlayer.State.getStrength();
         int hero_wp = GameManager.instance.CurrentPlayer.State.getWP();
         int monster_strength = GameManager.instance.CurrentPlayer.Cell.State.cellInventory.Enemies[0].Strength;
         int monster_wp = GameManager.instance.CurrentPlayer.Cell.State.cellInventory.Enemies[0].Will;
 
-        if (hero_strength >= monster_strength)
+        int total_strength = attack_str + hero_strength;
+
+        if (total_strength > monster_strength)
         {
             monster_wp -= (hero_strength);
             GameManager.instance.CurrentPlayer.Cell.State.cellInventory.Enemies[0].Will = monster_wp;
         }
-        else
+        else if(total_strength > monster_strength)
         {
             hero_wp -= (monster_strength);
             GameManager.instance.CurrentPlayer.State.setWP(hero_wp);
@@ -144,11 +142,20 @@ public class FightPanel : MonoBehaviour
             GameManager.instance.CurrentPlayer.Cell.State.cellInventory.Enemies[0].gameObject.SetActive(false);
             this.gameObject.SetActive(!this.gameObject.activeSelf);
         }
+
+        if (GameManager.instance.CurrentPlayer.State.getWP() == 0)
+        {
+            
+            this.gameObject.SetActive(!this.gameObject.activeSelf);
+        }
+
     }
 
     // Update is called once per frame
     void Update()
     {
+        GameManager.instance.CurrentPlayer.Cell.State.cellInventory.Enemies[0].Will = og_WPMonster;
+        GameManager.instance.CurrentPlayer.State.setStrength(GameManager.instance.CurrentPlayer.State.getStrength() - 11);
         SetStrength();
         SetWP();
     }
