@@ -22,7 +22,7 @@ public class CellInventory : ICloneable {
   #endregion
 
   #region Functions [Constructor]
-    
+
   ~CellInventory() {
     EventManager.FarmerDestroyed -= FarmerDestroyed;
   }
@@ -37,22 +37,19 @@ public class CellInventory : ICloneable {
 
     EventManager.FarmerDestroyed += FarmerDestroyed;
 
-    // Should maybe be in inventoryUICell
-    // textTransform = transform.Find("cellsDescription");
-    // textTransform.gameObject.SetActive(false);
   }
   #endregion
-  
+
   void FarmerDestroyed(Farmer farmer) {
     if(Farmers.Contains(farmer)) {
         Farmers.Remove(farmer);
     }
   }
-  
+
   public void addToken(Token token) {
     Type listType;
     AllTokens.Add(token);
-    
+
     listType = Heroes.GetListType();
     if (listType.IsCompatibleWith(token.GetType())) {
         Heroes.Add((Hero)token);

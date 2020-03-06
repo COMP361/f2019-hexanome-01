@@ -6,13 +6,13 @@ using UnityEngine.UI;
 public class HeroInventory : MonoBehaviour
 {
     public List<Token> smallTokens { get; private set; }
-    public List<Token> gold { get; private set; }
+    public List<Token> golds { get; private set; }
     public Token bigToken { get; private set; }
     public Token helm { get; private set; }
 
 
     private int spaceSmall;
-    private int numOfGold;
+    public int numOfGold { get; private set; }
 
 
     void OnEnable() {
@@ -25,10 +25,9 @@ public class HeroInventory : MonoBehaviour
 
     void start(){
       smallTokens = new List<Token>();
-      gold = new List<Token>();
+      golds = new List<Token>();
       bigToken =null;
       helm = null;
-      gold =null;
       spaceSmall = 3;
       numOfGold = 0;
     }
@@ -85,7 +84,7 @@ public class HeroInventory : MonoBehaviour
 
     // maybe have a void return type
     public bool AddGold(Token token){
-      gold.Add(token);
+      golds.Add(token);
       numOfGold++;
       EventManager.TriggerInventoryUIHeroUpdate(this);
       return true;
@@ -93,7 +92,7 @@ public class HeroInventory : MonoBehaviour
 
     public void RemoveGold(Token token){
       numOfGold--;
-      gold.Remove(token);
+      golds.Remove(token);
       EventManager.TriggerInventoryUIHeroUpdate(this);
     }
 
