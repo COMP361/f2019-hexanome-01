@@ -9,7 +9,7 @@ public enum Sex {
     Male
 }
 
-[RequireComponent(typeof(Inventory))]
+[RequireComponent(typeof(HeroInventory))]
 
 public class Hero : Movable {
   protected Sex sex = Sex.Female;
@@ -50,7 +50,7 @@ public class HeroState : ICloneable {
   public Action action;
   public Cell cell;
   public TimeOfDay TimeOfDay;
-  public HeroInventory HeroInventory;
+  public HeroInventory heroInventory;
 
   private int freeMove;
   private int willpower = 7;
@@ -61,7 +61,7 @@ public class HeroState : ICloneable {
     this.cell = cell;
     action = Action.None;
     TimeOfDay = new TimeOfDay(color, heroName);
-    HeroInventory = new HeroInventory();
+    heroInventory = new HeroInventory();
   }
 
   public object Clone() {

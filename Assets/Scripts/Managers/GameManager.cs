@@ -93,7 +93,7 @@ public class GameManager : Singleton<GameManager>
         heroes.Add(Archer.Instance);
         heroes.Add(Mage.Instance);
         heroes.Add(Dwarf.Instance);
-        
+
         string hero = (string)PhotonNetwork.LocalPlayer.CustomProperties["Class"];
         if(hero != null) {
             for (int i = 0; i < heroes.Count; i++) {
@@ -103,9 +103,9 @@ public class GameManager : Singleton<GameManager>
                 }
             }
         }
-        
+
         EventManager.TriggerMainHeroInit(ChosenHero);
-        
+
         /*if (!PhotonNetwork.OfflineMode) {
             // Add each player's respective hero
             foreach(Player p in players)
@@ -119,7 +119,7 @@ public class GameManager : Singleton<GameManager>
                 }
             }
             playerTurn = new Queue<Player>(players);
-        
+
         } else {
             heroes.Add(Warrior.Instance);
             heroes.Add(Archer.Instance);
@@ -151,6 +151,13 @@ public class GameManager : Singleton<GameManager>
         eventCards = new EventCards();
 
         fog = new Fog();
+
+
+    //  Token goldCoin;
+    //  goldCoin = GoldCoin.Factory(70);
+    //  heroes[0].State.heroInventory.AddGold(goldCoin);
+      //  cell.Inventory.addToken(goldCoin);
+
 
         //well = new Token();
         //well.addToken(55, Color.blue);
@@ -188,14 +195,14 @@ public class GameManager : Singleton<GameManager>
         monstersToMove.Remove((Enemy)movable);
         monsterMove();
     }
-    
+
     /*
      * Goes through a monster list and moves them in order.
      *
      */
     void monsterMove() {
         if(monstersToMove.Count == 0) return;
-        
+
         bool move = false;
         while (!move && monstersToMove.Count > 0) {
             Enemy monster = monstersToMove[0];
@@ -227,7 +234,7 @@ public class GameManager : Singleton<GameManager>
         EventManager.TriggerCurrentPlayerUpdate(CurrentPlayer);
         state = (HeroState)CurrentPlayer.State.Clone();
     }
-    
+
     void EndTurn()
     {
         CurrentPlayer.State.action = Action.None;
@@ -248,7 +255,7 @@ public class GameManager : Singleton<GameManager>
     }
 
     void InitMove()
-    {    
+    {
         if(!PhotonNetwork.OfflineMode) {
             GameObject commandGO = PhotonNetwork.Instantiate("Prefabs/Commands/MoveCommand", Vector3.zero, Quaternion.identity, 0);
             int viewId = commandGO.GetComponent<PhotonView>().ViewID;
@@ -301,5 +308,5 @@ public class GameManager : Singleton<GameManager>
         }
     }
 
-    #endregion 
+    #endregion
 }
