@@ -21,14 +21,22 @@ public class EventManager : MonoBehaviour {
     }
 
     // Fired when a new action is chosen (Fight/Skip/Move/End day)
-    public delegate void ActionUpdateHandler(Action action);
+    public delegate void ActionUpdateHandler(int action);
     public static event ActionUpdateHandler ActionUpdate;
-    public static void TriggerActionUpdate(Action action)
-    {
-        if (ActionUpdate != null)
-        {
-            ActionUpdate(action);
+    
+    public static void TriggerActionUpdate(int action) {
+        if (!PhotonNetwork.OfflineMode) {
+            GameManager.instance.photonView.RPC("TriggerActionUpdateRPC", RpcTarget.AllViaServer, action);
+        } else {
+            if (ActionUpdate != null) ActionUpdate(action);
         }
+    }
+
+    [PunRPC]
+    public void TriggerActionUpdateRPC(int action)
+    {
+        if (ActionUpdate != null) ActionUpdate(action);
+        
     }
 
     // Fired on each turn (player turn)
@@ -56,7 +64,7 @@ public class EventManager : MonoBehaviour {
     public delegate void FightHandler();
     public static event FightHandler Fight;
     public static void TriggerFight() {
-        EventManager.TriggerActionUpdate(Action.Fight);
+        EventManager.TriggerActionUpdate(Action.Fight.Value);
 
         if (Fight != null) {
             Fight();
@@ -80,7 +88,7 @@ public class EventManager : MonoBehaviour {
     [PunRPC]
     public void TriggerSkipRPC()
     {
-        EventManager.TriggerActionUpdate(Action.Skip);
+        EventManager.TriggerActionUpdate(Action.Skip.Value);
         if (Skip != null) Skip();
     }
 
@@ -155,7 +163,7 @@ public class EventManager : MonoBehaviour {
     public static event MoveCancelHandler MoveCancel;
     public static void TriggerMoveCancel()
     {
-        EventManager.TriggerActionUpdate(Action.None);
+        EventManager.TriggerActionUpdate(Action.None.Value);
 
         if (MoveCancel != null)
         {
@@ -201,7 +209,7 @@ public class EventManager : MonoBehaviour {
     public static event MoveSelectHandler MoveSelect;
     public static void TriggerMoveSelect()
     {
-        EventManager.TriggerActionUpdate(Action.Move);
+        EventManager.TriggerActionUpdate(Action.Move.Value);
 
         if (MoveSelect != null)
         {

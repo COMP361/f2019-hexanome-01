@@ -73,7 +73,7 @@ public class Cell : MonoBehaviour, IComparable<Cell>
     protected virtual void OnMouseEnter() {
         if (!Active) return;
 
-        var color = gm.CurrentPlayer.Color;
+        var color = gm.MainHero.Color;
         color.a = .4f;
         sprite.color = color;
         EventManager.TriggerCellMouseEnter(Index);

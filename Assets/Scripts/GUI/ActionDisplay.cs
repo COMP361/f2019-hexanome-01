@@ -11,7 +11,8 @@ public class ActionDisplay : MonoBehaviour {
         EventManager.CurrentPlayerUpdate -= UpdateCurrentPlayer; 
     }
 
-    public void UpdateAction(Action action) {
+    public void UpdateAction(int actionID) {
+        Action action = Action.FromValue<Action>(actionID);
         transform.Find("Action").GetComponent<UnityEngine.UI.Text>().text = action.Name;
     }
 
