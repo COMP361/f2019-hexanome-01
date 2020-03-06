@@ -12,7 +12,7 @@ public class Cell : MonoBehaviour, IComparable<Cell>
     #region Fields
     /****** [Variables] ******/
     public static List<Cell> cells = new List<Cell>();
-    public static GameObject[] Farmers = new GameObject[4];
+    //public static GameObject[] Farmers = new GameObject[4];
     public List<Transform> neighbours = new List<Transform>();
     public Cell enemyPath;
     protected GameManager gm;
@@ -32,6 +32,7 @@ public class Cell : MonoBehaviour, IComparable<Cell>
     ///<summary>
     ///if true, we have to pay willPoints to reach the cell
     ///</summary>
+
     public bool Extension { get; set; }
     public float Heuristic { get; set; }
     public float Cost { get; set; }
@@ -41,7 +42,7 @@ public class Cell : MonoBehaviour, IComparable<Cell>
         get { return Cost + Heuristic; }
     }
 
-    public CellState State { get; private set; }
+    public CellInventory Inventory { get; private set; }
 
     public int CompareTo(Cell cell) {
         return cell.Index.CompareTo(cell.Index);
@@ -57,7 +58,7 @@ public class Cell : MonoBehaviour, IComparable<Cell>
         HeroesPosition = transform.Find("positions/heroes").position;
         MovablesPosition = transform.Find("positions/movables").position;
         TokensPosition = transform.Find("positions/tokens").position;
-        State = new CellState();
+        Inventory = new CellInventory();
     }
 
     protected virtual void Start() {
@@ -70,15 +71,13 @@ public class Cell : MonoBehaviour, IComparable<Cell>
     }
 
     protected virtual void OnMouseEnter() {
-    //    Debug.Log("I'm here1 " + Index);
         if (!Active) return;
-    //    Debug.Log("I'm here2 " + Index);
 
-        var color = gm.CurrentPlayer.Color;
+        var color = gm.MainHero.Color;
         color.a = .4f;
         sprite.color = color;
         EventManager.TriggerCellMouseEnter(Index);
-        EventManager.TriggerInventoryUICellEnter(State.cellInventory, Index);
+        EventManager.TriggerInventoryUICellEnter(Inventory, Index);
     }
 
     protected virtual void OnMouseExit() {
@@ -151,8 +150,9 @@ public class Cell : MonoBehaviour, IComparable<Cell>
 
             for (int j = 0; j < t.Item2.neighbours.Count; j++) {
                 c = t.Item2.neighbours[j].GetComponent<Cell>();
+                
                 if (visited.Add(c)) {
-                    if (i >= min) cells.Add(c);
+                    if (i >= min && i <= max) cells.Add(c);
                     queue.Enqueue(new Tuple<int, Cell>(i, c));
                 }
             }
@@ -160,7 +160,6 @@ public class Cell : MonoBehaviour, IComparable<Cell>
 
         return cells;
     }
-
 
     public static Cell FromId(int id) {
         Cell cell = null;
@@ -175,121 +174,5 @@ public class Cell : MonoBehaviour, IComparable<Cell>
         return cell;
     }
 
-    protected bool setIcon(string spriteName) {
-
-        Sprite spriteIcon=Resources.Load<Sprite>("Sprites/icons/merchant");
-
-
-        Debug.Log(spriteIcon);
-        if (spriteIcon != null) {
-            GameObject spriteObject = new GameObject(spriteName);
-
-            spriteObject.transform.parent = this.transform;
-            SpriteRenderer renderer = spriteObject.AddComponent<SpriteRenderer>();
-            renderer.sprite = spriteIcon;
-
-            return true;
-        }
-        return false;
-    }
-
     #endregion
-
-}
-
-public class CellState : ICloneable
-{
-    #region Fields
-    public int numGoldenShields { get; private set; }
-    public CellInventory cellInventory { get; private set; }
-    /*
-    public List<Hero> Heroes { get; private set; }
-    public List<Enemy> Enemies { get; private set; }
-    public List<Farmer> Farmers { get; private set; }
-    public List<Token> Tokens { get; private set; }
-    public List<Token> Golds { get; private set; }
-    */
-    #endregion
-
-    // Pickable
-    // Should we have well, fog?
-    #region Functions [Constructor]
-    public CellState()
-    {
-      cellInventory =  new CellInventory();
-      /*
-        Heroes = new List<Hero>();
-        Enemies = new List<Enemy>();
-        Farmers = new List<Farmer>();
-        Tokens = new List<Token>();
-        Golds = new List<Token>(); */
-        int numGoldenShields;
-    }
-    #endregion
-
-    #region Functions[Constructor + Unity]
-    public void initGoldenShields(int numOfPlayers) {
-        if (numOfPlayers == 4) { numGoldenShields = 1; }
-    }
-    public int decrementGoldenShields() {
-        if (numGoldenShields > 0) { numGoldenShields--; return 1; } else { return -1; }   // game over
-    }
-
-    public void addToken(Token token) {
-
-      cellInventory.addToken(token);
-      /*  Type listType;
-
-        listType = Heroes.GetListType();
-        if (listType.IsCompatibleWith(token.GetType())) {
-            Heroes.Add((Hero)token);
-            return;
-        }
-
-        listType = Enemies.GetListType();
-        if (listType.IsCompatibleWith(token.GetType())) {
-            Enemies.Add((Enemy)token);
-            return;
-        }
-
-        listType = Farmers.GetListType();
-        if (listType.IsCompatibleWith(token.GetType())) {
-            Farmers.Add((Farmer)token);
-            return;
-        }
-        */
-    }
-
-    public void removeToken(Token token) {
-
-      cellInventory.removeToken(token);
-      /*  Type listType;
-
-        listType = Heroes.GetListType();
-        if (listType.IsCompatibleWith(token.GetType())) {
-            Heroes.Remove((Hero)token);
-            return;
-        }
-
-        listType = Enemies.GetListType();
-        if (listType.IsCompatibleWith(token.GetType())) {
-            Enemies.Remove((Enemy)token);
-            return;
-        }
-
-        listType = Farmers.GetListType();
-        if (listType.IsCompatibleWith(token.GetType())) {
-            Farmers.Remove((Farmer)token);
-            return;
-        }
-        */
-    }
-
-    public object Clone() {
-        CellState cs = (CellState)this.MemberwiseClone();
-        return cs;
-    }
-    #endregion
-
-
 }

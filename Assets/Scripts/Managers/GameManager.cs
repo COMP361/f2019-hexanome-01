@@ -1,32 +1,44 @@
+
+using Photon.Pun;
+using Photon.Realtime;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System;
 
 public class GameManager : Singleton<GameManager>
 {
     #region Fields
     private int playerCount;
-    public List<Hero> players;
+    public List<Player> players;
+    public Queue<Player> playerTurn;
+    public List<Hero> heroes;
     public List<Farmer> farmers;
     public List<Enemy> gors, skrals, trolls, wardraks;
-    private int currentPlayerIndex = -1;
+    private int currentPlayerIndex = 0;
+    private int mainHeroIndex = 0;
     public Token well;
     public Fog fog;
     public HeroState state;
     public LegendCards legendCards;
     public EventCards eventCards;
+    public Castle castle;
     private ICommand command;
+    public PhotonView photonView;
+    public ActionOptions actionOptions;
     List<Enemy> monstersToMove;
 
-    bool IsCastle(Cell cell) {
-        return cell.Index == 0;
-    }
     #endregion
 
     #region Functions [Unity]
     void Awake()
     {
+        PhotonNetwork.OfflineMode = true;
+        players = PhotonNetwork.PlayerList.ToList();
         base.Awake();
     }
 
@@ -35,6 +47,12 @@ public class GameManager : Singleton<GameManager>
         EventManager.MoveSelect += InitMove;
         EventManager.MoveCancel += ResetCommand;
         EventManager.MoveConfirm += ExecuteMove;
+        EventManager.EnemyDestroyed += RemoveEnemy;
+        EventManager.FarmerDestroyed += RemoveFarmer;
+        EventManager.EndTurn += EndTurn;
+        EventManager.EndDay += EndDay;
+        EventManager.StartDay += StartDay;
+        EventManager.MoveComplete += UpdateMonsterToMove;
     }
 
     void OnDisable()
@@ -42,19 +60,76 @@ public class GameManager : Singleton<GameManager>
         EventManager.MoveSelect -= InitMove;
         EventManager.MoveCancel -= ResetCommand;
         EventManager.MoveConfirm -= ExecuteMove;
+        EventManager.EnemyDestroyed -= RemoveEnemy;
+        EventManager.FarmerDestroyed -= RemoveFarmer;
+        EventManager.EndTurn -= EndTurn;
+        EventManager.EndDay -= EndDay;
+        EventManager.StartDay += StartDay;
+        EventManager.MoveComplete -= UpdateMonsterToMove;
+    }
+
+    void RemoveEnemy(Enemy enemy) {
+        if (typeof(Gor).IsCompatibleWith(enemy.GetType())) {
+            gors.Remove((Gor)enemy);
+        } else if (typeof(Skral).IsCompatibleWith(enemy.GetType())) {
+            skrals.Remove((Skral)enemy);
+        } else if (typeof(Troll).IsCompatibleWith(enemy.GetType())) {
+            trolls.Remove((Troll)enemy);
+        } else if (typeof(Wardrak).IsCompatibleWith(enemy.GetType())) {
+            wardraks.Remove((Wardrak)enemy);
+        }
+    }
+
+    void RemoveFarmer(Farmer farmer) {
+        farmers.Remove(farmer);
     }
 
     void Start()
     {
+        castle = Castle.Instance;
+        castle.Init(players.Count);
         monstersToMove = new List<Enemy>();
-        // PLAYERS
-        playerCount = 1;
-        players = new List<Hero>();
-        players.Add(Warrior.Instance);
-        players.Add(Archer.Instance);
-        players.Add(Mage.Instance);
-        players.Add(Dwarf.Instance);
-        Cell.FromId(0).State.initGoldenShields(players.Count);
+
+        heroes = new List<Hero>();
+
+        if (!PhotonNetwork.OfflineMode) {
+            // Add each player's respective hero
+            foreach(Player p in players) {
+                string hero = (string)p.CustomProperties["Class"];
+
+                if(hero != null) {
+                    switch (hero) {
+                        case "Warrior":
+                            heroes.Add(Warrior.Instance);
+                            break;
+                        case "Archer":
+                            heroes.Add(Archer.Instance);
+                            break;
+                        case "Mage":
+                            heroes.Add(Mage.Instance);
+                            break;
+                        case "Dwarf":
+                            heroes.Add(Dwarf.Instance);
+                            break;
+                    }
+
+                    string mainHero = (string)PhotonNetwork.LocalPlayer.CustomProperties["Class"];
+
+                    if(hero.Equals(mainHero)) {
+                        mainHeroIndex = heroes.Count - 1;
+                    }
+                }
+            }
+
+            playerTurn = new Queue<Player>(players);
+            EventManager.TriggerMainHeroInit(MainHero);
+
+        } else {
+            heroes.Add(Warrior.Instance);
+            heroes.Add(Archer.Instance);
+            heroes.Add(Mage.Instance);
+            heroes.Add(Dwarf.Instance);
+        }
 
         // FARMERS
         farmers = new List<Farmer>();
@@ -86,16 +161,15 @@ public class GameManager : Singleton<GameManager>
         //well.addToken(35, Color.blue);
         //well.addToken(5, Color.blue);
         //well.addToken(45, Color.blue);
-        EventManager.EndDay += MonsterEndDayEvents;
-        EventManager.MoveComplete += UpdateMonsterToMove;
 
-        giveTurn(0);
+        GiveTurn();
+
     }
 
     #endregion
 
     #region Functions [GameManager]
-    void MonsterEndDayEvents()
+    void InitMonsterMove()
     {
         gors.Sort();
         skrals.Sort();
@@ -108,34 +182,36 @@ public class GameManager : Singleton<GameManager>
         monstersToMove.AddRange(trolls);
         monstersToMove.AddRange(wardraks);
 
-        Debug.Log(monstersToMove.Count);
-
-        monsterMove();
+        MonsterMove();
     }
 
 
-    void UpdateMonsterToMove(Movable movable) {
-        if(!typeof(Enemy).IsCompatibleWith(movable.GetType())) return;
+    void UpdateMonsterToMove(Movable movable)
+    {
+        if (!typeof(Enemy).IsCompatibleWith(movable.GetType())) return;
         monstersToMove.Remove((Enemy)movable);
-        monsterMove();
+        MonsterMove();
     }
 
     /*
      * Goes through a monster list and moves them in order.
      *
      */
-    void monsterMove() {
-        if(monstersToMove.Count == 0) return;
+    void MonsterMove() {
+        if(monstersToMove.Count == 0) {
+            GiveTurn();
+            return;
+        }
 
         bool move = false;
-        //foreach (var monster in enemy) {
-        while(!move && monstersToMove.Count > 0) {
+        while (!move && monstersToMove.Count > 0) {
             Enemy monster = monstersToMove[0];
             Cell nextCell = monster.Cell.enemyPath;
-            while (nextCell != null && nextCell.State.cellInventory.Enemies.Count > 0 && nextCell.Index != 0) nextCell = nextCell.enemyPath;
+
+            while (nextCell != null && nextCell.Inventory.Enemies.Count > 0 && !Castle.IsCastle(nextCell)) nextCell = nextCell.enemyPath;
+
             if(nextCell != null) {
                 monster.Move(nextCell);
-                if (IsCastle(nextCell) && nextCell.State.decrementGoldenShields() == -1) { EventManager.TriggerGameOver(); }
                 move = true;
             } else {
                 monstersToMove.Remove(monster);
@@ -143,30 +219,67 @@ public class GameManager : Singleton<GameManager>
         }
     }
 
-    void giveTurn(int playerIndex)
+
+    void StartDay() {
+        InitMonsterMove();
+        playerTurn = new Queue<Player>(players);
+    }
+
+    void GiveTurn()
     {
-        currentPlayerIndex = playerIndex;
-        EventManager.TriggerActionUpdate(Action.None);
-        EventManager.TriggerPlayerUpdate(CurrentPlayer);
+        if (PhotonNetwork.OfflineMode || PhotonNetwork.LocalPlayer.Equals(playerTurn.Peek())) {
+            actionOptions.Show();
+        } else {
+            actionOptions.Hide();
+        }
+
+        EventManager.TriggerActionUpdate(Action.None.Value);
+        EventManager.TriggerCurrentPlayerUpdate(CurrentPlayer);
         state = (HeroState)CurrentPlayer.State.Clone();
     }
 
-    void endTurn(int playerIndex)
+    void EndTurn()
     {
-        CurrentPlayer.IsDone = false;
         CurrentPlayer.State.action = Action.None;
+        playerTurn.Enqueue(playerTurn.Dequeue());
+        GiveTurn();
+    }
+
+    void EndDay()
+    {
+        CurrentPlayer.State.action = Action.None;
+        playerTurn.Dequeue();
+        if (playerTurn.Count() == 0) {
+            EventManager.TriggerStartDay();
+        } else {
+            GiveTurn();
+        }
     }
 
     void InitMove()
     {
-        command = new MoveCommand(CurrentPlayer);
+        if(!PhotonNetwork.OfflineMode) {
+            GameObject commandGO = PhotonNetwork.Instantiate("Prefabs/Commands/MoveCommand", Vector3.zero, Quaternion.identity, 0);
+            int viewId = commandGO.GetComponent<PhotonView>().ViewID;
+            photonView.RPC("InitMoveRPC", RpcTarget.AllViaServer, viewId);
+        } else {
+            GameObject commandGO = GameObject.Instantiate((GameObject) Resources.Load("Prefabs/Commands/MoveCommand")) as GameObject;
+            command = commandGO.GetComponent<MoveCommand>();
+            ((MoveCommand)command).Init(CurrentPlayer);
+        }
+    }
+
+    [PunRPC]
+    void InitMoveRPC(int viewId)
+    {
+        Debug.Log("Init Move Reached");
+        command = PhotonView.Find(viewId).GetComponentInParent<MoveCommand>();
+        ((MoveCommand)command).Init(CurrentPlayer);
     }
 
     void ExecuteMove()
     {
         command.Execute();
-        //command.Dispose();
-        //command = new MoveCommand(CurrentPlayer.Token, CurrentPlayer.State.cell);
     }
 
     void ResetCommand()
@@ -176,11 +289,26 @@ public class GameManager : Singleton<GameManager>
 
     public Hero CurrentPlayer
     {
-        get
-        {
-            return players[currentPlayerIndex];
+        get {
+            if (!PhotonNetwork.OfflineMode)
+            {
+                Player currentPlayer = playerTurn.Peek();
+                string playerHero = (string)currentPlayer.CustomProperties["Class"];
+                return heroes.Where(x => x.Type.ToString() == playerHero).FirstOrDefault();
+            }
+            else
+            {
+                return heroes[0];
+            }
         }
     }
-    #endregion
 
+    public Hero MainHero
+    {
+        get {
+            return heroes[mainHeroIndex];
+        }
+    }
+
+    #endregion
 }

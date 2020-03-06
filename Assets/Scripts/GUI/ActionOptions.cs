@@ -4,7 +4,7 @@ using UnityEngine.UI;
 public class ActionOptions : MonoBehaviour
 {
 
-    Button moveBtn, fightBtn, skipBtn, endDayBtn;
+    Button moveBtn, fightBtn, skipBtn, endTurnBtn, endDayBtn;
 
     void OnEnable() {
         EventManager.MoveSelect += LockMove;
@@ -24,13 +24,16 @@ public class ActionOptions : MonoBehaviour
         moveBtn.onClick.AddListener(delegate { EventManager.TriggerMoveSelect(); });
 
         fightBtn = transform.Find("Fight Button").GetComponent<Button>();
-        fightBtn.onClick.AddListener(delegate { EventManager.TriggerFightSelect(); });
+        fightBtn.onClick.AddListener(delegate { EventManager.TriggerFight(); });
 
         skipBtn = transform.Find("Skip Button").GetComponent<Button>();
-        skipBtn.onClick.AddListener(delegate { EventManager.TriggerSkipSelect(); });
+        skipBtn.onClick.AddListener(delegate { EventManager.TriggerSkip(); });
+
+        endTurnBtn = transform.Find("End Turn Button").GetComponent<Button>();
+        endTurnBtn.onClick.AddListener(delegate { EventManager.TriggerEndTurn(); });
 
         endDayBtn = transform.Find("End Day Button").GetComponent<Button>();
-        endDayBtn.onClick.AddListener(delegate { EventManager.TriggerEndDaySelect(); });
+        endDayBtn.onClick.AddListener(delegate { EventManager.TriggerEndDay(); });
     }
 
     void UnlockMove() {

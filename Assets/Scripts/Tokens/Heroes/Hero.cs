@@ -9,21 +9,17 @@ public enum Sex {
     Male
 }
 
-[RequireComponent(typeof(Inventory))]
+[RequireComponent(typeof(HeroInventory))]
 
 public class Hero : Movable {
   protected Sex sex = Sex.Female;
+
   protected string[] names;
   protected int rank;
 
-  // TODO
-  void OnTokenMoveComplete(Token token, Cell c) {
-    //State.cell.removeToken(token);
-    State.cell = c;
-    //State.cell.addToken(token);
-  }
-
-  //public bool IsDone { get; set; }
+  //void OnTokenMoveComplete(Token token, Cell c) {
+  //  State.cell = c;
+  //}
 
   public string Type { get; protected set; }
 
@@ -53,42 +49,44 @@ public class Hero : Movable {
 public class HeroState : ICloneable {
   public Action action;
   public Cell cell;
-  private int freeMove;
-  private int willpower;
-  private int strength;
-  private int golds;
-  private Timeline timeline;
-  private int hoursOfDay;
+  public TimeOfDay TimeOfDay;
+  public HeroInventory heroInventory;
 
-  public HeroState(Cell cell) {
+  private int freeMove;
+  private int willpower = 7;
+  private int strength = 1;
+  private int golds;
+
+  public HeroState(Cell cell, Color color, string heroName) {
     this.cell = cell;
     action = Action.None;
-    timeline = new Timeline();
+    TimeOfDay = new TimeOfDay(color, heroName);
+    heroInventory = new HeroInventory();
   }
 
   public object Clone() {
     HeroState hs = (HeroState) this.MemberwiseClone();
-    hs.timeline = (Timeline) timeline.Clone();
+    hs.TimeOfDay = (TimeOfDay) TimeOfDay.Clone();
     return hs;
   }
 
-    public int getStrength()
-    {
-        return strength;
-    }
+  public int getStrength()
+  {
+    return strength;
+  }
 
-    public int getWP()
-    {
-        return willpower;
-    }
+  public int getWP()
+  {
+    return willpower;
+  }
 
-    public void setWP(int hero_wp)
-    {
-        willpower = hero_wp;
-    }
+  public void setWP(int hero_wp)
+  {
+    willpower = hero_wp;
+  }
 
-    public void setStrength(int s)
-    {
-        strength = s;
-    }
+  public void setStrength(int s)
+  {
+    strength = s;
+  }
 }

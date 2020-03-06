@@ -28,6 +28,14 @@ public class FightPanel : MonoBehaviour
     private List<regularDices> regular_dice = new List<regularDices>();
     private List<specialDices> special_dice = new List<specialDices>();
 
+    public GameObject rd1;
+    public GameObject rd2;
+    public GameObject rd3;
+    public GameObject rd4;
+    public GameObject sd1;
+    public GameObject sd2;
+
+
     // Start is called before the first frame update
     public void Start()
     {
@@ -95,7 +103,7 @@ public class FightPanel : MonoBehaviour
     private void SetNames()
     {
         HeroName.text = GameManager.instance.CurrentPlayer.HeroName;
-        EnemyName.text = GameManager.instance.CurrentPlayer.Cell.State.cellInventory.Enemies[0].TokenName;
+        EnemyName.text = GameManager.instance.CurrentPlayer.Cell.Inventory.Enemies[0].TokenName;
     }
 
     private void SetStrength()
@@ -104,14 +112,14 @@ public class FightPanel : MonoBehaviour
         GameManager.instance.CurrentPlayer.State.setStrength(2);
 
         HeroStrength.text = GameManager.instance.CurrentPlayer.State.getStrength().ToString();
-        EnemyStrength.text = GameManager.instance.CurrentPlayer.Cell.State.cellInventory.Enemies[0].Strength.ToString();
+        EnemyStrength.text = GameManager.instance.CurrentPlayer.Cell.Inventory.Enemies[0].Strength.ToString();
     }
 
     private void SetWP()
     {
         og_WPMonster = GameManager.instance.CurrentPlayer.Cell.State.cellInventory.Enemies[0].Will;
         HeroWP.text = GameManager.instance.CurrentPlayer.State.getWP().ToString();
-        EnemyWP.text = GameManager.instance.CurrentPlayer.Cell.State.cellInventory.Enemies[0].Will.ToString();
+        EnemyWP.text = GameManager.instance.CurrentPlayer.Cell.Inventory.Enemies[0].Will.ToString();
     }
 
     public void OnClickAttack()
@@ -123,15 +131,15 @@ public class FightPanel : MonoBehaviour
     {
         int hero_strength = GameManager.instance.CurrentPlayer.State.getStrength();
         int hero_wp = GameManager.instance.CurrentPlayer.State.getWP();
-        int monster_strength = GameManager.instance.CurrentPlayer.Cell.State.cellInventory.Enemies[0].Strength;
-        int monster_wp = GameManager.instance.CurrentPlayer.Cell.State.cellInventory.Enemies[0].Will;
+        int monster_strength = GameManager.instance.CurrentPlayer.Cell.Inventory.Enemies[0].Strength;
+        int monster_wp = GameManager.instance.CurrentPlayer.Cell.Inventory.Enemies[0].Will;
 
         int total_strength = attack_str + hero_strength;
 
         if (total_strength > monster_strength)
         {
             monster_wp -= (hero_strength);
-            GameManager.instance.CurrentPlayer.Cell.State.cellInventory.Enemies[0].Will = monster_wp;
+            GameManager.instance.CurrentPlayer.Cell.Inventory.Enemies[0].Will = monster_wp;
         }
         else if (total_strength > monster_strength)
         {
@@ -141,7 +149,7 @@ public class FightPanel : MonoBehaviour
 
         if (GameManager.instance.CurrentPlayer.Cell.State.cellInventory.Enemies[0].Will <= 0)
         {
-            GameManager.instance.CurrentPlayer.Cell.State.cellInventory.Enemies[0].gameObject.SetActive(false);
+            GameManager.instance.CurrentPlayer.Cell.Inventory.Enemies[0].gameObject.SetActive(false);
             this.gameObject.SetActive(!this.gameObject.activeSelf);
         }
 

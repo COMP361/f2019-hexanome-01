@@ -41,7 +41,11 @@ public class PlayerCard : MonoBehaviour {
 
     // Button Functions
     public void updateHero(int newHero) {
-        photonView.RPC("receiveUpdateHero", RpcTarget.AllBuffered, newHero);
+        if(!PhotonNetwork.OfflineMode) {
+            photonView.RPC("receiveUpdateHero", RpcTarget.AllViaServer, newHero);
+        } else {
+            receiveUpdateHero(newHero);   
+        }
     }
 
     [PunRPC]

@@ -27,9 +27,9 @@ public class Dwarf : Hero
         dwarf.rank = 7;
         Cell cell = Cell.FromId(dwarf.rank);
         dwarf.Cell = cell;
-        dwarf.State = new HeroState(cell);
+        dwarf.State = new HeroState(cell, color, dwarf.name);
 
-        dwarf.IsDone = false;
+        //dwarf.IsDone = false;
 
         dwarf.Dices = new int[21] {
             1, 1, 1, 1, 1, 1, 1,

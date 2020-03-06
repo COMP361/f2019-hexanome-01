@@ -8,8 +8,8 @@ public class GameOver : MonoBehaviour
 
     void Awake()
     {
-        panel = this.gameObject;
-        Hide();
+        panel = transform.Find("Panel").gameObject;
+        //Hide();
 
         EventManager.GameOver += Show;
     }
