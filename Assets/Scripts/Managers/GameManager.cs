@@ -49,8 +49,9 @@ public class GameManager : Singleton<GameManager>
         EventManager.MoveConfirm += ExecuteMove;
         EventManager.EnemyDestroyed += RemoveEnemy;
         EventManager.FarmerDestroyed += RemoveFarmer;
-        EventManager.Skip += EndTurn;
-        EventManager.EndDay += EndPlayerDay;
+        EventManager.EndTurn += EndTurn;
+        EventManager.EndDay += EndDay;
+        EventManager.StartDay += StartDay;
         EventManager.MoveComplete += UpdateMonsterToMove;
     }
 
@@ -61,8 +62,9 @@ public class GameManager : Singleton<GameManager>
         EventManager.MoveConfirm -= ExecuteMove;
         EventManager.EnemyDestroyed -= RemoveEnemy;
         EventManager.FarmerDestroyed -= RemoveFarmer;
-        EventManager.Skip -= EndTurn;
-        EventManager.EndDay -= EndPlayerDay;
+        EventManager.EndTurn -= EndTurn;
+        EventManager.EndDay -= EndDay;
+        EventManager.StartDay += StartDay;
         EventManager.MoveComplete -= UpdateMonsterToMove;
     }
 
@@ -160,14 +162,14 @@ public class GameManager : Singleton<GameManager>
         //well.addToken(5, Color.blue);
         //well.addToken(45, Color.blue);
 
-        giveTurn();
+        GiveTurn();
 
     }
 
     #endregion
 
     #region Functions [GameManager]
-    void MonsterEndDayEvents()
+    void InitMonsterMove()
     {
         gors.Sort();
         skrals.Sort();
@@ -180,7 +182,7 @@ public class GameManager : Singleton<GameManager>
         monstersToMove.AddRange(trolls);
         monstersToMove.AddRange(wardraks);
 
-        monsterMove();
+        MonsterMove();
     }
 
 
@@ -188,15 +190,18 @@ public class GameManager : Singleton<GameManager>
     {
         if (!typeof(Enemy).IsCompatibleWith(movable.GetType())) return;
         monstersToMove.Remove((Enemy)movable);
-        monsterMove();
+        MonsterMove();
     }
     
     /*
      * Goes through a monster list and moves them in order.
      *
      */
-    void monsterMove() {
-        if(monstersToMove.Count == 0) return;
+    void MonsterMove() {
+        if(monstersToMove.Count == 0) {
+            GiveTurn();
+            return;
+        }
         
         bool move = false;
         while (!move && monstersToMove.Count > 0) {
@@ -214,7 +219,13 @@ public class GameManager : Singleton<GameManager>
         }
     }
 
-    void giveTurn()
+
+    void StartDay() {
+        InitMonsterMove();
+        playerTurn = new Queue<Player>(players);
+    }
+    
+    void GiveTurn()
     {
         if (PhotonNetwork.OfflineMode || PhotonNetwork.LocalPlayer.Equals(playerTurn.Peek())) {
             actionOptions.Show();
@@ -231,19 +242,18 @@ public class GameManager : Singleton<GameManager>
     {
         CurrentPlayer.State.action = Action.None;
         playerTurn.Enqueue(playerTurn.Dequeue());
-        giveTurn();
+        GiveTurn();
     }
 
-    void EndPlayerDay()
+    void EndDay()
     {
         CurrentPlayer.State.action = Action.None;
         playerTurn.Dequeue();
-        if (playerTurn.Count() == 0)
-        {
-            MonsterEndDayEvents();
-            playerTurn = new Queue<Player>(players);
+        if (playerTurn.Count() == 0) {
+            EventManager.TriggerStartDay();
+        } else {
+            GiveTurn();
         }
-        giveTurn();
     }
 
     void InitMove()

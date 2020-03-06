@@ -92,6 +92,23 @@ public class EventManager : MonoBehaviour {
         if (Skip != null) Skip();
     }
 
+    // Fired if skip action is selected
+    public delegate void EndTurnHandler();
+    public static event EndTurnHandler EndTurn;
+    public static void TriggerEndTurn() {
+        if (!PhotonNetwork.OfflineMode) {
+            GameManager.instance.photonView.RPC("TriggerEndTurnRPC", RpcTarget.AllViaServer);
+        } else {
+            if (EndTurn != null) EndTurn();
+        }
+    }
+
+    [PunRPC]
+    public void TriggerEndTurnRPC()
+    {
+        if (EndTurn != null) EndTurn();
+    }
+
     // Fired at the beginning of turn
     public delegate void StartTurnHandler();
     public static event StartTurnHandler StartTurn;
@@ -100,17 +117,6 @@ public class EventManager : MonoBehaviour {
         if (StartTurn != null)
         {
             StartTurn();
-        }
-    }
-
-    // Fired at the end of turn
-    public delegate void EndTurnHandler();
-    public static event EndTurnHandler EndTurn;
-    public static void TriggerEndTurn()
-    {
-        if (EndTurn != null)
-        {
-            EndTurn();
         }
     }
 
@@ -300,6 +306,13 @@ public class EventManager : MonoBehaviour {
     [PunRPC]
     public void TriggerEndDayRPC() {
         if (EndDay != null) EndDay();
+    }
+
+    // Fired when end day is triggered
+    public delegate void StartDayHandler();
+    public static event StartDayHandler StartDay;
+    public static void TriggerStartDay() {
+        if (StartDay != null) StartDay();
     }
 
     public delegate void InventoryUICellEnterHandler(CellInventory cellInventory, int index);
