@@ -5,22 +5,38 @@ using UnityEngine;
 public class InventoryUIHero : Singleton<InventoryUIHero>
 {
     // Start is called before the first frame update
-    public Transform  itemsParent;
-    protected InventorySpotCell[] spots;
 
+    public Transform  smallItemsParent;
+    public Transform bigParent;
+    public Transform  helmParent;
+    public Transform goldParent;
+    protected InventorySpotCell[] smallSpots;
+    protected InventorySpotCell bigSpot;
+    protected InventorySpotCell helmSpot;
+    protected InventorySpotCell goldSpot;
+
+    protected Transform goldText;
 
 
 
 
   void Start()
   {
+    smallSpots = smallItemsParent.GetComponentsInChildren<InventorySpotCell>();
+    bigSpot = bigParent.GetComponentInChildren<InventorySpotCell>();
+    helmSpot = helmParent.GetComponentInChildren<InventorySpotCell>();
+    goldSpot = goldParent.GetComponentInChildren<InventorySpotCell>();
 
-    /*descTransform = transform.FindDeepChild("cellDescription");
-    titleTransform = transform.FindDeepChild("cellTitle");
-    descTransform.gameObject.SetActive(false);
-    titleTransform.gameObject.SetActive(false);
-    */
-    spots = itemsParent.GetComponentsInChildren<InventorySpotCell>();
+    goldText = transform.FindDeepChild("GoldText");
+  }
+
+
+  protected virtual void OnEnable() {
+    EventManager.InventoryUIHeroUpdate += UpdateUI;
+  }
+
+  protected virtual void OnDisable() {
+    EventManager.InventoryUIHeroUpdate -= UpdateUI;
   }
 
   void Update(){
@@ -37,29 +53,19 @@ public class InventoryUIHero : Singleton<InventoryUIHero>
     }
 
 
-    void UpdateUIEnter(CellInventory cellInv, int index){
-
-
-
-      for(int i = 0; i < spots.Length; i++){
+    void UpdateUI(HeroInventory heroInv){
+/*
+      for(int i = 0; i < smallSpots.Length; i++){
         if(i < cellInv.AllTokens.Count){
-          spots[i].AddItem(cellInv.AllTokens[i]);
+          smallSpots[i].AddItem(cellInv.AllTokens[i]);
           Debug.Log("There is an item");
         }
         else{
-         spots[i].ClearSpot();
+         smallSpots[i].ClearSpot();
          }
        }
+       */
      }
-
-
-   void UpdateUIExit(){
-
-     /*
-     if(!isLocked){
-     descTransform.gameObject.SetActive(false);
-   } */
-   }
 
 
 }

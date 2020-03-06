@@ -8,7 +8,7 @@ using Photon.Realtime;
 
 public class EventManager : MonoBehaviour {
     // this class helps to register the events that are happening and trigger all the functions that are linked to this event.
-    
+
     // Fired when a cell is clicked
     public delegate void CellClickHandler(int cellID);
     public static event CellClickHandler CellClick;
@@ -51,7 +51,7 @@ public class EventManager : MonoBehaviour {
         {
             MainHeroInit(hero);
         }
-    }    
+    }
 
     public delegate void FightHandler();
     public static event FightHandler Fight;
@@ -310,9 +310,17 @@ public class EventManager : MonoBehaviour {
         }
     }
 
+    public delegate void InventoryUIHeroUpdateHandler(HeroInventory heroInventory);
+    public static event InventoryUIHeroUpdateHandler InventoryUIHeroUpdate;
+    public static void TriggerInventoryUIHeroUpdate(HeroInventory heroInventory) {
+        if (InventoryUIHeroUpdate != null) {
+            InventoryUIHeroUpdate(heroInventory);
+        }
+    }
+
     public delegate void GameOverHandler();
     public static event GameOverHandler GameOver;
-    
+
     public static void TriggerGameOver()
     {
         if (GameOver != null)

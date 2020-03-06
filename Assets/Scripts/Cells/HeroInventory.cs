@@ -26,7 +26,7 @@ public class HeroInventory : MonoBehaviour
     void start(){
       smallTokens = new List<Token>();
       gold = new List<Token>();
-      bigToken = null;
+      bigToken =null;
       helm = null;
       gold =null;
       spaceSmall = 3;
@@ -43,11 +43,13 @@ public class HeroInventory : MonoBehaviour
         return false;
       }
        smallTokens.Add(token);
+       EventManager.TriggerInventoryUIHeroUpdate(this);
        return true;
      }
 
     public void RemoveSmallToken(Token token){
       smallTokens.Remove(token);
+      EventManager.TriggerInventoryUIHeroUpdate(this);
     }
 
 
@@ -57,11 +59,13 @@ public class HeroInventory : MonoBehaviour
         return false;
       }
        bigToken = token;
+       EventManager.TriggerInventoryUIHeroUpdate(this);
        return true;
     }
 
     public void RemoveBigToken(Token token){
       bigToken = null;
+      EventManager.TriggerInventoryUIHeroUpdate(this);
     }
 
     public bool AddHelm(Token token){
@@ -70,23 +74,27 @@ public class HeroInventory : MonoBehaviour
         return false;
       }
        helm = token;
+       EventManager.TriggerInventoryUIHeroUpdate(this);
        return true;
     }
 
     public void RemoveHelm(Token token){
       helm = null;
+      EventManager.TriggerInventoryUIHeroUpdate(this);
     }
 
     // maybe have a void return type
     public bool AddGold(Token token){
       gold.Add(token);
       numOfGold++;
+      EventManager.TriggerInventoryUIHeroUpdate(this);
       return true;
     }
 
     public void RemoveGold(Token token){
       numOfGold--;
       gold.Remove(token);
+      EventManager.TriggerInventoryUIHeroUpdate(this);
     }
 
 #endregion
