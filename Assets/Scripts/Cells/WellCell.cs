@@ -7,8 +7,9 @@ public class WellCell : Cell
     public GameObject goFullWell;
     public GameObject goEmptyWell;
     bool isEmptied = false;
+    public Token well;
 
-    void emptyWell(Hero hero)
+    public void emptyWell(Hero hero)
     {
         int currWP = hero.State.getWP();
         currWP++;
@@ -17,14 +18,21 @@ public class WellCell : Cell
         isEmptied = true;
         goFullWell.SetActive(false);
         goEmptyWell.SetActive(true);
-        
+        Inventory.RemoveToken(well);
+        well = null;
+
+
     }
 
-    void resetWell()
+    public void resetWell()
     {
         isEmptied = false;
         goFullWell.SetActive(true);
         goEmptyWell.SetActive(false);
+        well = Well.Factory();
+        Inventory.addToken(well);
+        Debug.Log("SuckMyDick");
+
     }
 
 }

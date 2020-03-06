@@ -8,20 +8,20 @@ public class Well : Token
 //  protected static GameObject goldCoin;
 
 
-      public static Well Factory(int cellID)
+      public static Well Factory()
       {
 
-          Sprite sprite = Resources.Load<Sprite>("Sprites/Tokens/icon/well-full");
+          Sprite sprite = Resources.Load<Sprite>("Sprites/dot");
           GameObject go = new GameObject("Well");
           SpriteRenderer renderer = go.AddComponent<SpriteRenderer>();
           renderer.sprite = sprite;
-          renderer.sortingOrder = 2;
+          renderer.sortingOrder = -2;
 
           Well well = go.AddComponent<Well>();
           well.TokenName = "Well";
 
-          Cell cell = Cell.FromId(cellID);
-          well.Cell = cell;
+        //  Cell cell = Cell.FromId(cellID);
+        //  well.Cell = cell;
 
           return well;
       }
