@@ -156,6 +156,10 @@ public class GameManager : Singleton<GameManager>
 
         fog = new Fog();
 
+    //    Token goldCoin;
+  //      goldCoin = GoldCoin.Factory();
+    //    heroes[0].State.heroInventory.AddGold(goldCoin);
+
         //well = new Token();
         //well.addToken(55, Color.blue);
         //well.addToken(35, Color.blue);
