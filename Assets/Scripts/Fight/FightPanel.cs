@@ -3,9 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Photon.Pun;
 
 public class FightPanel : MonoBehaviour
 {
+    public PhotonView pv;
+
     public Text HeroName;
     public Text HeroStrength;
     public Text HeroWP;
@@ -13,6 +16,10 @@ public class FightPanel : MonoBehaviour
     public Text EnemyStrength;
     public Text EnemyWP;
     private int og_WPMonster;
+
+    public Button AttackButton;
+    public Button RollButton;
+    public Button AbandonButton;
 
     public Text rollMessage;
     public bool hasRolled = false;
@@ -29,23 +36,25 @@ public class FightPanel : MonoBehaviour
     private List<specialDices> special_dice = new List<specialDices>();
 
 
+    [PunRPC]
+    public void showPanelRPC()
+    {
+        this.gameObject.SetActive(!this.gameObject.activeSelf);
+        if (!PhotonNetwork.LocalPlayer.Equals(GameManager.instance.playerTurn.Peek()))
+        {
+            AttackButton.gameObject.SetActive(false);
+            RollButton.gameObject.SetActive(false);
+            AbandonButton.gameObject.SetActive(false);
+        }
+    }
+
     // Start is called before the first frame update
     public void Start()
     {
-        // PLEASE DONT DELETE THESE COMMENTS
-        //HeroName = GameObject.Find("AndorBoard/Canvas/Action Options/Fight/Player Name").GetComponent<Text>();
-        //HeroStrength = GameObject.Find("AndorBoard/Canvas/Action Options/Fight/PS Value").GetComponent<Text>();
-        //HeroWP = GameObject.Find("AndorBoard/Canvas/Action Options/Fight/PWP Value").GetComponent<Text>();
-
-        //EnemyName = GameObject.Find("AndorBoard/Canvas/Action Options/Fight/Monster Name").GetComponent<Text>();
-        //EnemyStrength = GameObject.Find("AndorBoard/Canvas/Action Options/Fight/MS Value").GetComponent<Text>();
-        //EnemyWP = GameObject.Find("AndorBoard/Canvas/Action Options/Fight/MWP Value").GetComponent<Text>();
-
         SetNames();
         SetStrength();
         SetWP();
         nb_rd = GameManager.instance.CurrentPlayer.Dices[GameManager.instance.CurrentPlayer.State.getWP()];
-        //int nb_sd = GameManager.instance.CurrentPlayer.SpecialDice;
 
         switch (nb_rd)
         {
