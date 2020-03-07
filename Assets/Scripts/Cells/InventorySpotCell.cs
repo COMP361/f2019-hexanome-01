@@ -37,7 +37,7 @@ public class InventorySpotCell : MonoBehaviour
       icon.enabled = false;
     }
 
-    public void UseItemHero(){
+    public void UseItem(){
 
       if(token != null){
    //     token.use();

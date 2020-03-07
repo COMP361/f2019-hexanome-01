@@ -18,7 +18,7 @@ public class GoldCoin : Token
           renderer.sortingOrder = 2;
 
           GoldCoin goldCoin = go.AddComponent<GoldCoin>();
-          goldCoin.TokenName = "GoldCoin";
+          goldCoin.TokenName = Type;
 
       //    Cell cell = Cell.FromId(cellID);
     //      goldCoin.Cell = cell;
@@ -31,7 +31,10 @@ public class GoldCoin : Token
 
       }
       public void useHero(){
+        Debug.Log("Use GoldCoin on here");
         EventManager.TriggerHeroGoldClick();
       }
+
+      public static string Type { get => typeof(GoldCoin).ToString(); }
 
     }
