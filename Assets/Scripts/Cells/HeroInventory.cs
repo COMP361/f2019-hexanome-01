@@ -11,6 +11,8 @@ public class HeroInventory : MonoBehaviour
     public Token helm { get; private set; }
 
 
+
+    public HeroState heroState;
     private int spaceSmall;
     public int numOfGold { get; private set; }
 
@@ -30,6 +32,7 @@ public class HeroInventory : MonoBehaviour
       helm = null;
       spaceSmall = 3;
       numOfGold = 0;
+
     }
 
 

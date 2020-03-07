@@ -14,13 +14,13 @@ public class GoldOptions : MonoBehaviour
     void OnEnable() {
         EventManager.heroGoldClick += ShowHero;
         EventManager.cellGoldClick += ShowCell;
-        EventManager.goldButtonClick += hide;
+        EventManager.dropGoldClick += hide;
       }
 
     void OnDisable() {
         EventManager.heroGoldClick -= ShowHero;
         EventManager.cellGoldClick -= ShowCell;
-        EventManager.goldButtonClick -= hide;
+        EventManager.dropGoldClick -= hide;
       }
 
 
@@ -55,6 +55,11 @@ public class GoldOptions : MonoBehaviour
     public void hide() {
         cellPanel.SetActive(false);
         heroPanel.SetActive(false);
+    }
+
+    public void DropGold() {
+      EventManager.TriggerDropGoldClick();
+      //hide();
     }
 
 }

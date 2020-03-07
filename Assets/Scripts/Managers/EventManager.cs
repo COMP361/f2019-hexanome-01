@@ -409,20 +409,34 @@ public class EventManager : MonoBehaviour {
         }
     }
 
-    public delegate void goldButtonClickHandler();
-    public static event goldButtonClickHandler goldButtonClick;
-    public static void TriggerGoldButtonClick()
+    public delegate void DropGoldClickHandler();
+    public static event DropGoldClickHandler dropGoldClick;
+    public static void TriggerDropGoldClick()
     {
-        if (goldButtonClick != null)
+        if (dropGoldClick != null)
         {
-            goldButtonClick();
+            dropGoldClick();
         }
     }
 
+    public delegate void PickWellClickHandler();
+    public static event PickWellClickHandler pickWellClick;
+    public static void TriggerPickWellClick()
+    {
+        if (pickWellClick != null)
+        {
+            pickWellClick();
+        }
+    }
 
-
-
-
-
+    public delegate void CellWellClickHandler();
+    public static event CellWellClickHandler cellWellClick;
+    public static void TriggerCellWellClick()
+    {
+        if (cellWellClick != null)
+        {
+            cellWellClick();
+        }
+    }
 
 }

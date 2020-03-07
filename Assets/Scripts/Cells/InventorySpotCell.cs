@@ -40,8 +40,12 @@ public class InventorySpotCell : MonoBehaviour
     public void UseItem(){
 
       if(token != null){
-   //     token.use();
-        Debug.Log("wistiti + " + token.TokenName);
+        if(token.TokenName.Equals("GoldCoin")){
+        ((GoldCoin) token).useCell();
+        }
+        if(token.TokenName.Equals("Well")){
+        ((Well) token).useCell();
+        }
       }
     }
 }

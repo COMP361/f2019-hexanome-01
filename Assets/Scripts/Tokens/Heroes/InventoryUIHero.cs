@@ -19,7 +19,7 @@ public class InventoryUIHero : Singleton<InventoryUIHero>
 
     protected Transform goldText;
 
-
+     
 
 
   void Start()
