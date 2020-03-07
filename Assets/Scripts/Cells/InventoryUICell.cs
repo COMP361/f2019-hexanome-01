@@ -13,7 +13,8 @@ public class InventoryUICell : Singleton<InventoryUICell>
     protected string description;
     protected string title;
     protected Transform descTransform;
-    protected Transform titleTransform;
+    protected Transform titleTransformText;
+    protected Transform titleTransformGraphic;
     protected bool isText;
     protected bool isLocked;
 
@@ -34,9 +35,12 @@ public class InventoryUICell : Singleton<InventoryUICell>
     isText = true;
     isLocked = false;
     descTransform = transform.FindDeepChild("cellDescription");
-    titleTransform = transform.FindDeepChild("cellTitle");
+    titleTransformText = transform.FindDeepChild("cellTitleText");
+    titleTransformGraphic = transform.FindDeepChild("cellTitleGraphic");
+
     descTransform.gameObject.SetActive(false);
-    titleTransform.gameObject.SetActive(false);
+    titleTransformText.gameObject.SetActive(false);
+    titleTransformGraphic.gameObject.SetActive(false);
     spots = itemsParent.GetComponentsInChildren<InventorySpotCell>();
   }
 
@@ -61,8 +65,8 @@ public class InventoryUICell : Singleton<InventoryUICell>
         formatTitle(index);
         descTransform.GetComponent<Text>().text = description;
         descTransform.gameObject.SetActive(true);
-        titleTransform.GetComponent<Text>().text = title;
-        titleTransform.gameObject.SetActive(true);
+        titleTransformText.GetComponent<Text>().text = title;
+        titleTransformText.gameObject.SetActive(true);
       } else {
       for(int i = 0; i < spots.Length; i++){
         if(i < cellInv.AllTokens.Count){
@@ -72,6 +76,9 @@ public class InventoryUICell : Singleton<InventoryUICell>
          spots[i].ClearSpot();
          }
        }
+       formatTitle(index);
+       titleTransformGraphic.GetComponent<Text>().text = title;
+       titleTransformGraphic.gameObject.SetActive(true);
      }
    }
    }
