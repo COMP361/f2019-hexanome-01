@@ -11,7 +11,7 @@ public class Well : Token
       public static Well Factory()
       {
 
-          Sprite sprite = Resources.Load<Sprite>("Sprites/dot");
+          Sprite sprite = Resources.Load<Sprite>("Sprites/icons/well-full");
           GameObject go = new GameObject("Well");
           SpriteRenderer renderer = go.AddComponent<SpriteRenderer>();
           renderer.sprite = sprite;

@@ -12,10 +12,10 @@ public class InventoryUIHero : Singleton<InventoryUIHero>
     public Transform bigParent;
     public Transform  helmParent;
     public Transform goldParent;
-    protected InventorySpotCell[] smallSpots;
-    protected InventorySpotCell bigSpot;
-    protected InventorySpotCell helmSpot;
-    protected InventorySpotCell goldSpot;
+    protected InventorySpotHero[] smallSpots;
+    protected InventorySpotHero bigSpot;
+    protected InventorySpotHero helmSpot;
+    protected InventorySpotHero goldSpot;
 
     protected Transform goldText;
 
@@ -24,10 +24,10 @@ public class InventoryUIHero : Singleton<InventoryUIHero>
 
   void Start()
   {
-    smallSpots = smallItemsParent.GetComponentsInChildren<InventorySpotCell>();
-    bigSpot = bigParent.GetComponentInChildren<InventorySpotCell>();
-    helmSpot = helmParent.GetComponentInChildren<InventorySpotCell>();
-    goldSpot = goldParent.GetComponentInChildren<InventorySpotCell>();
+    smallSpots = smallItemsParent.GetComponentsInChildren<InventorySpotHero>();
+    bigSpot = bigParent.GetComponentInChildren<InventorySpotHero>();
+    helmSpot = helmParent.GetComponentInChildren<InventorySpotHero>();
+    goldSpot = goldParent.GetComponentInChildren<InventorySpotHero>();
 
     goldText = transform.FindDeepChild("GoldText");
     goldText.gameObject.SetActive(false);

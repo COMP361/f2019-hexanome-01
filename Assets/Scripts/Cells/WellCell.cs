@@ -31,8 +31,6 @@ public class WellCell : Cell
         goEmptyWell.SetActive(false);
         well = Well.Factory();
         Inventory.addToken(well);
-        Debug.Log("SuckMyDick");
-
     }
 
 }

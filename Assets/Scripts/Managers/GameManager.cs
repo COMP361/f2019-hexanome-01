@@ -157,9 +157,9 @@ public class GameManager : Singleton<GameManager>
 
         fog = new Fog();
 
-    //    Token goldCoin;
-  //      goldCoin = GoldCoin.Factory();
-    //    heroes[0].State.heroInventory.AddGold(goldCoin);
+        Token goldCoin;
+        goldCoin = GoldCoin.Factory();
+        heroes[0].State.heroInventory.AddGold(goldCoin);
 
       wells = new List<WellCell>();
       wells.Add(Cell.FromId(5) as WellCell);

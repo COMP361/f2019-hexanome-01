@@ -26,4 +26,12 @@ public class GoldCoin : Token
           return goldCoin;
       }
 
+      public void useCell(){
+        EventManager.TriggerCellGoldClick();
+
+      }
+      public void useHero(){
+        EventManager.TriggerHeroGoldClick();
+      }
+
     }

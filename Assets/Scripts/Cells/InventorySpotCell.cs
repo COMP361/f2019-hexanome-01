@@ -37,10 +37,10 @@ public class InventorySpotCell : MonoBehaviour
       icon.enabled = false;
     }
 
-    public void UseItem(){
+    public void UseItemHero(){
 
       if(token != null){
-  //      token.use();
+   //     token.use();
         Debug.Log("wistiti + " + token.TokenName);
       }
     }

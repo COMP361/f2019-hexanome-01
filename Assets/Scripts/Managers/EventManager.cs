@@ -23,7 +23,7 @@ public class EventManager : MonoBehaviour {
     // Fired when a new action is chosen (Fight/Skip/Move/End day)
     public delegate void ActionUpdateHandler(int action);
     public static event ActionUpdateHandler ActionUpdate;
-    
+
     public static void TriggerActionUpdate(int action) {
         if (!PhotonNetwork.OfflineMode) {
             GameManager.instance.photonView.RPC("TriggerActionUpdateRPC", RpcTarget.AllViaServer, action);
@@ -36,7 +36,7 @@ public class EventManager : MonoBehaviour {
     public void TriggerActionUpdateRPC(int action)
     {
         if (ActionUpdate != null) ActionUpdate(action);
-        
+
     }
 
     // Fired on each turn (player turn)
@@ -385,4 +385,44 @@ public class EventManager : MonoBehaviour {
             ShieldsUpdate(shields);
         }
     }
+
+
+
+
+    public delegate void HeroGoldClickHandler();
+    public static event HeroGoldClickHandler heroGoldClick;
+    public static void TriggerHeroGoldClick()
+    {
+        if (heroGoldClick != null)
+        {
+            heroGoldClick();
+        }
+    }
+
+    public delegate void CellGoldClickHandler();
+    public static event CellGoldClickHandler cellGoldClick;
+    public static void TriggerCellGoldClick()
+    {
+        if (cellGoldClick != null)
+        {
+            cellGoldClick();
+        }
+    }
+
+    public delegate void goldButtonClickHandler();
+    public static event goldButtonClickHandler goldButtonClick;
+    public static void TriggerGoldButtonClick()
+    {
+        if (goldButtonClick != null)
+        {
+            goldButtonClick();
+        }
+    }
+
+
+
+
+
+
+
 }
