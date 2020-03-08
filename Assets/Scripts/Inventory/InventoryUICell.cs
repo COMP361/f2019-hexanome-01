@@ -9,13 +9,11 @@ public class InventoryUICell : Singleton<InventoryUICell>
     // Start is called before the first frame update
     public Transform  itemsParent;
     protected InventorySpotCell[] spots;
-
     protected string description;
     protected string title;
     protected Transform descTransform;
     protected Transform titleTransformText;
     protected Transform titleTransformGraphic;
-    protected bool isText;
     protected bool isLocked;
 
 
@@ -32,12 +30,10 @@ public class InventoryUICell : Singleton<InventoryUICell>
 
   void Start()
   {
-    isText = true;
     isLocked = false;
     descTransform = transform.FindDeepChild("cellDescription");
     titleTransformText = transform.FindDeepChild("cellTitleText");
     titleTransformGraphic = transform.FindDeepChild("cellTitleGraphic");
-
     descTransform.gameObject.SetActive(false);
     titleTransformText.gameObject.SetActive(false);
     titleTransformGraphic.gameObject.SetActive(false);
@@ -45,48 +41,38 @@ public class InventoryUICell : Singleton<InventoryUICell>
   }
 
   void Update(){
-
-//     if(Input.GetButtonDown("Inventory")){
-//    inventoryUI.SetActive(!inventoryUI.activeSelf);
-//     }
       if(Input.GetButtonDown("LockCellInventory")){
           isLocked = !isLocked;
           }
-      if(Input.GetButtonDown("displayCellInv")){
-          isText = !isText;
-        }
     }
 
 
     void UpdateUIEnter(CellInventory cellInv, int index){
       if(!isLocked){
-      if(isText){
         formatDescription(cellInv);
         formatTitle(index);
         descTransform.GetComponent<Text>().text = description;
         descTransform.gameObject.SetActive(true);
         titleTransformText.GetComponent<Text>().text = title;
         titleTransformText.gameObject.SetActive(true);
-      } else {
-      for(int i = 0; i < spots.Length; i++){
+        for(int i = 0; i < spots.Length; i++){
         if(i < cellInv.AllTokens.Count){
           spots[i].AddItem(cellInv.AllTokens[i]);
         }
         else{
          spots[i].ClearSpot();
          }
-       }
        formatTitle(index);
        titleTransformGraphic.GetComponent<Text>().text = title;
        titleTransformGraphic.gameObject.SetActive(true);
-     }
-   }
-   }
+      }
+    }
+  }
 
    void UpdateUIExit(){
      if(!isLocked){
      descTransform.gameObject.SetActive(false);
-   }
+    }
    }
 
 

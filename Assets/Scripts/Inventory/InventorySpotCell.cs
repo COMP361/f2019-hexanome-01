@@ -2,26 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Photon.Pun;
+using Photon.Realtime;
 
 public class InventorySpotCell : MonoBehaviour
 {
     // Start is called before the first frame update
     public Image icon;
     Token token;
-
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-
-
-    }
-
 
     public void AddItem(Token newToken)
     {
@@ -38,7 +26,7 @@ public class InventorySpotCell : MonoBehaviour
     }
 
     public void UseItem(){
-
+      //PhotonNetwork.LocalPlayer.TokenName;
       if(token != null){
         if(token.TokenName.Equals("GoldCoin")){
         ((GoldCoin) token).useCell();

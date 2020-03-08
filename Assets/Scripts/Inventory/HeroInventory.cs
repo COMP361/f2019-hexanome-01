@@ -87,7 +87,6 @@ public class HeroInventory : MonoBehaviour
 
     // maybe have a void return type
     public bool AddGold(Token token){
-      Debug.Log("Eilllllllllllllle");
       golds.Add(token);
       numOfGold++;
       EventManager.TriggerInventoryUIHeroUpdate(this);

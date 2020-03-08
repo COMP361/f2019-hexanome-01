@@ -19,7 +19,7 @@ public class InventoryUIHero : Singleton<InventoryUIHero>
 
     protected Transform goldText;
 
-     
+
 
 
   void Start()
@@ -44,29 +44,19 @@ public class InventoryUIHero : Singleton<InventoryUIHero>
 
   void Update(){
 
-/*
-      if(Input.GetButtonDown("LockCellInventory")){
-          isLocked = !isLocked;
-          }
-      if(Input.GetButtonDown("displayCellInv")){
-          isText = !isText;
-        }
-
-        */
     }
 
 
-    void UpdateUI(HeroInventory heroInv){
-      Debug.Log("HEEEEEEEERE");
-      //updating smallSpots
+  void UpdateUI(HeroInventory heroInv){
+    //updating smallSpots
     for(int i = 0; i < smallSpots.Length; i++){
       if(i < heroInv.smallTokens.Count){
         smallSpots[i].AddItem(heroInv.smallTokens[i]);
       }
       else{
-       smallSpots[i].ClearSpot();
-       }
-     }
+        smallSpots[i].ClearSpot();
+      }
+    }
 
     if(heroInv.bigToken != null){
       bigSpot.AddItem(heroInv.bigToken);
@@ -92,6 +82,4 @@ public class InventoryUIHero : Singleton<InventoryUIHero>
       goldSpot.ClearSpot();
     }
   }
-
-
 }
