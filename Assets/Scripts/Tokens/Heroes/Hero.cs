@@ -48,7 +48,6 @@ public class Hero : Movable {
 
 public class HeroState : ICloneable {
   public Action action;
-  public Cell cell;
   public TimeOfDay TimeOfDay;
   public HeroInventory heroInventory;
 
@@ -57,8 +56,7 @@ public class HeroState : ICloneable {
   private int strength = 1;
   private int golds;
 
-  public HeroState(Cell cell, Color color, string heroName) {
-    this.cell = cell;
+  public HeroState(Color color, string heroName) {
     action = Action.None;
     TimeOfDay = new TimeOfDay(color, heroName);
     heroInventory = new HeroInventory();

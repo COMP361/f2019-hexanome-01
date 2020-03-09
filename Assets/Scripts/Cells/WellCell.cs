@@ -21,17 +21,19 @@ public class WellCell : Cell
 
     public void emptyWell(Hero hero)
     {
+      if(Index == hero.Cell.Index){
         int currWP = hero.State.getWP();
         currWP = currWP + 3;
         hero.State.setWP(currWP);
-
         isEmptied = true;
         goFullWell.SetActive(false);
         goEmptyWell.SetActive(true);
         Inventory.RemoveToken(well);
+        InventoryUICell.instance.ForceUpdate(Inventory, Index);
+        Debug.Log(hero.State.getWP());
         well = null;
 
-
+      }
     }
 
     public void resetWell()

@@ -13,7 +13,7 @@ public class WellOptions : MonoBehaviour
 
     void OnEnable() {
         EventManager.cellWellClick += ShowCell;
-    
+
       }
 
     void OnDisable() {

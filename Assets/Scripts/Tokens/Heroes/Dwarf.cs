@@ -17,7 +17,7 @@ public class Dwarf : Hero
         renderer.sprite = sprite;
         renderer.sortingOrder = 2;
         go.transform.localScale = new Vector3(10, 10, 10);
-        
+
         Dwarf dwarf = go.AddComponent<Dwarf>();
         dwarf.Color = color;
 
@@ -27,7 +27,7 @@ public class Dwarf : Hero
         dwarf.rank = 7;
         Cell cell = Cell.FromId(dwarf.rank);
         dwarf.Cell = cell;
-        dwarf.State = new HeroState(cell, color, dwarf.name);
+        dwarf.State = new HeroState(color, dwarf.name);
 
         //dwarf.IsDone = false;
 

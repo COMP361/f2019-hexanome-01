@@ -57,7 +57,7 @@ public class Token : MonoBehaviour {
         }
         set {
             if(cell != null && cell.Inventory != null) cell.Inventory.RemoveToken(this);
-
+            Debug.Log(value);
             cell = value;
             gameObject.transform.position = getWaypoint(cell);
             cell.Inventory.addToken(this);

@@ -31,7 +31,8 @@ public class InventorySpotCell : MonoBehaviour
      Debug.Log("What is going on " + GameManager.instance.MainHero.TokenName);
 
      if(token != null){
-      if(GameManager.instance.MainHero.State.cell.Index == cellIndex){
+
+      if(GameManager.instance.MainHero.Cell.Index == cellIndex){
         if(token.TokenName.Equals("GoldCoin")){
         ((GoldCoin) token).useCell();
         }

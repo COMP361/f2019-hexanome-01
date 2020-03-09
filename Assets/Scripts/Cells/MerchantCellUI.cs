@@ -57,11 +57,11 @@ public class MerchantCellUI : Singleton<MerchantCellUI>
     }
 
     public void ShowBuyStrength(){
-      if(cellIndex == GameManager.instance.MainHero.State.cell.Index){
+      if(cellIndex == GameManager.instance.MainHero.Cell.Index){
       buyStrengthPanel.SetActive(true);
     }
     else {
-      Debug.Log("You must be on same cell " + GameManager.instance.MainHero.State.cell.Index );
+      Debug.Log("You must be on same cell " + GameManager.instance.MainHero.Cell.Index );
     }
     }
 
