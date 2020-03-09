@@ -12,6 +12,7 @@ public class MerchantCellUI : Singleton<MerchantCellUI>
     GameObject buyStrengthPanel;
     protected Transform titleTransform;
     protected bool isLocked;
+    protected  int cellIndex;
 
     void Awake() {
         isLocked = false;
@@ -39,7 +40,8 @@ public class MerchantCellUI : Singleton<MerchantCellUI>
 
     void Enter(int index){
       if(!isLocked){
-      FormatTitle(index);
+      cellIndex = index;
+      FormatTitle(cellIndex);
       merchantPanel.SetActive(true);
     }
     }
@@ -55,7 +57,21 @@ public class MerchantCellUI : Singleton<MerchantCellUI>
     }
 
     public void ShowBuyStrength(){
+      if(cellIndex == GameManager.instance.MainHero.State.cell.Index){
       buyStrengthPanel.SetActive(true);
+    }
+    else {
+      Debug.Log("You must be on same cell " + GameManager.instance.MainHero.State.cell.Index );
+    }
+    }
+
+    public void HideBuyStrength(){
+      buyStrengthPanel.SetActive(false);
+    }
+
+    public void BuyStrength(){
+      Debug.Log("I bought some strength");
+      HideBuyStrength();
     }
 
 
