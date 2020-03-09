@@ -12,7 +12,7 @@ using UnityEngine;
 /// </summary>
 public class Token : MonoBehaviour {
     protected string description;
-    protected Cell cell;
+    protected Cell cell { get; private set; }
 
     public void OnEnable() {
         this.transform.parent = GameObject.Find("Tokens").transform;

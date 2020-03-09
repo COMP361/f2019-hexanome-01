@@ -439,4 +439,13 @@ public class EventManager : MonoBehaviour {
         }
     }
 
+    public delegate void BlockOnInventoryClickHandler();
+    public static event BlockOnInventoryClickHandler blockOnInventoryClick;
+    public static void TriggerBlockOnInventoryClick()
+    {
+        if (blockOnInventoryClick != null)
+        {
+            blockOnInventoryClick();
+        }
+    }
 }

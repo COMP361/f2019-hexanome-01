@@ -15,16 +15,21 @@ public class InventoryUICell : Singleton<InventoryUICell>
     protected Transform titleTransformText;
     protected Transform titleTransformGraphic;
     protected bool isLocked;
+    protected int index;
+    GameObject blockPanel;
+    Button okBtn;
 
 
   protected virtual void OnEnable() {
     EventManager.InventoryUICellEnter += UpdateUIEnter;
     EventManager.InventoryUICellExit += UpdateUIExit;
+    EventManager.blockOnInventoryClick += BlockOnClick;
   }
 
   protected virtual void OnDisable() {
     EventManager.InventoryUICellEnter -= UpdateUIEnter;
-    EventManager.InventoryUICellExit += UpdateUIExit;
+    EventManager.InventoryUICellExit -= UpdateUIExit;
+    EventManager.blockOnInventoryClick -= BlockOnClick;
   }
 
 
@@ -38,6 +43,8 @@ public class InventoryUICell : Singleton<InventoryUICell>
     titleTransformText.gameObject.SetActive(false);
     titleTransformGraphic.gameObject.SetActive(false);
     spots = itemsParent.GetComponentsInChildren<InventorySpotCell>();
+    blockPanel = transform.Find("Block").gameObject;
+    okBtn = blockPanel.transform.Find("OK Button").GetComponent<Button>();
   }
 
   void Update(){
@@ -47,27 +54,30 @@ public class InventoryUICell : Singleton<InventoryUICell>
     }
 
 
+
     void UpdateUIEnter(CellInventory cellInv, int index){
-      if(!isLocked){
-        formatDescription(cellInv);
-        formatTitle(index);
-        descTransform.GetComponent<Text>().text = description;
-        descTransform.gameObject.SetActive(true);
-        titleTransformText.GetComponent<Text>().text = title;
-        titleTransformText.gameObject.SetActive(true);
-        for(int i = 0; i < spots.Length; i++){
-        if(i < cellInv.AllTokens.Count){
-          spots[i].AddItem(cellInv.AllTokens[i]);
+        if(!isLocked){
+          this.index = index;
+          InventorySpotCell.cellIndex = index;
+          formatDescription(cellInv);
+          formatTitle(index);
+          descTransform.GetComponent<Text>().text = description;
+          descTransform.gameObject.SetActive(true);
+          titleTransformText.GetComponent<Text>().text = title;
+          titleTransformText.gameObject.SetActive(true);
+          for(int i = 0; i < spots.Length; i++){
+          if(i < cellInv.AllTokens.Count){
+            spots[i].AddItem(cellInv.AllTokens[i]);
+          }
+          else{
+           spots[i].ClearSpot();
+           }
+         formatTitle(index);
+         titleTransformGraphic.GetComponent<Text>().text = title;
+         titleTransformGraphic.gameObject.SetActive(true);
         }
-        else{
-         spots[i].ClearSpot();
-         }
-       formatTitle(index);
-       titleTransformGraphic.GetComponent<Text>().text = title;
-       titleTransformGraphic.gameObject.SetActive(true);
       }
     }
-  }
 
    void UpdateUIExit(){
      if(!isLocked){
@@ -75,6 +85,13 @@ public class InventoryUICell : Singleton<InventoryUICell>
     }
    }
 
+   void BlockOnClick(){
+        blockPanel.SetActive(true);
+   }
+
+   public void hideBlock(){
+        blockPanel.SetActive(false);
+   }
 
    public virtual void formatDescription(CellInventory cellInv) {
 
@@ -108,4 +125,4 @@ public class InventoryUICell : Singleton<InventoryUICell>
    public virtual void formatTitle(int index){
         title = "Cell: " + index;
    }
-}
+ }

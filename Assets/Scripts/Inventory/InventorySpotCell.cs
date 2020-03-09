@@ -10,6 +10,7 @@ public class InventorySpotCell : MonoBehaviour
     // Start is called before the first frame update
     public Image icon;
     Token token;
+    public static int cellIndex;
   //  protected GameManager gm;
 
     public void AddItem(Token newToken)
@@ -29,7 +30,7 @@ public class InventorySpotCell : MonoBehaviour
     public void UseItem(){
      Debug.Log("What is going on " + GameManager.instance.MainHero.TokenName);
 
-     
+     if(GameManager.instance.MainHero.State.cell.Index == cellIndex){
       if(token != null){
         if(token.TokenName.Equals("GoldCoin")){
         ((GoldCoin) token).useCell();
@@ -38,5 +39,10 @@ public class InventorySpotCell : MonoBehaviour
         ((Well) token).useCell();
         }
       }
+    }
+    else{
+      Debug.Log("HERO MUST BE ON SAME CELL");
+      EventManager.TriggerBlockOnInventoryClick();
+    }
     }
 }
