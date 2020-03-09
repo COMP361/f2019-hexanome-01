@@ -71,6 +71,7 @@ public class CellInventory : ICloneable {
 
   public void RemoveToken(Token token) {
     Type listType;
+    Debug.Log("Removing token");
     AllTokens.Remove(token);
 
     listType = Heroes.GetListType();

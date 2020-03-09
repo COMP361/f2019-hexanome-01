@@ -64,7 +64,15 @@ public class GoldOptions : MonoBehaviour
     GameManager.instance.MainHero.State.heroInventory.RemoveGold(gold);
     Cell cell = Cell.FromId(GameManager.instance.MainHero.State.cell.Index);
     cell.Inventory.addToken(gold);
-    gold = null;
+    hide();
+    }
+
+    public void PickGold() {
+    //  EventManager.TriggerDropGoldClick();
+    Cell cell = Cell.FromId(GameManager.instance.MainHero.State.cell.Index);
+    cell.Inventory.RemoveToken(gold);
+    InventoryUICell.instance.ForceUpdate(cell.Inventory, cell.Index);
+    GameManager.instance.MainHero.State.heroInventory.AddGold(gold);
     hide();
     }
 

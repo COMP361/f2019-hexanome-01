@@ -43,7 +43,6 @@ public class GoldCoin : Token
         EventManager.TriggerCellGoldClick(this);
       }
       public void useHero(){
-        Debug.Log("Use GoldCoin on here");
         EventManager.TriggerHeroGoldClick(this);
       }
 

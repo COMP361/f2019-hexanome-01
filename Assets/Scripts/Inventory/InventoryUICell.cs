@@ -52,7 +52,7 @@ public class InventoryUICell : Singleton<InventoryUICell>
           isLocked = !isLocked;
           }
     }
-    
+
     void UpdateUIEnter(CellInventory cellInv, int index){
         if(!isLocked){
           this.index = index;
@@ -122,5 +122,10 @@ public class InventoryUICell : Singleton<InventoryUICell>
 
    public virtual void formatTitle(int index){
         title = "Cell: " + index;
+   }
+
+   public void ForceUpdate(CellInventory inv, int index){
+     isLocked = false;
+     UpdateUIEnter(inv,index);
    }
  }
