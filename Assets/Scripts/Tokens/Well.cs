@@ -17,9 +17,8 @@ public class Well : Token
 
           Well well = go.AddComponent<Well>();
           well.TokenName = Type;
-
-          Cell cell = Cell.FromId(cellID);
-          well.Cell = cell;
+        //  Cell cell = Cell.FromId(cellID);
+        //  well.Cell = cell;
 
           return well;
       }

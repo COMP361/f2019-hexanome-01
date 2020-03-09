@@ -11,7 +11,7 @@ public class WellCell : Cell
 
     void OnEnable() {
         EventManager.pickWellClick += emptyWell;
-      
+
       }
 
     void OnDisable() {
@@ -39,6 +39,7 @@ public class WellCell : Cell
         isEmptied = false;
         goFullWell.SetActive(true);
         goEmptyWell.SetActive(false);
+        Debug.Log("WELLLLL "+ Index);
         well = Well.Factory(Index);
         Inventory.addToken(well);
     }

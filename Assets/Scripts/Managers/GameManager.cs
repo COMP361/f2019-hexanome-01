@@ -171,12 +171,6 @@ public class GameManager : Singleton<GameManager>
         well.resetWell();
       }
 
-        //well = new Token();
-        //well.addToken(55, Color.blue);
-        //well.addToken(35, Color.blue);
-        //well.addToken(5, Color.blue);
-        //well.addToken(45, Color.blue);
-
         GiveTurn();
 
     }
