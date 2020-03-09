@@ -52,7 +52,7 @@ public class MerchantCell : Cell {
 
     protected override void OnMouseExit() {
         base.OnMouseExit();
-        EventManager.TriggerMerchCellMouseLeave(Index);
+        EventManager.TriggerMerchCellMouseLeave();
     }
 
     #endregion

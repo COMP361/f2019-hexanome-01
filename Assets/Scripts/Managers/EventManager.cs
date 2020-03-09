@@ -154,13 +154,13 @@ public class EventManager : MonoBehaviour {
     }
 
     // Fired when we enter a merchant cell with mouse
-    public delegate void MerchCellMouseLeaveHandler(int cellID);
-    public static event MerchCellMouseEnterHandler MerchCellMouseLeave;
-    public static void TriggerMerchCellMouseLeave(int cellID)
+    public delegate void MerchCellMouseLeaveHandler();
+    public static event MerchCellMouseLeaveHandler MerchCellMouseLeave;
+    public static void TriggerMerchCellMouseLeave()
     {
         if (MerchCellMouseLeave != null)
         {
-            MerchCellMouseLeave(cellID);
+            MerchCellMouseLeave();
         }
     }
 
