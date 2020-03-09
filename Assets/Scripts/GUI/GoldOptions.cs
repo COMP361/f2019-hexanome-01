@@ -35,7 +35,6 @@ public class GoldOptions : MonoBehaviour
         cancelBtnHero = heroPanel.transform.Find("Cancel Button").GetComponent<Button>();
     //    cancelBtnHero.onClick.AddListener(delegate { EventManager.TriggerGoldHeroCancel(); });
 
-
         pickGoldBtn = cellPanel.transform.Find("Button Pick Gold").GetComponent<Button>();
   //      pickGoldBtn.onClick.AddListener(delegate { EventManager.TriggerPickGold(); });
 
@@ -44,22 +43,29 @@ public class GoldOptions : MonoBehaviour
     }
 
 
-    public void ShowHero() {
+    public void ShowHero(GoldCoin gold) {
+        this.gold = gold;
         heroPanel.SetActive(true);
     }
 
-    public void ShowCell() {
+    public void ShowCell(GoldCoin gold) {
+        this.gold = gold;
         cellPanel.SetActive(true);
     }
 
     public void hide() {
         cellPanel.SetActive(false);
         heroPanel.SetActive(false);
+        this.gold = null;
     }
 
     public void DropGold() {
-      EventManager.TriggerDropGoldClick();
-      //hide();
+    //  EventManager.TriggerDropGoldClick();
+    GameManager.instance.MainHero.State.heroInventory.RemoveGold(gold);
+    Cell cell = Cell.FromId(GameManager.instance.MainHero.State.cell.Index);
+    cell.Inventory.addToken(gold);
+    gold = null;
+    hide();
     }
 
 }

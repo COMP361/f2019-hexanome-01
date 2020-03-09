@@ -41,7 +41,6 @@ public class InventorySpotCell : MonoBehaviour
       }
     }
     else{
-      Debug.Log("HERO MUST BE ON SAME CELL");
       EventManager.TriggerBlockOnInventoryClick();
     }
     }

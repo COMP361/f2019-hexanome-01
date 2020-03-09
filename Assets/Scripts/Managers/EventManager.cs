@@ -389,23 +389,23 @@ public class EventManager : MonoBehaviour {
 
 
 
-    public delegate void HeroGoldClickHandler();
+    public delegate void HeroGoldClickHandler(GoldCoin gold);
     public static event HeroGoldClickHandler heroGoldClick;
-    public static void TriggerHeroGoldClick()
+    public static void TriggerHeroGoldClick(GoldCoin gold)
     {
         if (heroGoldClick != null)
         {
-            heroGoldClick();
+            heroGoldClick(gold);
         }
     }
 
-    public delegate void CellGoldClickHandler();
+    public delegate void CellGoldClickHandler(GoldCoin gold);
     public static event CellGoldClickHandler cellGoldClick;
-    public static void TriggerCellGoldClick()
+    public static void TriggerCellGoldClick(GoldCoin gold)
     {
         if (cellGoldClick != null)
         {
-            cellGoldClick();
+            cellGoldClick(gold);
         }
     }
 

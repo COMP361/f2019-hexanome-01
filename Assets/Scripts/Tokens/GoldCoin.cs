@@ -40,11 +40,11 @@ public class GoldCoin : Token
       }
 
       public void useCell(){
-        EventManager.TriggerCellGoldClick();
+        EventManager.TriggerCellGoldClick(this);
       }
       public void useHero(){
         Debug.Log("Use GoldCoin on here");
-        EventManager.TriggerHeroGoldClick();
+        EventManager.TriggerHeroGoldClick(this);
       }
 
       public static string Type { get => typeof(GoldCoin).ToString(); }
