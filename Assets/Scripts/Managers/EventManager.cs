@@ -419,13 +419,13 @@ public class EventManager : MonoBehaviour {
         }
     }
 
-    public delegate void PickWellClickHandler();
+    public delegate void PickWellClickHandler(Hero hero);
     public static event PickWellClickHandler pickWellClick;
-    public static void TriggerPickWellClick()
+    public static void TriggerPickWellClick(Hero hero)
     {
         if (pickWellClick != null)
         {
-            pickWellClick();
+            pickWellClick(hero);
         }
     }
 

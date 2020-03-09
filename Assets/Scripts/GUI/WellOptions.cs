@@ -13,12 +13,12 @@ public class WellOptions : MonoBehaviour
 
     void OnEnable() {
         EventManager.cellWellClick += ShowCell;
-        EventManager.pickWellClick += hide;
+    
       }
 
     void OnDisable() {
         EventManager.cellWellClick -= ShowCell;
-        EventManager.pickWellClick -= hide;
+
       }
 
 
@@ -43,8 +43,8 @@ public class WellOptions : MonoBehaviour
     }
 
     public void PickWell() {
-      EventManager.TriggerPickWellClick();
-      //hide();
+      EventManager.TriggerPickWellClick(GameManager.instance.MainHero);
+      hide();
     }
 
 }

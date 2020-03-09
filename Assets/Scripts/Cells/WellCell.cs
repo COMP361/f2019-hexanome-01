@@ -9,10 +9,20 @@ public class WellCell : Cell
     bool isEmptied = false;
     public Token well;
 
+    void OnEnable() {
+        EventManager.pickWellClick += emptyWell;
+      
+      }
+
+    void OnDisable() {
+        EventManager.pickWellClick -= emptyWell;
+
+      }
+
     public void emptyWell(Hero hero)
     {
         int currWP = hero.State.getWP();
-        currWP++;
+        currWP = currWP + 3;
         hero.State.setWP(currWP);
 
         isEmptied = true;
