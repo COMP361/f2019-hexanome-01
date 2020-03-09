@@ -5,10 +5,8 @@ using UnityEngine;
 public class Well : Token
 {
 
-//  protected static GameObject goldCoin;
 
-
-      public static Well Factory()
+      public static Well Factory(int cellID)
       {
 
           Sprite sprite = Resources.Load<Sprite>("Sprites/icons/well-full");
@@ -20,8 +18,8 @@ public class Well : Token
           Well well = go.AddComponent<Well>();
           well.TokenName = Type;
 
-        //  Cell cell = Cell.FromId(cellID);
-        //  well.Cell = cell;
+          Cell cell = Cell.FromId(cellID);
+          well.Cell = cell;
 
           return well;
       }

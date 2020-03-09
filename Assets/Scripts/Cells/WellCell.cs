@@ -29,7 +29,7 @@ public class WellCell : Cell
         isEmptied = false;
         goFullWell.SetActive(true);
         goEmptyWell.SetActive(false);
-        well = Well.Factory();
+        well = Well.Factory(Index);
         Inventory.addToken(well);
     }
 

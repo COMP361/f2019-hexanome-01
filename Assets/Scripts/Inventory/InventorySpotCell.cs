@@ -10,6 +10,7 @@ public class InventorySpotCell : MonoBehaviour
     // Start is called before the first frame update
     public Image icon;
     Token token;
+  //  protected GameManager gm;
 
     public void AddItem(Token newToken)
     {
@@ -26,7 +27,9 @@ public class InventorySpotCell : MonoBehaviour
     }
 
     public void UseItem(){
-      //PhotonNetwork.LocalPlayer.TokenName;
+     Debug.Log("What is going on " + GameManager.instance.MainHero.TokenName);
+
+     
       if(token != null){
         if(token.TokenName.Equals("GoldCoin")){
         ((GoldCoin) token).useCell();
