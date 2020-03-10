@@ -99,7 +99,22 @@ public class HeroInventory : MonoBehaviour
       EventManager.TriggerInventoryUIHeroUpdate(this);
     }
 
-#endregion
+    public void RemoveGold(int amtToRemove)
+    {
+        if (golds.Count >= amtToRemove)
+        {
+            numOfGold-= amtToRemove;
+            while(amtToRemove != 0)
+            {
+                amtToRemove--;
+                golds.RemoveAt(amtToRemove);
+            }
+            
+        }
+        EventManager.TriggerInventoryUIHeroUpdate(this);
+    }
+
+    #endregion
 
     public void updateUI(CellInventory inventory, int index){}
 
