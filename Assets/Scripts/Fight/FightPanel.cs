@@ -14,6 +14,7 @@ public class FightPanel : MonoBehaviour
     public Text HeroWP;
     public Text EnemyName;
     public Text EnemyStrength;
+    private int og_SMonster;
     public Text EnemyWP;
     private int og_WPMonster;
 
@@ -112,7 +113,7 @@ public class FightPanel : MonoBehaviour
     {
         //TO REMOVE BC TESTING PURPOSES
         GameManager.instance.CurrentPlayer.State.setStrength(2);
-
+        og_SMonster = GameManager.instance.CurrentPlayer.Cell.Inventory.Enemies[0].Strength;
         HeroStrength.text = GameManager.instance.CurrentPlayer.State.getStrength().ToString();
         EnemyStrength.text = GameManager.instance.CurrentPlayer.Cell.Inventory.Enemies[0].Strength.ToString();
     }
@@ -131,12 +132,15 @@ public class FightPanel : MonoBehaviour
 
     public void Attack(int attack_str)
     {
+        rollMessage.text = "";
         int hero_strength = GameManager.instance.CurrentPlayer.State.getStrength();
         int hero_wp = GameManager.instance.CurrentPlayer.State.getWP();
         int monster_strength = GameManager.instance.CurrentPlayer.Cell.Inventory.Enemies[0].Strength;
         int monster_wp = GameManager.instance.CurrentPlayer.Cell.Inventory.Enemies[0].Will;
 
         int total_strength = attack_str + hero_strength;
+        monster_strength = monster_strength + Random.Range(0, 5)+1;
+        EnemyStrength.text = ""+monster_strength;
 
         if (total_strength > monster_strength)
         {
@@ -155,11 +159,13 @@ public class FightPanel : MonoBehaviour
             this.gameObject.SetActive(!this.gameObject.activeSelf);
         }
 
-        //if (GameManager.instance.CurrentPlayer.State.getWP() <= 0)
-        //{
-        //    this.gameObject.SetActive(!this.gameObject.activeSelf);
-        //}
-
+        if (GameManager.instance.CurrentPlayer.State.getWP() <= -1) // TODO: SET TO ZERO WHEN DONE
+        {
+            this.gameObject.SetActive(!this.gameObject.activeSelf);
+        }
+        SetWP();
+        monster_strength = og_SMonster;
+        EnemyStrength.text = "" + monster_strength;
     }
 
     // Update is called once per frame
@@ -167,7 +173,7 @@ public class FightPanel : MonoBehaviour
     {
         //GameManager.instance.CurrentPlayer.Cell.State.cellInventory.Enemies[0].Will = og_WPMonster;
         GameManager.instance.CurrentPlayer.State.setStrength(GameManager.instance.CurrentPlayer.State.getStrength() - 1);
-        SetStrength();
-        SetWP();
+        //SetStrength();
+        //SetWP();
     }
 }
