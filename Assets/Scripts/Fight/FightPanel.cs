@@ -37,17 +37,17 @@ public class FightPanel : MonoBehaviour
     private List<specialDices> special_dice = new List<specialDices>();
 
 
-    [PunRPC]
-    public void showPanelRPC()
-    {
-        this.gameObject.SetActive(!this.gameObject.activeSelf);
-        if (!PhotonNetwork.LocalPlayer.Equals(GameManager.instance.playerTurn.Peek()))
-        {
-            AttackButton.gameObject.SetActive(false);
-            RollButton.gameObject.SetActive(false);
-            AbandonButton.gameObject.SetActive(false);
-        }
-    }
+    //[PunRPC]
+    //public void showPanelRPC()
+    //{
+    //    this.gameObject.SetActive(!this.gameObject.activeSelf);
+    //    if (!PhotonNetwork.LocalPlayer.Equals(GameManager.instance.playerTurn.Peek()))
+    //    {
+    //        AttackButton.gameObject.SetActive(false);
+    //        RollButton.gameObject.SetActive(false);
+    //        AbandonButton.gameObject.SetActive(false);
+    //    }
+    //}
 
     // Start is called before the first frame update
     public void Start()
@@ -166,6 +166,11 @@ public class FightPanel : MonoBehaviour
         SetWP();
         monster_strength = og_SMonster;
         EnemyStrength.text = "" + monster_strength;
+    }
+    [PunRPC]
+    void killMonsterRPC(GameObject m)
+    {
+        m.SetActive(!m.activeSelf);
     }
 
     // Update is called once per frame
