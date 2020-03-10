@@ -1,5 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
+using Photon.Pun;
+
 
 public class GoldOptions : MonoBehaviour
 {
@@ -7,6 +9,7 @@ public class GoldOptions : MonoBehaviour
     GameObject heroPanel;
     GameObject cellPanel;
     Button cancelBtnCell, cancelBtnHero, dropGoldBtn, pickGoldBtn;
+    public PhotonView photonView;
 
     GoldCoin gold;
     // Start is called before the first frame update
