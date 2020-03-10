@@ -27,7 +27,7 @@ public class Dwarf : Hero
         dwarf.rank = 7;
         Cell cell = Cell.FromId(dwarf.rank);
         dwarf.Cell = cell;
-        dwarf.State = new HeroState(color, dwarf.name);
+        dwarf.State = new HeroState(cell, color, dwarf.name, dwarf.Type.ToString());
 
         //dwarf.IsDone = false;
 

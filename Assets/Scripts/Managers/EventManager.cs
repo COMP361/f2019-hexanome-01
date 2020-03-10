@@ -335,7 +335,18 @@ public class EventManager : MonoBehaviour {
     public static event InventoryUIHeroUpdateHandler InventoryUIHeroUpdate;
     public static void TriggerInventoryUIHeroUpdate(HeroInventory heroInventory) {
         if (InventoryUIHeroUpdate != null) {
-            InventoryUIHeroUpdate(heroInventory);
+            if (!PhotonNetwork.OfflineMode)
+            {
+                string playerHero = (string)PhotonNetwork.LocalPlayer.CustomProperties["Class"];
+                if (heroInventory.parentHero == playerHero)
+                {
+                    InventoryUIHeroUpdate(heroInventory);
+                }
+            }
+            else
+            {
+                InventoryUIHeroUpdate(heroInventory);
+            }
         }
     }
 
@@ -446,6 +457,38 @@ public class EventManager : MonoBehaviour {
         if (blockOnInventoryClick != null)
         {
             blockOnInventoryClick();
+        }
+    }
+
+    public delegate void DistributeGoldClickHandler(int warriorGold, int archerGold, int dwarfGold, int mageGold);
+    public static event DistributeGoldClickHandler DistributeGold;
+    public static void TriggerDistributeGoldClick()
+    {
+        GameObject distributeGoldGO = GameObject.Find("DistributeGold");
+        GoldDistribution goldDistribution = distributeGoldGO.GetComponent<GoldDistribution>();
+        int warriorGold = goldDistribution.getWarriorGold();
+        int archerGold = goldDistribution.getArcherGold();
+        int dwarfGold = goldDistribution.getDwarfGold();
+        int mageGold = goldDistribution.getMageGold();
+        if (!PhotonNetwork.OfflineMode)
+        {
+            GameManager.instance.photonView.RPC("DistributeGoldRPC", RpcTarget.AllViaServer, warriorGold, archerGold, dwarfGold, mageGold);
+        }
+        else
+        {
+            if (DistributeGold != null)
+            {
+                DistributeGold(warriorGold, archerGold, dwarfGold, mageGold);
+            }
+        }
+    }
+
+    [PunRPC]
+    public void DistributeGoldRPC(int warriorGold, int archerGold, int dwarfGold, int mageGold)
+    {
+        if (DistributeGold != null)
+        {
+            DistributeGold(warriorGold, archerGold, dwarfGold, mageGold);
         }
     }
 }
