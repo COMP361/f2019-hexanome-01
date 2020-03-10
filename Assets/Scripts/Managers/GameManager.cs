@@ -54,6 +54,7 @@ public class GameManager : Singleton<GameManager>
         EventManager.EndDay += EndDay;
         EventManager.StartDay += StartDay;
         EventManager.MoveComplete += UpdateMonsterToMove;
+        EventManager.DistributeGold += DistributeGold;
     }
 
     void OnDisable()
@@ -67,6 +68,7 @@ public class GameManager : Singleton<GameManager>
         EventManager.EndDay -= EndDay;
         EventManager.StartDay += StartDay;
         EventManager.MoveComplete -= UpdateMonsterToMove;
+        EventManager.DistributeGold -= DistributeGold;
     }
 
     void RemoveEnemy(Enemy enemy) {
@@ -157,9 +159,9 @@ public class GameManager : Singleton<GameManager>
 
         fog = new Fog();
 
-        Token goldCoin;
-        goldCoin = GoldCoin.Factory();
-        heroes[0].State.heroInventory.AddGold(goldCoin);
+        //Token goldCoin;
+        //goldCoin = GoldCoin.Factory();
+        //heroes[0].State.heroInventory.AddGold(goldCoin);
 
       wells = new List<WellCell>();
       wells.Add(Cell.FromId(5) as WellCell);
@@ -228,6 +230,53 @@ public class GameManager : Singleton<GameManager>
         }
     }
 
+    void DistributeGold(int warriorGold, int archerGold, int dwarfGold, int mageGold)
+    {
+        Hero warrior = heroes.Where(x => x.Type.ToString() == "Warrior").FirstOrDefault();
+        if (warriorGold > 0 && warrior != null)
+        {
+            while(warriorGold != 0)
+            {
+                Token goldCoin = GoldCoin.Factory();
+                warrior.State.heroInventory.AddGold(goldCoin);
+                warriorGold--;
+            }
+
+        }
+        Hero archer = heroes.Where(x => x.Type.ToString() == "Archer").FirstOrDefault();
+        if (archerGold > 0 && archer != null)
+        {
+            while (archerGold != 0)
+            {
+                Token goldCoin = GoldCoin.Factory();
+                archer.State.heroInventory.AddGold(goldCoin);
+                archerGold--;
+            }
+        }
+        Hero dwarf = heroes.Where(x => x.Type.ToString() == "Dwarf").FirstOrDefault();
+        if (dwarfGold > 0 && dwarf != null)
+        {
+            while (dwarfGold != 0)
+            {
+                Token goldCoin = GoldCoin.Factory();
+                dwarf.State.heroInventory.AddGold(goldCoin);
+                dwarfGold--;
+            }
+        }
+        Hero mage = heroes.Where(x => x.Type.ToString() == "Mage").FirstOrDefault();
+        if (mageGold > 0 && mage != null)
+        {
+            while (mageGold != 0)
+            {
+                Token goldCoin = GoldCoin.Factory();
+                mage.State.heroInventory.AddGold(goldCoin);
+                mageGold--;
+            }
+        }
+
+        GameObject distributeGoldGO = GameObject.Find("DistributeGold");
+        distributeGoldGO.SetActive(false);
+    }
 
     void StartDay() {
         InitMonsterMove();
