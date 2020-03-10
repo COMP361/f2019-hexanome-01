@@ -65,9 +65,10 @@ public class TimeOfDay : ICloneable
         token.transform.position = GameObject.Find("Timeline/" + Index + "/" + heroName).transform.position;
     }
 
-    public void Destroy()
+    public void reset()
     {
-        UnityEngine.Object.Destroy(token);
+        Index = 0;
+        token.transform.position = GameObject.Find("Timeline/Sunrise/" + heroName).transform.position;
     }
 
     public object Clone()
