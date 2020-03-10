@@ -258,7 +258,7 @@ public class GameManager : Singleton<GameManager>
         Hero warrior = heroes.Where(x => x.Type.ToString() == "Warrior").FirstOrDefault();
         if (warriorGold > 0 && warrior != null)
         {
-            while (warriorGold != 0)
+            while(warriorGold != 0)
             {
                 Token goldCoin = GoldCoin.Factory();
                 warrior.State.heroInventory.AddGold(goldCoin);
@@ -307,7 +307,7 @@ public class GameManager : Singleton<GameManager>
     void StartDay()
     {
         InitMonsterMove();
-        foreach (Hero h in heroes)
+        foreach(Hero h in heroes)
         {
             h.State.TimeOfDay.EndDay();
         }
@@ -341,7 +341,6 @@ public class GameManager : Singleton<GameManager>
     void EndDay()
     {
         CurrentPlayer.State.action = Action.None;
-        CurrentPlayer.State.resetTimeOfDay();
         playerTurn.Dequeue();
         if (playerTurn.Count() == 0)
         {

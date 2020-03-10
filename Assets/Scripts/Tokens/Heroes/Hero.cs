@@ -83,10 +83,8 @@ public class HeroState : ICloneable
     }
 
     // TOD = TimeOfDay
-    public void resetTimeOfDay()
+    public void resetTOD(TimeOfDay newTOD)
     {
-        TimeOfDay newTOD = new TimeOfDay(TimeOfDay.color, TimeOfDay.heroName);
-        TimeOfDay.Destroy();
         TimeOfDay = newTOD;
     }
 
