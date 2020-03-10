@@ -63,8 +63,6 @@ public class HeroState : ICloneable
     private int freeMove;
     private int willpower = 7;
     private int strength = 1;
-    
-    // should remove since heroInventory exists
     private int golds;
 
     public HeroState(Cell cell, Color color, string heroName, string parentHero)
@@ -82,10 +80,9 @@ public class HeroState : ICloneable
         return hs;
     }
 
-    // TOD = TimeOfDay
-    public void resetTOD(TimeOfDay newTOD)
+    public void resetTimeOfDay()
     {
-        TimeOfDay = newTOD;
+        TimeOfDay.reset();
     }
 
     public void decrementWP(int points)
