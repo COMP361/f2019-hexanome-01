@@ -1,6 +1,7 @@
-﻿using System.Collections;
+﻿using Photon.Pun;
+using Photon.Realtime;
 using System.Collections.Generic;
-using System.Threading;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,7 +10,7 @@ public class GoldDistribution : MonoBehaviour
     public GameObject window;
 
     public Button acceptBtn;
-
+    public GameObject warriorPanel, archerPanel, dwarfPanel, magePanel;
     public Text remainingGoldText, warriorGoldText, archerGoldText, dwarfGoldText, mageGoldText;
 
     private int remainingGold = 5;
@@ -18,19 +19,63 @@ public class GoldDistribution : MonoBehaviour
     private int dwarfGold = 0;
     private int mageGold = 0;
 
-    void Start()
+    void Awake()
     {
-        SetRemainingGoldText();
+        acceptBtn.onClick.AddListener(delegate { EventManager.TriggerDistributeGoldClick(); });
     }
 
-    void SetRemainingGoldText()
+    void Start()
     {
-        remainingGoldText.text = "Remaining Gold: " + remainingGold;
+        warriorPanel.SetActive(false);
+        archerPanel.SetActive(false);
+        dwarfPanel.SetActive(false);
+        magePanel.SetActive(false);
+
+        if (!PhotonNetwork.OfflineMode)
+        {
+            if (!PhotonNetwork.LocalPlayer.IsMasterClient)
+            {
+                window.SetActive(false);
+            }
+            List<Player> players = PhotonNetwork.PlayerList.ToList();
+            foreach (Player p in players)
+            {
+                string hero = (string)p.CustomProperties["Class"];
+
+                if (hero != null)
+                {
+                    switch (hero)
+                    {
+                        case "Warrior":
+                            warriorPanel.SetActive(true);
+                            break;
+                        case "Archer":
+                            archerPanel.SetActive(true);
+                            break;
+                        case "Mage":
+                            magePanel.SetActive(true);
+                            break;
+                        case "Dwarf":
+                            dwarfPanel.SetActive(true);
+                            break;
+                    }
+                }
+            }
+        }
+        else
+        {
+            warriorPanel.SetActive(true);
+            archerPanel.SetActive(true);
+            dwarfPanel.SetActive(true);
+            magePanel.SetActive(true);
+        }
+
+        SetRemainingGoldText();
     }
 
     void Update()
     {
-        if(remainingGold == 0)
+        if (remainingGold == 0)
         {
             acceptBtn.enabled = true;
         }
@@ -40,12 +85,47 @@ public class GoldDistribution : MonoBehaviour
         }
     }
 
+    void SetRemainingGoldText()
+    {
+        remainingGoldText.text = "Remaining Gold: " + remainingGold;
+    }
+
+    public int getWarriorGold()
+    {
+        return this.warriorGold;
+    }
+
+    public int getArcherGold()
+    {
+        return this.archerGold;
+    }
+
+    public int getDwarfGold()
+    {
+        return this.dwarfGold;
+    }
+
+    public int getMageGold()
+    {
+        return this.mageGold;
+    }
+
+    public void Show()
+    {
+        gameObject.SetActive(true);
+    }
+
+    public void Hide()
+    {
+        gameObject.SetActive(false);
+    }
+
     #region Button Methods
 
-    public void OnAcceptClick()
-    {
-        window.SetActive(false);
-    }
+    //public void OnAcceptClick()
+    //{
+    //    window.SetActive(false);
+    //}
 
     public void OnWarriorIncrementClick()
     {
@@ -139,12 +219,12 @@ public class GoldDistribution : MonoBehaviour
 
     #region
     public void OnDefaultClick() {
-        mageGold = 1;
-        warriorGold = 1;
-        archerGold = 1;
-        remainingGold = 0;
-        dwarfGold = 2;
-        window.SetActive(false);
+        OnWarriorIncrementClick();
+        OnArcherIncrementClick();
+        OnMageIncrementClick();
+        OnDwarfIncrementClick();
+        OnDwarfIncrementClick();
+        //window.SetActive(false);
     }
     #endregion
 }
