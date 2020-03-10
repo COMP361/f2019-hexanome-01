@@ -157,6 +157,8 @@ public class FightPanel : MonoBehaviour
         {
             GameManager.instance.CurrentPlayer.Cell.Inventory.Enemies[0].gameObject.SetActive(false);
             this.gameObject.SetActive(!this.gameObject.activeSelf);
+            // gameobject shareblabla set active
+            // set remainingGold to wtv the reward is!
         }
 
         if (GameManager.instance.CurrentPlayer.State.getWP() <= 0) 
