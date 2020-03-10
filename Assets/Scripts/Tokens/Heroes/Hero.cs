@@ -65,12 +65,12 @@ public class HeroState : ICloneable
     private int strength = 1;
     private int golds;
 
-    public HeroState(Cell cell, Color color, string heroName)
+    public HeroState(Cell cell, Color color, string heroName, string parentHero)
     {
         this.cell = cell;
         action = Action.None;
         TimeOfDay = new TimeOfDay(color, heroName);
-        heroInventory = new HeroInventory();
+        heroInventory = new HeroInventory(parentHero);
     }
 
     public object Clone()
