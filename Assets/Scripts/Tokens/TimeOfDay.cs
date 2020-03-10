@@ -66,5 +66,7 @@ public class TimeOfDay : ICloneable
     public void EndDay()
     {
         Index = 0;
+        //token.transform.position = GameObject.Find("Timeline/" + Index + "/" + heroName).transform.position;
+        token.transform.position = GameObject.Find("Timeline/Sunrise/" + heroName).transform.position;
     }
 }
