@@ -11,7 +11,7 @@ public class HeroInventory : MonoBehaviour
     public Token helm { get; private set; }
 
 
-
+    public string parentHero;
     public HeroState heroState;
     private int spaceSmall;
     public int numOfGold { get; private set; }
@@ -25,14 +25,14 @@ public class HeroInventory : MonoBehaviour
       EventManager.InventoryUICellEnter -= updateUI;
     }
 
-    public HeroInventory(){
+    public HeroInventory(string parentHero){
       smallTokens = new List<Token>();
       golds = new List<Token>();
       bigToken =null;
       helm = null;
       spaceSmall = 3;
       numOfGold = 0;
-
+      this.parentHero = parentHero;
     }
 
 
