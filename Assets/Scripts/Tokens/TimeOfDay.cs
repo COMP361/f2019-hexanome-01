@@ -10,14 +10,40 @@ public class TimeOfDay : ICloneable
     private int extendedLimit = 10;
     GameObject token;
     public string heroName { get; set; }
+    public Color color { get; set; }
 
-    public TimeOfDay(Color color, string hero_Name)
+    public TimeOfDay(Color heroColor, string hero_Name)
     {
         Index = 0;
-        token = Geometry.Disc(Vector3.zero, color, 10);
+        heroName = hero_Name;
+        color = heroColor;
+        Sprite sprite = null;
+
+        //token = Geometry.Disc(Vector3.zero, color, 8);
+        switch (hero_Name)
+        {
+            case "Dwarf":
+                sprite = Resources.Load<Sprite>("Sprites/heroes/hero-yellow");
+                break;
+            case "Archer":
+                sprite = Resources.Load<Sprite>("Sprites/heroes/hero-green");
+                break;
+            case "Warrior":
+                sprite = Resources.Load<Sprite>("Sprites/heroes/hero-blue");
+                break;
+            case "Mage":
+                sprite = Resources.Load<Sprite>("Sprites/heroes/hero-purple");
+                break;
+        }
+        token = new GameObject("TimeOfDay" + hero_Name);
+
+        SpriteRenderer renderer = token.AddComponent<SpriteRenderer>();
+        if (sprite != null) renderer.sprite = sprite;
+        token.transform.localScale = new Vector3(10, 10, 10);
+
         token.name = "TimeOfDay" + hero_Name;
         token.transform.parent = GameObject.Find("Tokens").transform;
-        heroName = hero_Name;
+
 
         token.transform.position = GameObject.Find("Timeline/Sunrise/" + hero_Name).transform.position;
     }
@@ -32,29 +58,16 @@ public class TimeOfDay : ICloneable
         return Math.Min(extendedLimit - Index, extendedLimit - freeLimit);
     }
 
-    // update time of day... 
+    // Update time of day 
     public void update(int numDays)
     {
         Index += numDays % extendedLimit;
         token.transform.position = GameObject.Find("Timeline/" + Index + "/" + heroName).transform.position;
-        //Debug.Log("HeroName inside time of day: " + heroName);
-        //Debug.Log("index calculation: " + Index);
     }
 
-    void OnEnable()
+    public void Destroy()
     {
-        //EventManager.MoveSelect += InitMove;
-        //EventManager.CellClick += InitMove;
-        //EventManager.MoveCancel += ResetCommand;
-        //EventManager.MoveConfirm += ExecuteMove;
-    }
-
-    void OnDisable()
-    {
-        //EventManager.MoveSelect -= InitMove;
-        //EventManager.CellClick -= InitMove;
-        //EventManager.MoveCancel -= ResetCommand;
-        //EventManager.MoveConfirm -= ExecuteMove;
+        UnityEngine.Object.Destroy(token);
     }
 
     public object Clone()
