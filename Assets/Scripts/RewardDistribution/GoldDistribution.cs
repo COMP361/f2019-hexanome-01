@@ -206,7 +206,7 @@ public class GoldDistribution : MonoBehaviour
 
     public void OnMageDecrementClick()
     {
-        if (warriorGold > 0)
+        if (mageGold > 0)
         {
             mageGold--;
             remainingGold++;

@@ -526,6 +526,38 @@ public class EventManager : MonoBehaviour
         }
     }
 
+    public delegate void DistributeWineskinsClickHandler(int warriorWineskins, int archerWineskins, int dwarfWineskins, int mageWinekins);
+    public static event DistributeWineskinsClickHandler DistributeWinekins;
+    public static void TriggerDistributeWineskinsClick()
+    {
+        GameObject distributeWineskinGO = GameObject.Find("DistributeWineskins");
+        WineskinDistribution wineskinDistribution = distributeWineskinGO.GetComponent<WineskinDistribution>();
+        int warriorWineskins = wineskinDistribution.getWarriorWineskins();
+        int archerWineskins = wineskinDistribution.getArcherWineskins();
+        int dwarfWineskins = wineskinDistribution.getDwarfWineskins();
+        int mageWinekins = wineskinDistribution.getMageWineskins();
+        if (!PhotonNetwork.OfflineMode)
+        {
+            GameManager.instance.photonView.RPC("DistributeWineskinsRPC", RpcTarget.AllViaServer, warriorWineskins, archerWineskins, dwarfWineskins, mageWinekins);
+        }
+        else
+        {
+            if (DistributeWinekins != null)
+            {
+                DistributeWinekins(warriorWineskins, archerWineskins, dwarfWineskins, mageWinekins);
+            }
+        }
+    }
+
+    [PunRPC]
+    public void DistributeWineskinsRPC(int warriorWineskins, int archerWineskins, int dwarfWineskins, int mageWinekins)
+    {
+        if (DistributeWinekins != null)
+        {
+            DistributeWinekins(warriorWineskins, archerWineskins, dwarfWineskins, mageWinekins);
+        }
+    }
+
     public delegate void TimelineUpdateHandler(Hero hero, MapPath path);
     public static event TimelineUpdateHandler TimelineUpdate;
     public static void TriggerTimelineUpdate(Hero hero, MapPath path)

@@ -55,6 +55,7 @@ public class GameManager : Singleton<GameManager>
         EventManager.StartDay += StartDay;
         EventManager.MoveComplete += UpdateMonsterToMove;
         EventManager.DistributeGold += DistributeGold;
+        EventManager.DistributeWinekins += DistributeWineskins;
     }
 
     void OnDisable()
@@ -69,6 +70,7 @@ public class GameManager : Singleton<GameManager>
         EventManager.StartDay += StartDay;
         EventManager.MoveComplete -= UpdateMonsterToMove;
         EventManager.DistributeGold -= DistributeGold;
+        EventManager.DistributeWinekins -= DistributeWineskins;
     }
 
     void RemoveEnemy(Enemy enemy)
@@ -301,6 +303,57 @@ public class GameManager : Singleton<GameManager>
         if (PhotonNetwork.IsMasterClient)
         {
             distributeGoldGO.SetActive(false);
+        }
+    }
+
+    void DistributeWineskins(int warriorWineskins, int archerWineskins, int dwarfWineskins, int mageWineskins)
+    {
+        Hero warrior = heroes.Where(x => x.Type.ToString() == "Warrior").FirstOrDefault();
+        if (warriorWineskins > 0 && warrior != null)
+        {
+            while (warriorWineskins != 0)
+            {
+                Token wineskin = Wineskin.Factory();
+                warrior.State.heroInventory.AddSmallToken(wineskin);
+                warriorWineskins--;
+            }
+
+        }
+        Hero archer = heroes.Where(x => x.Type.ToString() == "Archer").FirstOrDefault();
+        if (archerWineskins > 0 && archer != null)
+        {
+            while (archerWineskins != 0)
+            {
+                Token wineskin = Wineskin.Factory();
+                archer.State.heroInventory.AddSmallToken(wineskin);
+                archerWineskins--;
+            }
+        }
+        Hero dwarf = heroes.Where(x => x.Type.ToString() == "Dwarf").FirstOrDefault();
+        if (dwarfWineskins > 0 && dwarf != null)
+        {
+            while (dwarfWineskins != 0)
+            {
+                Token wineskin = Wineskin.Factory();
+                dwarf.State.heroInventory.AddSmallToken(wineskin);
+                dwarfWineskins--;
+            }
+        }
+        Hero mage = heroes.Where(x => x.Type.ToString() == "Mage").FirstOrDefault();
+        if (mageWineskins > 0 && mage != null)
+        {
+            while (mageWineskins != 0)
+            {
+                Token wineskin = Wineskin.Factory();
+                mage.State.heroInventory.AddSmallToken(wineskin);
+                mageWineskins--;
+            }
+        }
+
+        GameObject distributeWineskinsGO = GameObject.Find("DistributeWineskins");
+        if (PhotonNetwork.IsMasterClient)
+        {
+            distributeWineskinsGO.SetActive(false);
         }
     }
 
