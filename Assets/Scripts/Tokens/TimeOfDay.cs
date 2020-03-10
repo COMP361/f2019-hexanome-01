@@ -63,7 +63,7 @@ public class TimeOfDay : ICloneable
         return tl;
     }
 
-    void EndDay()
+    public void EndDay()
     {
         Index = 0;
     }

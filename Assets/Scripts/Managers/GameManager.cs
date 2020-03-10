@@ -309,7 +309,7 @@ public class GameManager : Singleton<GameManager>
         InitMonsterMove();
         foreach(Hero h in heroes)
         {
-            h.State.TimeOfDay.update(0);
+            h.State.TimeOfDay.EndDay();
         }
         playerTurn = new Queue<Player>(players);
         Debug.Log("game manager; total players: " + players.Count);
