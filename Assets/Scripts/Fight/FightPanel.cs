@@ -159,7 +159,7 @@ public class FightPanel : MonoBehaviour
             this.gameObject.SetActive(!this.gameObject.activeSelf);
         }
 
-        if (GameManager.instance.CurrentPlayer.State.getWP() <= -1) // TODO: SET TO ZERO WHEN DONE
+        if (GameManager.instance.CurrentPlayer.State.getWP() <= 0) 
         {
             this.gameObject.SetActive(!this.gameObject.activeSelf);
         }

@@ -298,12 +298,19 @@ public class GameManager : Singleton<GameManager>
         }
 
         GameObject distributeGoldGO = GameObject.Find("DistributeGold");
-        distributeGoldGO.SetActive(false);
+        if (PhotonNetwork.IsMasterClient)
+        {
+            distributeGoldGO.SetActive(false);
+        }
     }
 
     void StartDay()
     {
         InitMonsterMove();
+        foreach(Hero h in heroes)
+        {
+            h.State.TimeOfDay.update(0);
+        }
         playerTurn = new Queue<Player>(players);
         Debug.Log("game manager; total players: " + players.Count);
     }
