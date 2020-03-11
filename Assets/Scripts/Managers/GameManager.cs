@@ -458,6 +458,7 @@ public class GameManager : Singleton<GameManager>
     {
         get
         {
+            if(mainHeroIndex == -1) return null;
             return heroes[mainHeroIndex];
         }
     }

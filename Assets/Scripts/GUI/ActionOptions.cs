@@ -7,15 +7,15 @@ public class ActionOptions : MonoBehaviour
     Button moveBtn, fightBtn, skipBtn, endTurnBtn, endDayBtn;
 
     void OnEnable() {
-        EventManager.MoveSelect += LockMove;
-        EventManager.MoveCancel += UnlockMove;
-        EventManager.MoveConfirm += UnlockMove;
+        EventManager.MoveSelect += LockActions;
+        EventManager.MoveCancel += UnlockActions;
+        EventManager.EndTurn += UnlockActions;
     }
 
     void OnDisable() {
-        EventManager.MoveSelect -= LockMove;
-        EventManager.MoveCancel -= UnlockMove;
-        EventManager.MoveConfirm -= UnlockMove;
+        EventManager.MoveSelect -= LockActions;
+        EventManager.MoveCancel -= UnlockActions;
+        EventManager.EndTurn -= UnlockActions;
     }
 
     void Awake()
@@ -36,13 +36,25 @@ public class ActionOptions : MonoBehaviour
         endDayBtn.onClick.AddListener(delegate { EventManager.TriggerEndDay(); });
     }
 
-    void UnlockMove() {
+    void LockActions() {
+        Buttons.Lock(moveBtn);
+        Buttons.Lock(skipBtn);
+        Buttons.Lock(fightBtn);
+    }
+
+    void UnlockActions() {
+        Buttons.Unlock(moveBtn);
+        Buttons.Unlock(skipBtn);
+        Buttons.Unlock(fightBtn);
+    }
+
+    /*void UnlockMove() {
         Buttons.Unlock(moveBtn);
     }
 
     void LockMove() {
         Buttons.Lock(moveBtn);
-    }
+    }*/
 
     public void Show() {
         gameObject.SetActive(true);

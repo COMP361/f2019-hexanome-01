@@ -6,10 +6,12 @@ public class Castle : Cell
 {
     void OnEnable() {
         EventManager.MoveComplete += updateShields;
+        base.OnEnable();
     }
 
     void OnDisable() {
         EventManager.MoveComplete -= updateShields;
+        base.OnDisable();
     }
     
     void Awake()

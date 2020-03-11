@@ -77,11 +77,11 @@ public class GoldDistribution : MonoBehaviour
     {
         if (remainingGold == 0)
         {
-            acceptBtn.enabled = true;
+            Buttons.Unlock(acceptBtn);
         }
         else
         {
-            acceptBtn.enabled = false;
+            Buttons.Lock(acceptBtn);
         }
     }
 

@@ -39,12 +39,12 @@ public class TimeOfDay : ICloneable
 
         SpriteRenderer renderer = token.AddComponent<SpriteRenderer>();
         if (sprite != null) renderer.sprite = sprite;
+        renderer.sortingLayerName = "Tokens";
+
         token.transform.localScale = new Vector3(10, 10, 10);
 
         token.name = "TimeOfDay" + hero_Name;
         token.transform.parent = GameObject.Find("Tokens").transform;
-
-
         token.transform.position = GameObject.Find("Timeline/Sunrise/" + hero_Name).transform.position;
     }
 

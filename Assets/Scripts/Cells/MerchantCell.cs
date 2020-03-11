@@ -28,9 +28,16 @@ public class MerchantCell : Cell {
 
     #endregion
 
+    void OnEnable() {
+        base.OnEnable();
+    }
+
+    void OnDisable() {
+        base.OnDisable();
+    }
+
     #region Functions [Unity] // Overriding
     protected override void Start() {
-
         // Initialize Merchant products with the basics
         products = new Dictionary<string, int>();
         foreach (Item pname in BaseProducts) {
@@ -44,42 +51,18 @@ public class MerchantCell : Cell {
     }
 
     protected override void OnMouseEnter() {
+        if (!Active) return;
 
         base.OnMouseEnter();
         EventManager.TriggerMerchCellMouseEnter(Index);
-
     }
 
     protected override void OnMouseExit() {
+        if (!Active) return;
+
         base.OnMouseExit();
         EventManager.TriggerMerchCellMouseLeave();
     }
 
     #endregion
-
-    #region Functions [Merchant]
-    public int getCost(Item item, bool isDwarf) {
-        return 2;
-    }
-
-    public void buyStrength(Hero hero, int cost)
-    {
-        hero.State.heroInventory.RemoveGold(cost);
-
-        int currStrength = hero.State.getStrength() + 1;
-        hero.State.setStrength(currStrength);
-    }
-
-    public void buyStrength(Hero hero, bool isDwarf)
-    {
-        int cost = (isDwarf) ? 1 : 2;
-        
-        hero.State.heroInventory.RemoveGold(cost);
-        int currStrength = hero.State.getStrength() + 1;
-        hero.State.setStrength(currStrength);
-    }
-
-    #endregion
-
-
 }

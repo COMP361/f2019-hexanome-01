@@ -30,8 +30,8 @@ public class PlayerBoard : MonoBehaviour
     }
 
     private void UpdatePlayerStats(Hero hero) {
-        strength.text = hero.State.getStrength().ToString();
-        willPower.text = hero.State.getWP().ToString();
+        strength.text = hero.State.Strength.ToString();
+        willPower.text = hero.State.Willpower.ToString();
     }
 
     void UpdateFarmerCount(int attachedFarmers, int noTargetFarmers, int detachedFarmers) {

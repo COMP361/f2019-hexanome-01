@@ -15,7 +15,7 @@ TagManager:
   - 
   - Tokens
   - Movables
-  - 
+  - Map
   - Popup
   - 
   - 
@@ -38,11 +38,17 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: UI
+    uniqueID: 2588604997
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0
   - name: Tokens
     uniqueID: 1226234053
+    locked: 0
+  - name: Map
+    uniqueID: 3528504127
     locked: 0
   - name: Fog
     uniqueID: 2260208923
