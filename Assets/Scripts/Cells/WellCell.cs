@@ -32,9 +32,9 @@ public class WellCell : Cell
     public void emptyWell(Hero hero, Well well)
     {
       if(Index == hero.Cell.Index){
-        int currWP = hero.State.getWP();
+        int currWP = hero.State.Willpower;
         currWP = currWP + 3;
-        hero.State.setWP(currWP);
+        hero.State.Willpower = currWP;
         isEmptied = true;
         goFullWell.SetActive(false);
         goEmptyWell.SetActive(true);
@@ -46,7 +46,7 @@ public class WellCell : Cell
 
     public void resetWell()
     {
-      
+
         isEmptied = false;
         goFullWell.SetActive(true);
         goEmptyWell.SetActive(false);
