@@ -21,7 +21,7 @@ public class GoldOptions : MonoBehaviour
         EventManager.heroGoldClick -= ShowHero;
         EventManager.cellGoldClick -= ShowCell;
         EventManager.dropGoldClick -= hide;
-      }
+    }
 
 
     void Awake() {
@@ -41,7 +41,6 @@ public class GoldOptions : MonoBehaviour
         dropGoldBtn = heroPanel.transform.Find("Button Drop Gold").GetComponent<Button>();
     //    dropGoldBtn.onClick.AddListener(delegate { EventManager.TriggerDropGold(); });
     }
-
 
     public void ShowHero(GoldCoin gold) {
         this.gold = gold;

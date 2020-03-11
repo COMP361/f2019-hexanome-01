@@ -178,7 +178,6 @@ public class GameManager : Singleton<GameManager>
         fog = new Fog();
 
         //Token goldCoin;
-        //goldCoin = GoldCoin.Factory();
         //heroes[0].State.heroInventory.AddGold(goldCoin);
 
         wells = new List<WellCell>();
@@ -187,8 +186,7 @@ public class GameManager : Singleton<GameManager>
         wells.Add(Cell.FromId(45) as WellCell);
         wells.Add(Cell.FromId(55) as WellCell);
 
-        foreach (WellCell well in wells)
-        {
+        foreach (WellCell well in wells) {
             well.resetWell();
         }
 
@@ -262,7 +260,8 @@ public class GameManager : Singleton<GameManager>
         {
             while (warriorGold != 0)
             {
-                Token goldCoin = GoldCoin.Factory();
+                GameObject goldCoinGO = PhotonNetwork.Instantiate("Prefabs/Tokens/GoldCoin", Vector3.zero, Quaternion.identity, 0);
+                Token goldCoin = goldCoinGO.GetComponent<GoldCoin>();
                 warrior.State.heroInventory.AddGold(goldCoin);
                 warriorGold--;
             }
@@ -273,7 +272,8 @@ public class GameManager : Singleton<GameManager>
         {
             while (archerGold != 0)
             {
-                Token goldCoin = GoldCoin.Factory();
+                GameObject goldCoinGO = PhotonNetwork.Instantiate("Prefabs/Tokens/GoldCoin", Vector3.zero, Quaternion.identity, 0);
+                Token goldCoin = goldCoinGO.GetComponent<GoldCoin>();
                 archer.State.heroInventory.AddGold(goldCoin);
                 archerGold--;
             }
@@ -283,7 +283,8 @@ public class GameManager : Singleton<GameManager>
         {
             while (dwarfGold != 0)
             {
-                Token goldCoin = GoldCoin.Factory();
+                GameObject goldCoinGO = PhotonNetwork.Instantiate("Prefabs/Tokens/GoldCoin", Vector3.zero, Quaternion.identity, 0);
+                Token goldCoin = goldCoinGO.GetComponent<GoldCoin>();
                 dwarf.State.heroInventory.AddGold(goldCoin);
                 dwarfGold--;
             }
@@ -293,7 +294,8 @@ public class GameManager : Singleton<GameManager>
         {
             while (mageGold != 0)
             {
-                Token goldCoin = GoldCoin.Factory();
+                GameObject goldCoinGO = PhotonNetwork.Instantiate("Prefabs/Tokens/GoldCoin", Vector3.zero, Quaternion.identity, 0);
+                Token goldCoin = goldCoinGO.GetComponent<GoldCoin>();
                 mage.State.heroInventory.AddGold(goldCoin);
                 mageGold--;
             }
@@ -319,6 +321,7 @@ public class GameManager : Singleton<GameManager>
             }
 
         }
+
         Hero archer = heroes.Where(x => x.Type.ToString() == "Archer").FirstOrDefault();
         if (archerWineskins > 0 && archer != null)
         {
@@ -329,6 +332,7 @@ public class GameManager : Singleton<GameManager>
                 archerWineskins--;
             }
         }
+
         Hero dwarf = heroes.Where(x => x.Type.ToString() == "Dwarf").FirstOrDefault();
         if (dwarfWineskins > 0 && dwarf != null)
         {
@@ -339,6 +343,7 @@ public class GameManager : Singleton<GameManager>
                 dwarfWineskins--;
             }
         }
+
         Hero mage = heroes.Where(x => x.Type.ToString() == "Mage").FirstOrDefault();
         if (mageWineskins > 0 && mage != null)
         {

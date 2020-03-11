@@ -1,14 +1,15 @@
-﻿using System.Collections;
+﻿using Photon.Pun;
+using Photon.Realtime;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class GoldCoin : Token
 {
 
-//  protected static GameObject goldCoin;
-
-
-      public static GoldCoin Factory()
+      public PhotonView photonView;
+    
+      /*public static GoldCoin Factory()
       {
 
           Sprite sprite = Resources.Load<Sprite>("Sprites/Tokens/Fog/Gold");
@@ -21,9 +22,9 @@ public class GoldCoin : Token
           goldCoin.TokenName = Type;
 
           return goldCoin;
-      }
+      }*/
 
-      public static GoldCoin Factory(int cellID){
+      /*public static GoldCoin Factory(int cellID){
         Sprite sprite = Resources.Load<Sprite>("Sprites/Tokens/Fog/Gold");
         GameObject go = new GameObject("GoldCoin");
         SpriteRenderer renderer = go.AddComponent<SpriteRenderer>();
@@ -37,6 +38,10 @@ public class GoldCoin : Token
         goldCoin.Cell = cell;
 
         return goldCoin;
+      }*/
+
+      public void Awake() {
+        TokenName = Type;
       }
 
       public void useCell(){
