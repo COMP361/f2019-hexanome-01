@@ -48,10 +48,10 @@ public abstract class Movable : Token
 
             if(path.Count == 0) {
               EventManager.TriggerMoveComplete(this);
-              CellInventory a = Cell.FromId(34).Inventory;
-              foreach (Token token in a.AllTokens) {
-                Debug.Log(token.TokenName);
-              }
+        //      CellInventory a = Cell.FromId(34).Inventory;
+        //      foreach (Token token in a.AllTokens) {
+        //        Debug.Log(token.TokenName);
+        //      }
             }
             return;
         }

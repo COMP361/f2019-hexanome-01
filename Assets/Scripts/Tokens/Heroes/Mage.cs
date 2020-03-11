@@ -27,7 +27,7 @@ public class Mage : Hero
         mage.rank = 34;
         Cell cell = Cell.FromId(mage.rank);
         mage.Cell = cell;
-
+        Debug.Log("The mage cell is " + cell.Index);
         mage.State = new HeroState(cell, color, mage.name, mage.Type.ToString());
 
 

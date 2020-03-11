@@ -46,7 +46,7 @@ public class WellCell : Cell
 
     public void resetWell()
     {
-        Debug.Log("My index is: " + Index);
+      
         isEmptied = false;
         goFullWell.SetActive(true);
         goEmptyWell.SetActive(false);

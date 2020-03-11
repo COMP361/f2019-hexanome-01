@@ -40,9 +40,7 @@ public class Token : MonoBehaviour {
           return gameObject.GetComponent<SpriteRenderer>().sprite;
         }
         else{
-            //GameObject go = new GameObject("New Sprite");
-            // renderer = go.AddComponent<SpriteRenderer>();
-            //renderer.sprite = Resources.Load("Sprites/dot");
+
             return Resources.Load<Sprite>("Sprites/dot");
         }
     }
@@ -57,14 +55,15 @@ public class Token : MonoBehaviour {
         }
         set {
         //    Debug.Log(cell.Index);
-        //    Debug.Log(TokenName);
+            Debug.Log("Comming in hot");
         //    Debug.Log(cell.Inventory.cellID);
+            Debug.Log("TRY Remove cell " + value.Index);
 
             if(cell != null && cell.Inventory != null){
               cell.Inventory.RemoveToken(this);
               Debug.Log(cell.Index + " Remove Token " + TokenName);
             }
-            Debug.Log(value);
+      //      Debug.Log(value);
             cell = value;
             gameObject.transform.position = getWaypoint(cell);
             cell.Inventory.addToken(this);

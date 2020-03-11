@@ -103,10 +103,11 @@ public class CellInventory : MonoBehaviour {
       Debug.Log("AllTokens Length "+ cellID + " " + AllTokens.Count);
       Token token = AllTokens[objectIndex];
       Type listType;
-    //  Token token = AllTokens[objectIndex];
       AllTokens.Remove(token);
+      Debug.Log("Aiiiii" + token.TokenName);
       listType = Heroes.GetListType();
       if (listType.IsCompatibleWith(token.GetType())) {
+        Debug.Log("Aiiiii" + token.TokenName);
         Heroes.Remove((Hero)token);
         return;
       }
