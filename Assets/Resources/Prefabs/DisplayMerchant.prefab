@@ -267,7 +267,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 8154249744081986358}
   m_OnClick:
     m_PersistentCalls:
@@ -462,7 +462,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 8623616500851866135}
   m_OnClick:
     m_PersistentCalls:
@@ -584,7 +584,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 8753284797734699951}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5943525187175998090}
+        m_MethodName: Show
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &3449118200261849392
 GameObject:
   m_ObjectHideFlags: 0
@@ -850,7 +861,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 6027906218842921927}
   m_OnClick:
     m_PersistentCalls:
@@ -968,7 +979,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 6237311900689901242}
   m_OnClick:
     m_PersistentCalls:
@@ -1317,7 +1328,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 3186904971544875867}
   m_OnClick:
     m_PersistentCalls:
@@ -1709,13 +1720,14 @@ GameObject:
   m_Component:
   - component: {fileID: 5792481648520673837}
   - component: {fileID: 5792481648520673839}
+  - component: {fileID: 5943525187175998090}
   m_Layer: 5
-  m_Name: Strength
+  m_Name: BuyStrength
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &5792481648520673837
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1748,6 +1760,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5792481648520673842}
   m_CullTransparentMesh: 0
+--- !u!114 &5943525187175998090
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5792481648520673842}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8cb4733cfd6ab7949ade9da0c8a53be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5792481648524066474
 GameObject:
   m_ObjectHideFlags: 0
@@ -1992,7 +2016,7 @@ GameObject:
   - component: {fileID: 5792481648894820577}
   - component: {fileID: 5792481648894820582}
   m_Layer: 5
-  m_Name: Buy
+  m_Name: Buy Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2074,10 +2098,10 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 0.8745099, g: 0.82745105, b: 0.45098042, a: 1}
-    m_HighlightedColor: {r: 0.7264151, g: 0.6594893, b: 0.2021627, a: 1}
-    m_PressedColor: {r: 1, g: 0.9150944, b: 0.33490568, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_NormalColor: {r: 0.35686275, g: 0.19215687, b: 0.03137255, a: 1}
+    m_HighlightedColor: {r: 0.990566, g: 0.22895159, b: 0.22895159, a: 1}
+    m_PressedColor: {r: 0.8490566, g: 0.5166429, b: 0.5166429, a: 1}
+    m_SelectedColor: {r: 0.9339623, g: 0.2511125, b: 0.2511125, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
@@ -2332,7 +2356,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 5792481649209407161}
   m_OnClick:
     m_PersistentCalls:
@@ -2350,7 +2374,7 @@ GameObject:
   - component: {fileID: 5792481650144055384}
   - component: {fileID: 5792481650144055385}
   m_Layer: 5
-  m_Name: Cancel
+  m_Name: Cancel Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2432,10 +2456,10 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 0.32156864, g: 0.19215688, b: 0.07058824, a: 1}
-    m_HighlightedColor: {r: 0.5849056, g: 0.3857809, b: 0.20140618, a: 1}
-    m_PressedColor: {r: 0.764151, g: 0.5908751, b: 0.42172483, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_NormalColor: {r: 0.35686275, g: 0.19215687, b: 0.03137255, a: 1}
+    m_HighlightedColor: {r: 0.990566, g: 0.22895159, b: 0.22895159, a: 1}
+    m_PressedColor: {r: 0.8490566, g: 0.5166429, b: 0.5166429, a: 1}
+    m_SelectedColor: {r: 0.9339623, g: 0.2511125, b: 0.2511125, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1

@@ -69,7 +69,7 @@ public class MoveCommand : MonoBehaviour, ICommand
         farmerTargets.Add(go);
     }
 
-    private void Reset()
+    void Reset()
     {
         origin = hero.Cell;
         goal = origin;
@@ -98,7 +98,7 @@ public class MoveCommand : MonoBehaviour, ICommand
         farmerTargets = new List<GameObject>();
     }
 
-    private void ShowMovableArea()
+    void ShowMovableArea()
     {
         foreach (Cell cell in Cell.cells)
         {
@@ -113,7 +113,7 @@ public class MoveCommand : MonoBehaviour, ICommand
 
         foreach (Cell cell in Cell.cells)
         {
-            cell.Deactivate();
+            cell.Disable();
         }
 
         foreach (Cell cell in freeCells)
@@ -127,7 +127,7 @@ public class MoveCommand : MonoBehaviour, ICommand
         }
     }
 
-    private void ShowDropableArea()
+    void ShowDropableArea()
     {
         Farmer farmer = null;
         foreach (Pair<Farmer, Cell> f in farmers)
@@ -147,7 +147,7 @@ public class MoveCommand : MonoBehaviour, ICommand
 
         foreach (Cell cell in Cell.cells)
         {
-            cell.Deactivate();
+            cell.Disable();
         }
 
         int i = path.Cells.IndexOf(farmer.Cell);
@@ -158,7 +158,7 @@ public class MoveCommand : MonoBehaviour, ICommand
         }
     }
 
-    private int GetDroppableFarmerCount()
+    int GetDroppableFarmerCount()
     {
         int count = 0;
         foreach (Pair<Farmer, Cell> farmer in farmers)
@@ -172,7 +172,7 @@ public class MoveCommand : MonoBehaviour, ICommand
         return count;
     }
 
-    private int GetDetachedFarmerCount()
+    int GetDetachedFarmerCount()
     {
         int count = 0;
         foreach (Farmer pathFarmer in GetPathFarmer())
@@ -193,7 +193,7 @@ public class MoveCommand : MonoBehaviour, ICommand
         return count;
     }
 
-    private List<Farmer> GetPathFarmer()
+    List<Farmer> GetPathFarmer()
     {
         List<Farmer> pathFarmers = new List<Farmer>();
         foreach (Cell cell in path.Cells)
@@ -206,7 +206,7 @@ public class MoveCommand : MonoBehaviour, ICommand
         return pathFarmers;
     }
 
-    public void AttachFarmer()
+    void AttachFarmer()
     {
         if (!PhotonNetwork.OfflineMode)
         {
@@ -219,7 +219,7 @@ public class MoveCommand : MonoBehaviour, ICommand
     }
 
     [PunRPC]
-    public void AttachFarmerRPC()
+    void AttachFarmerRPC()
     {
         foreach (Farmer pathFarmer in GetPathFarmer())
         {
@@ -245,7 +245,7 @@ public class MoveCommand : MonoBehaviour, ICommand
         EventManager.TriggerFarmersInventoriesUpdate(farmers.Count, GetDroppableFarmerCount(), GetDetachedFarmerCount());
     }
 
-    public void DetachFarmer()
+    void DetachFarmer()
     {
         if (!PhotonNetwork.OfflineMode)
         {
@@ -258,7 +258,7 @@ public class MoveCommand : MonoBehaviour, ICommand
     }
 
     [PunRPC]
-    public void DetachFarmerRPC()
+    void DetachFarmerRPC()
     {
         action = Action.DetachFarmer;
         if (farmers.Count == 0) return;
@@ -279,7 +279,6 @@ public class MoveCommand : MonoBehaviour, ICommand
     }
 
     [PunRPC]
-
     void SetFarmerDestinationRPC(int cellID)
     {
         if (action == Action.SetDestination) return;
@@ -313,7 +312,7 @@ public class MoveCommand : MonoBehaviour, ICommand
         EventManager.TriggerFarmersInventoriesUpdate(farmers.Count, GetDroppableFarmerCount(), GetDetachedFarmerCount());
     }
 
-    public void FarmerDestroyed(Farmer f)
+    void FarmerDestroyed(Farmer f)
     {
         foreach (Pair<Farmer, Cell> farmer in farmers)
         {
@@ -329,6 +328,19 @@ public class MoveCommand : MonoBehaviour, ICommand
 
     public void Dispose()
     {
+        if (!PhotonNetwork.OfflineMode)
+        {
+            photonView.RPC("DisposeRPC", RpcTarget.AllViaServer);
+        }
+        else
+        {
+            DisposeRPC();
+        }
+    }
+
+    [PunRPC]
+    void DisposeRPC()
+    {
         EventManager.CellClick -= SetDestination;
         EventManager.MoveCancel -= Dispose;
         EventManager.MoveComplete -= MoveComplete;
@@ -342,7 +354,7 @@ public class MoveCommand : MonoBehaviour, ICommand
     }
 
 
-    public void ClearPath()
+    void ClearPath()
     {
         if (path != null) path.Dispose();
         Reset();
@@ -393,7 +405,7 @@ public class MoveCommand : MonoBehaviour, ICommand
     }
 
     [PunRPC]
-    public void ExecuteRPC()
+    void ExecuteRPC()
     {
         Debug.Log("Execute Move Reached");
 
@@ -422,7 +434,7 @@ public class MoveCommand : MonoBehaviour, ICommand
         MoveComplete(hero);
     }
 
-    private void MoveComplete(Movable movable)
+    void MoveComplete(Movable movable)
     {
         if (movable != hero) return;
 

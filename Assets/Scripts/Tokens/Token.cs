@@ -65,12 +65,4 @@ public class Token : MonoBehaviour {
             EventManager.TriggerCellUpdate(this);
         }
     }
-
-    public void useCell(){
-      //EventManager.TriggerCellGoldClick();
-
-    }
-    public void useHero(){
-      //EventManager.TriggerHeroGoldClick();
-    }
 }

@@ -50,6 +50,16 @@ public class Cell : MonoBehaviour, IComparable<Cell>
 
     #endregion
 
+    protected void OnEnable()
+    {
+        EventManager.GameOver += Deactivate;
+    }
+
+    protected void OnDisable()
+    {
+        EventManager.GameOver -= Deactivate;
+    }
+
     #region Functions [Unity + Constructor]
     protected virtual void Awake() {
         cells.Add(this);
@@ -81,6 +91,8 @@ public class Cell : MonoBehaviour, IComparable<Cell>
     }
 
     protected virtual void OnMouseExit() {
+        if (!Active) return;
+        
         sprite.color = color;
         EventManager.TriggerCellMouseLeave(Index);
         EventManager.TriggerInventoryUICellExit();
@@ -88,6 +100,7 @@ public class Cell : MonoBehaviour, IComparable<Cell>
 
     void OnMouseDown() {
         if (!Active) return;
+        
         EventManager.TriggerCellClick(Index);
     }
 
@@ -112,6 +125,10 @@ public class Cell : MonoBehaviour, IComparable<Cell>
     #region Functions [Cell]
 
     public void Deactivate() {
+        Active = false;
+    }
+
+    public void Disable() {
         Active = false;
         Extension = false;
         color = new Color(0f, 0f, 0f, 0.7f);

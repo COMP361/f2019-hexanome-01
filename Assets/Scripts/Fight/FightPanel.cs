@@ -55,7 +55,7 @@ public class FightPanel : MonoBehaviour
         SetNames();
         SetStrength();
         SetWP();
-        nb_rd = GameManager.instance.CurrentPlayer.Dices[GameManager.instance.CurrentPlayer.State.getWP()];
+        nb_rd = GameManager.instance.CurrentPlayer.Dices[GameManager.instance.CurrentPlayer.State.Willpower];
 
         switch (nb_rd)
         {
@@ -111,17 +111,15 @@ public class FightPanel : MonoBehaviour
 
     private void SetStrength()
     {
-        //TO REMOVE BC TESTING PURPOSES
-        GameManager.instance.CurrentPlayer.State.setStrength(2);
         og_SMonster = GameManager.instance.CurrentPlayer.Cell.Inventory.Enemies[0].Strength;
-        HeroStrength.text = GameManager.instance.CurrentPlayer.State.getStrength().ToString();
+        HeroStrength.text = GameManager.instance.CurrentPlayer.State.Strength.ToString();
         EnemyStrength.text = GameManager.instance.CurrentPlayer.Cell.Inventory.Enemies[0].Strength.ToString();
     }
 
     private void SetWP()
     {
         og_WPMonster = GameManager.instance.CurrentPlayer.Cell.Inventory.Enemies[0].Will;
-        HeroWP.text = GameManager.instance.CurrentPlayer.State.getWP().ToString();
+        HeroWP.text = GameManager.instance.CurrentPlayer.State.Willpower.ToString();
         EnemyWP.text = GameManager.instance.CurrentPlayer.Cell.Inventory.Enemies[0].Will.ToString();
     }
 
@@ -133,8 +131,8 @@ public class FightPanel : MonoBehaviour
     public void Attack(int attack_str)
     {
         rollMessage.text = "";
-        int hero_strength = GameManager.instance.CurrentPlayer.State.getStrength();
-        int hero_wp = GameManager.instance.CurrentPlayer.State.getWP();
+        int hero_strength = GameManager.instance.CurrentPlayer.State.Strength;
+        int hero_wp = GameManager.instance.CurrentPlayer.State.Willpower;
         int monster_strength = GameManager.instance.CurrentPlayer.Cell.Inventory.Enemies[0].Strength;
         int monster_wp = GameManager.instance.CurrentPlayer.Cell.Inventory.Enemies[0].Will;
 
@@ -150,7 +148,7 @@ public class FightPanel : MonoBehaviour
         else if (total_strength > monster_strength)
         {
             hero_wp -= (monster_strength);
-            GameManager.instance.CurrentPlayer.State.setWP(hero_wp);
+            GameManager.instance.CurrentPlayer.State.Willpower = hero_wp;
         }
 
         if (GameManager.instance.CurrentPlayer.Cell.Inventory.Enemies[0].Will <= 0)
@@ -161,7 +159,7 @@ public class FightPanel : MonoBehaviour
             // set remainingGold to wtv the reward is!
         }
 
-        if (GameManager.instance.CurrentPlayer.State.getWP() <= 0) 
+        if (GameManager.instance.CurrentPlayer.State.Willpower <= 0) 
         {
             this.gameObject.SetActive(!this.gameObject.activeSelf);
         }
@@ -178,9 +176,6 @@ public class FightPanel : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //GameManager.instance.CurrentPlayer.Cell.State.cellInventory.Enemies[0].Will = og_WPMonster;
-        GameManager.instance.CurrentPlayer.State.setStrength(GameManager.instance.CurrentPlayer.State.getStrength() - 1);
-        //SetStrength();
-        //SetWP();
+        GameManager.instance.CurrentPlayer.State.Strength = GameManager.instance.CurrentPlayer.State.Strength - 1;
     }
 }

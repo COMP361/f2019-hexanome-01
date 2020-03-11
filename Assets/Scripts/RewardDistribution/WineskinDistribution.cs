@@ -77,11 +77,11 @@ public class WineskinDistribution : MonoBehaviour
     {
         if (remainingWineskins == 0)
         {
-            acceptBtn.enabled = true;
+            Buttons.Unlock(acceptBtn);
         }
         else
         {
-            acceptBtn.enabled = false;
+            Buttons.Lock(acceptBtn);
         }
     }
 

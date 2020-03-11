@@ -20,7 +20,7 @@ public class GameManager : Singleton<GameManager>
     public List<Farmer> farmers;
     public List<Enemy> gors, skrals, trolls, wardraks;
     private int currentPlayerIndex = 0;
-    private int mainHeroIndex = 0;
+    private int mainHeroIndex = -1;
     public Token well;
     public Fog fog;
     public HeroState state;
@@ -461,6 +461,7 @@ public class GameManager : Singleton<GameManager>
     {
         get
         {
+            if(mainHeroIndex == -1) return null;
             return heroes[mainHeroIndex];
         }
     }

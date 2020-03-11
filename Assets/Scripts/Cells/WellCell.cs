@@ -11,19 +11,19 @@ public class WellCell : Cell
 
     void OnEnable() {
         EventManager.pickWellClick += emptyWell;
-
-      }
+        base.OnEnable();
+    }
 
     void OnDisable() {
         EventManager.pickWellClick -= emptyWell;
-
-      }
+        base.OnDisable();
+    }
 
     public void emptyWell(Hero hero)
     {
-        int currWP = hero.State.getWP();
+        int currWP = hero.State.Willpower;
         currWP = currWP + 3;
-        hero.State.setWP(currWP);
+        hero.State.Willpower = currWP;
 
         isEmptied = true;
         goFullWell.SetActive(false);

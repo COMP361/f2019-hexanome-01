@@ -61,9 +61,8 @@ public class HeroState : ICloneable
     public HeroInventory heroInventory;
 
     private int freeMove;
-    private int willpower = 7;
-    private int strength = 1;
-    private int golds;
+    public int Strength { get; set; }
+    public int Willpower { get; set; }
 
     public HeroState(Cell cell, Color color, string heroName, string parentHero)
     {
@@ -71,6 +70,8 @@ public class HeroState : ICloneable
         action = Action.None;
         TimeOfDay = new TimeOfDay(color, heroName);
         heroInventory = new HeroInventory(parentHero);
+        Strength = 1;
+        Willpower = 7;
     }
 
     public object Clone()
@@ -87,26 +88,6 @@ public class HeroState : ICloneable
 
     public void decrementWP(int points)
     {
-        if (points >= willpower) willpower = 0; else willpower -= points;
-    }
-
-    public int getStrength()
-    {
-        return strength;
-    }
-
-    public int getWP()
-    {
-        return willpower;
-    }
-
-    public void setWP(int hero_wp)
-    {
-        willpower = hero_wp;
-    }
-
-    public void setStrength(int s)
-    {
-        strength = s;
+        if (points >= Willpower) Willpower = 0; else Willpower -= points;
     }
 }
