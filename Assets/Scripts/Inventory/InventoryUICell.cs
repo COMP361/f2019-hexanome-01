@@ -9,10 +9,9 @@ public class InventoryUICell : Singleton<InventoryUICell>
     // Start is called before the first frame update
     public Transform  itemsParent;
     protected InventorySpotCell[] spots;
-    protected string description;
+
     protected string title;
-    protected Transform descTransform;
-    protected Transform titleTransformText;
+
     protected Transform titleTransformGraphic;
     protected bool isLocked;
     protected int index;
@@ -36,11 +35,11 @@ public class InventoryUICell : Singleton<InventoryUICell>
   void Start()
   {
     isLocked = false;
-    descTransform = transform.FindDeepChild("cellDescription");
-    titleTransformText = transform.FindDeepChild("cellTitleText");
+  //  descTransform = transform.FindDeepChild("cellDescription");
+  //  titleTransformText = transform.FindDeepChild("cellTitleText");
     titleTransformGraphic = transform.FindDeepChild("cellTitleGraphic");
-    descTransform.gameObject.SetActive(false);
-    titleTransformText.gameObject.SetActive(false);
+    //descTransform.gameObject.SetActive(false);
+  //  titleTransformText.gameObject.SetActive(false);
     titleTransformGraphic.gameObject.SetActive(false);
     spots = itemsParent.GetComponentsInChildren<InventorySpotCell>();
     blockPanel = transform.Find("Block").gameObject;
@@ -57,12 +56,12 @@ public class InventoryUICell : Singleton<InventoryUICell>
         if(!isLocked){
           this.index = index;
           InventorySpotCell.cellIndex = index;
-          formatDescription(cellInv);
+      //    formatDescription(cellInv);
           formatTitle(index);
-          descTransform.GetComponent<Text>().text = description;
-          descTransform.gameObject.SetActive(true);
-          titleTransformText.GetComponent<Text>().text = title;
-          titleTransformText.gameObject.SetActive(true);
+      //    descTransform.GetComponent<Text>().text = description;
+      //    descTransform.gameObject.SetActive(true);
+        //  titleTransformText.GetComponent<Text>().text = title;
+        //  titleTransformText.gameObject.SetActive(true);
           for(int i = 0; i < spots.Length; i++){
           if(i < cellInv.AllTokens.Count){
             spots[i].AddItem(cellInv.AllTokens[i]);
@@ -79,7 +78,7 @@ public class InventoryUICell : Singleton<InventoryUICell>
 
    void UpdateUIExit(){
      if(!isLocked){
-     descTransform.gameObject.SetActive(false);
+  //   descTransform.gameObject.SetActive(false);
     }
    }
 
@@ -90,7 +89,7 @@ public class InventoryUICell : Singleton<InventoryUICell>
    public void hideBlock(){
         blockPanel.SetActive(false);
    }
-
+/*
    public virtual void formatDescription(CellInventory cellInv) {
 
 
@@ -119,6 +118,7 @@ public class InventoryUICell : Singleton<InventoryUICell>
        this.description += "  - " + gold.TokenName + " \n";
      }
    }
+   */
 
    public virtual void formatTitle(int index){
         title = "Cell: " + index;

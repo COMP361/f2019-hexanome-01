@@ -18,8 +18,18 @@ public class WellCell : Cell
         EventManager.pickWellClick -= emptyWell;
 
       }
+      protected virtual void Awake() {
+          base.Awake();
+      }
 
-    public void emptyWell(Hero hero)
+      protected virtual void Start() {
+          base.Start();
+          Debug.Log("child start");
+      }
+
+
+
+    public void emptyWell(Hero hero, Well well)
     {
       if(Index == hero.Cell.Index){
         int currWP = hero.State.getWP();
@@ -30,20 +40,18 @@ public class WellCell : Cell
         goEmptyWell.SetActive(true);
         Inventory.RemoveToken(well);
         InventoryUICell.instance.ForceUpdate(Inventory, Index);
-        Debug.Log(hero.State.getWP());
         well = null;
-
       }
     }
 
     public void resetWell()
     {
+        Debug.Log("My index is: " + Index);
         isEmptied = false;
         goFullWell.SetActive(true);
         goEmptyWell.SetActive(false);
-        Debug.Log("WELLLLL "+ Index);
-        well = Well.Factory(Index);
-        Inventory.addToken(well);
+        well = Well.Factory();
+        this.Inventory.addToken(well);
     }
 
 }

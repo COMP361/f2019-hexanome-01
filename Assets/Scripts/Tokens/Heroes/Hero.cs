@@ -57,7 +57,7 @@ public class HeroState : ICloneable {
   private int golds;
 
   public HeroState(Cell cell, Color color, string heroName, string heroClass) {
-    this.cell = cell;
+  //  this.cell = cell;
     action = Action.None;
     TimeOfDay = new TimeOfDay(color, heroName);
     heroInventory = new HeroInventory(heroClass);

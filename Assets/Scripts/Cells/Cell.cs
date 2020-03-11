@@ -58,7 +58,8 @@ public class Cell : MonoBehaviour, IComparable<Cell>
         HeroesPosition = transform.Find("positions/heroes").position;
         MovablesPosition = transform.Find("positions/movables").position;
         TokensPosition = transform.Find("positions/tokens").position;
-        Inventory = new CellInventory();
+        Index = int.Parse(this.name);
+        Inventory = new CellInventory(Index);
     }
 
     protected virtual void Start() {
@@ -66,8 +67,6 @@ public class Cell : MonoBehaviour, IComparable<Cell>
 
         sprite = GetComponent<SpriteRenderer>();
         sprite.color = color;
-
-        Index = int.Parse(this.name);
     }
 
     protected virtual void OnMouseEnter() {
@@ -150,7 +149,7 @@ public class Cell : MonoBehaviour, IComparable<Cell>
 
             for (int j = 0; j < t.Item2.neighbours.Count; j++) {
                 c = t.Item2.neighbours[j].GetComponent<Cell>();
-                
+
                 if (visited.Add(c)) {
                     if (i >= min && i <= max) cells.Add(c);
                     queue.Enqueue(new Tuple<int, Cell>(i, c));

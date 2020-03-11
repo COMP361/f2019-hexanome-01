@@ -21,7 +21,6 @@ public class GameManager : Singleton<GameManager>
     public List<Enemy> gors, skrals, trolls, wardraks;
     private int currentPlayerIndex = 0;
     private int mainHeroIndex = 0;
-    public Token well;
     public Fog fog;
     public HeroState state;
     public LegendCards legendCards;
@@ -159,16 +158,13 @@ public class GameManager : Singleton<GameManager>
 
         fog = new Fog();
 
-        //Token goldCoin;
-        //goldCoin = GoldCoin.Factory();
-        //heroes[0].State.heroInventory.AddGold(goldCoin);
+
 
       wells = new List<WellCell>();
       wells.Add(Cell.FromId(5) as WellCell);
       wells.Add(Cell.FromId(35) as WellCell);
       wells.Add(Cell.FromId(45) as WellCell);
       wells.Add(Cell.FromId(55) as WellCell);
-
       foreach (WellCell well in wells) {
         well.resetWell();
       }
@@ -364,8 +360,21 @@ public class GameManager : Singleton<GameManager>
     public Hero MainHero
     {
         get {
+          Debug.Log("Main hero index " + mainHeroIndex);
             return heroes[mainHeroIndex];
         }
+    }
+
+    public void RemoveTokenCell(Token token, CellInventory inv) {
+      int objectIndex = inv.AllTokens.IndexOf(token);
+      int cellIndex = inv.cellID;
+      photonView.RPC("RemoveTokenCellRPC", RpcTarget.AllViaServer, new object[] {objectIndex, cellIndex});
+    }
+
+    [PunRPC]
+    public void RemoveTokenCellRPC(int objectIndex, int cellIndex){
+      Cell cell = Cell.FromId(cellIndex);
+      cell.Inventory.RemoveToken(objectIndex);
     }
 
     #endregion
