@@ -27,7 +27,11 @@ public class Mage : Hero
         mage.rank = 34;
         Cell cell = Cell.FromId(mage.rank);
         mage.Cell = cell;
+<<<<<<< HEAD
+        mage.State = new HeroState(color, mage.name);
+=======
         mage.State = new HeroState(cell, color, mage.name, mage.Type.ToString());
+>>>>>>> master
 
         //mage.IsDone = false;
 

@@ -49,6 +49,7 @@ public class InventoryUIHero : Singleton<InventoryUIHero>
 
   void UpdateUI(HeroInventory heroInv){
     //updating smallSpots
+    
     for(int i = 0; i < smallSpots.Length; i++){
       if(i < heroInv.smallTokens.Count){
         smallSpots[i].AddItem(heroInv.smallTokens[i]);

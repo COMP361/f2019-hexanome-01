@@ -84,7 +84,9 @@ public class HeroInventory : MonoBehaviour
     public bool AddGold(Token token){
       golds.Add(token);
       numOfGold++;
+      if(GameManager.instance.MainHero.State.heroInventory == this){
       EventManager.TriggerInventoryUIHeroUpdate(this);
+    }
       return true;
     }
 
