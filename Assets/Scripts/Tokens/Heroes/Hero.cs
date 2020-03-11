@@ -50,6 +50,7 @@ public class HeroState : ICloneable {
   public Action action;
   public TimeOfDay TimeOfDay;
   public HeroInventory heroInventory;
+  public Cell cell;
 
   private int freeMove;
   private int willpower = 7;

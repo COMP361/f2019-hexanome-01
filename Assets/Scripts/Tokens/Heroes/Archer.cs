@@ -27,11 +27,9 @@ public class Archer : Hero
         archer.rank = 25;
         Cell cell = Cell.FromId(archer.rank);
         archer.Cell = cell;
-<<<<<<< HEAD
-        archer.State = new HeroState(color, archer.name);
-=======
+
         archer.State = new HeroState(cell, color, archer.name, archer.Type.ToString());
->>>>>>> master
+
 
         //archer.IsDone = false;
 

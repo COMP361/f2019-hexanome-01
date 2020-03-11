@@ -100,29 +100,28 @@ public class CellInventory : MonoBehaviour {
     public void RemoveToken(int objectIndex){
       //if(cellID == cellIndex){
       Debug.Log("ObjectIndex "+ objectIndex);
-        Debug.Log("AllTokens Length "+ cellID + " " + AllTokens.Count);
-        Token token = AllTokens[objectIndex];
-        Type listType;
-      //  Token token = AllTokens[objectIndex];
-        AllTokens.Remove(token);
+      Debug.Log("AllTokens Length "+ cellID + " " + AllTokens.Count);
+      Token token = AllTokens[objectIndex];
+      Type listType;
+    //  Token token = AllTokens[objectIndex];
+      AllTokens.Remove(token);
+      listType = Heroes.GetListType();
+      if (listType.IsCompatibleWith(token.GetType())) {
+        Heroes.Remove((Hero)token);
+        return;
+      }
 
-        listType = Heroes.GetListType();
-        if (listType.IsCompatibleWith(token.GetType())) {
-          Heroes.Remove((Hero)token);
+      listType = Enemies.GetListType();
+      if (listType.IsCompatibleWith(token.GetType())) {
+          Enemies.Remove((Enemy)token);
           return;
         }
 
-        listType = Enemies.GetListType();
-        if (listType.IsCompatibleWith(token.GetType())) {
-            Enemies.Remove((Enemy)token);
-            return;
-          }
-
-        listType = Farmers.GetListType();
-        if (listType.IsCompatibleWith(token.GetType())) {
-          Farmers.Remove((Farmer)token);
-          return;
-        }
+      listType = Farmers.GetListType();
+      if (listType.IsCompatibleWith(token.GetType())) {
+        Farmers.Remove((Farmer)token);
+        return;
+      }
     //  }
     }
 
