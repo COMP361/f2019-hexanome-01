@@ -6,7 +6,7 @@ using UnityEngine.UI;
 using Photon.Pun;
 using Photon.Realtime;
 
-public class CellInventory : MonoBehaviour {
+public class CellInventory : ICloneable {
   #region Fields
 
   protected string description;
@@ -99,15 +99,11 @@ public class CellInventory : MonoBehaviour {
 
     public void RemoveToken(int objectIndex){
       //if(cellID == cellIndex){
-      Debug.Log("ObjectIndex "+ objectIndex);
-      Debug.Log("AllTokens Length "+ cellID + " " + AllTokens.Count);
       Token token = AllTokens[objectIndex];
       Type listType;
       AllTokens.Remove(token);
-      Debug.Log("Aiiiii" + token.TokenName);
       listType = Heroes.GetListType();
       if (listType.IsCompatibleWith(token.GetType())) {
-        Debug.Log("Aiiiii" + token.TokenName);
         Heroes.Remove((Hero)token);
         return;
       }
