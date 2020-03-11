@@ -62,6 +62,23 @@ public class MerchantCell : Cell {
         return 2;
     }
 
+    public void buyStrength(Hero hero, int cost)
+    {
+        hero.State.heroInventory.RemoveGold(cost);
+
+        int currStrength = hero.State.getStrength() + 1;
+        hero.State.setStrength(currStrength);
+    }
+
+    public void buyStrength(Hero hero, bool isDwarf)
+    {
+        int cost = (isDwarf) ? 1 : 2;
+        
+        hero.State.heroInventory.RemoveGold(cost);
+        int currStrength = hero.State.getStrength() + 1;
+        hero.State.setStrength(currStrength);
+    }
+
     #endregion
 
 

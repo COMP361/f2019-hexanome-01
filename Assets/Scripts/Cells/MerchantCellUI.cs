@@ -74,5 +74,13 @@ public class MerchantCellUI : Singleton<MerchantCellUI>
       HideBuyStrength();
     }
 
+    public void BuyStrength(Hero hero)
+    {
+        //if (hero is Dwarf d)
+        //{
+        //   
+        //}
+    }
+
 
 }

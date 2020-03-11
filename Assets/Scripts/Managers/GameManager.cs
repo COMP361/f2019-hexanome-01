@@ -54,6 +54,7 @@ public class GameManager : Singleton<GameManager>
         EventManager.StartDay += StartDay;
         EventManager.MoveComplete += UpdateMonsterToMove;
         EventManager.DistributeGold += DistributeGold;
+        EventManager.DistributeWinekins += DistributeWineskins;
     }
 
     void OnDisable()
@@ -68,21 +69,31 @@ public class GameManager : Singleton<GameManager>
         EventManager.StartDay += StartDay;
         EventManager.MoveComplete -= UpdateMonsterToMove;
         EventManager.DistributeGold -= DistributeGold;
+        EventManager.DistributeWinekins -= DistributeWineskins;
     }
 
-    void RemoveEnemy(Enemy enemy) {
-        if (typeof(Gor).IsCompatibleWith(enemy.GetType())) {
+    void RemoveEnemy(Enemy enemy)
+    {
+        if (typeof(Gor).IsCompatibleWith(enemy.GetType()))
+        {
             gors.Remove((Gor)enemy);
-        } else if (typeof(Skral).IsCompatibleWith(enemy.GetType())) {
+        }
+        else if (typeof(Skral).IsCompatibleWith(enemy.GetType()))
+        {
             skrals.Remove((Skral)enemy);
-        } else if (typeof(Troll).IsCompatibleWith(enemy.GetType())) {
+        }
+        else if (typeof(Troll).IsCompatibleWith(enemy.GetType()))
+        {
             trolls.Remove((Troll)enemy);
-        } else if (typeof(Wardrak).IsCompatibleWith(enemy.GetType())) {
+        }
+        else if (typeof(Wardrak).IsCompatibleWith(enemy.GetType()))
+        {
             wardraks.Remove((Wardrak)enemy);
         }
     }
 
-    void RemoveFarmer(Farmer farmer) {
+    void RemoveFarmer(Farmer farmer)
+    {
         farmers.Remove(farmer);
     }
 
@@ -94,13 +105,17 @@ public class GameManager : Singleton<GameManager>
 
         heroes = new List<Hero>();
 
-        if (!PhotonNetwork.OfflineMode) {
+        if (!PhotonNetwork.OfflineMode)
+        {
             // Add each player's respective hero
-            foreach(Player p in players) {
+            foreach (Player p in players)
+            {
                 string hero = (string)p.CustomProperties["Class"];
 
-                if(hero != null) {
-                    switch (hero) {
+                if (hero != null)
+                {
+                    switch (hero)
+                    {
                         case "Warrior":
                             heroes.Add(Warrior.Instance);
                             break;
@@ -117,7 +132,8 @@ public class GameManager : Singleton<GameManager>
 
                     string mainHero = (string)PhotonNetwork.LocalPlayer.CustomProperties["Class"];
 
-                    if(hero.Equals(mainHero)) {
+                    if (hero.Equals(mainHero))
+                    {
                         mainHeroIndex = heroes.Count - 1;
                     }
                 }
@@ -126,7 +142,9 @@ public class GameManager : Singleton<GameManager>
             playerTurn = new Queue<Player>(players);
             EventManager.TriggerMainHeroInit(MainHero);
 
-        } else {
+        }
+        else
+        {
             heroes.Add(Warrior.Instance);
             heroes.Add(Archer.Instance);
             heroes.Add(Mage.Instance);
@@ -160,14 +178,16 @@ public class GameManager : Singleton<GameManager>
 
 
 
-      wells = new List<WellCell>();
-      wells.Add(Cell.FromId(5) as WellCell);
-      wells.Add(Cell.FromId(35) as WellCell);
-      wells.Add(Cell.FromId(45) as WellCell);
-      wells.Add(Cell.FromId(55) as WellCell);
-      foreach (WellCell well in wells) {
-        well.resetWell();
-      }
+        wells = new List<WellCell>();
+        wells.Add(Cell.FromId(5) as WellCell);
+        wells.Add(Cell.FromId(35) as WellCell);
+        wells.Add(Cell.FromId(45) as WellCell);
+        wells.Add(Cell.FromId(55) as WellCell);
+
+        foreach (WellCell well in wells)
+        {
+            well.resetWell();
+        }
 
         GiveTurn();
 
@@ -204,23 +224,29 @@ public class GameManager : Singleton<GameManager>
      * Goes through a monster list and moves them in order.
      *
      */
-    void MonsterMove() {
-        if(monstersToMove.Count == 0) {
+    void MonsterMove()
+    {
+        if (monstersToMove.Count == 0)
+        {
             GiveTurn();
             return;
         }
 
         bool move = false;
-        while (!move && monstersToMove.Count > 0) {
+        while (!move && monstersToMove.Count > 0)
+        {
             Enemy monster = monstersToMove[0];
             Cell nextCell = monster.Cell.enemyPath;
 
             while (nextCell != null && nextCell.Inventory.Enemies.Count > 0 && !Castle.IsCastle(nextCell)) nextCell = nextCell.enemyPath;
 
-            if(nextCell != null) {
+            if (nextCell != null)
+            {
                 monster.Move(nextCell);
                 move = true;
-            } else {
+            }
+            else
+            {
                 monstersToMove.Remove(monster);
             }
         }
@@ -231,7 +257,7 @@ public class GameManager : Singleton<GameManager>
         Hero warrior = heroes.Where(x => x.Type.ToString() == "Warrior").FirstOrDefault();
         if (warriorGold > 0 && warrior != null)
         {
-            while(warriorGold != 0)
+            while (warriorGold != 0)
             {
                 Token goldCoin = GoldCoin.Factory();
                 warrior.State.heroInventory.AddGold(goldCoin);
@@ -271,19 +297,82 @@ public class GameManager : Singleton<GameManager>
         }
 
         GameObject distributeGoldGO = GameObject.Find("DistributeGold");
-        distributeGoldGO.SetActive(false);
+        if (PhotonNetwork.IsMasterClient)
+        {
+            distributeGoldGO.SetActive(false);
+        }
     }
 
-    void StartDay() {
+    void DistributeWineskins(int warriorWineskins, int archerWineskins, int dwarfWineskins, int mageWineskins)
+    {
+        Hero warrior = heroes.Where(x => x.Type.ToString() == "Warrior").FirstOrDefault();
+        if (warriorWineskins > 0 && warrior != null)
+        {
+            while (warriorWineskins != 0)
+            {
+                Token wineskin = Wineskin.Factory();
+                warrior.State.heroInventory.AddSmallToken(wineskin);
+                warriorWineskins--;
+            }
+
+        }
+        Hero archer = heroes.Where(x => x.Type.ToString() == "Archer").FirstOrDefault();
+        if (archerWineskins > 0 && archer != null)
+        {
+            while (archerWineskins != 0)
+            {
+                Token wineskin = Wineskin.Factory();
+                archer.State.heroInventory.AddSmallToken(wineskin);
+                archerWineskins--;
+            }
+        }
+        Hero dwarf = heroes.Where(x => x.Type.ToString() == "Dwarf").FirstOrDefault();
+        if (dwarfWineskins > 0 && dwarf != null)
+        {
+            while (dwarfWineskins != 0)
+            {
+                Token wineskin = Wineskin.Factory();
+                dwarf.State.heroInventory.AddSmallToken(wineskin);
+                dwarfWineskins--;
+            }
+        }
+        Hero mage = heroes.Where(x => x.Type.ToString() == "Mage").FirstOrDefault();
+        if (mageWineskins > 0 && mage != null)
+        {
+            while (mageWineskins != 0)
+            {
+                Token wineskin = Wineskin.Factory();
+                mage.State.heroInventory.AddSmallToken(wineskin);
+                mageWineskins--;
+            }
+        }
+
+        GameObject distributeWineskinsGO = GameObject.Find("DistributeWineskins");
+        if (PhotonNetwork.IsMasterClient)
+        {
+            distributeWineskinsGO.SetActive(false);
+        }
+    }
+
+    void StartDay()
+    {
         InitMonsterMove();
+        foreach (Hero h in heroes)
+        {
+            h.State.TimeOfDay.EndDay();
+        }
         playerTurn = new Queue<Player>(players);
+        Debug.Log("game manager; total players: " + players.Count);
     }
 
     void GiveTurn()
     {
-        if (PhotonNetwork.OfflineMode || PhotonNetwork.LocalPlayer.Equals(playerTurn.Peek())) {
+        if (PhotonNetwork.OfflineMode || PhotonNetwork.LocalPlayer.Equals(playerTurn.Peek()))
+        {
             actionOptions.Show();
-        } else {
+        }
+        else
+        {
             actionOptions.Hide();
         }
 
@@ -302,22 +391,29 @@ public class GameManager : Singleton<GameManager>
     void EndDay()
     {
         CurrentPlayer.State.action = Action.None;
+        CurrentPlayer.State.resetTimeOfDay();
         playerTurn.Dequeue();
-        if (playerTurn.Count() == 0) {
+        if (playerTurn.Count() == 0)
+        {
             EventManager.TriggerStartDay();
-        } else {
+        }
+        else
+        {
             GiveTurn();
         }
     }
 
     void InitMove()
     {
-        if(!PhotonNetwork.OfflineMode) {
+        if (!PhotonNetwork.OfflineMode)
+        {
             GameObject commandGO = PhotonNetwork.Instantiate("Prefabs/Commands/MoveCommand", Vector3.zero, Quaternion.identity, 0);
             int viewId = commandGO.GetComponent<PhotonView>().ViewID;
             photonView.RPC("InitMoveRPC", RpcTarget.AllViaServer, viewId);
-        } else {
-            GameObject commandGO = GameObject.Instantiate((GameObject) Resources.Load("Prefabs/Commands/MoveCommand")) as GameObject;
+        }
+        else
+        {
+            GameObject commandGO = GameObject.Instantiate((GameObject)Resources.Load("Prefabs/Commands/MoveCommand")) as GameObject;
             command = commandGO.GetComponent<MoveCommand>();
             ((MoveCommand)command).Init(CurrentPlayer);
         }
@@ -343,7 +439,8 @@ public class GameManager : Singleton<GameManager>
 
     public Hero CurrentPlayer
     {
-        get {
+        get
+        {
             if (!PhotonNetwork.OfflineMode)
             {
                 Player currentPlayer = playerTurn.Peek();
@@ -359,8 +456,8 @@ public class GameManager : Singleton<GameManager>
 
     public Hero MainHero
     {
-        get {
-          Debug.Log("Main hero index " + mainHeroIndex);
+        get
+        {
             return heroes[mainHeroIndex];
         }
     }

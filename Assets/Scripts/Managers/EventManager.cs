@@ -6,7 +6,8 @@ using UnityEngine.EventSystems;
 using Photon.Pun;
 using Photon.Realtime;
 
-public class EventManager : MonoBehaviour {
+public class EventManager : MonoBehaviour
+{
     // this class helps to register the events that are happening and trigger all the functions that are linked to this event.
 
     // Fired when a cell is clicked
@@ -24,10 +25,14 @@ public class EventManager : MonoBehaviour {
     public delegate void ActionUpdateHandler(int action);
     public static event ActionUpdateHandler ActionUpdate;
 
-    public static void TriggerActionUpdate(int action) {
-        if (!PhotonNetwork.OfflineMode) {
+    public static void TriggerActionUpdate(int action)
+    {
+        if (!PhotonNetwork.OfflineMode)
+        {
             GameManager.instance.photonView.RPC("TriggerActionUpdateRPC", RpcTarget.AllViaServer, action);
-        } else {
+        }
+        else
+        {
             if (ActionUpdate != null) ActionUpdate(action);
         }
     }
@@ -63,10 +68,12 @@ public class EventManager : MonoBehaviour {
 
     public delegate void FightHandler();
     public static event FightHandler Fight;
-    public static void TriggerFight() {
+    public static void TriggerFight()
+    {
         EventManager.TriggerActionUpdate(Action.Fight.Value);
 
-        if (Fight != null) {
+        if (Fight != null)
+        {
             Fight();
         }
     }
@@ -74,7 +81,8 @@ public class EventManager : MonoBehaviour {
     // Fired if skip action is selected
     public delegate void SkipHandler();
     public static event SkipHandler Skip;
-    public static void TriggerSkip() {
+    public static void TriggerSkip()
+    {
         if (!PhotonNetwork.OfflineMode)
         {
             GameManager.instance.photonView.RPC("TriggerSkipRPC", RpcTarget.AllViaServer);
@@ -95,10 +103,14 @@ public class EventManager : MonoBehaviour {
     // Fired if skip action is selected
     public delegate void EndTurnHandler();
     public static event EndTurnHandler EndTurn;
-    public static void TriggerEndTurn() {
-        if (!PhotonNetwork.OfflineMode) {
+    public static void TriggerEndTurn()
+    {
+        if (!PhotonNetwork.OfflineMode)
+        {
             GameManager.instance.photonView.RPC("TriggerEndTurnRPC", RpcTarget.AllViaServer);
-        } else {
+        }
+        else
+        {
             if (EndTurn != null) EndTurn();
         }
     }
@@ -226,16 +238,20 @@ public class EventManager : MonoBehaviour {
     // if some functions are waiting for the event to happen, call the event.
     public delegate void CellHoverInHandler(int cellID);
     public static event CellHoverInHandler CellHoverIn;
-    public static void TriggerCellHoverIn(int cellID) {
-        if (CellHoverIn != null) {
+    public static void TriggerCellHoverIn(int cellID)
+    {
+        if (CellHoverIn != null)
+        {
             CellHoverIn(cellID);
         }
     }
 
     public delegate void CellHoverOutHandler();
     public static event CellHoverOutHandler CellHoverOut;
-    public static void TriggerCellHoverOut() {
-        if (CellHoverOut != null) {
+    public static void TriggerCellHoverOut()
+    {
+        if (CellHoverOut != null)
+        {
             CellHoverOut();
         }
     }
@@ -245,7 +261,8 @@ public class EventManager : MonoBehaviour {
     public static event MoveStartHandler MoveStart;
     public static void TriggerMoveStart(Movable movable)
     {
-        if (MoveStart != null) {
+        if (MoveStart != null)
+        {
             MoveStart(movable);
         }
     }
@@ -265,7 +282,8 @@ public class EventManager : MonoBehaviour {
     public static event FarmersInventoriesUpdateHandler FarmersInventoriesUpdate;
     public static void TriggerFarmersInventoriesUpdate(int attachedFarmers, int noTargetFarmers, int detachedFarmers)
     {
-        if (FarmersInventoriesUpdate != null) {
+        if (FarmersInventoriesUpdate != null)
+        {
             FarmersInventoriesUpdate(attachedFarmers, noTargetFarmers, detachedFarmers);
         }
     }
@@ -295,38 +313,48 @@ public class EventManager : MonoBehaviour {
     // Fired when end day is triggered
     public delegate void EndDayHandler();
     public static event EndDayHandler EndDay;
-    public static void TriggerEndDay() {
-        if(!PhotonNetwork.OfflineMode) {
+    public static void TriggerEndDay()
+    {
+        if (!PhotonNetwork.OfflineMode)
+        {
             GameManager.instance.photonView.RPC("TriggerEndDayRPC", RpcTarget.AllViaServer);
-        } else {
+        }
+        else
+        {
             if (EndDay != null) EndDay();
         }
     }
 
     [PunRPC]
-    public void TriggerEndDayRPC() {
+    public void TriggerEndDayRPC()
+    {
         if (EndDay != null) EndDay();
     }
 
     // Fired when end day is triggered
     public delegate void StartDayHandler();
     public static event StartDayHandler StartDay;
-    public static void TriggerStartDay() {
+    public static void TriggerStartDay()
+    {
         if (StartDay != null) StartDay();
     }
 
     public delegate void InventoryUICellEnterHandler(CellInventory cellInventory, int index);
     public static event InventoryUICellEnterHandler InventoryUICellEnter;
-    public static void TriggerInventoryUICellEnter(CellInventory cellInventory, int index) {
-        if (InventoryUICellEnter != null) {
+    public static void TriggerInventoryUICellEnter(CellInventory cellInventory, int index)
+    {
+        if (InventoryUICellEnter != null)
+        {
             InventoryUICellEnter(cellInventory, index);
         }
     }
 
     public delegate void InventoryUICellExitHandler();
     public static event InventoryUICellExitHandler InventoryUICellExit;
-    public static void TriggerInventoryUICellExit() {
-        if (InventoryUICellExit != null) {
+    public static void TriggerInventoryUICellExit()
+    {
+        if (InventoryUICellExit != null)
+        {
             InventoryUICellExit();
         }
     }
@@ -347,6 +375,7 @@ public class EventManager : MonoBehaviour {
             {
                 InventoryUIHeroUpdate(heroInventory);
             }
+
         }
     }
 
@@ -375,7 +404,8 @@ public class EventManager : MonoBehaviour {
     public static event FarmerDestroyedHandler FarmerDestroyed;
     public static void TriggerFarmerDestroyed(Farmer farmer)
     {
-        if (FarmerDestroyed != null) {
+        if (FarmerDestroyed != null)
+        {
             FarmerDestroyed(farmer);
         }
     }
@@ -384,15 +414,18 @@ public class EventManager : MonoBehaviour {
     public static event EnemyDestroyedHandler EnemyDestroyed;
     public static void TriggerEnemyDestroyed(Enemy enemy)
     {
-        if (EnemyDestroyed != null) {
+        if (EnemyDestroyed != null)
+        {
             EnemyDestroyed(enemy);
         }
     }
 
     public delegate void ShieldsUpdateHandler(int shields);
     public static event ShieldsUpdateHandler ShieldsUpdate;
-    public static void TriggerShieldsUpdate(int shields) {
-        if (ShieldsUpdate != null) {
+    public static void TriggerShieldsUpdate(int shields)
+    {
+        if (ShieldsUpdate != null)
+        {
             ShieldsUpdate(shields);
         }
     }
@@ -460,6 +493,7 @@ public class EventManager : MonoBehaviour {
         }
     }
 
+
     public delegate void DistributeGoldClickHandler(int warriorGold, int archerGold, int dwarfGold, int mageGold);
     public static event DistributeGoldClickHandler DistributeGold;
     public static void TriggerDistributeGoldClick()
@@ -491,4 +525,47 @@ public class EventManager : MonoBehaviour {
             DistributeGold(warriorGold, archerGold, dwarfGold, mageGold);
         }
     }
+
+    public delegate void DistributeWineskinsClickHandler(int warriorWineskins, int archerWineskins, int dwarfWineskins, int mageWinekins);
+    public static event DistributeWineskinsClickHandler DistributeWinekins;
+    public static void TriggerDistributeWineskinsClick()
+    {
+        GameObject distributeWineskinGO = GameObject.Find("DistributeWineskins");
+        WineskinDistribution wineskinDistribution = distributeWineskinGO.GetComponent<WineskinDistribution>();
+        int warriorWineskins = wineskinDistribution.getWarriorWineskins();
+        int archerWineskins = wineskinDistribution.getArcherWineskins();
+        int dwarfWineskins = wineskinDistribution.getDwarfWineskins();
+        int mageWinekins = wineskinDistribution.getMageWineskins();
+        if (!PhotonNetwork.OfflineMode)
+        {
+            GameManager.instance.photonView.RPC("DistributeWineskinsRPC", RpcTarget.AllViaServer, warriorWineskins, archerWineskins, dwarfWineskins, mageWinekins);
+        }
+        else
+        {
+            if (DistributeWinekins != null)
+            {
+                DistributeWinekins(warriorWineskins, archerWineskins, dwarfWineskins, mageWinekins);
+            }
+        }
+    }
+
+    [PunRPC]
+    public void DistributeWineskinsRPC(int warriorWineskins, int archerWineskins, int dwarfWineskins, int mageWinekins)
+    {
+        if (DistributeWinekins != null)
+        {
+            DistributeWinekins(warriorWineskins, archerWineskins, dwarfWineskins, mageWinekins);
+        }
+    }
+
+    public delegate void TimelineUpdateHandler(Hero hero, MapPath path);
+    public static event TimelineUpdateHandler TimelineUpdate;
+    public static void TriggerTimelineUpdate(Hero hero, MapPath path)
+    {
+        if (TimelineUpdate != null)
+        {
+            TimelineUpdate(hero, path);
+        }
+    }
+
 }
