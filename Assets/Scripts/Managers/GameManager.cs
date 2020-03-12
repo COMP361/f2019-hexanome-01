@@ -369,7 +369,6 @@ public class GameManager : Singleton<GameManager>
             well.resetWell();
         }
         playerTurn = new Queue<Player>(players);
-        Debug.Log("game manager; total players: " + players.Count);
     }
 
     void GiveTurn()

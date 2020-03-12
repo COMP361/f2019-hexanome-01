@@ -31,7 +31,6 @@ public class Castle : Cell
         if (numOfPlayers == 4) ShieldsCount = 1;
         
         EventManager.TriggerShieldsUpdate(ShieldsCount);
-        Debug.Log("Castle instantiate: " + ShieldsCount);
     }
     
     public static bool IsCastle(Cell cell) {

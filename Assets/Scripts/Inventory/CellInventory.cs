@@ -98,7 +98,7 @@ public class CellInventory : ICloneable {
 
     public void RemoveToken(int objectIndex){
       //if(cellID == cellIndex){
-      if(objectIndex > AllTokens.Count || objectIndex < 0) return;
+      if(objectIndex > AllTokens.Count - 1 || objectIndex < 0) return;
       
       Token token = AllTokens[objectIndex];
       Type listType;
