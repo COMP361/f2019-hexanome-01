@@ -44,18 +44,6 @@ public class FightPanel : MonoBehaviour
     private List<specialDices> special_dice = new List<specialDices>();
 
 
-    //[PunRPC]
-    //public void showPanelRPC()
-    //{
-    //    this.gameObject.SetActive(!this.gameObject.activeSelf);
-    //    if (!PhotonNetwork.LocalPlayer.Equals(GameManager.instance.playerTurn.Peek()))
-    //    {
-    //        AttackButton.gameObject.SetActive(false);
-    //        RollButton.gameObject.SetActive(false);
-    //        AbandonButton.gameObject.SetActive(false);
-    //    }
-    //}
-
     // Start is called before the first frame update
     public void Start()
     {
@@ -161,7 +149,7 @@ public class FightPanel : MonoBehaviour
         total_strength_monster += monster_strength;
         EnemyStrength.text = ""+ total_strength_monster;
 
-        total_strength_monster = 1;// TO REMOVE ABSOLUTELY 
+       // total_strength_monster = 1;// TO REMOVE ABSOLUTELY 
 
         round_hero_strength.text = total_strength_hero.ToString();
         round_monster_strength.text = total_strength_monster.ToString();
