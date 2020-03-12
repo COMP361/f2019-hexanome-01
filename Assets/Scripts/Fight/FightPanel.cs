@@ -8,6 +8,7 @@ using Photon.Pun;
 public class FightPanel : MonoBehaviour
 {
     public PhotonView pv;
+    private GameObject monster_object;
 
     public Text HeroName;
     public Text HeroStrength;
@@ -62,7 +63,7 @@ public class FightPanel : MonoBehaviour
         SetStrength();
         SetWP();
         nb_rd = GameManager.instance.CurrentPlayer.Dices[GameManager.instance.CurrentPlayer.State.Willpower];
-
+        monster_object = GameManager.instance.CurrentPlayer.Cell.Inventory.Enemies[0].gameObject;
         switch (nb_rd)
         {
             case 1:
@@ -180,6 +181,15 @@ public class FightPanel : MonoBehaviour
         if (GameManager.instance.CurrentPlayer.Cell.Inventory.Enemies[0].Will <= 0)
         {
             //GameManager.instance.CurrentPlayer.Cell.Inventory.Enemies[0].gameObject.SetActive(false);
+            if (!PhotonNetwork.OfflineMode)
+            {
+                photonView.RPC("killMonsterRPC", RpcTarget.AllViaServer);
+            }
+            else
+            {
+                killMonsterRPC();
+            }
+
             killMonsterRPC(GameManager.instance.CurrentPlayer.Cell.Inventory.Enemies[0].gameObject);
             this.gameObject.SetActive(!this.gameObject.activeSelf);
             // gameobject shareblabla set active
@@ -199,9 +209,9 @@ public class FightPanel : MonoBehaviour
         EnemyStrength.text = "" + monster_strength;
     }
     [PunRPC]
-    void killMonsterRPC(GameObject m)
+    void killMonsterRPC()
     {
-        m.SetActive(!m.activeSelf);
+        monster_object.SetActive(!m.activeSelf);
     }
 
     // Update is called once per frame
