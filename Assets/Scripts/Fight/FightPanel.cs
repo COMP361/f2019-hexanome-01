@@ -140,6 +140,7 @@ public class FightPanel : MonoBehaviour
     public void Attack(int attack_str)
     {
         rollMessage.text = "";
+        GameManager.instance.CurrentPlayer.State.Strength = hero_strength;
         int hero_wp = GameManager.instance.CurrentPlayer.State.Willpower;
         int monster_wp = GameManager.instance.CurrentPlayer.Cell.Inventory.Enemies[0].Will;
 
