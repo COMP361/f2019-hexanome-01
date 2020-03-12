@@ -19,12 +19,11 @@ public class Farmer : Movable {
         EventManager.CellUpdate -= Destroy;
     }
 
-    protected override void Awake() {
+    void Awake() {
         sprite = Resources.Load<Sprite>("Sprites/icons/farmer");
         attachedSprite = Resources.Load<Sprite>("Sprites/icons/farmer-attached");
         sr = gameObject.AddComponent<SpriteRenderer>();
-        Detach() ;
-        base.Awake();
+        Detach();
     }
     
     public static Farmer Factory(int cellID) {

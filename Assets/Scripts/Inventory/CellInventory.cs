@@ -98,26 +98,32 @@ public class CellInventory : ICloneable {
 
     public void RemoveToken(int objectIndex){
       //if(cellID == cellIndex){
+      if(objectIndex > AllTokens.Count || objectIndex < 0) return;
+      
       Token token = AllTokens[objectIndex];
       Type listType;
       AllTokens.Remove(token);
       listType = Heroes.GetListType();
       if (listType.IsCompatibleWith(token.GetType())) {
         Heroes.Remove((Hero)token);
+         InventoryUICell.instance.ForceUpdate(this, cellID);
         return;
       }
 
       listType = Enemies.GetListType();
       if (listType.IsCompatibleWith(token.GetType())) {
           Enemies.Remove((Enemy)token);
+           InventoryUICell.instance.ForceUpdate(this, cellID);
           return;
         }
 
       listType = Farmers.GetListType();
       if (listType.IsCompatibleWith(token.GetType())) {
         Farmers.Remove((Farmer)token);
+         InventoryUICell.instance.ForceUpdate(this, cellID);
         return;
       }
+       InventoryUICell.instance.ForceUpdate(this, cellID);
     //  }
     }
 

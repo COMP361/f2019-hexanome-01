@@ -1,6 +1,8 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
+using Photon.Realtime;
 
 public class WellCell : Cell
 {
@@ -8,6 +10,7 @@ public class WellCell : Cell
     public GameObject goEmptyWell;
     bool isEmptied = false;
     public Token well;
+    public PhotonView photonView;
 
     void OnEnable() {
         EventManager.pickWellClick += emptyWell;
@@ -24,7 +27,6 @@ public class WellCell : Cell
 
       protected virtual void Start() {
           base.Start();
-          Debug.Log("child start");
       }
 
 
@@ -33,16 +35,36 @@ public class WellCell : Cell
     {
       if(Index == hero.Cell.Index){
         int currWP = hero.State.Willpower;
+        if(hero.TokenName.Equals("Warrior")){
+          currWP = currWP + 5;
+        }
+        else{
         currWP = currWP + 3;
+        }
         hero.State.Willpower = currWP;
+        Debug.Log("Hero pick well: " + hero.TokenName + " WILLPOWER: " + hero.State.Willpower);
+        EventManager.TriggerCurrentPlayerUpdate(hero);
+    //    isEmptied = true;
+    //    goFullWell.SetActive(false);
+    //    goEmptyWell.SetActive(true);
+        Inventory.RemoveToken(well);
+    //    well = null;
+        photonView.RPC("EmptyWellRPC", RpcTarget.AllViaServer, new object[] {this.Index});
+
+      }
+    }
+
+    [PunRPC]
+    public void EmptyWellRPC(int cellIndex){
+      if(this.Index == cellIndex){
         isEmptied = true;
         goFullWell.SetActive(false);
         goEmptyWell.SetActive(true);
-        Inventory.RemoveToken(well);
-        InventoryUICell.instance.ForceUpdate(Inventory, Index);
         well = null;
       }
+
     }
+
 
     public void resetWell()
     {
