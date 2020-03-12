@@ -183,14 +183,13 @@ public class FightPanel : MonoBehaviour
             //GameManager.instance.CurrentPlayer.Cell.Inventory.Enemies[0].gameObject.SetActive(false);
             if (!PhotonNetwork.OfflineMode)
             {
-                photonView.RPC("killMonsterRPC", RpcTarget.AllViaServer);
+                pv.RPC("killMonsterRPC", RpcTarget.AllViaServer);
             }
             else
             {
                 killMonsterRPC();
             }
 
-            killMonsterRPC(GameManager.instance.CurrentPlayer.Cell.Inventory.Enemies[0].gameObject);
             this.gameObject.SetActive(!this.gameObject.activeSelf);
             // gameobject shareblabla set active
             // set remainingGold to wtv the reward is!
@@ -211,7 +210,7 @@ public class FightPanel : MonoBehaviour
     [PunRPC]
     void killMonsterRPC()
     {
-        monster_object.SetActive(!m.activeSelf);
+        monster_object.SetActive(!monster_object.activeSelf);
     }
 
     // Update is called once per frame
