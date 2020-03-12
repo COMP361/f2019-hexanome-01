@@ -8,79 +8,50 @@ using UnityEngine.UI;
 public class MerchantCellUI : Singleton<MerchantCellUI>
 {
 
-    GameObject merchantPanel;
-    GameObject buyStrengthPanel;
-    protected Transform titleTransform;
-    protected bool isLocked;
-    protected  int cellIndex;
+  GameObject merchantPanel;
+  GameObject buyStrengthPanel;
+  protected Transform titleTransform;
+  
+  void OnEnable() {
+    EventManager.CurrentPlayerUpdate += LockItems;
+    EventManager.CellUpdate += LockItems; 
+    EventManager.MainHeroInit += LockItems;
+    EventManager.MerchCellMouseEnter += Enter;  
+  }
 
-    void Awake() {
-        isLocked = false;
-        merchantPanel = transform.Find("MerchantUI").gameObject;
-        buyStrengthPanel = transform.FindDeepChild("BuyStrength").gameObject;
-        titleTransform = transform.FindDeepChild("MerchantTitle");
-    }
+  void OnDisable() {
+    EventManager.CurrentPlayerUpdate -= LockItems; 
+    EventManager.CellUpdate -= LockItems; 
+    EventManager.MainHeroInit -= LockItems;
+    EventManager.MerchCellMouseEnter -= Enter;
+  }
 
-    void Update(){
-        if(Input.GetButtonDown("LockMerchantCell")){
-            isLocked = !isLocked;
-            }
+  void Awake() {
+      merchantPanel = transform.Find("MerchantUI").gameObject;
+      buyStrengthPanel = transform.FindDeepChild("BuyStrength").gameObject;
+      titleTransform = transform.FindDeepChild("MerchantTitle");
+  }
+
+  void Enter(int index){
+    FormatTitle(index);
+  }
+
+  void FormatTitle(int index){
+    titleTransform.GetComponent<Text>().text = "Merchant";
+  }
+
+  void LockItems(Token token) {
+    if(!typeof(Hero).IsCompatibleWith(token.GetType())) return;
+
+    Hero hero = (Hero)token;
+    Button strengthBtn = transform.Find("MerchantUI/allItems/Strenght/Button").GetComponent<Button>();
+
+    if(hero == GameManager.instance.MainHero) {
+      if(hero.State.heroInventory.numOfGold < 2 || !hero.Cell.GetType().IsCompatibleWith(typeof(MerchantCell))) {
+        Buttons.Lock(strengthBtn);
+      } else {
+        Buttons.Unlock(strengthBtn);
       }
-
-    void OnEnable() {
-        EventManager.MerchCellMouseEnter += Enter;
-        EventManager.MerchCellMouseLeave += Exit;
-
-      }
-
-    void OnDisable() {
-        EventManager.MerchCellMouseEnter -= Enter;
-        EventManager.MerchCellMouseLeave -= Exit;
-      }
-
-    void Enter(int index){
-      if(!isLocked){
-      cellIndex = index;
-      FormatTitle(cellIndex);
-      merchantPanel.SetActive(true);
     }
-    }
-
-    void Exit(){
-      if(!isLocked){
-      merchantPanel.SetActive(false);
-    }
-    }
-
-    void FormatTitle(int index){
-      titleTransform.GetComponent<Text>().text = "Merchant:" + index;
-    }
-
-    public void ShowBuyStrength(){
-      if(cellIndex == GameManager.instance.MainHero.Cell.Index){
-      buyStrengthPanel.SetActive(true);
-    }
-    else {
-      Debug.Log("You must be on same cell " + GameManager.instance.MainHero.Cell.Index );
-    }
-    }
-
-    public void HideBuyStrength(){
-      buyStrengthPanel.SetActive(false);
-    }
-
-    public void BuyStrength(){
-      Debug.Log("I bought some strength");
-      HideBuyStrength();
-    }
-
-    public void BuyStrength(Hero hero)
-    {
-        //if (hero is Dwarf d)
-        //{
-        //   
-        //}
-    }
-
-
+  }
 }

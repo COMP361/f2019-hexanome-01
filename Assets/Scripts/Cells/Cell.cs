@@ -15,7 +15,6 @@ public class Cell : MonoBehaviour, IComparable<Cell>
     //public static GameObject[] Farmers = new GameObject[4];
     public List<Transform> neighbours = new List<Transform>();
     public Cell enemyPath;
-    protected GameManager gm;
     protected SpriteRenderer sprite;
 
     private Color32 color = new Color(1f, 1f, 1f, 0f);
@@ -73,8 +72,6 @@ public class Cell : MonoBehaviour, IComparable<Cell>
     }
 
     protected virtual void Start() {
-        gm = GameManager.instance;
-
         sprite = GetComponent<SpriteRenderer>();
         sprite.color = color;
     }
@@ -82,7 +79,7 @@ public class Cell : MonoBehaviour, IComparable<Cell>
     protected virtual void OnMouseEnter() {
         if (!Active) return;
 
-        var color = gm.MainHero.Color;
+        var color = GameManager.instance.MainHero.Color;
         color.a = .4f;
         sprite.color = color;
         EventManager.TriggerCellMouseEnter(Index);
