@@ -20,7 +20,7 @@ public class GameManager : Singleton<GameManager>
     public List<Farmer> farmers;
     public List<Enemy> gors, skrals, trolls, wardraks;
     private int currentPlayerIndex = 0;
-    private int mainHeroIndex = 0;
+    private int mainHeroIndex = -1;
     public Fog fog;
     public HeroState state;
     public LegendCards legendCards;
@@ -461,9 +461,6 @@ public class GameManager : Singleton<GameManager>
     public Hero MainHero
     {
         get {
-            Debug.Log(mainHeroIndex);
-            Debug.Log(heroes.Count);
-            
             if(mainHeroIndex == -1) return null;
             return heroes[mainHeroIndex];
         }

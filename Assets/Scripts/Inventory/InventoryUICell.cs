@@ -41,8 +41,8 @@ public class InventoryUICell : Singleton<InventoryUICell>
 
   void Update(){
       if(Input.GetButtonDown("LockCellInventory")){
-          isLocked = !isLocked;
-          }
+        isLocked = !isLocked;
+      }
     }
 
     void UpdateUIEnter(CellInventory cellInv, int index){

@@ -82,5 +82,4 @@ public class GoldOptions : MonoBehaviour
         GameManager.instance.MainHero.State.heroInventory.AddGold(gold);
         Hide();
     }
-
 }
