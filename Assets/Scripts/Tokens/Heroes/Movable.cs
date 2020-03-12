@@ -10,11 +10,6 @@ public abstract class Movable : Token
     Sprite icon;
     protected virtual string IconPath => String.Empty;
 
-
-    protected virtual void Awake() {
-        //if (IconPath != String.Empty)
-    }
-
     void Update()
     {
         Move();
@@ -48,10 +43,6 @@ public abstract class Movable : Token
 
             if(path.Count == 0) {
               EventManager.TriggerMoveComplete(this);
-        //      CellInventory a = Cell.FromId(34).Inventory;
-        //      foreach (Token token in a.AllTokens) {
-        //        Debug.Log(token.TokenName);
-        //      }
             }
             return;
         }
@@ -70,8 +61,4 @@ public abstract class Movable : Token
             return gameObject;
         }
     }
-
-    //public void Position(Cell cell) {
-    //    Token.Position = cell.Waypoint;
-    //}
 }

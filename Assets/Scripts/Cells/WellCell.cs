@@ -24,7 +24,6 @@ public class WellCell : Cell
 
       protected virtual void Start() {
           base.Start();
-          Debug.Log("child start");
       }
 
 

@@ -5,17 +5,22 @@ public class ActionOptions : MonoBehaviour
 {
 
     Button moveBtn, fightBtn, skipBtn, endTurnBtn, endDayBtn;
+    bool actionsDisable = false;
 
     void OnEnable() {
         EventManager.MoveSelect += LockActions;
         EventManager.MoveCancel += UnlockActions;
         EventManager.EndTurn += UnlockActions;
+        EventManager.CellUpdate += LockFight; 
+        EventManager.MainHeroInit += LockFight;
     }
 
     void OnDisable() {
         EventManager.MoveSelect -= LockActions;
         EventManager.MoveCancel -= UnlockActions;
         EventManager.EndTurn -= UnlockActions;
+        EventManager.CellUpdate -= LockFight; 
+        EventManager.MainHeroInit -= LockFight;
     }
 
     void Awake()
@@ -40,12 +45,27 @@ public class ActionOptions : MonoBehaviour
         Buttons.Lock(moveBtn);
         Buttons.Lock(skipBtn);
         Buttons.Lock(fightBtn);
+
+        actionsDisable = true;
+
     }
 
     void UnlockActions() {
         Buttons.Unlock(moveBtn);
         Buttons.Unlock(skipBtn);
         Buttons.Unlock(fightBtn);
+
+        actionsDisable = false;
+    }
+
+    void LockFight(Token token) {
+        if(GameManager.instance.MainHero == null || !GameManager.instance.MainHero.GetType().IsCompatibleWith(token.GetType())) return;
+        
+        if(GameManager.instance.MainHero.Cell.Inventory.Enemies.Count < 1) {
+            Buttons.Lock(fightBtn);
+        } else if(!actionsDisable) {
+            Buttons.Unlock(fightBtn);
+        }
     }
 
     /*void UnlockMove() {
