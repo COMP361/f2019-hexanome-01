@@ -37,7 +37,6 @@ public class CellInventory : ICloneable {
     Golds = new List<Token>();
     this.cellID = cellID;
     EventManager.FarmerDestroyed += FarmerDestroyed;
-    photonView = new PhotonView();
   }
   #endregion
 
@@ -47,24 +46,7 @@ public class CellInventory : ICloneable {
     }
   }
 
-  public void AddToken(Token token)
-  {
-    PhotonView photonView = token.GetComponent<PhotonView>();
-    if (!PhotonNetwork.OfflineMode && photonView != null) {
-      int viewId = photonView.ViewID;
-      photonView.RPC("AddTokenRPC", RpcTarget.AllViaServer, viewId);
-    } else {
-        AddTokenRPC(token);
-    }
-  }
-
-  [PunRPC]
-  public void AddTokenRPC(int viewId) {
-    Token token = PhotonView.Find(viewId).GetComponent<Token>();
-    AddTokenRPC(token);
-  }
-
-  public void AddTokenRPC(Token token) {
+  public void AddToken(Token token) {
     Type listType;
     AllTokens.Add(token);
 

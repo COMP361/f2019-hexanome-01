@@ -151,10 +151,11 @@ public class MoveCommand : MonoBehaviour, ICommand
         }
 
         int i = path.Cells.IndexOf(farmer.Cell);
-        List<Cell> subpath = path.Cells.GetRange(i, path.Cells.Count - i);
-        foreach (Cell cell in subpath)
-        {
-            cell.Reset();
+        if(i != -1) {
+            List<Cell> subpath = path.Cells.GetRange(i, path.Cells.Count - i);
+            foreach (Cell cell in subpath) {
+                cell.Reset();
+            }
         }
     }
 
@@ -449,33 +450,37 @@ public class MoveCommand : MonoBehaviour, ICommand
             Cell start = hero.Cell;
 
             int startIndex = path.Cells.IndexOf(start);
-            foreach (Farmer f in start.Inventory.Farmers)
-            {
-                foreach (Pair<Farmer, Cell> farmer in farmers)
+            if(startIndex != -1) {
+                foreach (Farmer f in start.Inventory.Farmers)
                 {
-                    if (farmer.First == f)
+                    foreach (Pair<Farmer, Cell> farmer in farmers)
                     {
-                        int stopInd = -1;
-                        if (farmer.Second != null)
+                        if (farmer.First == f)
                         {
-                            stopInd = path.Cells.IndexOf(farmer.Second);
-                        }
+                            int stopInd = -1;
+                            if (farmer.Second != null)
+                            {
+                                stopInd = path.Cells.IndexOf(farmer.Second);
+                            }
 
-                        if (stopInd == -1)
-                        {
-                            stopInd = path.Cells.Count - 1;
-                        }
+                            if (stopInd == -1)
+                            {
+                                stopInd = path.Cells.Count - 1;
+                            }
 
-                        List<Cell> subpathFarmer = path.Cells.GetRange(startIndex, stopInd - startIndex + 1);
-                        f.Move(subpathFarmer);
-                        break;
+                            List<Cell> subpathFarmer = path.Cells.GetRange(startIndex, stopInd - startIndex + 1);
+                            f.Move(subpathFarmer);
+                            break;
+                        }
                     }
                 }
-            }
 
-            int stopIndex = path.Cells.IndexOf(stop);
-            List<Cell> subpathHero = path.Cells.GetRange(startIndex, stopIndex - startIndex + 1);
-            hero.Move(subpathHero);
+                int stopIndex = path.Cells.IndexOf(stop);
+                if(stopIndex != -1) {
+                    List<Cell> subpathHero = path.Cells.GetRange(startIndex, stopIndex - startIndex + 1);
+                    hero.Move(subpathHero);
+                }
+            }
         }
     }
 }

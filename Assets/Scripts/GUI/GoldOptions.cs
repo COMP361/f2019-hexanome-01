@@ -10,7 +10,6 @@ public class GoldOptions : MonoBehaviour
     GameObject cellPanel;
     Button cancelBtnCell, cancelBtnHero, dropGoldBtn, pickGoldBtn;
     public PhotonView photonView;
-
     GoldCoin gold;
     // Start is called before the first frame update
 
@@ -30,7 +29,7 @@ public class GoldOptions : MonoBehaviour
     void Awake() {
         heroPanel = transform.Find("Hero").gameObject;
         cellPanel = transform.Find("Cell").gameObject;
-        gold = null;
+      //  gold = null;
 
         cancelBtnCell = cellPanel.transform.Find("Cancel Button").GetComponent<Button>();
     //    cancelBtnCell.onClick.AddListener(delegate { EventManager.TriggerGoldCellCancel(); });
@@ -46,7 +45,7 @@ public class GoldOptions : MonoBehaviour
     }
 
     public void ShowHero(GoldCoin gold) {
-        this.gold = gold;
+     //   this.gold = gold;
         heroPanel.SetActive(true);
     }
 
@@ -58,20 +57,21 @@ public class GoldOptions : MonoBehaviour
     public void Hide() {
         cellPanel.SetActive(false);
         heroPanel.SetActive(false);
-        this.gold = null;
+       // this.gold = null;
     }
 
     public void DropGold() {
         // EventManager.TriggerDropGoldClick();
-        GameManager.instance.MainHero.State.heroInventory.RemoveToken(gold);
+        GameManager.instance.MainHero.State.heroInventory.RemoveGold(1);
         photonView.RPC("DropGoldRPC", RpcTarget.AllViaServer);
         Hide();
     }
 
     [PunRPC]
     public void DropGoldRPC(){
-        Cell cell = Cell.FromId(GameManager.instance.MainHero.Cell.Index);
-        cell.Inventory.AddToken(gold);
+        GameObject goldCoinGO = PhotonNetwork.Instantiate("Prefabs/Tokens/GoldCoin", Vector3.zero, Quaternion.identity, 0);
+        Token goldCoin = goldCoinGO.GetComponent<GoldCoin>();
+        GameManager.instance.photonView.RPC("AddGoldCellRPC", RpcTarget.AllViaServer, GameManager.instance.MainHero.Cell.Index);
     }
 
     public void PickGold() {
