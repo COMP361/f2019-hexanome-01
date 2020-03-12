@@ -18,6 +18,12 @@ public class FightPanel : MonoBehaviour
     public Text EnemyWP;
     private int og_WPMonster;
 
+    public Text round_hero_strength;
+    public Text round_monster_strength;
+
+    private int hero_strength;
+    private int monster_strength;
+
     public Button AttackButton;
     public Button RollButton;
     public Button AbandonButton;
@@ -112,8 +118,10 @@ public class FightPanel : MonoBehaviour
     private void SetStrength()
     {
         og_SMonster = GameManager.instance.CurrentPlayer.Cell.Inventory.Enemies[0].Strength;
-        HeroStrength.text = GameManager.instance.CurrentPlayer.State.Strength.ToString();
-        EnemyStrength.text = GameManager.instance.CurrentPlayer.Cell.Inventory.Enemies[0].Strength.ToString();
+        hero_strength = GameManager.instance.CurrentPlayer.State.Strength;
+        monster_strength = GameManager.instance.CurrentPlayer.Cell.Inventory.Enemies[0].Strength;
+        HeroStrength.text = hero_strength.ToString();
+        EnemyStrength.text = monster_strength.ToString();
     }
 
     private void SetWP()
@@ -131,29 +139,48 @@ public class FightPanel : MonoBehaviour
     public void Attack(int attack_str)
     {
         rollMessage.text = "";
-        int hero_strength = GameManager.instance.CurrentPlayer.State.Strength;
         int hero_wp = GameManager.instance.CurrentPlayer.State.Willpower;
-        int monster_strength = GameManager.instance.CurrentPlayer.Cell.Inventory.Enemies[0].Strength;
         int monster_wp = GameManager.instance.CurrentPlayer.Cell.Inventory.Enemies[0].Will;
 
-        int total_strength = attack_str + hero_strength;
-        monster_strength = monster_strength + Random.Range(0, 5)+1;
-        EnemyStrength.text = ""+monster_strength;
-
-        if (total_strength > monster_strength)
+        int total_strength_hero = attack_str + hero_strength;
+        int monster_die1 = Random.Range(0, 5) + 1;
+        int monster_die2 = Random.Range(0, 5) + 1;
+        int total_strength_monster;
+        if (monster_die1 == monster_die2)
         {
-            monster_wp -= (hero_strength);
-            GameManager.instance.CurrentPlayer.Cell.Inventory.Enemies[0].Will = monster_wp;
+            total_strength_monster = monster_die1 + monster_die2;
+        } else if (monster_die1 > monster_die2)
+        {
+            total_strength_monster = monster_die1;
+        } else
+        {
+            total_strength_monster = monster_die2;
         }
-        else if (total_strength > monster_strength)
+        total_strength_monster += monster_strength;
+        EnemyStrength.text = ""+ total_strength_monster;
+
+        total_strength_monster = 1;// TO REMOVE ABSOLUTELY 
+
+        round_hero_strength.text = total_strength_hero.ToString();
+        round_monster_strength.text = total_strength_monster.ToString();
+
+        if (total_strength_hero > total_strength_monster)
         {
-            hero_wp -= (monster_strength);
+            monster_wp -= (total_strength_hero - total_strength_monster);
+            GameManager.instance.CurrentPlayer.Cell.Inventory.Enemies[0].Will = monster_wp;
+            EnemyWP.text = monster_wp.ToString();
+        }
+        else if (total_strength_hero < total_strength_monster)
+        {
+            hero_wp -= (monster_strength - total_strength_hero);
             GameManager.instance.CurrentPlayer.State.Willpower = hero_wp;
+            HeroWP.text = hero_wp.ToString();
         }
 
         if (GameManager.instance.CurrentPlayer.Cell.Inventory.Enemies[0].Will <= 0)
         {
-            GameManager.instance.CurrentPlayer.Cell.Inventory.Enemies[0].gameObject.SetActive(false);
+            //GameManager.instance.CurrentPlayer.Cell.Inventory.Enemies[0].gameObject.SetActive(false);
+            killMonsterRPC(GameManager.instance.CurrentPlayer.Cell.Inventory.Enemies[0].gameObject);
             this.gameObject.SetActive(!this.gameObject.activeSelf);
             // gameobject shareblabla set active
             // set remainingGold to wtv the reward is!
@@ -161,7 +188,11 @@ public class FightPanel : MonoBehaviour
 
         if (GameManager.instance.CurrentPlayer.State.Willpower <= 0) 
         {
+            GameManager.instance.CurrentPlayer.State.Willpower = 3;
+            if (GameManager.instance.CurrentPlayer.State.Strength > 1) GameManager.instance.CurrentPlayer.State.Strength -= 1;
+            else GameManager.instance.CurrentPlayer.State.Strength = 1;
             this.gameObject.SetActive(!this.gameObject.activeSelf);
+            GameManager.instance.CurrentPlayer.Cell.Inventory.Enemies[0].Will = og_WPMonster;
         }
         SetWP();
         monster_strength = og_SMonster;
