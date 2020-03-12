@@ -8,7 +8,7 @@ using Photon.Pun;
 public class FightPanel : MonoBehaviour
 {
     public PhotonView pv;
-    private GameObject monster_object;
+    private Token monster_object;
 
     public Text HeroName;
     public Text HeroStrength;
@@ -63,7 +63,7 @@ public class FightPanel : MonoBehaviour
         SetStrength();
         SetWP();
         nb_rd = GameManager.instance.CurrentPlayer.Dices[GameManager.instance.CurrentPlayer.State.Willpower];
-        monster_object = GameManager.instance.CurrentPlayer.Cell.Inventory.Enemies[0].gameObject;
+        monster_object = GameManager.instance.CurrentPlayer.Cell.Inventory.Enemies[0];
         switch (nb_rd)
         {
             case 1:
@@ -184,10 +184,12 @@ public class FightPanel : MonoBehaviour
             //GameManager.instance.CurrentPlayer.Cell.Inventory.Enemies[0].gameObject.SetActive(false);
             if (!PhotonNetwork.OfflineMode)
             {
-                pv.RPC("killMonsterRPC", RpcTarget.AllViaServer);
+                //pv.RPC("killMonsterRPC", RpcTarget.AllViaServer);
+                GameManager.instance.CurrentPlayer.State.cell.Inventory.RemoveToken(monster_object);
             }
             else
             {
+                GameManager.instance.CurrentPlayer.State.cell.Inventory.RemoveToken(monster_object);
                 killMonsterRPC();
             }
 
@@ -211,7 +213,10 @@ public class FightPanel : MonoBehaviour
     [PunRPC]
     void killMonsterRPC()
     {
-        monster_object.SetActive(!monster_object.activeSelf);
+        //monster_object.SetActive(!monster_object.activeSelf);
+        //Destroy(monster_object);
+        //Destroy(GameManager.instance.CurrentPlayer.State.cell.Inventory.Enemies[0]);
+        GameManager.instance.CurrentPlayer.State.cell.Inventory.RemoveToken(monster_object);
     }
 
     // Update is called once per frame
