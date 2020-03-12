@@ -162,7 +162,7 @@ public class FightPanel : MonoBehaviour
         }
         else if (total_strength_hero < total_strength_monster)
         {
-            hero_wp -= (monster_strength - total_strength_hero);
+            hero_wp -= (total_strength_monster - total_strength_hero);
             GameManager.instance.CurrentPlayer.State.Willpower = hero_wp;
             HeroWP.text = hero_wp.ToString();
         }
@@ -198,6 +198,8 @@ public class FightPanel : MonoBehaviour
         SetWP();
         monster_strength = og_SMonster;
         EnemyStrength.text = "" + monster_strength;
+
+        EventManager.TriggerCurrentPlayerUpdate(GameManager.instance.CurrentPlayer);
     }
     [PunRPC]
     void killMonsterRPC()
