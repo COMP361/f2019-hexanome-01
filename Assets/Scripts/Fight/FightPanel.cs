@@ -215,17 +215,27 @@ public class FightPanel : MonoBehaviour
     void killMonsterRPC()
     {
         //monster_object.SetActive(!monster_object.activeSelf);
-        //Destroy(monster_object);
-        GameManager.instance.CurrentPlayer.State.cell.Inventory.Enemies[0].gameObject.SetActive(false);
-        Destroy(GameManager.instance.CurrentPlayer.State.cell.Inventory.Enemies[0].gameObject);
+        kill();
+        //EventManager.TriggerEnemyDestroyed((Enemy)monster_object);
+        //GameManager.instance.CurrentPlayer.State.cell.Inventory.Enemies[0].gameObject.SetActive(false);
+        //Destroy(GameManager.instance.CurrentPlayer.State.cell.Inventory.Enemies[0].gameObject);
         //GameManager.instance.CurrentPlayer.State.cell.Inventory.RemoveToken(monster_object);
     }
 
     void killMonster()
     {
+        pv.RPC("killMonsterRPC", RpcTarget.AllViaServer);
+        //EventManager.TriggerEnemyDestroyed((Enemy)monster_object);
         //pv.RPC("killMonsterRPC", RpcTarget.AllViaServer);
         GameManager.instance.RemoveTokenCell(monster_object, monster_object.Cell.Inventory);
-        pv.RPC("killMonsterRPC", RpcTarget.AllViaServer);
+    }
+
+    void kill()
+    {
+        int id = GameManager.instance.CurrentPlayer.Cell.Index;
+        Cell c = Cell.FromId(id);
+        Token m = c.Inventory.Enemies[0];
+        Destroy(m.gameObject);
     }
 
     // Update is called once per frame
