@@ -41,17 +41,15 @@ public class MerchantCellUI : Singleton<MerchantCellUI>
   }
 
   void LockItems(Token token) {
-    if(!typeof(Hero).IsCompatibleWith(token.GetType())) return;
-
+    if(GameManager.instance.MainHero == null || !GameManager.instance.MainHero.GetType().IsCompatibleWith(token.GetType())) return;
+        
     Hero hero = (Hero)token;
     Button strengthBtn = transform.Find("MerchantUI/allItems/Strenght/Button").GetComponent<Button>();
 
-    if(hero == GameManager.instance.MainHero) {
-      if(hero.State.heroInventory.numOfGold < 2 || !hero.Cell.GetType().IsCompatibleWith(typeof(MerchantCell))) {
-        Buttons.Lock(strengthBtn);
-      } else {
-        Buttons.Unlock(strengthBtn);
-      }
+    if(hero.State.heroInventory.numOfGold < 2 || !typeof(MerchantCell).IsCompatibleWith(hero.Cell.GetType())) {
+      Buttons.Lock(strengthBtn);
+    } else {
+      Buttons.Unlock(strengthBtn);
     }
   }
 }

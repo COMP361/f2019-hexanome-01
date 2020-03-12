@@ -5,7 +5,8 @@ public class ActionOptions : MonoBehaviour
 {
 
     Button moveBtn, fightBtn, skipBtn, endTurnBtn, endDayBtn;
-    bool actionsDisable = false;
+    bool actionsDisabled = false;
+    bool fightDisabled = false;
 
     void OnEnable() {
         EventManager.MoveSelect += LockActions;
@@ -46,16 +47,16 @@ public class ActionOptions : MonoBehaviour
         Buttons.Lock(skipBtn);
         Buttons.Lock(fightBtn);
 
-        actionsDisable = true;
+        actionsDisabled = true;
 
     }
 
     void UnlockActions() {
         Buttons.Unlock(moveBtn);
         Buttons.Unlock(skipBtn);
-        Buttons.Unlock(fightBtn);
+        if(!fightDisabled) Buttons.Unlock(fightBtn);
 
-        actionsDisable = false;
+        actionsDisabled = false;
     }
 
     void LockFight(Token token) {
@@ -63,8 +64,10 @@ public class ActionOptions : MonoBehaviour
         
         if(GameManager.instance.MainHero.Cell.Inventory.Enemies.Count < 1) {
             Buttons.Lock(fightBtn);
-        } else if(!actionsDisable) {
-            Buttons.Unlock(fightBtn);
+            fightDisabled = true;
+        } else {
+            if(!actionsDisabled) Buttons.Unlock(fightBtn);
+            fightDisabled = false;
         }
     }
 
