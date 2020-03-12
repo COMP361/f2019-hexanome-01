@@ -184,13 +184,14 @@ public class FightPanel : MonoBehaviour
             //GameManager.instance.CurrentPlayer.Cell.Inventory.Enemies[0].gameObject.SetActive(false);
             if (!PhotonNetwork.OfflineMode)
             {
+                killMonster();
                 //pv.RPC("killMonsterRPC", RpcTarget.AllViaServer);
-                GameManager.instance.CurrentPlayer.State.cell.Inventory.RemoveToken(monster_object);
+                //GameManager.instance.CurrentPlayer.State.cell.Inventory.RemoveToken(monster_object);
             }
             else
             {
-                GameManager.instance.CurrentPlayer.State.cell.Inventory.RemoveToken(monster_object);
-                killMonsterRPC();
+                //GameManager.instance.CurrentPlayer.State.cell.Inventory.RemoveToken(monster_object);
+                killMonster();
             }
 
             this.gameObject.SetActive(!this.gameObject.activeSelf);
@@ -215,13 +216,17 @@ public class FightPanel : MonoBehaviour
     {
         //monster_object.SetActive(!monster_object.activeSelf);
         //Destroy(monster_object);
-        //Destroy(GameManager.instance.CurrentPlayer.State.cell.Inventory.Enemies[0]);
-        GameManager.instance.CurrentPlayer.State.cell.Inventory.RemoveToken(monster_object);
+        Destroy(GameManager.instance.CurrentPlayer.State.cell.Inventory.Enemies[0].gameObject);
+        //GameManager.instance.CurrentPlayer.State.cell.Inventory.RemoveToken(monster_object);
+    }
+
+    void killMonster()
+    {
+        pv.RPC("killMonsterRPC", RpcTarget.AllViaServer);
     }
 
     // Update is called once per frame
     void Update()
     {
-        GameManager.instance.CurrentPlayer.State.Strength = GameManager.instance.CurrentPlayer.State.Strength - 1;
     }
 }
