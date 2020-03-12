@@ -17,13 +17,13 @@ public class GoldOptions : MonoBehaviour
     void OnEnable() {
         EventManager.heroGoldClick += ShowHero;
         EventManager.cellGoldClick += ShowCell;
-        EventManager.dropGoldClick += hide;
+        EventManager.dropGoldClick += Hide;
       }
 
     void OnDisable() {
         EventManager.heroGoldClick -= ShowHero;
         EventManager.cellGoldClick -= ShowCell;
-        EventManager.dropGoldClick -= hide;
+        EventManager.dropGoldClick -= Hide;
     }
 
 
@@ -55,32 +55,32 @@ public class GoldOptions : MonoBehaviour
         cellPanel.SetActive(true);
     }
 
-    public void hide() {
+    public void Hide() {
         cellPanel.SetActive(false);
         heroPanel.SetActive(false);
         this.gold = null;
     }
 
     public void DropGold() {
-    //  EventManager.TriggerDropGoldClick();
-      GameManager.instance.MainHero.State.heroInventory.RemoveToken(gold);
-      photonView.RPC("DropGoldRPC", RpcTarget.AllViaServer);
-      hide();
+        // EventManager.TriggerDropGoldClick();
+        GameManager.instance.MainHero.State.heroInventory.RemoveToken(gold);
+        photonView.RPC("DropGoldRPC", RpcTarget.AllViaServer);
+        Hide();
     }
 
     [PunRPC]
     public void DropGoldRPC(){
-      Cell cell = Cell.FromId(GameManager.instance.MainHero.Cell.Index);
-       cell.Inventory.addToken(gold);
+        Cell cell = Cell.FromId(GameManager.instance.MainHero.Cell.Index);
+        cell.Inventory.AddToken(gold);
     }
 
     public void PickGold() {
-    //  EventManager.TriggerDropGoldClick();
-    Cell cell = Cell.FromId(GameManager.instance.MainHero.Cell.Index);
-    cell.Inventory.RemoveToken(gold);
-    InventoryUICell.instance.ForceUpdate(cell.Inventory, cell.Index);
-    GameManager.instance.MainHero.State.heroInventory.AddGold(gold);
-    hide();
+        //  EventManager.TriggerDropGoldClick();
+        Cell cell = Cell.FromId(GameManager.instance.MainHero.Cell.Index);
+        cell.Inventory.RemoveToken(gold);
+        InventoryUICell.instance.ForceUpdate(cell.Inventory, cell.Index);
+        GameManager.instance.MainHero.State.heroInventory.AddGold(gold);
+        Hide();
     }
 
 }

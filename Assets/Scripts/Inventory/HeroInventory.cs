@@ -51,10 +51,7 @@ public class HeroInventory : MonoBehaviour
        smallTokens.Add(token);
        EventManager.TriggerInventoryUIHeroUpdate(this);
        return true;
-     }
-
-
-
+    }
 
     public bool AddBigToken(Token token){
       if(bigToken != null){
@@ -66,8 +63,6 @@ public class HeroInventory : MonoBehaviour
        return true;
     }
 
-
-
     public bool AddHelm(Token token){
       if(helm != null){
         Debug.Log("Not enough room ");
@@ -77,8 +72,6 @@ public class HeroInventory : MonoBehaviour
        EventManager.TriggerInventoryUIHeroUpdate(this);
        return true;
     }
-
-
 
     // maybe have a void return type
     public bool AddGold(Token token){

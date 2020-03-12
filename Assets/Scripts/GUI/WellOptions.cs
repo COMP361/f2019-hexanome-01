@@ -39,14 +39,14 @@ public class WellOptions : MonoBehaviour
         cellPanel.SetActive(true);
     }
 
-    public void hide() {
+    public void Hide() {
       this.well = null;
       cellPanel.SetActive(false);
     }
 
     public void PickWell() {
       EventManager.TriggerPickWellClick(GameManager.instance.MainHero, this.well);
-      hide();
+      Hide();
     }
 
 }

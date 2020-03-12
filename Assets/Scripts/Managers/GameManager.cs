@@ -460,8 +460,10 @@ public class GameManager : Singleton<GameManager>
 
     public Hero MainHero
     {
-        get
-        {
+        get {
+            Debug.Log(mainHeroIndex);
+            Debug.Log(heroes.Count);
+            
             if(mainHeroIndex == -1) return null;
             return heroes[mainHeroIndex];
         }

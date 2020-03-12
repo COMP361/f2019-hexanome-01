@@ -59,7 +59,7 @@ public class Token : MonoBehaviour {
             }
             cell = value;
             gameObject.transform.position = getWaypoint(cell);
-            cell.Inventory.addToken(this);
+            cell.Inventory.AddToken(this);
 
             EventManager.TriggerCellUpdate(this);
         }

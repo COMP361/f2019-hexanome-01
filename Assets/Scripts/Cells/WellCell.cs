@@ -51,7 +51,7 @@ public class WellCell : Cell
         goFullWell.SetActive(true);
         goEmptyWell.SetActive(false);
         well = Well.Factory();
-        this.Inventory.addToken(well);
+        this.Inventory.AddToken(well);
     }
 
 }
