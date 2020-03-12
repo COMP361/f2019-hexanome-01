@@ -54,13 +54,14 @@ public class ActionOptions : MonoBehaviour
     void UnlockActions() {
         Buttons.Unlock(moveBtn);
         Buttons.Unlock(skipBtn);
-        if(!fightDisabled) Buttons.Unlock(fightBtn);
+        //if(!fightDisabled) 
+        Buttons.Unlock(fightBtn);
 
         actionsDisabled = false;
     }
 
     void LockFight(Token token) {
-        if(GameManager.instance.MainHero == null || !GameManager.instance.MainHero.GetType().IsCompatibleWith(token.GetType())) return;
+        /*if(GameManager.instance.MainHero == null || !GameManager.instance.MainHero.GetType().IsCompatibleWith(token.GetType())) return;
         
         if(GameManager.instance.MainHero.Cell.Inventory.Enemies.Count < 1) {
             Buttons.Lock(fightBtn);
@@ -68,7 +69,7 @@ public class ActionOptions : MonoBehaviour
         } else {
             if(!actionsDisabled) Buttons.Unlock(fightBtn);
             fightDisabled = false;
-        }
+        }*/
     }
 
     /*void UnlockMove() {
