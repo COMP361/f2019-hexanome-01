@@ -1,5 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
+using Photon.Pun;
+
 
 public class GoldOptions : MonoBehaviour
 {
@@ -7,6 +9,7 @@ public class GoldOptions : MonoBehaviour
     GameObject heroPanel;
     GameObject cellPanel;
     Button cancelBtnCell, cancelBtnHero, dropGoldBtn, pickGoldBtn;
+    public PhotonView photonView;
 
     GoldCoin gold;
     // Start is called before the first frame update
@@ -60,15 +63,20 @@ public class GoldOptions : MonoBehaviour
 
     public void DropGold() {
     //  EventManager.TriggerDropGoldClick();
-    GameManager.instance.MainHero.State.heroInventory.RemoveGold(gold);
-    Cell cell = Cell.FromId(GameManager.instance.MainHero.State.cell.Index);
-    cell.Inventory.addToken(gold);
-    hide();
+      GameManager.instance.MainHero.State.heroInventory.RemoveToken(gold);
+      photonView.RPC("DropGoldRPC", RpcTarget.AllViaServer);
+      hide();
+    }
+
+    [PunRPC]
+    public void DropGoldRPC(){
+      Cell cell = Cell.FromId(GameManager.instance.MainHero.Cell.Index);
+       cell.Inventory.addToken(gold);
     }
 
     public void PickGold() {
     //  EventManager.TriggerDropGoldClick();
-    Cell cell = Cell.FromId(GameManager.instance.MainHero.State.cell.Index);
+    Cell cell = Cell.FromId(GameManager.instance.MainHero.Cell.Index);
     cell.Inventory.RemoveToken(gold);
     InventoryUICell.instance.ForceUpdate(cell.Inventory, cell.Index);
     GameManager.instance.MainHero.State.heroInventory.AddGold(gold);

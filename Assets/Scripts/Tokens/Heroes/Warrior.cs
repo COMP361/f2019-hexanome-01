@@ -27,7 +27,9 @@ public class Warrior : Hero
         warrior.rank = 14;
         Cell cell = Cell.FromId(warrior.rank);
         warrior.Cell = cell;
+
         warrior.State = new HeroState(cell, color, warrior.name, warrior.Type.ToString());
+
 
         //warrior.IsDone = false;
 

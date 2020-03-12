@@ -16,32 +16,42 @@ public class WellCell : Cell
 
     void OnDisable() {
         EventManager.pickWellClick -= emptyWell;
-        base.OnDisable();
-    }
 
-    public void emptyWell(Hero hero)
+      }
+      protected virtual void Awake() {
+          base.Awake();
+      }
+
+      protected virtual void Start() {
+          base.Start();
+          Debug.Log("child start");
+      }
+
+
+
+    public void emptyWell(Hero hero, Well well)
     {
+      if(Index == hero.Cell.Index){
         int currWP = hero.State.Willpower;
         currWP = currWP + 3;
         hero.State.Willpower = currWP;
-
         isEmptied = true;
         goFullWell.SetActive(false);
         goEmptyWell.SetActive(true);
         Inventory.RemoveToken(well);
+        InventoryUICell.instance.ForceUpdate(Inventory, Index);
         well = null;
-
-
+      }
     }
 
     public void resetWell()
     {
+
         isEmptied = false;
         goFullWell.SetActive(true);
         goEmptyWell.SetActive(false);
-        Debug.Log("WELLLLL "+ Index);
-        well = Well.Factory(Index);
-        Inventory.addToken(well);
+        well = Well.Factory();
+        this.Inventory.addToken(well);
     }
 
 }

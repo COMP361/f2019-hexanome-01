@@ -463,23 +463,23 @@ public class EventManager : MonoBehaviour
         }
     }
 
-    public delegate void PickWellClickHandler(Hero hero);
+    public delegate void PickWellClickHandler(Hero hero, Well well);
     public static event PickWellClickHandler pickWellClick;
-    public static void TriggerPickWellClick(Hero hero)
+    public static void TriggerPickWellClick(Hero hero, Well well)
     {
         if (pickWellClick != null)
         {
-            pickWellClick(hero);
+            pickWellClick(hero, well);
         }
     }
 
-    public delegate void CellWellClickHandler();
+    public delegate void CellWellClickHandler(Well well);
     public static event CellWellClickHandler cellWellClick;
-    public static void TriggerCellWellClick()
+    public static void TriggerCellWellClick(Well well)
     {
         if (cellWellClick != null)
         {
-            cellWellClick();
+            cellWellClick( well);
         }
     }
 

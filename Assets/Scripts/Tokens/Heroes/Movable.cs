@@ -41,12 +41,18 @@ public abstract class Movable : Token
     void Move()
     {
         if (path == null || path.Count == 0) return;
- 
+
         if(AtCell(path[0])) {
             Cell = path[0];
             path.RemoveAt(0);
 
-            if(path.Count == 0) EventManager.TriggerMoveComplete(this);
+            if(path.Count == 0) {
+              EventManager.TriggerMoveComplete(this);
+        //      CellInventory a = Cell.FromId(34).Inventory;
+        //      foreach (Token token in a.AllTokens) {
+        //        Debug.Log(token.TokenName);
+        //      }
+            }
             return;
         }
 

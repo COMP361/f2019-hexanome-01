@@ -1,4 +1,4 @@
-
+ 
 using Photon.Pun;
 using Photon.Realtime;
 using System.Collections;
@@ -20,8 +20,7 @@ public class GameManager : Singleton<GameManager>
     public List<Farmer> farmers;
     public List<Enemy> gors, skrals, trolls, wardraks;
     private int currentPlayerIndex = 0;
-    private int mainHeroIndex = -1;
-    public Token well;
+    private int mainHeroIndex = 0;
     public Fog fog;
     public HeroState state;
     public LegendCards legendCards;
@@ -176,9 +175,6 @@ public class GameManager : Singleton<GameManager>
         eventCards = new EventCards();
 
         fog = new Fog();
-
-        //Token goldCoin;
-        //heroes[0].State.heroInventory.AddGold(goldCoin);
 
         wells = new List<WellCell>();
         wells.Add(Cell.FromId(5) as WellCell);
@@ -469,6 +465,18 @@ public class GameManager : Singleton<GameManager>
             if(mainHeroIndex == -1) return null;
             return heroes[mainHeroIndex];
         }
+    }
+
+    public void RemoveTokenCell(Token token, CellInventory inv) {
+      int objectIndex = inv.AllTokens.IndexOf(token);
+      int cellIndex = inv.cellID;
+      photonView.RPC("RemoveTokenCellRPC", RpcTarget.AllViaServer, new object[] {objectIndex, cellIndex});
+    }
+
+    [PunRPC]
+    public void RemoveTokenCellRPC(int objectIndex, int cellIndex){
+      Cell cell = Cell.FromId(cellIndex);
+      cell.Inventory.RemoveToken(objectIndex);
     }
 
     #endregion

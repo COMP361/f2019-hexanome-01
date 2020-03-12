@@ -40,9 +40,7 @@ public class Token : MonoBehaviour {
           return gameObject.GetComponent<SpriteRenderer>().sprite;
         }
         else{
-            //GameObject go = new GameObject("New Sprite");
-            // renderer = go.AddComponent<SpriteRenderer>();
-            //renderer.sprite = Resources.Load("Sprites/dot");
+
             return Resources.Load<Sprite>("Sprites/dot");
         }
     }
@@ -56,8 +54,9 @@ public class Token : MonoBehaviour {
             return cell;
         }
         set {
-            if(cell != null && cell.Inventory != null) cell.Inventory.RemoveToken(this);
-
+            if(cell != null && cell.Inventory != null){
+              cell.Inventory.RemoveToken(this);
+            }
             cell = value;
             gameObject.transform.position = getWaypoint(cell);
             cell.Inventory.addToken(this);

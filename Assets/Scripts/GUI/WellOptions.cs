@@ -7,13 +7,13 @@ public class WellOptions : MonoBehaviour
 
     GameObject cellPanel;
     Button cancelBtnCell, pickWellBtn;
-
+    Well well;
 
     // Start is called before the first frame update
 
     void OnEnable() {
         EventManager.cellWellClick += ShowCell;
-    
+
       }
 
     void OnDisable() {
@@ -30,20 +30,22 @@ public class WellOptions : MonoBehaviour
 
         pickWellBtn = cellPanel.transform.Find("Button Pick Well").GetComponent<Button>();
   //      pickGoldBtn.onClick.AddListener(delegate { EventManager.TriggerPickGold(); });
-
+        well = null;
 
     }
 
-    public void ShowCell() {
+    public void ShowCell(Well well) {
+        this.well = well;
         cellPanel.SetActive(true);
     }
 
     public void hide() {
-        cellPanel.SetActive(false);
+      this.well = null;
+      cellPanel.SetActive(false);
     }
 
     public void PickWell() {
-      EventManager.TriggerPickWellClick(GameManager.instance.MainHero);
+      EventManager.TriggerPickWellClick(GameManager.instance.MainHero, this.well);
       hide();
     }
 
