@@ -50,7 +50,7 @@ public class regularDices : MonoBehaviour {
             rend.sprite = diceSides[randomDiceSide];
 
             // Pause before next itteration
-            yield return new WaitForSeconds(0.05f);
+            //yield return new WaitForSeconds(0.05f);
         }
 
         // Assigning final side so you can use this value later in your game
@@ -59,7 +59,7 @@ public class regularDices : MonoBehaviour {
 
         // Show final dice value in Console
         Debug.Log(finalSide);
-        //yield return new WaitForSeconds(0.05f);
+        yield return new WaitForSeconds(0.05f);
     }
     public int getFinalSide()
     {

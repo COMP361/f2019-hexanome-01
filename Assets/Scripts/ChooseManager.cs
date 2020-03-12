@@ -101,6 +101,6 @@ public class ChooseManager : MonoBehaviour
 
     public void OnClickStartButton()
     {
-        PhotonNetwork.LoadLevel(2);
+        PhotonNetwork.LoadLevel(3);
     }
 }
