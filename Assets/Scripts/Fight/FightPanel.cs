@@ -216,6 +216,7 @@ public class FightPanel : MonoBehaviour
     {
         //monster_object.SetActive(!monster_object.activeSelf);
         //Destroy(monster_object);
+        GameManager.instance.CurrentPlayer.State.cell.Inventory.Enemies[0].gameObject.SetActive(false);
         Destroy(GameManager.instance.CurrentPlayer.State.cell.Inventory.Enemies[0].gameObject);
         //GameManager.instance.CurrentPlayer.State.cell.Inventory.RemoveToken(monster_object);
     }
@@ -224,6 +225,7 @@ public class FightPanel : MonoBehaviour
     {
         //pv.RPC("killMonsterRPC", RpcTarget.AllViaServer);
         GameManager.instance.RemoveTokenCell(monster_object, monster_object.Cell.Inventory);
+        pv.RPC("killMonsterRPC", RpcTarget.AllViaServer);
     }
 
     // Update is called once per frame
