@@ -7,8 +7,8 @@ using Photon.Pun;
 using Photon.Realtime;
 public class HeroInventory : MonoBehaviour
 {
-    public List<Token> smallTokens { get; private set; }
-    public List<Token> golds { get; private set; }
+    public List<SmallToken> smallTokens { get; private set; }
+    public List<GoldCoin> golds { get; private set; }
     public BigToken bigToken { get; private set; }
     public Helm helm { get; private set; }
     public List<Token> AllTokens { get; private set; }
@@ -29,14 +29,14 @@ public class HeroInventory : MonoBehaviour
     }
 
     public HeroInventory(string parentHero){
-      smallTokens = new List<Token>();
-      golds = new List<Token>();
+      AllTokens = new List<Token>(); 
+      smallTokens = new List<SmallToken>();
+      golds = new List<GoldCoin>();
       bigToken =null;
       helm = null;
       spaceSmall = 3;
       numOfGold = 0;
       this.parentHero = parentHero;
-      photonView = new PhotonView();
     }
 
 
@@ -48,7 +48,7 @@ public class HeroInventory : MonoBehaviour
         Debug.Log("Not enough room ");
         return false;
       }
-       smallTokens.Add(token);
+       smallTokens.Add((SmallToken)token);
        EventManager.TriggerInventoryUIHeroUpdate(this);
        return true;
     }
@@ -75,7 +75,8 @@ public class HeroInventory : MonoBehaviour
 
     // maybe have a void return type
     public bool AddGold(Token token){
-      golds.Add(token);
+      golds.Add((GoldCoin)token);
+      AllTokens.Add(token);
       numOfGold++;
       if(GameManager.instance.MainHero.State.heroInventory == this){
       EventManager.TriggerInventoryUIHeroUpdate(this);
@@ -83,20 +84,14 @@ public class HeroInventory : MonoBehaviour
       return true;
     }
 
-    [PunRPC]
-    public void RemoveTokenRPC(int objectIndex, int cellIndex){
-
+    public void RemoveToken(Token token){
         Type listType;
-
-        Token token = AllTokens[objectIndex];
-
         listType = smallTokens.GetListType();
         if (listType.IsCompatibleWith(token.GetType())) {
             smallTokens.Remove((SmallToken)token);
             return;
-          }
-
-        listType = bigToken.GetType();
+          }/* 
+        listType = BigToken.GetType();
         if (listType.IsCompatibleWith(token.GetType())) {
           if (bigToken == token){
             bigToken = null;
@@ -111,6 +106,7 @@ public class HeroInventory : MonoBehaviour
           }
           return;
         }
+        */
         listType = golds.GetListType();
         if (listType.IsCompatibleWith(token.GetType())) {
           golds.Remove((GoldCoin)token);
@@ -118,11 +114,6 @@ public class HeroInventory : MonoBehaviour
         }
         AllTokens.Remove(token);
         EventManager.TriggerInventoryUIHeroUpdate(this);
-    }
-
-    public void RemoveToken(Token token) {
-      int objectIndex = AllTokens.IndexOf(token);
-      photonView.RPC("RemoveTokenRPC", RpcTarget.AllViaServer, new object[] {objectIndex});
     }
 
     public void RemoveGold(int amtToRemove)
@@ -133,7 +124,10 @@ public class HeroInventory : MonoBehaviour
             while(amtToRemove != 0)
             {
                 amtToRemove--;
-                golds.RemoveAt(amtToRemove);
+                if(amtToRemove < golds.Count) {
+                  AllTokens.Remove(golds[amtToRemove]);                
+                  golds.RemoveAt(amtToRemove);
+                } 
             }
             
         }

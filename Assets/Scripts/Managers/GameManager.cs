@@ -471,6 +471,7 @@ public class GameManager : Singleton<GameManager>
 
     public void RemoveTokenCell(Token token, CellInventory inv) {
       int objectIndex = inv.AllTokens.IndexOf(token);
+      if(objectIndex == -1) return;
       int cellIndex = inv.cellID;
       photonView.RPC("RemoveTokenCellRPC", RpcTarget.AllViaServer, new object[] {objectIndex, cellIndex});
     }
@@ -480,6 +481,14 @@ public class GameManager : Singleton<GameManager>
       Cell cell = Cell.FromId(cellIndex);
       cell.Inventory.RemoveToken(objectIndex);
     }
-
+    
+    [PunRPC]
+    public void AddGoldCellRPC(int cellIndex){
+        Cell cell = Cell.FromId(cellIndex);
+        GameObject goldCoinGO = PhotonNetwork.Instantiate("Prefabs/Tokens/GoldCoin", Vector3.zero, Quaternion.identity, 0);
+        GoldCoin goldCoin = goldCoinGO.GetComponent<GoldCoin>();        
+        cell.Inventory.AddToken(goldCoin);
+    }
+    
     #endregion
 }

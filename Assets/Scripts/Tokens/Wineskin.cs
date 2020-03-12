@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Wineskin : Token
+public class Wineskin : SmallToken
 {
     public static Wineskin Factory()
     {
