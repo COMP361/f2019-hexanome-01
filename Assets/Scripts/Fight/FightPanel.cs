@@ -222,7 +222,8 @@ public class FightPanel : MonoBehaviour
 
     void killMonster()
     {
-        pv.RPC("killMonsterRPC", RpcTarget.AllViaServer);
+        //pv.RPC("killMonsterRPC", RpcTarget.AllViaServer);
+        GameManager.instance.RemoveTokenCell(monster_object, monster_object.Cell.Inventory);
     }
 
     // Update is called once per frame
