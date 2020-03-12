@@ -106,20 +106,24 @@ public class CellInventory : ICloneable {
       listType = Heroes.GetListType();
       if (listType.IsCompatibleWith(token.GetType())) {
         Heroes.Remove((Hero)token);
+         InventoryUICell.instance.ForceUpdate(this, cellID);
         return;
       }
 
       listType = Enemies.GetListType();
       if (listType.IsCompatibleWith(token.GetType())) {
           Enemies.Remove((Enemy)token);
+           InventoryUICell.instance.ForceUpdate(this, cellID);
           return;
         }
 
       listType = Farmers.GetListType();
       if (listType.IsCompatibleWith(token.GetType())) {
         Farmers.Remove((Farmer)token);
+         InventoryUICell.instance.ForceUpdate(this, cellID);
         return;
       }
+       InventoryUICell.instance.ForceUpdate(this, cellID);
     //  }
     }
 

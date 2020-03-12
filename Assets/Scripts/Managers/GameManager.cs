@@ -1,4 +1,4 @@
- 
+
 using Photon.Pun;
 using Photon.Realtime;
 using System.Collections;
@@ -365,6 +365,9 @@ public class GameManager : Singleton<GameManager>
         {
             h.State.TimeOfDay.EndDay();
         }
+        foreach (WellCell well in wells) {
+            well.resetWell();
+        }
         playerTurn = new Queue<Player>(players);
         Debug.Log("game manager; total players: " + players.Count);
     }
@@ -478,14 +481,14 @@ public class GameManager : Singleton<GameManager>
       Cell cell = Cell.FromId(cellIndex);
       cell.Inventory.RemoveToken(objectIndex);
     }
-    
+
     [PunRPC]
     public void AddGoldCellRPC(int cellIndex){
         Cell cell = Cell.FromId(cellIndex);
         GameObject goldCoinGO = PhotonNetwork.Instantiate("Prefabs/Tokens/GoldCoin", Vector3.zero, Quaternion.identity, 0);
-        GoldCoin goldCoin = goldCoinGO.GetComponent<GoldCoin>();        
+        GoldCoin goldCoin = goldCoinGO.GetComponent<GoldCoin>();
         cell.Inventory.AddToken(goldCoin);
     }
-    
+
     #endregion
 }
