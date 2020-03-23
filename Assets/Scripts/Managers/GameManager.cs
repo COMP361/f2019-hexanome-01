@@ -23,7 +23,7 @@ public class GameManager : Singleton<GameManager>
     private int mainHeroIndex = -1;
     public Fog fog;
     public HeroState state;
-    public LegendCards legendCards;
+    public LegendCardDeck legendCardDeck;
     public EventCards eventCards;
     public Castle castle;
     private ICommand command;
@@ -171,7 +171,7 @@ public class GameManager : Singleton<GameManager>
         trolls = new List<Enemy>();
         wardraks = new List<Enemy>();
 
-        legendCards = new LegendCards();
+        legendCardDeck = new LegendCardDeck();
         eventCards = new EventCards();
 
         fog = new Fog();
