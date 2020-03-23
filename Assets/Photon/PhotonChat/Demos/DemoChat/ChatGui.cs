@@ -155,7 +155,7 @@ public class ChatGui : MonoBehaviour, IChatClientListener
 		this.chatClient.Connect(this.chatAppSettings.AppIdChat, "1.0", new Photon.Chat.AuthenticationValues(this.UserName));
 
 		this.ChannelToggleToInstantiate.gameObject.SetActive(false);
-		Debug.Log("Connecting as: " + this.UserName);
+		//Debug.Log("Connecting as: " + this.UserName);
 
 	    this.ConnectingLabel.SetActive(true);
 	}
@@ -324,7 +324,7 @@ public class ChatGui : MonoBehaviour, IChatClientListener
 			}
 			else
 			{
-				Debug.Log("The command '" + tokens[0] + "' is invalid.");
+				//Debug.Log("The command '" + tokens[0] + "' is invalid.");
 			}
 		}
 		else

@@ -380,7 +380,7 @@ public class MoveCommand : MonoBehaviour, ICommand
     {
         if (action == Action.DetachFarmer) return;
 
-        Debug.Log("Execute Set Destination Reached");
+        //Debug.Log("Execute Set Destination Reached");
 
         goal = Cell.FromId(cellID);
         path.Extend(goal);
@@ -408,7 +408,7 @@ public class MoveCommand : MonoBehaviour, ICommand
     [PunRPC]
     void ExecuteRPC()
     {
-        Debug.Log("Execute Move Reached");
+        //Debug.Log("Execute Move Reached");
 
         foreach (Cell cell in Cell.cells)
         {

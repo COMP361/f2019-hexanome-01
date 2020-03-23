@@ -15,6 +15,18 @@ public enum Sex
 public class Hero : Movable
 {
     protected Sex sex = Sex.Female;
+    
+    public String getSex()
+    {
+        if (sex == 0)
+        {
+            return "female";
+        }
+        else
+        {
+            return "male";
+        }
+    }
 
     protected string[] names;
     protected int rank;

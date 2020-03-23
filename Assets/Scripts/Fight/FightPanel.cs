@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
+using System;
+using Random = UnityEngine.Random;
 
 public class FightPanel : MonoBehaviour
 {
@@ -43,11 +45,14 @@ public class FightPanel : MonoBehaviour
     private List<regularDices> regular_dice = new List<regularDices>();
     private List<specialDices> special_dice = new List<specialDices>();
 
+    public GameObject heroSprite;
+    public GameObject MonsterSprite;
 
     // Start is called before the first frame update
     public void Start()
     {
         SetNames();
+        SetImages();
         SetStrength();
         SetWP();
         nb_rd = GameManager.instance.CurrentPlayer.Dices[GameManager.instance.CurrentPlayer.State.Willpower];
@@ -96,6 +101,22 @@ public class FightPanel : MonoBehaviour
         {
             d.gameObject.SetActive(true);
         }
+    }
+
+    private void SetImages() //WILL NEED TO ADJUST FOR ARCHER
+    {
+       heroSprite.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprites/heroes/" 
+           + GameManager.instance.CurrentPlayer.getSex() 
+           + "_"
+           + GameManager.instance.CurrentPlayer.Type.ToLower());
+        Debug.Log(EnemyName.text.ToLower());
+        Debug.Log(GameManager.instance.CurrentPlayer.Type);
+        Debug.Log("Sprites/heroes/"
+           + GameManager.instance.CurrentPlayer.getSex()
+           + "_"
+           + GameManager.instance.CurrentPlayer.Type.ToLower());
+        MonsterSprite.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprites/Enemies/" + EnemyName.text.ToLower());
+        //MonsterSprite.GetComponent<SpriteRenderer>().sortingLayerName = "Popup";
     }
 
     private void SetNames()

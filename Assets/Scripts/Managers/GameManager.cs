@@ -428,7 +428,7 @@ public class GameManager : Singleton<GameManager>
     [PunRPC]
     void InitMoveRPC(int viewId)
     {
-        Debug.Log("Init Move Reached");
+        //Debug.Log("Init Move Reached");
         command = PhotonView.Find(viewId).GetComponentInParent<MoveCommand>();
         ((MoveCommand)command).Init(CurrentPlayer);
     }
