@@ -6,8 +6,8 @@ using System;
 public class TimeOfDay : ICloneable
 {
     public int Index { get; set; }
-    private int freeLimit = 7;
-    private int extendedLimit = 10;
+    private static int freeLimit = 7;
+    private static int extendedLimit = 10;
     GameObject token;
     public string heroName { get; set; }
     public Color color { get; set; }
@@ -17,45 +17,32 @@ public class TimeOfDay : ICloneable
         Index = 0;
         heroName = hero_Name;
         color = heroColor;
-        Sprite sprite = null;
-
-        //token = Geometry.Disc(Vector3.zero, color, 8);
-        switch (hero_Name)
-        {
-            case "Dwarf":
-                sprite = Resources.Load<Sprite>("Sprites/heroes/hero-yellow");
-                break;
-            case "Archer":
-                sprite = Resources.Load<Sprite>("Sprites/heroes/hero-green");
-                break;
-            case "Warrior":
-                sprite = Resources.Load<Sprite>("Sprites/heroes/hero-blue");
-                break;
-            case "Mage":
-                sprite = Resources.Load<Sprite>("Sprites/heroes/hero-purple");
-                break;
-        }
-        token = new GameObject("TimeOfDay" + hero_Name);
-
-        SpriteRenderer renderer = token.AddComponent<SpriteRenderer>();
-        if (sprite != null) renderer.sprite = sprite;
-        renderer.sortingLayerName = "Tokens";
-
-        token.transform.localScale = new Vector3(10, 10, 10);
-
+        
+        token = Geometry.Disc(Vector3.zero, heroColor, 8);
         token.name = "TimeOfDay" + hero_Name;
+        token.transform.localScale = new Vector3(10, 0.1f, 10);
         token.transform.parent = GameObject.Find("Tokens").transform;
         token.transform.position = GameObject.Find("Timeline/Sunrise/" + hero_Name).transform.position;
     }
 
     public int GetFreeHours()
     {
-        return freeLimit - Index;
+        return GetFreeHours(Index);
     }
 
     public int GetExtendedHours()
     {
-        return Math.Min(extendedLimit - Index, extendedLimit - freeLimit);
+        return GetExtendedHours(Index);
+    }
+
+    public static int GetFreeHours(int index)
+    {
+        return freeLimit - index;
+    }
+
+    public static int GetExtendedHours(int index)
+    {
+        return Math.Min(extendedLimit - index, extendedLimit - freeLimit);
     }
 
     // Update time of day 

@@ -24,22 +24,22 @@ public class MoveCommand : MonoBehaviour, ICommand
         SetDestination
     }
 
-    private Hero hero;
+    private Movable movable;
     private Cell origin;
     private Cell goal;
     private MapPath path;
     private List<Cell> freeCells;
     private List<Cell> extCells;
     private List<Pair<Farmer, Cell>> farmers;
-    private TimeOfDay TimeOfDay;
+    private int timeOfDay;
     private List<Cell> stops;
     Action action;
     List<GameObject> farmerTargets;
     public PhotonView photonView;
 
-    public void Init(Hero hero)
+    public void Init(Movable movable)
     {
-        origin = hero.Cell;
+        origin = movable.Cell;
         farmers = new List<Pair<Farmer, Cell>>();
         action = Action.SetDestination;
         farmerTargets = new List<GameObject>();
@@ -53,7 +53,9 @@ public class MoveCommand : MonoBehaviour, ICommand
         EventManager.FarmerDestroyed += FarmerDestroyed;
         EventManager.ClearPath += ClearPath;
 
-        this.hero = hero;
+        this.movable = movable;
+        this.timeOfDay = GameManager.instance.CurrentPlayer.State.TimeOfDay.Index;
+
         Reset();
         EventManager.TriggerFarmersInventoriesUpdate(farmers.Count, GetDroppableFarmerCount(), GetDetachedFarmerCount());
     }
@@ -71,11 +73,10 @@ public class MoveCommand : MonoBehaviour, ICommand
 
     void Reset()
     {
-        origin = hero.Cell;
+        origin = movable.Cell;
         goal = origin;
         path = new MapPath(origin, Color.red);
-        TimeOfDay = (TimeOfDay)hero.State.TimeOfDay.Clone();
-        //ShowMovableArea();
+        timeOfDay = GameManager.instance.CurrentPlayer.State.TimeOfDay.Index;
 
         foreach (Pair<Farmer, Cell> farmer in farmers)
         {
@@ -105,10 +106,10 @@ public class MoveCommand : MonoBehaviour, ICommand
             cell.Reset();
         }
 
-        freeCells = goal.WithinRange(0, TimeOfDay.GetFreeHours());
+        freeCells = goal.WithinRange(0, TimeOfDay.GetFreeHours(timeOfDay));
 
-        int min = TimeOfDay.GetFreeHours() + 1;
-        int max = TimeOfDay.GetFreeHours() + TimeOfDay.GetExtendedHours();
+        int min = TimeOfDay.GetFreeHours(timeOfDay) + 1;
+        int max = TimeOfDay.GetFreeHours(timeOfDay) + TimeOfDay.GetExtendedHours(timeOfDay);
         extCells = goal.WithinRange(min, max);
 
         foreach (Cell cell in Cell.cells)
@@ -386,7 +387,7 @@ public class MoveCommand : MonoBehaviour, ICommand
         path.Extend(goal);
 
         // Path contains source cell so substract it
-        TimeOfDay.Index += path.Cells.Count - 1;
+        timeOfDay += path.Cells.Count - 1;
         ShowMovableArea();
 
         EventManager.TriggerFarmersInventoriesUpdate(farmers.Count, GetDroppableFarmerCount(), GetDetachedFarmerCount());
@@ -429,15 +430,15 @@ public class MoveCommand : MonoBehaviour, ICommand
 
         // full path here
 
-        EventManager.TriggerTimelineUpdate(hero, path);
+        EventManager.TriggerTimelineUpdate(GameManager.instance.CurrentPlayer, path);
 
         stops.Add(goal);
-        MoveComplete(hero);
+        MoveComplete(movable);
     }
 
     void MoveComplete(Movable movable)
     {
-        if (movable != hero) return;
+        if (movable != this.movable) return;
 
         if (stops.Count == 0)
         {
@@ -447,7 +448,7 @@ public class MoveCommand : MonoBehaviour, ICommand
         {
             Cell stop = stops[0];
             stops.RemoveAt(0);
-            Cell start = hero.Cell;
+            Cell start = movable.Cell;
 
             int startIndex = path.Cells.IndexOf(start);
             if(startIndex != -1) {
@@ -478,7 +479,7 @@ public class MoveCommand : MonoBehaviour, ICommand
                 int stopIndex = path.Cells.IndexOf(stop);
                 if(stopIndex != -1) {
                     List<Cell> subpathHero = path.Cells.GetRange(startIndex, stopIndex - startIndex + 1);
-                    hero.Move(subpathHero);
+                    movable.Move(subpathHero);
                 }
             }
         }

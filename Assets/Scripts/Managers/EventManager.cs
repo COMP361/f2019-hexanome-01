@@ -278,6 +278,17 @@ public class EventManager : MonoBehaviour
         }
     }
 
+    // Fired when the hero reached its final position after move
+    public delegate void MoveThoraldHandler();
+    public static event MoveThoraldHandler MoveThorald;
+    public static void TriggerMoveThorald()
+    {
+        if (MoveThorald != null)
+        {
+            MoveThorald();
+        }
+    }
+
     public delegate void FarmersInventoriesUpdateHandler(int attachedFarmers, int noTargetFarmers, int detachedFarmers);
     public static event FarmersInventoriesUpdateHandler FarmersInventoriesUpdate;
     public static void TriggerFarmersInventoriesUpdate(int attachedFarmers, int noTargetFarmers, int detachedFarmers)

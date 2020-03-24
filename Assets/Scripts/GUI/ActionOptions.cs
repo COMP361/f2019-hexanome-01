@@ -4,7 +4,7 @@ using UnityEngine.UI;
 public class ActionOptions : MonoBehaviour
 {
 
-    Button moveBtn, fightBtn, skipBtn, endTurnBtn, endDayBtn;
+    Button moveBtn, fightBtn, skipBtn, moveThoraldBtn, endTurnBtn, endDayBtn;
     bool actionsDisabled = false;
     bool fightDisabled = false;
 
@@ -34,6 +34,9 @@ public class ActionOptions : MonoBehaviour
 
         skipBtn = transform.Find("Skip Button").GetComponent<Button>();
         skipBtn.onClick.AddListener(delegate { EventManager.TriggerSkip(); });
+
+        moveThoraldBtn = transform.Find("Move Thorald Button").GetComponent<Button>();
+        moveThoraldBtn.onClick.AddListener(delegate { EventManager.TriggerMoveThorald(); });
 
         endTurnBtn = transform.Find("End Turn Button").GetComponent<Button>();
         endTurnBtn.onClick.AddListener(delegate { EventManager.TriggerEndTurn(); });

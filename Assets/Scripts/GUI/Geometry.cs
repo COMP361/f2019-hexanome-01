@@ -26,8 +26,8 @@ class Geometry {
         disc.transform.Rotate(90.0f, 0.0f, 0.0f, Space.Self);
 
         Renderer discRenderer = disc.GetComponent<Renderer>();
-        discRenderer.material.SetColor("_Color", color);
-        discRenderer.material.shader = Shader.Find("UI/Default");
+        discRenderer.material.SetColor("_EmissionColor", color);
+        //discRenderer.material.shader = Shader.Find("Sprites/Default");
 
         return disc;
     }

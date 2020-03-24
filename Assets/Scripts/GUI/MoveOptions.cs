@@ -9,6 +9,10 @@ public class MoveOptions : MonoBehaviour {
 
     void OnEnable() {
         EventManager.MoveSelect += Show;
+        EventManager.MoveThorald += Show;
+        EventManager.MoveThorald += DisableHeroOptions;
+        EventManager.MoveCancel += EnableHeroOptions;
+        EventManager.MoveConfirm += EnableHeroOptions;
         EventManager.MoveCancel += Hide;
         EventManager.MoveConfirm += Hide;
         EventManager.PathUpdate += LockConfirm;
@@ -21,6 +25,10 @@ public class MoveOptions : MonoBehaviour {
 
     void OnDisable() {
         EventManager.MoveSelect -= Show;
+        EventManager.MoveThorald -= Show;
+        EventManager.MoveThorald -= DisableHeroOptions;
+        EventManager.MoveCancel -= EnableHeroOptions;
+        EventManager.MoveConfirm -= EnableHeroOptions;
         EventManager.MoveCancel -= Hide;
         EventManager.MoveConfirm -= Hide;
         EventManager.PathUpdate -= LockConfirm;
@@ -92,5 +100,15 @@ public class MoveOptions : MonoBehaviour {
 
     public void Hide() {
         panel.SetActive(false);
+    }
+
+    public void DisableHeroOptions() {
+        pickFarmerBtn.gameObject.SetActive(false);
+        dropFarmerBtn.gameObject.SetActive(false);
+    }
+
+    public void EnableHeroOptions() {
+        pickFarmerBtn.gameObject.SetActive(true);
+        dropFarmerBtn.gameObject.SetActive(true);
     }
 }
