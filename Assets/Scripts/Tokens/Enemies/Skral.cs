@@ -10,7 +10,7 @@ public class Skral : Enemy
     public static Skral Factory(int cellID)
     {
 
-        Sprite sprite = Resources.Load<Sprite>("Sprites/Enemies/skral");
+        Sprite sprite = Resources.Load<Sprite>("Sprites/Tokens/Enemies/Skral");
         GameObject go = new GameObject("Skral");
         SpriteRenderer renderer = go.AddComponent<SpriteRenderer>();
         renderer.sprite = sprite;

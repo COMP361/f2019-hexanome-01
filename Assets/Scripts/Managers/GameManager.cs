@@ -17,8 +17,10 @@ public class GameManager : Singleton<GameManager>
     public List<Player> players;
     public Queue<Player> playerTurn;
     public List<Hero> heroes;
+
     public List<Farmer> farmers;
     public List<Enemy> gors, skrals, trolls, wardraks;
+    public Thorald thorald;
     private int currentPlayerIndex = 0;
     private int mainHeroIndex = -1;
     public Fog fog;
@@ -150,6 +152,8 @@ public class GameManager : Singleton<GameManager>
             heroes.Add(Mage.Instance);
             heroes.Add(Dwarf.Instance);
         }
+
+        thorald = Thorald.Instance;
 
         // FARMERS
         farmers = new List<Farmer>();

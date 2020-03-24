@@ -17,6 +17,7 @@ public class Hero : Movable
     protected Sex sex = Sex.Female;
 
     protected string[] names;
+    
     protected int rank;
 
     //void OnTokenMoveComplete(Token token, Cell c) {
@@ -24,8 +25,8 @@ public class Hero : Movable
     //}
 
     public string Type { get; protected set; }
-
     public HeroState State { get; set; }
+    public Color Color { get; set; }
 
     public string HeroName
     {
@@ -44,8 +45,6 @@ public class Hero : Movable
             return State.action;
         }
     }
-
-    public Color Color { get; set; }
 
     protected override Vector3 getWaypoint(Cell cell)
     {
