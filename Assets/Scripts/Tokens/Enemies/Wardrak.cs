@@ -3,18 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Wardrak : Enemy {
-    //int dices;
-    static Color color = Color.black;
-
+    
     public static Wardrak Factory(int cellID) {
-        GameObject go = Geometry.Disc(Vector3.zero, color);
+        Sprite sprite = Resources.Load<Sprite>("Sprites/Tokens/Enemies/Wardrak");
+        GameObject go = new GameObject("Wardrak");
+        SpriteRenderer renderer = go.AddComponent<SpriteRenderer>();
+        renderer.sprite = sprite;
+        renderer.sortingOrder = 2;
         go.transform.localScale = new Vector3(10, 10, 10);
         
         Wardrak wardrak = go.AddComponent<Wardrak>();
         wardrak.TokenName = Type;
-
-        Cell cell = Cell.FromId(cellID);
-        wardrak.Cell = cell;
+        wardrak.Cell = Cell.FromId(cellID);
         
         wardrak.Will = 7;
         wardrak.Strength = 10;

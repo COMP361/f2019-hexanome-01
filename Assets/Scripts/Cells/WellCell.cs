@@ -34,15 +34,15 @@ public class WellCell : Cell
     public void emptyWell(Hero hero, Well well)
     {
       if(Index == hero.Cell.Index){
-        int currWP = hero.State.Willpower;
+        int currWP = hero.Willpower;
         if(hero.TokenName.Equals("Warrior")){
           currWP = currWP + 5;
         }
         else{
         currWP = currWP + 3;
         }
-        hero.State.Willpower = currWP;
-        Debug.Log("Hero pick well: " + hero.TokenName + " WILLPOWER: " + hero.State.Willpower);
+        hero.Willpower = currWP;
+        Debug.Log("Hero pick well: " + hero.TokenName + " WILLPOWER: " + hero.Willpower);
         EventManager.TriggerCurrentPlayerUpdate(hero);
     //    isEmptied = true;
     //    goFullWell.SetActive(false);

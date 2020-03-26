@@ -25,11 +25,8 @@ public class Archer : Hero
         archer.TokenName = archer.Type;
 
         archer.rank = 25;
-        Cell cell = Cell.FromId(archer.rank);
-        archer.Cell = cell;
-
-        archer.State = new HeroState(cell, color, archer.name, archer.Type.ToString());
-
+        archer.Cell = Cell.FromId(archer.rank);
+        
         archer.Dices = new int[21] {
             3, 3, 3, 3, 3, 3, 3,
             4, 4, 4, 4, 4, 4, 4,
@@ -40,6 +37,8 @@ public class Archer : Hero
             "Chada",
             "Pasco"
         };
+
+        archer.Init();
     }
 
     void Awake()

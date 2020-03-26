@@ -33,9 +33,7 @@ public class Fog {
 
                 Token fogToken = fog.AddComponent<Token>();
                 fogToken.TokenName = sprite.name + "Fog";
-
-                Cell cell = Cell.FromId(cellsID[j]);
-                fogToken.Cell = cell;
+                fogToken.Cell = Cell.FromId(cellsID[j]);
 
                 tokens.Add(fogToken);
             }

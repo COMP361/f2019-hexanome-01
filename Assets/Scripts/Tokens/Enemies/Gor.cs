@@ -18,9 +18,7 @@ public class Gor : Enemy
 
         Gor gor = go.AddComponent<Gor>();
         gor.TokenName = Type;
-
-        Cell cell = Cell.FromId(cellID);
-        gor.Cell = cell;
+        gor.Cell = Cell.FromId(cellID);
 
         gor.Will = 4;
         gor.Strength = 2;

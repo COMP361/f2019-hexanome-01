@@ -62,7 +62,7 @@ public class GoldOptions : MonoBehaviour
 
     public void DropGold() {
         // EventManager.TriggerDropGoldClick();
-        GameManager.instance.MainHero.State.heroInventory.RemoveGold(1);
+        GameManager.instance.MainHero.heroInventory.RemoveGold(1);
         photonView.RPC("DropGoldRPC", RpcTarget.AllViaServer);
         Hide();
     }
@@ -79,7 +79,7 @@ public class GoldOptions : MonoBehaviour
         Cell cell = Cell.FromId(GameManager.instance.MainHero.Cell.Index);
         cell.Inventory.RemoveToken(gold);
         InventoryUICell.instance.ForceUpdate(cell.Inventory, cell.Index);
-        GameManager.instance.MainHero.State.heroInventory.AddGold(gold);
+        GameManager.instance.MainHero.heroInventory.AddGold(gold);
         Hide();
     }
 }

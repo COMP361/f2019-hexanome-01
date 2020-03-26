@@ -24,7 +24,6 @@ public class GameManager : Singleton<GameManager>
     private int currentPlayerIndex = 0;
     private int mainHeroIndex = -1;
     public Fog fog;
-    public HeroState state;
     public LegendCards legendCards;
     public EventCards eventCards;
     public Castle castle;
@@ -48,13 +47,13 @@ public class GameManager : Singleton<GameManager>
     {
         EventManager.MoveSelect += InitMove;
         EventManager.MoveThorald += InitThoraldMove;
-        EventManager.MoveCancel += ResetCommand;
         EventManager.MoveConfirm += ExecuteMove;
         EventManager.EnemyDestroyed += RemoveEnemy;
         EventManager.FarmerDestroyed += RemoveFarmer;
         EventManager.EndTurn += EndTurn;
         EventManager.EndDay += EndDay;
         EventManager.StartDay += StartDay;
+        EventManager.Skip += Skip;
         EventManager.MoveComplete += UpdateMonsterToMove;
         EventManager.DistributeGold += DistributeGold;
         EventManager.DistributeWinekins += DistributeWineskins;
@@ -64,7 +63,6 @@ public class GameManager : Singleton<GameManager>
     {
         EventManager.MoveSelect -= InitMove;
         EventManager.MoveThorald -= InitThoraldMove;
-        EventManager.MoveCancel -= ResetCommand;
         EventManager.MoveConfirm -= ExecuteMove;
         EventManager.EnemyDestroyed -= RemoveEnemy;
         EventManager.FarmerDestroyed -= RemoveFarmer;
@@ -144,7 +142,6 @@ public class GameManager : Singleton<GameManager>
             }
 
             playerTurn = new Queue<Player>(players);
-            EventManager.TriggerMainHeroInit(MainHero);
 
         }
         else
@@ -155,6 +152,7 @@ public class GameManager : Singleton<GameManager>
             heroes.Add(Dwarf.Instance);
         }
 
+        EventManager.TriggerMainHeroInit(MainHero);
         thorald = Thorald.Instance;
 
         // FARMERS
@@ -264,7 +262,7 @@ public class GameManager : Singleton<GameManager>
             {
                 GameObject goldCoinGO = PhotonNetwork.Instantiate("Prefabs/Tokens/GoldCoin", Vector3.zero, Quaternion.identity, 0);
                 Token goldCoin = goldCoinGO.GetComponent<GoldCoin>();
-                warrior.State.heroInventory.AddGold(goldCoin);
+                warrior.heroInventory.AddGold(goldCoin);
                 warriorGold--;
             }
 
@@ -276,7 +274,7 @@ public class GameManager : Singleton<GameManager>
             {
                 GameObject goldCoinGO = PhotonNetwork.Instantiate("Prefabs/Tokens/GoldCoin", Vector3.zero, Quaternion.identity, 0);
                 Token goldCoin = goldCoinGO.GetComponent<GoldCoin>();
-                archer.State.heroInventory.AddGold(goldCoin);
+                archer.heroInventory.AddGold(goldCoin);
                 archerGold--;
             }
         }
@@ -287,7 +285,7 @@ public class GameManager : Singleton<GameManager>
             {
                 GameObject goldCoinGO = PhotonNetwork.Instantiate("Prefabs/Tokens/GoldCoin", Vector3.zero, Quaternion.identity, 0);
                 Token goldCoin = goldCoinGO.GetComponent<GoldCoin>();
-                dwarf.State.heroInventory.AddGold(goldCoin);
+                dwarf.heroInventory.AddGold(goldCoin);
                 dwarfGold--;
             }
         }
@@ -298,7 +296,7 @@ public class GameManager : Singleton<GameManager>
             {
                 GameObject goldCoinGO = PhotonNetwork.Instantiate("Prefabs/Tokens/GoldCoin", Vector3.zero, Quaternion.identity, 0);
                 Token goldCoin = goldCoinGO.GetComponent<GoldCoin>();
-                mage.State.heroInventory.AddGold(goldCoin);
+                mage.heroInventory.AddGold(goldCoin);
                 mageGold--;
             }
         }
@@ -318,7 +316,7 @@ public class GameManager : Singleton<GameManager>
             while (warriorWineskins != 0)
             {
                 Token wineskin = Wineskin.Factory();
-                warrior.State.heroInventory.AddSmallToken(wineskin);
+                warrior.heroInventory.AddSmallToken(wineskin);
                 warriorWineskins--;
             }
 
@@ -330,7 +328,7 @@ public class GameManager : Singleton<GameManager>
             while (archerWineskins != 0)
             {
                 Token wineskin = Wineskin.Factory();
-                archer.State.heroInventory.AddSmallToken(wineskin);
+                archer.heroInventory.AddSmallToken(wineskin);
                 archerWineskins--;
             }
         }
@@ -341,7 +339,7 @@ public class GameManager : Singleton<GameManager>
             while (dwarfWineskins != 0)
             {
                 Token wineskin = Wineskin.Factory();
-                dwarf.State.heroInventory.AddSmallToken(wineskin);
+                dwarf.heroInventory.AddSmallToken(wineskin);
                 dwarfWineskins--;
             }
         }
@@ -352,7 +350,7 @@ public class GameManager : Singleton<GameManager>
             while (mageWineskins != 0)
             {
                 Token wineskin = Wineskin.Factory();
-                mage.State.heroInventory.AddSmallToken(wineskin);
+                mage.heroInventory.AddSmallToken(wineskin);
                 mageWineskins--;
             }
         }
@@ -364,12 +362,17 @@ public class GameManager : Singleton<GameManager>
         }
     }
 
+    void Skip() {
+        CurrentPlayer.timeline.Update(1);
+        EndTurn();
+    }
+
     void StartDay()
     {
         InitMonsterMove();
         foreach (Hero h in heroes)
         {
-            h.State.TimeOfDay.EndDay();
+            h.timeline.EndDay();
         }
         foreach (WellCell well in wells) {
             well.resetWell();
@@ -390,21 +393,22 @@ public class GameManager : Singleton<GameManager>
 
         EventManager.TriggerActionUpdate(Action.None.Value);
         EventManager.TriggerCurrentPlayerUpdate(CurrentPlayer);
-        state = (HeroState)CurrentPlayer.State.Clone();
+        //state = (HeroState)CurrentPlayer.State.Clone();
     }
 
     void EndTurn()
     {
-        CurrentPlayer.State.action = Action.None;
+        CurrentPlayer.Action = Action.None;
         playerTurn.Enqueue(playerTurn.Dequeue());
         GiveTurn();
     }
 
     void EndDay()
     {
-        CurrentPlayer.State.action = Action.None;
-        CurrentPlayer.State.resetTimeOfDay();
+        CurrentPlayer.Action = Action.None;
+        CurrentPlayer.timeline.Reset();
         playerTurn.Dequeue();
+
         if (playerTurn.Count() == 0)
         {
             EventManager.TriggerStartDay();
@@ -434,7 +438,6 @@ public class GameManager : Singleton<GameManager>
     [PunRPC]
     void InitMoveRPC(int viewId)
     {
-        Debug.Log("Init Move Reached");
         command = PhotonView.Find(viewId).GetComponentInParent<MoveCommand>();
         ((MoveCommand)command).Init(CurrentPlayer);
     }
@@ -458,7 +461,6 @@ public class GameManager : Singleton<GameManager>
     [PunRPC]
     void InitThoraldMoveRPC(int viewId)
     {
-        Debug.Log("Init Move Thorald Reached");
         command = PhotonView.Find(viewId).GetComponentInParent<MoveCommand>();
         ((MoveCommand)command).Init(thorald);
     }
@@ -466,11 +468,6 @@ public class GameManager : Singleton<GameManager>
     void ExecuteMove()
     {
         command.Execute();
-    }
-
-    void ResetCommand()
-    {
-        command.Dispose();
     }
 
     public Hero CurrentPlayer

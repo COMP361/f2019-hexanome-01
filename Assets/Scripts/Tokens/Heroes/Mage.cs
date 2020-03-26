@@ -25,11 +25,8 @@ public class Mage : Hero
         mage.TokenName = mage.Type;
 
         mage.rank = 34;
-        Cell cell = Cell.FromId(mage.rank);
-        mage.Cell = cell;
+        mage.Cell = Cell.FromId(mage.rank);
         
-        mage.State = new HeroState(cell, color, mage.name, mage.Type.ToString());
-
         mage.Dices = new int[21] {
             1, 1, 1, 1, 1, 1, 1,
             1, 1, 1, 1, 1, 1, 1,
@@ -40,6 +37,8 @@ public class Mage : Hero
             "Eara",
             "Liphardus"
         };
+
+        mage.Init();
     }
 
     void Awake()

@@ -5,8 +5,7 @@ using System;
 
 public class Farmer : Movable {
     static Color color = Color.white;
-    bool isAttached;
-
+    
     Sprite sprite;
     Sprite attachedSprite;
     SpriteRenderer sr;
@@ -32,9 +31,7 @@ public class Farmer : Movable {
         Farmer farmer = go.AddComponent<Farmer>();
         go.transform.localScale = new Vector3(15, 15, 15);
         farmer.TokenName = Type;
-
-        Cell cell = Cell.FromId(cellID);
-        farmer.Cell = cell;
+        farmer.Cell = Cell.FromId(cellID);
 
         return farmer;
     }
@@ -50,15 +47,12 @@ public class Farmer : Movable {
         if (attachedSprite != null) {
             sr.sprite = attachedSprite;
         }
-        isAttached = true;
     }
 
     public void Detach() {
         if (attachedSprite != null) {
             sr.sprite = sprite;
         }
-
-        isAttached = false;
     }
 
     public static string Type { get => typeof(Farmer).ToString(); }

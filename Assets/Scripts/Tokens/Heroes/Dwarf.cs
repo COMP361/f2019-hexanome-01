@@ -25,10 +25,7 @@ public class Dwarf : Hero
         dwarf.TokenName = dwarf.Type;
 
         dwarf.rank = 7;
-        Cell cell = Cell.FromId(dwarf.rank);
-        dwarf.Cell = cell;
-
-        dwarf.State = new HeroState(cell, color, dwarf.name, dwarf.Type.ToString());
+        dwarf.Cell = Cell.FromId(dwarf.rank);
 
         dwarf.Dices = new int[21] {
             1, 1, 1, 1, 1, 1, 1,
@@ -40,6 +37,8 @@ public class Dwarf : Hero
             "Brigha",
             "Kram"
         };
+
+        dwarf.Init();
     }
 
     void Awake()

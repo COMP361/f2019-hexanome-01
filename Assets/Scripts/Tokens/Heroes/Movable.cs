@@ -9,6 +9,7 @@ public abstract class Movable : Token
     List<Cell> path;
     Sprite icon;
     protected virtual string IconPath => String.Empty;
+    public float MoveCost { get; set; } = 0;
 
     void Update()
     {

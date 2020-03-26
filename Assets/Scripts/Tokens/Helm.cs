@@ -32,9 +32,7 @@ public class Helm : Token
 
         Helm helm = go.AddComponent<Helm>();
         helm.TokenName = Type;
-
-        Cell cell = Cell.FromId(cellID);
-        helm.Cell = cell;
+        helm.Cell = Cell.FromId(cellID);
 
         return helm;
       }

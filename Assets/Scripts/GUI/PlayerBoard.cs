@@ -30,8 +30,8 @@ public class PlayerBoard : MonoBehaviour
     }
 
     private void UpdatePlayerStats(Hero hero) {
-        strength.text = hero.State.Strength.ToString();
-        willPower.text = hero.State.Willpower.ToString();
+        strength.text = hero.Strength.ToString();
+        willPower.text = hero.Willpower.ToString();
     }
 
     void UpdateFarmerCount(int attachedFarmers, int noTargetFarmers, int detachedFarmers) {
@@ -49,5 +49,7 @@ public class PlayerBoard : MonoBehaviour
 
         GameObject go = heroes.Find(hero.name + "/" + hero.HeroName).gameObject;
         go.SetActive(true);
+
+        UpdatePlayerStats(hero);
     }
 }

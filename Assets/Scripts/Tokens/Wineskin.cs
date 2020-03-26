@@ -29,9 +29,7 @@ public class Wineskin : SmallToken
 
         Wineskin wineskin = go.AddComponent<Wineskin>();
         wineskin.TokenName = Type;
-
-        Cell cell = Cell.FromId(cellID);
-        wineskin.Cell = cell;
+        wineskin.Cell = Cell.FromId(cellID);
 
         return wineskin;
     }
