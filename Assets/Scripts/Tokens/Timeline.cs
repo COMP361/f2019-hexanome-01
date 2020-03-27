@@ -84,15 +84,10 @@ public class Timeline
             return;
         }
 
-        Debug.Log("cost: " + cost);
-        Debug.Log("extendedHours: " + extendedHours);
-        Debug.Log("freeHours: " + freeHours);
-
         // if path reaches 8, 9 10 decreae willpoints
         if (cost > freeHours) { 
             int wp = (cost - freeHours) * 2;
-            Debug.Log(wp);
-            hero.decrementWP(wp); 
+            hero.decrementWP(wp);
         }
 
         Index += cost;

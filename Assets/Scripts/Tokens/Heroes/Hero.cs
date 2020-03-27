@@ -48,6 +48,6 @@ public class Hero : Movable
     public void decrementWP(int points) {
         if(points < 0) return;
         if(points >= Willpower) Willpower = 0; else Willpower -= points;
-        EventManager.TriggerCurrentPlayerUpdate(this);
+        EventManager.TriggerUpdateHeroStats(this);
     }
 }
