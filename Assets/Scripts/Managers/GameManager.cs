@@ -18,14 +18,13 @@ public class GameManager : Singleton<GameManager>
     public Queue<Player> playerTurn;
     public List<Hero> heroes;
 
+    public Narrator narrator;
     public List<Farmer> farmers;
     public List<Enemy> gors, skrals, trolls, wardraks;
     public Thorald thorald;
     private int currentPlayerIndex = 0;
     private int mainHeroIndex = -1;
     public Fog fog;
-    public HeroState state;
-    public LegendCardDeck legendCardDeck;
     public EventCards eventCards;
     public Castle castle;
     private ICommand command;
@@ -107,6 +106,8 @@ public class GameManager : Singleton<GameManager>
         castle.Init(players.Count);
         monstersToMove = new List<Enemy>();
 
+        narrator = new Narrator(); 
+
         heroes = new List<Hero>();
 
         if (!PhotonNetwork.OfflineMode)
@@ -177,7 +178,6 @@ public class GameManager : Singleton<GameManager>
         trolls = new List<Enemy>();
         wardraks = new List<Enemy>();
 
-        legendCardDeck = new LegendCardDeck();
         eventCards = new EventCards();
 
         fog = new Fog();
