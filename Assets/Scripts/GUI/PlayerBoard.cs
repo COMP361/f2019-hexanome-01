@@ -9,16 +9,16 @@ public class PlayerBoard : MonoBehaviour
     Text farmerCount;
     Text willPower;
     Text strength;
-    
+
     void OnEnable() {
         EventManager.FarmersInventoriesUpdate += UpdateFarmerCount;
-        EventManager.CurrentPlayerUpdate += UpdatePlayerStats;
+        EventManager.UpdateHeroStats += UpdatePlayerStats;
         EventManager.MainHeroInit += InitHero;
     }
 
     void OnDisable() {
         EventManager.FarmersInventoriesUpdate -= UpdateFarmerCount;
-        EventManager.CurrentPlayerUpdate -= UpdatePlayerStats;
+        EventManager.UpdateHeroStats -= UpdatePlayerStats;
         EventManager.MainHeroInit += InitHero;
     }
 
