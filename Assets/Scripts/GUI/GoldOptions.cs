@@ -62,16 +62,20 @@ public class GoldOptions : MonoBehaviour
 
     public void DropGold() {
         // EventManager.TriggerDropGoldClick();
-        GameManager.instance.MainHero.State.heroInventory.RemoveGold(1);
-        photonView.RPC("DropGoldRPC", RpcTarget.AllViaServer);
+       GameManager.instance.MainHero.heroInventory.RemoveGold(1);
+       //  photonView.RPC("DropGoldRPC", RpcTarget.AllViaServer);
+       int cellID = GameManager.instance.MainHero.Cell.Index;
+       GameManager.instance.photonView.RPC("AddGoldCellRPC", RpcTarget.AllViaServer, cellID);
+
         Hide();
     }
 
     [PunRPC]
     public void DropGoldRPC(){
-        GameObject goldCoinGO = PhotonNetwork.Instantiate("Prefabs/Tokens/GoldCoin", Vector3.zero, Quaternion.identity, 0);
-        Token goldCoin = goldCoinGO.GetComponent<GoldCoin>();
-        GameManager.instance.photonView.RPC("AddGoldCellRPC", RpcTarget.AllViaServer, GameManager.instance.MainHero.Cell.Index);
+    //    GameObject goldCoinGO = PhotonNetwork.Instantiate("Prefabs/Tokens/GoldCoin", Vector3.zero, Quaternion.identity, 0);
+    //    Token goldCoin = goldCoinGO.GetComponent<GoldCoin>();
+    //    int cellID = GameManager.instance.MainHero.Cell.Index;
+    //    GameManager.instance.photonView.RPC("AddGoldCellRPC", RpcTarget.AllViaServer, cellID);
     }
 
     public void PickGold() {
@@ -79,7 +83,7 @@ public class GoldOptions : MonoBehaviour
         Cell cell = Cell.FromId(GameManager.instance.MainHero.Cell.Index);
         cell.Inventory.RemoveToken(gold);
         InventoryUICell.instance.ForceUpdate(cell.Inventory, cell.Index);
-        GameManager.instance.MainHero.State.heroInventory.AddGold(gold);
+        GameManager.instance.MainHero.heroInventory.AddGold(gold);
         Hide();
     }
 }

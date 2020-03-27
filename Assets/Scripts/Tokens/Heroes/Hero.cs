@@ -10,25 +10,19 @@ public enum Sex
     Male
 }
 
-[RequireComponent(typeof(HeroInventory))]
-
 public class Hero : Movable
 {
     protected Sex sex = Sex.Female;
 
     protected string[] names;
     protected int rank;
-
-    //void OnTokenMoveComplete(Token token, Cell c) {
-    //  State.cell = c;
-    //}
-
     public string Type { get; protected set; }
-
-    public HeroState State { get; set; }
-
-    public string HeroName
-    {
+    public Color Color { get; set; }
+    
+    public Timeline timeline;
+    public HeroInventory heroInventory;
+    
+    public string HeroName {
         get
         {
             return names[(int)sex];
@@ -36,58 +30,24 @@ public class Hero : Movable
     }
 
     public int[] Dices { get; protected set; }
-
-    public Action Action
-    {
-        get
-        {
-            return State.action;
-        }
-    }
-
-    public Color Color { get; set; }
-
+    public Action Action { get; set; } = Action.None;
+    public int Strength { get; set; } = 1;
+    public int Willpower { get; set; } = 7;
+ 
     protected override Vector3 getWaypoint(Cell cell)
     {
         return cell.HeroesPosition;
     }
-}
 
-public class HeroState : ICloneable
-{
-    public Action action;
-    public Cell cell;
-    public TimeOfDay TimeOfDay;
-    public HeroInventory heroInventory;
+    public void Init() {
+        timeline = new Timeline(this);
+        heroInventory = new HeroInventory(Type.ToString());
+        MovePerHour = 1;
+    } 
 
-    private int freeMove;
-    public int Strength { get; set; }
-    public int Willpower { get; set; }
-
-    public HeroState(Cell cell, Color color, string heroName, string parentHero)
-    {
-        this.cell = cell;
-        action = Action.None;
-        TimeOfDay = new TimeOfDay(color, heroName);
-        heroInventory = new HeroInventory(parentHero);
-        Strength = 1;
-        Willpower = 7;
-    }
-
-    public object Clone()
-    {
-        HeroState hs = (HeroState)this.MemberwiseClone();
-        hs.TimeOfDay = (TimeOfDay)TimeOfDay.Clone();
-        return hs;
-    }
-
-    public void resetTimeOfDay()
-    {
-        TimeOfDay.reset();
-    }
-
-    public void decrementWP(int points)
-    {
-        if (points >= Willpower) Willpower = 0; else Willpower -= points;
+    public void decrementWP(int points) {
+        if(points < 0) return;
+        if(points >= Willpower) Willpower = 0; else Willpower -= points;
+        EventManager.TriggerUpdateHeroStats(this);
     }
 }

@@ -12,8 +12,23 @@ using UnityEngine;
 /// </summary>
 public class Token : MonoBehaviour {
     protected string description;
-    protected Cell cell { get; private set; }
+    private Cell _cell;
+    public Cell Cell {
+        get {
+            return _cell;
+        }
+        set {
+            if(_cell != null && _cell.Inventory != null){
+              _cell.Inventory.RemoveToken(this);
+            }
+            _cell = value;
+            gameObject.transform.position = getWaypoint(_cell);
+            _cell.Inventory.AddToken(this);
 
+            EventManager.TriggerCellUpdate(this);
+        }
+    }
+    
     public void OnEnable() {
         this.transform.parent = GameObject.Find("Tokens").transform;
     }
@@ -47,21 +62,5 @@ public class Token : MonoBehaviour {
 
     protected virtual Vector3 getWaypoint(Cell cell) {
         return cell.TokensPosition;
-    }
-
-    public Cell Cell {
-        get {
-            return cell;
-        }
-        set {
-            if(cell != null && cell.Inventory != null){
-              cell.Inventory.RemoveToken(this);
-            }
-            cell = value;
-            gameObject.transform.position = getWaypoint(cell);
-            cell.Inventory.AddToken(this);
-
-            EventManager.TriggerCellUpdate(this);
-        }
     }
 }

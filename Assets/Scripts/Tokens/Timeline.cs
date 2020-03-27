@@ -1,0 +1,126 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using System;
+
+public class Timeline
+{
+    public int Index { get; set; }
+    public static int freeLimit = 7;
+    public static int extendedLimit = 10;
+    GameObject token;
+    Hero hero;
+
+    public Timeline(Hero hero)
+    {
+        Index = 0;
+        this.hero = hero;
+        
+        token = new GameObject("Timeline" + hero.GetType());
+        Sprite sprite = Resources.Load<Sprite>("Sprites/Tokens/Heroes/" + hero.GetType().ToString());
+        SpriteRenderer sr = token.AddComponent<SpriteRenderer>();
+        sr.sprite = sprite;
+        sr.sortingOrder = 2;
+        token.transform.localScale = new Vector3(10, 10, 10);
+        token.transform.parent = GameObject.Find("Tokens").transform;
+        token.transform.position = GameObject.Find("Timeline/Sunrise/" + hero.name).transform.position;
+
+        EventManager.Move += OnMove;
+    }
+
+    ~Timeline() {
+        EventManager.Move -= OnMove;
+    }
+
+    public bool HasHoursLeft()
+    {
+        return GetFreeHours() > 0 || GetExtendedHours() > 0;
+    }
+
+    public int GetFreeHours()
+    {
+        return GetFreeHours(Index);
+    }
+
+    public int GetExtendedHours()
+    {
+        return GetExtendedHours(Index, hero.Willpower);
+    }
+
+    public static int GetFreeHours(int index)
+    {
+        return Math.Max(freeLimit - index, 0);
+    }
+
+    public static int GetExtendedHours(int index, int willpower)
+    {
+        int count = Math.Min(extendedLimit - index, extendedLimit - freeLimit);
+        int i;
+        for(i = 0; i <= count; i++) {
+            if(willpower - i * 2 < 2) break;
+        }
+        return i;
+    }
+
+    private void OnMove(Movable movable, int qty) {
+        if(movable.MovePerHour == 0) return;
+        if(GameManager.instance.CurrentPlayer != hero) return;
+        
+        int cost = (int)Math.Ceiling((double)qty/movable.MovePerHour);
+        Update(cost);
+    }
+
+    // Update time of day 
+    public void Update(int cost)
+    {
+        int freeHours = GetFreeHours();
+        int extendedHours = GetExtendedHours();
+        
+        if (Index + cost > extendedLimit) {
+            Debug.Log("Invalid Change of Timeline");
+            Debug.Log("Index");
+            Debug.Log(cost);
+            
+            return;
+        }
+
+        // if path reaches 8, 9 10 decreae willpoints
+        if (cost > freeHours) { 
+            int wp = (cost - freeHours) * 2;
+            hero.decrementWP(wp);
+        }
+
+        Index += cost;
+        token.transform.position = GameObject.Find("Timeline/" + Index + "/" + hero.GetType()).transform.position;
+    }
+
+    void Update(Hero hero, int cost) {
+        if(hero != this.hero) return;        
+        Update(cost);
+    }
+
+    public void Reset()
+    {
+        Index = 0;
+        token.transform.position = GameObject.Find("Timeline/Sunrise/" + hero.GetType()).transform.position;
+    }
+
+    public void EndDay()
+    {
+        Index = 0;
+        token.transform.position = GameObject.Find("Timeline/Sunrise/" + hero.GetType()).transform.position;
+    }
+
+    /*void OnDrawGizmos()
+    {
+        Gizmos.color = Color.blue;
+
+        foreach (Transform child in transform)
+        {
+            Gizmos.DrawSphere(child.Find("Mage").transform.position, 3f);
+            Gizmos.DrawSphere(child.Find("Warrior").transform.position, 3f);
+            Gizmos.DrawSphere(child.Find("Dwarf").transform.position, 3f);
+            Gizmos.DrawSphere(child.Find("Archer").transform.position, 3f);
+        }
+    }*/
+}

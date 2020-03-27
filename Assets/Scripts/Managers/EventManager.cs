@@ -96,7 +96,7 @@ public class EventManager : MonoBehaviour
     [PunRPC]
     public void TriggerSkipRPC()
     {
-        EventManager.TriggerActionUpdate(Action.Skip.Value);
+        EventManager.TriggerActionUpdate(Action.None.Value);
         if (Skip != null) Skip();
     }
 
@@ -105,6 +105,7 @@ public class EventManager : MonoBehaviour
     public static event EndTurnHandler EndTurn;
     public static void TriggerEndTurn()
     {
+        Debug.Log("Trigger End Turn");
         if (!PhotonNetwork.OfflineMode)
         {
             GameManager.instance.photonView.RPC("TriggerEndTurnRPC", RpcTarget.AllViaServer);
@@ -176,18 +177,6 @@ public class EventManager : MonoBehaviour
         }
     }
 
-    // Fired when we cancel the move action before confirming
-    public delegate void MoveCancelHandler();
-    public static event MoveCancelHandler MoveCancel;
-    public static void TriggerMoveCancel()
-    {
-        EventManager.TriggerActionUpdate(Action.None.Value);
-
-        if (MoveCancel != null)
-        {
-            MoveCancel();
-        }
-    }
 
     // Fired when we confirm the move action
     public delegate void MoveConfirmHandler();
@@ -257,13 +246,13 @@ public class EventManager : MonoBehaviour
     }
 
     // Fired when the hero reached its final position after move
-    public delegate void MoveStartHandler(Movable movable);
-    public static event MoveStartHandler MoveStart;
-    public static void TriggerMoveStart(Movable movable)
+    public delegate void MoveHandler(Movable movable, int qty);
+    public static event MoveHandler Move;
+    public static void TriggerMove(Movable movable, int qty)
     {
-        if (MoveStart != null)
+        if (Move != null)
         {
-            MoveStart(movable);
+            Move(movable, qty);
         }
     }
 
@@ -275,6 +264,19 @@ public class EventManager : MonoBehaviour
         if (MoveComplete != null)
         {
             MoveComplete(movable);
+        }
+    }
+
+    // Fired when the hero reached its final position after move
+    public delegate void MoveThoraldHandler();
+    public static event MoveThoraldHandler MoveThorald;
+    public static void TriggerMoveThorald()
+    {
+        EventManager.TriggerActionUpdate(Action.MoveThorald.Value);
+        
+        if (MoveThorald != null)
+        {
+            MoveThorald();
         }
     }
 
@@ -558,14 +560,13 @@ public class EventManager : MonoBehaviour
         }
     }
 
-    public delegate void TimelineUpdateHandler(Hero hero, MapPath path);
-    public static event TimelineUpdateHandler TimelineUpdate;
-    public static void TriggerTimelineUpdate(Hero hero, MapPath path)
+    public delegate void UpdateHeroStatsHandler(Hero hero);
+    public static event UpdateHeroStatsHandler UpdateHeroStats;
+    public static void TriggerUpdateHeroStats(Hero hero)
     {
-        if (TimelineUpdate != null)
+        if (UpdateHeroStats != null)
         {
-            TimelineUpdate(hero, path);
+            UpdateHeroStats(hero);
         }
     }
-
 }

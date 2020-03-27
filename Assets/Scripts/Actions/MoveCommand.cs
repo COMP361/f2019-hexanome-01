@@ -18,46 +18,68 @@ public class Pair<T1, T2>
 
 public class MoveCommand : MonoBehaviour, ICommand
 {
-    public enum Action
+    public enum MoveAction
     {
         DetachFarmer,
         SetDestination
     }
 
-    private Hero hero;
-    private Cell origin;
+    private Movable movable;
+    //private int timeCost;
+    //private int willpowerCost;
     private Cell goal;
     private MapPath path;
     private List<Cell> freeCells;
     private List<Cell> extCells;
     private List<Pair<Farmer, Cell>> farmers;
-    private TimeOfDay TimeOfDay;
+    private int moveCost;
     private List<Cell> stops;
-    Action action;
+
+    MoveAction action;
     List<GameObject> farmerTargets;
+    
     public PhotonView photonView;
 
-    public void Init(Hero hero)
+    public int initFreeHours;
+    public int FreeHours {
+        get {
+            return Math.Max(0, initFreeHours - path.Cells.Count + 1);
+        }
+    }
+
+    public int initExtHours;
+    public int ExtHours {
+        get {
+            return Math.Max(0, initExtHours + Math.Min(0, initFreeHours - path.Cells.Count + 1));
+        }
+    }
+    
+    public void Init(Movable movable)
     {
-        origin = hero.Cell;
         farmers = new List<Pair<Farmer, Cell>>();
-        action = Action.SetDestination;
+        action = MoveAction.SetDestination;
         farmerTargets = new List<GameObject>();
+        this.movable = movable;
+        initFreeHours = movable.MovePerHour * Timeline.GetFreeHours(GameManager.instance.CurrentPlayer.timeline.Index);
+        initExtHours = movable.MovePerHour * Timeline.GetExtendedHours(
+            GameManager.instance.CurrentPlayer.timeline.Index, 
+            GameManager.instance.CurrentPlayer.Willpower
+        );
 
         EventManager.CellClick += SetDestination;
         EventManager.CellClick += SetFarmerDestination;
-        EventManager.MoveCancel += Dispose;
+        EventManager.ActionUpdate += Dispose;
         EventManager.MoveComplete += MoveComplete;
         EventManager.PickFarmer += AttachFarmer;
         EventManager.DropFarmer += DetachFarmer;
         EventManager.FarmerDestroyed += FarmerDestroyed;
         EventManager.ClearPath += ClearPath;
-
-        this.hero = hero;
+        
         Reset();
+        ShowMovableArea();
         EventManager.TriggerFarmersInventoriesUpdate(farmers.Count, GetDroppableFarmerCount(), GetDetachedFarmerCount());
     }
-
+    
     void AddFarmerTarget(Cell c)
     {
         GameObject go = new GameObject("farmerTarget");
@@ -71,19 +93,16 @@ public class MoveCommand : MonoBehaviour, ICommand
 
     void Reset()
     {
-        origin = hero.Cell;
-        goal = origin;
-        path = new MapPath(origin, Color.red);
-        TimeOfDay = (TimeOfDay)hero.State.TimeOfDay.Clone();
-        //ShowMovableArea();
-
+        goal = movable.Cell;
+        path = new MapPath(movable.Cell, Color.red);
+        
         foreach (Pair<Farmer, Cell> farmer in farmers)
         {
             farmer.First.Detach();
         }
 
         farmers = new List<Pair<Farmer, Cell>>();
-        action = Action.SetDestination;
+        action = MoveAction.SetDestination;
 
         foreach (GameObject go in farmerTargets)
         {
@@ -100,19 +119,12 @@ public class MoveCommand : MonoBehaviour, ICommand
 
     void ShowMovableArea()
     {
+        freeCells = goal.WithinRange(0, FreeHours);
+        extCells = goal.WithinRange(FreeHours + 1, FreeHours + ExtHours);
+
         foreach (Cell cell in Cell.cells)
         {
             cell.Reset();
-        }
-
-        freeCells = goal.WithinRange(0, TimeOfDay.GetFreeHours());
-
-        int min = TimeOfDay.GetFreeHours() + 1;
-        int max = TimeOfDay.GetFreeHours() + TimeOfDay.GetExtendedHours();
-        extCells = goal.WithinRange(min, max);
-
-        foreach (Cell cell in Cell.cells)
-        {
             cell.Disable();
         }
 
@@ -125,6 +137,8 @@ public class MoveCommand : MonoBehaviour, ICommand
         {
             cell.Extended();
         }
+
+        goal.Disable();
     }
 
     void ShowDropableArea()
@@ -261,7 +275,7 @@ public class MoveCommand : MonoBehaviour, ICommand
     [PunRPC]
     void DetachFarmerRPC()
     {
-        action = Action.DetachFarmer;
+        action = MoveAction.DetachFarmer;
         if (farmers.Count == 0) return;
         ShowDropableArea();
     }
@@ -269,6 +283,8 @@ public class MoveCommand : MonoBehaviour, ICommand
 
     void SetFarmerDestination(int cellID)
     {
+        if (action == MoveAction.SetDestination) return;
+        
         if (!PhotonNetwork.OfflineMode)
         {
             photonView.RPC("SetFarmerDestinationRPC", RpcTarget.AllViaServer, cellID);
@@ -282,8 +298,6 @@ public class MoveCommand : MonoBehaviour, ICommand
     [PunRPC]
     void SetFarmerDestinationRPC(int cellID)
     {
-        if (action == Action.SetDestination) return;
-
         int index = -1;
         for (int i = 0; i < farmers.Count; i++)
         {
@@ -327,33 +341,28 @@ public class MoveCommand : MonoBehaviour, ICommand
         EventManager.TriggerFarmersInventoriesUpdate(farmers.Count, GetDroppableFarmerCount(), GetDetachedFarmerCount());
     }
 
-    public void Dispose()
+    public void Dispose(int action)
     {
-        if (!PhotonNetwork.OfflineMode)
-        {
-            photonView.RPC("DisposeRPC", RpcTarget.AllViaServer);
-        }
-        else
-        {
-            DisposeRPC();
+        if(Action.FromValue<Action>(action) == Action.None) { 
+            Dispose();
         }
     }
 
-    [PunRPC]
-    void DisposeRPC()
-    {
+    public void Dispose() {
         EventManager.CellClick -= SetDestination;
-        EventManager.MoveCancel -= Dispose;
+        EventManager.CellClick -= SetFarmerDestination;
+        EventManager.ActionUpdate -= Dispose;
         EventManager.MoveComplete -= MoveComplete;
         EventManager.PickFarmer -= AttachFarmer;
         EventManager.DropFarmer -= DetachFarmer;
         EventManager.FarmerDestroyed -= FarmerDestroyed;
         EventManager.ClearPath -= ClearPath;
+        EventManager.EndDay -= Dispose;
 
         ClearPath();
         Destroy(gameObject);
-    }
 
+    }
 
     void ClearPath()
     {
@@ -378,15 +387,10 @@ public class MoveCommand : MonoBehaviour, ICommand
     [PunRPC]
     void SetDestinationRPC(int cellID)
     {
-        if (action == Action.DetachFarmer) return;
-
-        Debug.Log("Execute Set Destination Reached");
+        if (action == MoveAction.DetachFarmer) return;
 
         goal = Cell.FromId(cellID);
         path.Extend(goal);
-
-        // Path contains source cell so substract it
-        TimeOfDay.Index += path.Cells.Count - 1;
         ShowMovableArea();
 
         EventManager.TriggerFarmersInventoriesUpdate(farmers.Count, GetDroppableFarmerCount(), GetDetachedFarmerCount());
@@ -408,8 +412,6 @@ public class MoveCommand : MonoBehaviour, ICommand
     [PunRPC]
     void ExecuteRPC()
     {
-        Debug.Log("Execute Move Reached");
-
         foreach (Cell cell in Cell.cells)
         {
             cell.Reset();
@@ -427,17 +429,13 @@ public class MoveCommand : MonoBehaviour, ICommand
             }
         }
 
-        // full path here
-
-        EventManager.TriggerTimelineUpdate(hero, path);
-
         stops.Add(goal);
-        MoveComplete(hero);
+        MoveComplete(movable);
     }
 
     void MoveComplete(Movable movable)
     {
-        if (movable != hero) return;
+        if (movable != this.movable) return;
 
         if (stops.Count == 0)
         {
@@ -447,7 +445,7 @@ public class MoveCommand : MonoBehaviour, ICommand
         {
             Cell stop = stops[0];
             stops.RemoveAt(0);
-            Cell start = hero.Cell;
+            Cell start = movable.Cell;
 
             int startIndex = path.Cells.IndexOf(start);
             if(startIndex != -1) {
@@ -478,7 +476,7 @@ public class MoveCommand : MonoBehaviour, ICommand
                 int stopIndex = path.Cells.IndexOf(stop);
                 if(stopIndex != -1) {
                     List<Cell> subpathHero = path.Cells.GetRange(startIndex, stopIndex - startIndex + 1);
-                    hero.Move(subpathHero);
+                    movable.Move(subpathHero);
                 }
             }
         }

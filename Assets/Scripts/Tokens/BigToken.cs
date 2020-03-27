@@ -32,9 +32,7 @@ public class BigToken : Token
 
         BigToken bigToken = go.AddComponent<BigToken>();
         bigToken.TokenName = Type;
-
-        Cell cell = Cell.FromId(cellID);
-        bigToken.Cell = cell;
+        bigToken.Cell = Cell.FromId(cellID);
 
         return bigToken;
       }

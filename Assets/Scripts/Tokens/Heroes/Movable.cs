@@ -9,9 +9,9 @@ public abstract class Movable : Token
     List<Cell> path;
     Sprite icon;
     protected virtual string IconPath => String.Empty;
-
-    void Update()
-    {
+    public int MovePerHour { get; set; }
+    
+    void Update() {
         Move();
     }
 
@@ -19,22 +19,23 @@ public abstract class Movable : Token
         return cell.MovablesPosition;
     }
 
-    // Should we verify that all cells in path are adjacent?
-    public void Move(List<Cell> path)
-    {
+    public void Move(List<Cell> path) {
+        // path first cell is the current cell, remove it
+        if(AtCell(path[0])) path.RemoveAt(0);
+        
         this.path = path;
-        EventManager.TriggerMoveStart(this);
+        EventManager.TriggerMove(this, path.Count);
     }
 
-    public void Move(Cell c)
-    {
+    public void Move(Cell c) {
+        if(AtCell(c)) return;
+        
         path = new List<Cell>();
         path.Add(c);
-        EventManager.TriggerMoveStart(this);
+        EventManager.TriggerMove(this, path.Count);
     }
 
-    void Move()
-    {
+    void Move() {
         if (path == null || path.Count == 0) return;
 
         if(AtCell(path[0])) {
@@ -54,10 +55,13 @@ public abstract class Movable : Token
         return Vector3.Distance(Position, getWaypoint(c)) < 0.5;
     }
 
-    public GameObject Token
-    {
-        get
-        {
+    public int GetMoveCost(int qty) {
+        if(MovePerHour == 0) return 0;        
+        return (int)Math.Ceiling((double)qty/MovePerHour);
+    }
+
+    public GameObject Token {
+        get {
             return gameObject;
         }
     }

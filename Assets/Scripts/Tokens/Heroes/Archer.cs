@@ -9,30 +9,24 @@ public class Archer : Hero
     static void Factory()
     {
         Color color = new Color(0.4f, 0.75f, 0, 1);
-        //GameObject go = Geometry.Disc(Vector3.zero, color);
+        
+        GameObject go = new GameObject();
+        Archer archer = go.AddComponent<Archer>();
+        archer.Type = typeof(Archer).ToString();
+        go.name = archer.Type.ToString();
 
-        Sprite sprite = Resources.Load<Sprite>("Sprites/heroes/male_archer");
-        GameObject go = new GameObject("Warrior");
         SpriteRenderer renderer = go.AddComponent<SpriteRenderer>();
+        Sprite sprite = Resources.Load<Sprite>("Sprites/Tokens/Heroes/" + archer.Type.ToString() + "-" + archer.sex.ToString());
         renderer.sprite = sprite;
         renderer.sortingOrder = 2;
         go.transform.localScale = new Vector3(10, 10, 10);
 
-        Archer archer = go.AddComponent<Archer>();
         archer.Color = color;
-
-        archer.Type = typeof(Archer).ToString();
         archer.TokenName = archer.Type;
 
         archer.rank = 25;
-        Cell cell = Cell.FromId(archer.rank);
-        archer.Cell = cell;
-
-        archer.State = new HeroState(cell, color, archer.name, archer.Type.ToString());
-
-
-        //archer.IsDone = false;
-
+        archer.Cell = Cell.FromId(archer.rank);
+        
         archer.Dices = new int[21] {
             3, 3, 3, 3, 3, 3, 3,
             4, 4, 4, 4, 4, 4, 4,
@@ -43,6 +37,8 @@ public class Archer : Hero
             "Chada",
             "Pasco"
         };
+
+        archer.Init();
     }
 
     void Awake()

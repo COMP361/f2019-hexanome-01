@@ -7,14 +7,16 @@ public class Troll : Enemy {
     static Color color = Color.black;
 
     public static Troll Factory(int cellID) {
-        GameObject go = Geometry.Disc(Vector3.zero, color);
+        Sprite sprite = Resources.Load<Sprite>("Sprites/Tokens/Enemies/Troll");
+        GameObject go = new GameObject("Troll");
+        SpriteRenderer renderer = go.AddComponent<SpriteRenderer>();
+        renderer.sprite = sprite;
+        renderer.sortingOrder = 2;
         go.transform.localScale = new Vector3(10, 10, 10);
-        
+
         Troll troll = go.AddComponent<Troll>();
         troll.TokenName = Type;
-
-        Cell cell = Cell.FromId(cellID);
-        troll.Cell = cell;
+        troll.Cell = Cell.FromId(cellID);
 
         troll.Will = 12;
         troll.Strength = 14;

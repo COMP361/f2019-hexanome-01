@@ -9,7 +9,7 @@ public class Gor : Enemy
     public static Gor Factory(int cellID)
     {
 
-        Sprite sprite = Resources.Load<Sprite>("Sprites/Enemies/gor");
+        Sprite sprite = Resources.Load<Sprite>("Sprites/Tokens/Enemies/Gor");
         GameObject go = new GameObject("Gor");
         SpriteRenderer renderer = go.AddComponent<SpriteRenderer>();
         renderer.sprite = sprite;
@@ -18,9 +18,7 @@ public class Gor : Enemy
 
         Gor gor = go.AddComponent<Gor>();
         gor.TokenName = Type;
-
-        Cell cell = Cell.FromId(cellID);
-        gor.Cell = cell;
+        gor.Cell = Cell.FromId(cellID);
 
         gor.Will = 4;
         gor.Strength = 2;

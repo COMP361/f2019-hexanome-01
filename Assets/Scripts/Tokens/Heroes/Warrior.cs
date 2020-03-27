@@ -9,29 +9,23 @@ public class Warrior : Hero
     static void Factory()
     {
         Color color = new Color(0.09f, 0.6f, 1, 1);
-        //GameObject go = Geometry.Disc(Vector3.zero, color);
+        
+        GameObject go = new GameObject();
+        Warrior warrior = go.AddComponent<Warrior>();
+        warrior.Type = typeof(Warrior).ToString();
+        go.name = warrior.Type.ToString();
 
-        Sprite sprite = Resources.Load<Sprite>("Sprites/heroes/male_warrior");
-        GameObject go = new GameObject("Warrior");
         SpriteRenderer renderer = go.AddComponent<SpriteRenderer>();
+        Sprite sprite = Resources.Load<Sprite>("Sprites/Tokens/Heroes/" + warrior.Type.ToString() + "-" + warrior.sex.ToString());
         renderer.sprite = sprite;
         renderer.sortingOrder = 20;
         go.transform.localScale = new Vector3(10, 10, 1);
 
-        Warrior warrior = go.AddComponent<Warrior>();
         warrior.Color = color;
-
-        warrior.Type = typeof(Warrior).ToString();
         warrior.TokenName = warrior.Type;
 
         warrior.rank = 14;
-        Cell cell = Cell.FromId(warrior.rank);
-        warrior.Cell = cell;
-
-        warrior.State = new HeroState(cell, color, warrior.name, warrior.Type.ToString());
-
-
-        //warrior.IsDone = false;
+        warrior.Cell = Cell.FromId(warrior.rank);
 
         warrior.Dices = new int[21] {
             2, 2, 2, 2, 2, 2, 2,
@@ -43,6 +37,8 @@ public class Warrior : Hero
             "Mairen",
             "Thorn"
         };
+
+        warrior.Init();
     }
 
     void Awake()

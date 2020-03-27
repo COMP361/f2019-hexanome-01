@@ -9,33 +9,43 @@ public class MoveOptions : MonoBehaviour {
 
     void OnEnable() {
         EventManager.MoveSelect += Show;
-        EventManager.MoveCancel += Hide;
+        EventManager.MoveThorald += Show;
+        EventManager.MoveThorald += DisableHeroOptions;
+        EventManager.ActionUpdate += EnableHeroOptions;
+        EventManager.MoveConfirm += EnableHeroOptions;
+        
+        EventManager.ActionUpdate += Hide;
         EventManager.MoveConfirm += Hide;
+        
         EventManager.PathUpdate += LockConfirm;
         EventManager.PathUpdate += LockClearPath;
 
         EventManager.FarmersInventoriesUpdate += LockDropFarmer;
         EventManager.FarmersInventoriesUpdate += LockPickFarmer;
-        EventManager.MoveStart += LockPickFarmer;
+        EventManager.Move += LockPickFarmer;
     }
 
     void OnDisable() {
         EventManager.MoveSelect -= Show;
-        EventManager.MoveCancel -= Hide;
+        EventManager.MoveThorald -= Show;
+        EventManager.MoveThorald -= DisableHeroOptions;
+        EventManager.ActionUpdate -= EnableHeroOptions;
+        EventManager.MoveConfirm -= EnableHeroOptions;
+        EventManager.ActionUpdate -= Hide;
         EventManager.MoveConfirm -= Hide;
         EventManager.PathUpdate -= LockConfirm;
         EventManager.PathUpdate -= LockClearPath;
         
         EventManager.FarmersInventoriesUpdate -= LockPickFarmer;
         EventManager.FarmersInventoriesUpdate -= LockDropFarmer;
-        EventManager.MoveStart -= LockPickFarmer;
+        EventManager.Move -= LockPickFarmer;
     }
 
     void Awake() {
         panel = transform.Find("Panel").gameObject;
         
         cancelBtn = panel.transform.Find("Cancel Button").GetComponent<Button>();
-        cancelBtn.onClick.AddListener(delegate { EventManager.TriggerMoveCancel(); });
+        cancelBtn.onClick.AddListener(delegate { EventManager.TriggerActionUpdate(Action.None.Value); });
 
         clearPathBtn = panel.transform.Find("Clear Path Button").GetComponent<Button>();
         clearPathBtn.onClick.AddListener(delegate { EventManager.TriggerClearPath(); });
@@ -66,7 +76,7 @@ public class MoveOptions : MonoBehaviour {
         }
     }
 
-    void LockPickFarmer(Movable movable) {
+    void LockPickFarmer(Movable movable, int qty) {
         Buttons.Lock(pickFarmerBtn);
     }
 
@@ -90,7 +100,25 @@ public class MoveOptions : MonoBehaviour {
         panel.SetActive(true);
     }
 
+    public void Hide(int action) {
+        if(Action.FromValue<Action>(action) == Action.None) Hide();
+    }
+
     public void Hide() {
         panel.SetActive(false);
+    }
+
+    public void DisableHeroOptions() {
+        pickFarmerBtn.gameObject.SetActive(false);
+        dropFarmerBtn.gameObject.SetActive(false);
+    }
+
+    public void EnableHeroOptions() {
+        pickFarmerBtn.gameObject.SetActive(true);
+        dropFarmerBtn.gameObject.SetActive(true);
+    }
+
+    public void EnableHeroOptions(int action) {
+        if(Action.FromValue<Action>(action) == Action.None) EnableHeroOptions();
     }
 }

@@ -4,13 +4,8 @@ using UnityEngine;
 
 public class Skral : Enemy
 {
-    //int dices;
-    static Color color = Color.black;
-
-    public static Skral Factory(int cellID)
-    {
-
-        Sprite sprite = Resources.Load<Sprite>("Sprites/Enemies/skral");
+    public static Skral Factory(int cellID) {
+        Sprite sprite = Resources.Load<Sprite>("Sprites/Tokens/Enemies/Skral");
         GameObject go = new GameObject("Skral");
         SpriteRenderer renderer = go.AddComponent<SpriteRenderer>();
         renderer.sprite = sprite;
@@ -19,9 +14,7 @@ public class Skral : Enemy
 
         Skral skral = go.AddComponent<Skral>();
         skral.TokenName = Type;
-
-        Cell cell = Cell.FromId(cellID);
-        skral.Cell = cell;
+        skral.Cell = Cell.FromId(cellID);
 
         skral.Will = 6;
         skral.Strength = 6;

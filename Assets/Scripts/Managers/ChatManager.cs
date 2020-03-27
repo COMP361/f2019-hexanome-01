@@ -24,7 +24,7 @@ public class ChatManager : MonoBehaviour, IChatClientListener
     public void Start()
     {
         username = PhotonNetwork.LocalPlayer.NickName;
-        DontDestroyOnLoad(this.gameObject);
+        //DontDestroyOnLoad(this.gameObject);
         this.chatAppSettings = PhotonNetwork.PhotonServerSettings.AppSettings;
         bool appIdPresent = !string.IsNullOrEmpty(this.chatAppSettings.AppIdChat);
         if (!appIdPresent)
@@ -38,10 +38,7 @@ public class ChatManager : MonoBehaviour, IChatClientListener
     public void Connect()
     {
         this.chatClient = new ChatClient(this);
-
         this.chatClient.Connect(this.chatAppSettings.AppIdChat, "1.0", new Photon.Chat.AuthenticationValues(this.username));
-
-        Debug.Log("Connecting as: " + this.username);
     }
 
     public void OnConnected()
@@ -130,7 +127,6 @@ public class ChatManager : MonoBehaviour, IChatClientListener
 
     public void OnSubscribed(string[] channels, bool[] results)
     {
-        Debug.Log("Subscribed to a new channel!");
         this.chatClient.PublishMessage("global", this.username + " has connected to the chat!");
     }
 

@@ -7,7 +7,7 @@ public abstract class Enemy : Movable, IComparable<Enemy>
 {
     public int CompareTo(Enemy monster)
     {
-        return cell.CompareTo(monster.cell);
+        return Cell.CompareTo(monster.Cell);
     }
 
     public int Will { get; set; }
