@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class Action : Enumeration {
     private static int CurrentId = 0;
@@ -9,11 +10,22 @@ public class Action : Enumeration {
     public static readonly Action MoveThorald = new Action(CurrentId++, "Move Thorald");
     public static readonly Action Fight = new Action("Fight");
     public static readonly Action Skip = new Action("Skip");
+    
+    public Action() { 
+    }
 
-    public Action() { }
     public Action(string name) : base(CurrentId++, name) { 
     }
+    
     protected Action(int value, string name) : base(value, name) { 
+    }
+
+    public int GetCost(int qty = 1) {
+        if(this == Action.Skip) return 1;
+        if(this == Action.Fight) return 1;
+        if(this == Action.Move) return GameManager.instance.CurrentPlayer.GetMoveCost(qty);
+        if(this == Action.MoveThorald) return Thorald.Instance.GetMoveCost(qty);
+        return 0;
     }
 }
 

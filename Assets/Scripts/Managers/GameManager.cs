@@ -69,6 +69,7 @@ public class GameManager : Singleton<GameManager>
         EventManager.EndTurn -= EndTurn;
         EventManager.EndDay -= EndDay;
         EventManager.StartDay += StartDay;
+        EventManager.Skip -= Skip;
         EventManager.MoveComplete -= UpdateMonsterToMove;
         EventManager.DistributeGold -= DistributeGold;
         EventManager.DistributeWinekins -= DistributeWineskins;
@@ -191,7 +192,6 @@ public class GameManager : Singleton<GameManager>
         }
 
         GiveTurn();
-
     }
 
     #endregion
@@ -363,7 +363,7 @@ public class GameManager : Singleton<GameManager>
     }
 
     void Skip() {
-        CurrentPlayer.timeline.Update(1);
+        CurrentPlayer.timeline.Update(Action.Skip.GetCost());
         EndTurn();
     }
 
@@ -393,7 +393,6 @@ public class GameManager : Singleton<GameManager>
 
         EventManager.TriggerActionUpdate(Action.None.Value);
         EventManager.TriggerCurrentPlayerUpdate(CurrentPlayer);
-        //state = (HeroState)CurrentPlayer.State.Clone();
     }
 
     void EndTurn()

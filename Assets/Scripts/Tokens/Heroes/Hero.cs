@@ -42,11 +42,10 @@ public class Hero : Movable
     public void Init() {
         timeline = new Timeline(this);
         heroInventory = new HeroInventory(Type.ToString());
-        MoveCost = 1;
+        MovePerHour = 1;
     } 
 
-    public void decrementWP(int points)
-    {
+    public void decrementWP(int points) {
         if(points < 0) return;
         if(points >= Willpower) Willpower = 0; else Willpower -= points;
         EventManager.TriggerCurrentPlayerUpdate(this);

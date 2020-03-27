@@ -22,7 +22,7 @@ public class MoveOptions : MonoBehaviour {
 
         EventManager.FarmersInventoriesUpdate += LockDropFarmer;
         EventManager.FarmersInventoriesUpdate += LockPickFarmer;
-        EventManager.MoveStart += LockPickFarmer;
+        EventManager.Move += LockPickFarmer;
     }
 
     void OnDisable() {
@@ -38,7 +38,7 @@ public class MoveOptions : MonoBehaviour {
         
         EventManager.FarmersInventoriesUpdate -= LockPickFarmer;
         EventManager.FarmersInventoriesUpdate -= LockDropFarmer;
-        EventManager.MoveStart -= LockPickFarmer;
+        EventManager.Move -= LockPickFarmer;
     }
 
     void Awake() {
@@ -76,7 +76,7 @@ public class MoveOptions : MonoBehaviour {
         }
     }
 
-    void LockPickFarmer(Movable movable) {
+    void LockPickFarmer(Movable movable, int qty) {
         Buttons.Lock(pickFarmerBtn);
     }
 

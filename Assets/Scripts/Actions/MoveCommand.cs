@@ -25,25 +25,46 @@ public class MoveCommand : MonoBehaviour, ICommand
     }
 
     private Movable movable;
-    private int willpower;
-    private Cell origin;
+    //private int timeCost;
+    //private int willpowerCost;
     private Cell goal;
     private MapPath path;
     private List<Cell> freeCells;
     private List<Cell> extCells;
     private List<Pair<Farmer, Cell>> farmers;
-    private int timeOfDay;
+    private int moveCost;
     private List<Cell> stops;
+
     MoveAction action;
     List<GameObject> farmerTargets;
+    
     public PhotonView photonView;
 
+    public int initFreeHours;
+    public int FreeHours {
+        get {
+            return Math.Max(0, initFreeHours - path.Cells.Count + 1);
+        }
+    }
+
+    public int initExtHours;
+    public int ExtHours {
+        get {
+            return Math.Max(0, initExtHours + Math.Min(0, initFreeHours - path.Cells.Count + 1));
+        }
+    }
+    
     public void Init(Movable movable)
     {
-        origin = movable.Cell;
         farmers = new List<Pair<Farmer, Cell>>();
         action = MoveAction.SetDestination;
         farmerTargets = new List<GameObject>();
+        this.movable = movable;
+        initFreeHours = movable.MovePerHour * Timeline.GetFreeHours(GameManager.instance.CurrentPlayer.timeline.Index);
+        initExtHours = movable.MovePerHour * Timeline.GetExtendedHours(
+            GameManager.instance.CurrentPlayer.timeline.Index, 
+            GameManager.instance.CurrentPlayer.Willpower
+        );
 
         EventManager.CellClick += SetDestination;
         EventManager.CellClick += SetFarmerDestination;
@@ -53,16 +74,12 @@ public class MoveCommand : MonoBehaviour, ICommand
         EventManager.DropFarmer += DetachFarmer;
         EventManager.FarmerDestroyed += FarmerDestroyed;
         EventManager.ClearPath += ClearPath;
-
-        this.movable = movable;
-        willpower = GameManager.instance.CurrentPlayer.Willpower;
-        this.timeOfDay = GameManager.instance.CurrentPlayer.timeline.Index;
-
+        
         Reset();
         ShowMovableArea();
         EventManager.TriggerFarmersInventoriesUpdate(farmers.Count, GetDroppableFarmerCount(), GetDetachedFarmerCount());
     }
-
+    
     void AddFarmerTarget(Cell c)
     {
         GameObject go = new GameObject("farmerTarget");
@@ -76,12 +93,9 @@ public class MoveCommand : MonoBehaviour, ICommand
 
     void Reset()
     {
-        origin = movable.Cell;
-        goal = origin;
-        path = new MapPath(origin, Color.red);
-        willpower = GameManager.instance.CurrentPlayer.Willpower;
-        timeOfDay = GameManager.instance.CurrentPlayer.timeline.Index;
-
+        goal = movable.Cell;
+        path = new MapPath(movable.Cell, Color.red);
+        
         foreach (Pair<Farmer, Cell> farmer in farmers)
         {
             farmer.First.Detach();
@@ -105,11 +119,8 @@ public class MoveCommand : MonoBehaviour, ICommand
 
     void ShowMovableArea()
     {
-        freeCells = goal.WithinRange(0, Timeline.GetFreeHours(timeOfDay));
-
-        int min = Timeline.GetFreeHours(timeOfDay) + 1;
-        int max = Timeline.GetFreeHours(timeOfDay) + Timeline.GetExtendedHours(timeOfDay, willpower);
-        extCells = goal.WithinRange(min, max);
+        freeCells = goal.WithinRange(0, FreeHours);
+        extCells = goal.WithinRange(FreeHours + 1, FreeHours + ExtHours);
 
         foreach (Cell cell in Cell.cells)
         {
@@ -126,6 +137,8 @@ public class MoveCommand : MonoBehaviour, ICommand
         {
             cell.Extended();
         }
+
+        goal.Disable();
     }
 
     void ShowDropableArea()
@@ -351,13 +364,6 @@ public class MoveCommand : MonoBehaviour, ICommand
 
     }
 
-    /*[PunRPC]
-    void DisposeRPC()
-    {
-        
-    }*/
-
-
     void ClearPath()
     {
         if (path != null) path.Dispose();
@@ -385,10 +391,6 @@ public class MoveCommand : MonoBehaviour, ICommand
 
         goal = Cell.FromId(cellID);
         path.Extend(goal);
-
-        // Path contains source cell so substract it
-        timeOfDay += path.Cells.Count - 1;
-        willpower -= Math.Max(0, 2 * (timeOfDay - Timeline.freeLimit));
         ShowMovableArea();
 
         EventManager.TriggerFarmersInventoriesUpdate(farmers.Count, GetDroppableFarmerCount(), GetDetachedFarmerCount());
@@ -426,8 +428,6 @@ public class MoveCommand : MonoBehaviour, ICommand
                 stops.Add(farmer.First.Cell);
             }
         }
-
-        EventManager.TriggerTimelineUpdate(GameManager.instance.CurrentPlayer, path.Cells.Count - 1);
 
         stops.Add(goal);
         MoveComplete(movable);

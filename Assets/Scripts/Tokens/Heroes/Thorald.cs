@@ -29,7 +29,7 @@ public class Thorald : Movable
 
         thorald.rank = 72;
         thorald.Cell = Cell.FromId(thorald.rank);
-        thorald.MoveCost = 0.25f;
+        thorald.MovePerHour = 4;
     }
 
     void Awake()

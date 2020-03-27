@@ -16,8 +16,7 @@ public class Pathfinding
         goal.Parent = null;
 
         this.goal = goal;
-        //maxIteration = 15;
-
+        
         openList = new PriorityQueue<Cell, float>();
         closedList = new List<Cell>();
     }
@@ -27,14 +26,17 @@ public class Pathfinding
         if(start == goal) return new List<Cell>();
 
         openList.Clear();
-        closedList.Clear();
-        //int iterations = 0;
+        closedList.Clear(); 
 
         start.Heuristic = (goal.Position - start.Position).magnitude;
         openList.Enqueue(start, start.f);
 
-        while (openList.Count > 0 /*&& iterations < maxIteration*/) {
+        while (openList.Count > 0) {
             var bestCell = openList.Dequeue();
+            
+            if (bestCell == goal) {
+                return ConstructPath(bestCell);
+            }
 
             var neighbours = bestCell.neighbours;
             for (int i = 0; i < neighbours.Count; i++) {
@@ -42,12 +44,8 @@ public class Pathfinding
 
                 if (curCell == null)
                     continue;
-                if (curCell == goal) {
-                    curCell.Parent = bestCell;
-                    return ConstructPath(curCell);
-                }
-
-                var g = bestCell.Cost + (curCell.Position - bestCell.Position).magnitude;
+ 
+                var g = bestCell.Cost + 1;
                 var h = (goal.Position - curCell.Position).magnitude;
 
                 if (openList.Contains(curCell) && curCell.f < (g + h))
@@ -65,8 +63,6 @@ public class Pathfinding
 
             if (!closedList.Contains(bestCell))
                 closedList.Add(bestCell);
-
-            //iterations++;
         }
 
         return null;

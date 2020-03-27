@@ -96,7 +96,7 @@ public class EventManager : MonoBehaviour
     [PunRPC]
     public void TriggerSkipRPC()
     {
-        EventManager.TriggerActionUpdate(Action.Skip.Value);
+        EventManager.TriggerActionUpdate(Action.None.Value);
         if (Skip != null) Skip();
     }
 
@@ -105,6 +105,7 @@ public class EventManager : MonoBehaviour
     public static event EndTurnHandler EndTurn;
     public static void TriggerEndTurn()
     {
+        Debug.Log("Trigger End Turn");
         if (!PhotonNetwork.OfflineMode)
         {
             GameManager.instance.photonView.RPC("TriggerEndTurnRPC", RpcTarget.AllViaServer);
@@ -245,13 +246,13 @@ public class EventManager : MonoBehaviour
     }
 
     // Fired when the hero reached its final position after move
-    public delegate void MoveStartHandler(Movable movable);
-    public static event MoveStartHandler MoveStart;
-    public static void TriggerMoveStart(Movable movable)
+    public delegate void MoveHandler(Movable movable, int qty);
+    public static event MoveHandler Move;
+    public static void TriggerMove(Movable movable, int qty)
     {
-        if (MoveStart != null)
+        if (Move != null)
         {
-            MoveStart(movable);
+            Move(movable, qty);
         }
     }
 
@@ -271,6 +272,8 @@ public class EventManager : MonoBehaviour
     public static event MoveThoraldHandler MoveThorald;
     public static void TriggerMoveThorald()
     {
+        EventManager.TriggerActionUpdate(Action.MoveThorald.Value);
+        
         if (MoveThorald != null)
         {
             MoveThorald();
@@ -556,15 +559,4 @@ public class EventManager : MonoBehaviour
             DistributeWinekins(warriorWineskins, archerWineskins, dwarfWineskins, mageWinekins);
         }
     }
-
-    public delegate void TimelineUpdateHandler(Hero hero, int cost);
-    public static event TimelineUpdateHandler TimelineUpdate;
-    public static void TriggerTimelineUpdate(Hero hero, int cost)
-    {
-        if (TimelineUpdate != null)
-        {
-            TimelineUpdate(hero, cost);
-        }
-    }
-
 }

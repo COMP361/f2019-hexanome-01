@@ -25,11 +25,11 @@ public class Timeline
         token.transform.parent = GameObject.Find("Tokens").transform;
         token.transform.position = GameObject.Find("Timeline/Sunrise/" + hero.name).transform.position;
 
-        EventManager.TimelineUpdate += Update;
+        EventManager.Move += OnMove;
     }
 
     ~Timeline() {
-        EventManager.TimelineUpdate -= Update;
+        EventManager.Move -= OnMove;
     }
 
     public bool HasHoursLeft()
@@ -60,6 +60,14 @@ public class Timeline
             if(willpower - i * 2 < 2) break;
         }
         return i;
+    }
+
+    private void OnMove(Movable movable, int qty) {
+        if(movable.MovePerHour == 0) return;
+        if(GameManager.instance.CurrentPlayer != hero) return;
+        
+        int cost = (int)Math.Ceiling((double)qty/movable.MovePerHour);
+        Update(cost);
     }
 
     // Update time of day 

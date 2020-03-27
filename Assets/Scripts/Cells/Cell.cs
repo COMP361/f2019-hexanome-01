@@ -151,8 +151,11 @@ public class Cell : MonoBehaviour, IComparable<Cell>
         List<Cell> cells = new List<Cell>();
 
         if (min < 0) min = 0;
-
+        
         queue.Enqueue(new Tuple<int, Cell>(0, this));
+        if (0 >= min && 0 <= max) cells.Add(this);
+        visited.Add(this);
+
         Tuple<int, Cell> t;
         Cell c;
         int i;

@@ -4,18 +4,17 @@ using UnityEngine;
 
 public class Well : Token
 {
-  public static Well Factory()
-  {
+  public static Well Factory() {
 
-      Sprite sprite = Resources.Load<Sprite>("Sprites/icons/well-full");
-      GameObject go = new GameObject("Well");
-      SpriteRenderer renderer = go.AddComponent<SpriteRenderer>();
-      renderer.sprite = sprite;
-      renderer.sortingOrder = -2;
+    Sprite sprite = Resources.Load<Sprite>("Sprites/icons/well-full");
+    GameObject go = new GameObject("Well");
+    SpriteRenderer renderer = go.AddComponent<SpriteRenderer>();
+    renderer.sprite = sprite;
+    renderer.sortingOrder = 2;
 
-      Well well = go.AddComponent<Well>();
-      well.TokenName = Type;
-      return well;
+    Well well = go.AddComponent<Well>();
+    well.TokenName = Type;
+    return well;
   }
 
   public void useCell(){
