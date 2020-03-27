@@ -4,11 +4,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GoldCoin : Token
+public class GoldCoin : Item
 {
 
       public PhotonView photonView;
-    
+
       public void Awake() {
         TokenName = Type;
       }
