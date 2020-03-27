@@ -509,6 +509,7 @@ public class GameManager : Singleton<GameManager>
 
     [PunRPC]
     public void AddGoldCellRPC(int cellIndex){
+
         Cell cell = Cell.FromId(cellIndex);
         GameObject goldCoinGO = PhotonNetwork.Instantiate("Prefabs/Tokens/GoldCoin", Vector3.zero, Quaternion.identity, 0);
         GoldCoin goldCoin = goldCoinGO.GetComponent<GoldCoin>();

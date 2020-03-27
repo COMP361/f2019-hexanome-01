@@ -177,7 +177,7 @@ public class EventManager : MonoBehaviour
         }
     }
 
-    
+
     // Fired when we confirm the move action
     public delegate void MoveConfirmHandler();
     public static event MoveConfirmHandler MoveConfirm;
@@ -557,6 +557,16 @@ public class EventManager : MonoBehaviour
         if (DistributeWinekins != null)
         {
             DistributeWinekins(warriorWineskins, archerWineskins, dwarfWineskins, mageWinekins);
+        }
+    }
+
+    public delegate void UpdateHeroStatsHandler(Hero hero);
+    public static event UpdateHeroStatsHandler UpdateHeroStats;
+    public static void TriggerUpdateHeroStats(Hero hero)
+    {
+        if (UpdateHeroStats != null)
+        {
+            UpdateHeroStats(hero);
         }
     }
 }
