@@ -34,28 +34,15 @@ public class WellCell : Cell
     public void emptyWell(Hero hero, Well well)
     {
       if(Index == hero.Cell.Index){
-        int currWP = hero.State.Willpower;
-        if(hero.TokenName.Equals("Warrior")){
-          currWP = currWP + 5;
-        }
-        else{
-        currWP = currWP + 3;
-        }
-        hero.State.Willpower = currWP;
-        Debug.Log("Hero pick well: " + hero.TokenName + " WILLPOWER: " + hero.State.Willpower);
-        EventManager.TriggerCurrentPlayerUpdate(hero);
-    //    isEmptied = true;
-    //    goFullWell.SetActive(false);
-    //    goEmptyWell.SetActive(true);
         Inventory.RemoveToken(well);
-    //    well = null;
-        photonView.RPC("EmptyWellRPC", RpcTarget.AllViaServer, new object[] {this.Index});
-
+        photonView.RPC("EmptyWellRPC", RpcTarget.AllViaServer, new object[] {this.Index, GameManager.instance.MainHero.TokenName});
       }
+
     }
 
     [PunRPC]
-    public void EmptyWellRPC(int cellIndex){
+    public void EmptyWellRPC(int cellIndex, string heroType){
+
       if(this.Index == cellIndex){
         isEmptied = true;
         goFullWell.SetActive(false);
@@ -63,12 +50,33 @@ public class WellCell : Cell
         well = null;
       }
 
+      foreach(Hero hero in GameManager.instance.heroes){
+        if(hero.TokenName.Equals(heroType)){
+          int currWP = hero.Willpower;
+          if(hero.TokenName.Equals("Warrior")){
+            currWP = currWP + 5;
+          }
+          else{
+          currWP = currWP + 3;
+          }
+          hero.Willpower = currWP;
+
+        }
+
+        if(GameManager.instance.MainHero.TokenName.Equals(heroType)){
+          EventManager.TriggerUpdateHeroStats(hero);
+        }
+      }
+
+
+
+
+
     }
 
 
     public void resetWell()
     {
-
         isEmptied = false;
         goFullWell.SetActive(true);
         goEmptyWell.SetActive(false);

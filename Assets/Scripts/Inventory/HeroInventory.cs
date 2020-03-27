@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
 using Photon.Realtime;
-public class HeroInventory : MonoBehaviour
+public class HeroInventory
 {
     public List<Item> smallItems { get; private set; }
     public List<GoldCoin> golds { get; private set; }
@@ -14,11 +14,9 @@ public class HeroInventory : MonoBehaviour
     public List<Item> AllItems { get; private set; }
 
     public string parentHero;
-    public HeroState heroState;
     private int spaceSmall;
     public int numOfGold { get; private set; }
     public PhotonView photonView;
-
 
     void OnEnable() {
       EventManager.InventoryUICellEnter += updateUI;
@@ -78,7 +76,7 @@ public class HeroInventory : MonoBehaviour
       golds.Add((GoldCoin)item);
       AllItems.Add(item);
       numOfGold++;
-      if(GameManager.instance.MainHero.State.heroInventory == this){
+      if(GameManager.instance.MainHero.heroInventory == this){
       EventManager.TriggerInventoryUIHeroUpdate(this);
     }
       return true;

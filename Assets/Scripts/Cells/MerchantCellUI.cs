@@ -46,7 +46,7 @@ public class MerchantCellUI : Singleton<MerchantCellUI>
     Hero hero = (Hero)token;
     Button strengthBtn = transform.Find("MerchantUI/allItems/Strenght/Button").GetComponent<Button>();
 
-    if(hero.State.heroInventory.numOfGold < 2 || !typeof(MerchantCell).IsCompatibleWith(hero.Cell.GetType())) {
+    if(hero.heroInventory.numOfGold < 2 || !typeof(MerchantCell).IsCompatibleWith(hero.Cell.GetType())) {
       Buttons.Lock(strengthBtn);
     } else {
       Buttons.Unlock(strengthBtn);

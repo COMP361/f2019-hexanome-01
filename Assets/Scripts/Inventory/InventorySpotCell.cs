@@ -28,8 +28,6 @@ public class InventorySpotCell : MonoBehaviour
     }
 
     public void UseItem(){
-     Debug.Log("What is going on " + GameManager.instance.MainHero.TokenName);
-
      if(token != null){
 
       if(GameManager.instance.MainHero.Cell.Index == cellIndex){

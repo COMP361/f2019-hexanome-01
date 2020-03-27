@@ -3,27 +3,14 @@ using UnityEngine.UI;
 
 public class ActionOptions : MonoBehaviour
 {
-
     Button moveBtn, fightBtn, skipBtn, moveThoraldBtn, endTurnBtn, endDayBtn;
-    bool actionsDisabled = false;
-    bool fightDisabled = false;
-
     void OnEnable() {
-        EventManager.MoveSelect += LockActions;
-        EventManager.MoveCancel += UnlockActions;
-        EventManager.EndTurn += UnlockActions;
-        EventManager.CellUpdate += LockFight; 
-        EventManager.MainHeroInit += LockFight;
+        EventManager.ActionUpdate += LockActions;
     }
 
     void OnDisable() {
-        EventManager.MoveSelect -= LockActions;
-        EventManager.MoveCancel -= UnlockActions;
-        EventManager.EndTurn -= UnlockActions;
-        EventManager.CellUpdate -= LockFight; 
-        EventManager.MainHeroInit -= LockFight;
+        EventManager.ActionUpdate -= LockActions;
     }
-
     void Awake()
     {
         moveBtn = transform.Find("Move Button").GetComponent<Button>();
@@ -45,50 +32,35 @@ public class ActionOptions : MonoBehaviour
         endDayBtn.onClick.AddListener(delegate { EventManager.TriggerEndDay(); });
     }
 
-    void LockActions() {
-        Buttons.Lock(moveBtn);
-        Buttons.Lock(skipBtn);
-        Buttons.Lock(fightBtn);
+    void LockActions(int action) {
+        if(!GameManager.instance.MainHero.timeline.HasHoursLeft()) {
+            Buttons.Lock(moveBtn);
+            Buttons.Lock(fightBtn);
+            Buttons.Lock(skipBtn);
+            Buttons.Lock(moveThoraldBtn);
+            Buttons.Lock(endTurnBtn);
+        } else if(Action.FromValue<Action>(action) == Action.None) { 
+            Buttons.Unlock(moveBtn);
+            Buttons.Unlock(fightBtn);
+            Buttons.Unlock(skipBtn);
+            Buttons.Unlock(moveThoraldBtn);
+            Buttons.Lock(endTurnBtn);
+        } else {
+            Buttons.Lock(moveBtn);
+            Buttons.Lock(fightBtn);
+            Buttons.Lock(skipBtn);
+            Buttons.Lock(moveThoraldBtn);
+            Buttons.Unlock(endTurnBtn);
+        }
 
-        actionsDisabled = true;
-
-    }
-
-    void UnlockActions() {
-        Buttons.Unlock(moveBtn);
-        Buttons.Unlock(skipBtn);
-        //if(!fightDisabled) 
-        Buttons.Unlock(fightBtn);
-
-        actionsDisabled = false;
-    }
-
-    void LockFight(Token token) {
-        /*if(GameManager.instance.MainHero == null || !GameManager.instance.MainHero.GetType().IsCompatibleWith(token.GetType())) return;
-        
         if(GameManager.instance.MainHero.Cell.Inventory.Enemies.Count < 1) {
             Buttons.Lock(fightBtn);
-            fightDisabled = true;
-        } else {
-            if(!actionsDisabled) Buttons.Unlock(fightBtn);
-            fightDisabled = false;
-        }*/
+        }
     }
-
-    /*void UnlockMove() {
-        Buttons.Unlock(moveBtn);
-    }
-
-    void LockMove() {
-        Buttons.Lock(moveBtn);
-    }*/
-
     public void Show() {
         gameObject.SetActive(true);
     }
-
-    public void Hide()
-    {
+    public void Hide() {
         gameObject.SetActive(false);
     }
 }

@@ -19,9 +19,9 @@ public class BuyStrength : MonoBehaviour
     public void Buy() {
         Hero hero = GameManager.instance.MainHero;
         int cost = (hero.GetType() == typeof(Dwarf) && hero.Cell.Index == 71) ? 1 : 2;
-        if(hero.State.heroInventory.numOfGold >= 2) {
-            hero.State.heroInventory.RemoveGold(cost);
-            hero.State.Strength = hero.State.Strength + 1;
+        if(hero.heroInventory.numOfGold >= 2) {
+            hero.heroInventory.RemoveGold(cost);
+            hero.Strength = hero.Strength + 1;
             EventManager.TriggerCurrentPlayerUpdate(hero);
         }
         Hide();

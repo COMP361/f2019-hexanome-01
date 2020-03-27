@@ -2,39 +2,39 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Helm : Item
+public class BigToken : Token
 {
 
 
 
 
-      public static Helm Factory()
+      public static BigToken Factory()
       {
 
           Sprite sprite = Resources.Load<Sprite>("Sprites/Tokens/Fog/Gold");
-          GameObject go = new GameObject("Helm");
+          GameObject go = new GameObject("BigToken");
           SpriteRenderer renderer = go.AddComponent<SpriteRenderer>();
           renderer.sprite = sprite;
           renderer.sortingOrder = 2;
 
-          Helm helm = go.AddComponent<Helm>();
-          helm.TokenName = Type;
+          BigToken bigToken = go.AddComponent<BigToken>();
+          bigToken.TokenName = Type;
 
-          return helm;
+          return bigToken;
       }
 
-      public static Helm Factory(int cellID){
+      public static BigToken Factory(int cellID){
         Sprite sprite = Resources.Load<Sprite>("Sprites/Tokens/Fog/Gold");
-        GameObject go = new GameObject("Helm");
+        GameObject go = new GameObject("BigToken");
         SpriteRenderer renderer = go.AddComponent<SpriteRenderer>();
         renderer.sprite = sprite;
         renderer.sortingOrder = 2;
 
-        Helm helm = go.AddComponent<Helm>();
-        helm.TokenName = Type;
-        helm.Cell = Cell.FromId(cellID);
+        BigToken bigToken = go.AddComponent<BigToken>();
+        bigToken.TokenName = Type;
+        bigToken.Cell = Cell.FromId(cellID);
 
-        return helm;
+        return bigToken;
       }
 
       public void useCell(){
@@ -42,6 +42,6 @@ public class Helm : Item
       public void useHero(){
       }
 
-      public static string Type { get => typeof(Helm).ToString(); }
+      public static string Type { get => typeof(BigToken).ToString(); }
 
     }

@@ -9,7 +9,7 @@ public class Thorald : Movable
     public string Type { get; protected set; }
     public Color Color { get; set; }
     protected int rank;
-
+    
     static void Factory()
     {
         Color color = new Color(0, 0, 0, 1);
@@ -28,8 +28,8 @@ public class Thorald : Movable
         thorald.TokenName = thorald.Type;
 
         thorald.rank = 72;
-        Cell cell = Cell.FromId(thorald.rank);
-        thorald.Cell = cell;
+        thorald.Cell = Cell.FromId(thorald.rank);
+        thorald.MoveCost = 0.25f;
     }
 
     void Awake()

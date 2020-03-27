@@ -25,10 +25,7 @@ public class Warrior : Hero
         warrior.TokenName = warrior.Type;
 
         warrior.rank = 14;
-        Cell cell = Cell.FromId(warrior.rank);
-        warrior.Cell = cell;
-
-        warrior.State = new HeroState(cell, color, warrior.name, warrior.Type.ToString());
+        warrior.Cell = Cell.FromId(warrior.rank);
 
         warrior.Dices = new int[21] {
             2, 2, 2, 2, 2, 2, 2,
@@ -40,6 +37,8 @@ public class Warrior : Hero
             "Mairen",
             "Thorn"
         };
+
+        warrior.Init();
     }
 
     void Awake()

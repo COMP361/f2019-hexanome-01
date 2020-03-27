@@ -11,10 +11,12 @@ public class MoveOptions : MonoBehaviour {
         EventManager.MoveSelect += Show;
         EventManager.MoveThorald += Show;
         EventManager.MoveThorald += DisableHeroOptions;
-        EventManager.MoveCancel += EnableHeroOptions;
+        EventManager.ActionUpdate += EnableHeroOptions;
         EventManager.MoveConfirm += EnableHeroOptions;
-        EventManager.MoveCancel += Hide;
+        
+        EventManager.ActionUpdate += Hide;
         EventManager.MoveConfirm += Hide;
+        
         EventManager.PathUpdate += LockConfirm;
         EventManager.PathUpdate += LockClearPath;
 
@@ -27,9 +29,9 @@ public class MoveOptions : MonoBehaviour {
         EventManager.MoveSelect -= Show;
         EventManager.MoveThorald -= Show;
         EventManager.MoveThorald -= DisableHeroOptions;
-        EventManager.MoveCancel -= EnableHeroOptions;
+        EventManager.ActionUpdate -= EnableHeroOptions;
         EventManager.MoveConfirm -= EnableHeroOptions;
-        EventManager.MoveCancel -= Hide;
+        EventManager.ActionUpdate -= Hide;
         EventManager.MoveConfirm -= Hide;
         EventManager.PathUpdate -= LockConfirm;
         EventManager.PathUpdate -= LockClearPath;
@@ -43,7 +45,7 @@ public class MoveOptions : MonoBehaviour {
         panel = transform.Find("Panel").gameObject;
         
         cancelBtn = panel.transform.Find("Cancel Button").GetComponent<Button>();
-        cancelBtn.onClick.AddListener(delegate { EventManager.TriggerMoveCancel(); });
+        cancelBtn.onClick.AddListener(delegate { EventManager.TriggerActionUpdate(Action.None.Value); });
 
         clearPathBtn = panel.transform.Find("Clear Path Button").GetComponent<Button>();
         clearPathBtn.onClick.AddListener(delegate { EventManager.TriggerClearPath(); });
@@ -98,6 +100,10 @@ public class MoveOptions : MonoBehaviour {
         panel.SetActive(true);
     }
 
+    public void Hide(int action) {
+        if(Action.FromValue<Action>(action) == Action.None) Hide();
+    }
+
     public void Hide() {
         panel.SetActive(false);
     }
@@ -110,5 +116,9 @@ public class MoveOptions : MonoBehaviour {
     public void EnableHeroOptions() {
         pickFarmerBtn.gameObject.SetActive(true);
         dropFarmerBtn.gameObject.SetActive(true);
+    }
+
+    public void EnableHeroOptions(int action) {
+        if(Action.FromValue<Action>(action) == Action.None) EnableHeroOptions();
     }
 }

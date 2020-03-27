@@ -32,9 +32,7 @@ public class SmallToken : Token
 
         SmallToken smallToken = go.AddComponent<SmallToken>();
         smallToken.TokenName = Type;
-
-        Cell cell = Cell.FromId(cellID);
-        smallToken.Cell = cell;
+        smallToken.Cell = Cell.FromId(cellID);
 
         return smallToken;
       }

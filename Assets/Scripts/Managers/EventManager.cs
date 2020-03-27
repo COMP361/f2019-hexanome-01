@@ -176,18 +176,6 @@ public class EventManager : MonoBehaviour
         }
     }
 
-    // Fired when we cancel the move action before confirming
-    public delegate void MoveCancelHandler();
-    public static event MoveCancelHandler MoveCancel;
-    public static void TriggerMoveCancel()
-    {
-        EventManager.TriggerActionUpdate(Action.None.Value);
-
-        if (MoveCancel != null)
-        {
-            MoveCancel();
-        }
-    }
 
     // Fired when we confirm the move action
     public delegate void MoveConfirmHandler();
@@ -569,13 +557,23 @@ public class EventManager : MonoBehaviour
         }
     }
 
-    public delegate void TimelineUpdateHandler(Hero hero, MapPath path);
+    public delegate void TimelineUpdateHandler(Hero hero, int cost);
     public static event TimelineUpdateHandler TimelineUpdate;
-    public static void TriggerTimelineUpdate(Hero hero, MapPath path)
+    public static void TriggerTimelineUpdate(Hero hero, int cost)
     {
         if (TimelineUpdate != null)
         {
-            TimelineUpdate(hero, path);
+            TimelineUpdate(hero, cost);
+        }
+    }
+
+    public delegate void UpdateHeroStatsHandler(Hero hero);
+    public static event UpdateHeroStatsHandler UpdateHeroStats;
+    public static void TriggerUpdateHeroStats(Hero hero)
+    {
+        if (UpdateHeroStats != null)
+        {
+            UpdateHeroStats(hero);
         }
     }
 
