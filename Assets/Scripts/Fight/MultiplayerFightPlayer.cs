@@ -12,7 +12,7 @@ public class MultiplayerFightPlayer : MonoBehaviour
         public Text wp;
         public SpriteRenderer spriteRenderer;
         public regularDices[] rd; //= new regularDices[4];
-        //public bool isPresent = false;
+        public bool isPresent = false;
 
         public HeroFighter(string type)
         {
@@ -40,10 +40,28 @@ public class MultiplayerFightPlayer : MonoBehaviour
 
     }
 
-    
-    private void Start()
+    private HeroFighter mage = new HeroFighter("Mage");
+    private HeroFighter archer = new HeroFighter("Archer");
+    private HeroFighter warrior = new HeroFighter("Warrior");
+    private HeroFighter dwarf = new HeroFighter("Dwarf");
+
+    public void activateMage()
     {
-        
+        mage.isPresent = !mage.isPresent;
     }
 
+    public void activateArcher()
+    {
+        archer.isPresent = !archer.isPresent;
+    }
+
+    public void activateWarrior()
+    {
+        warrior.isPresent = !warrior.isPresent;
+    }
+
+    public void activateDwarf()
+    {
+        dwarf.isPresent = !dwarf.isPresent;
+    }
 }
