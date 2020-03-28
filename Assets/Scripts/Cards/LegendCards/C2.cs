@@ -20,6 +20,9 @@ public class C2 : LegendCard
 
     public override void ApplyEffect()
     {
-        //throw new System.NotImplementedException();
+        GameManager.instance.gors.Add(Gor.Factory(27));
+        GameManager.instance.gors.Add(Gor.Factory(31));
+        GameManager.instance.skrals.Add(Skral.Factory(29));
+        GameManager.instance.thorald = Thorald.Instance;
     }
 }

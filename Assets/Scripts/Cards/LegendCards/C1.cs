@@ -25,5 +25,6 @@ public class C1 : LegendCard
         Random rand = new Random();
         int towerSkralCell = rand.Next(1, 6) + 50;
         GameManager.instance.towerskrals.Add(TowerSkral.Factory(towerSkralCell, 3)); //TODO set num of players
+        GameManager.instance.farmers.Add(Farmer.Factory(28));
     }
 }

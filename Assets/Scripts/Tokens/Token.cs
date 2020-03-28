@@ -60,6 +60,11 @@ public class Token : MonoBehaviour {
         }
     }
 
+    public void Destroy()
+    {
+        Destroy(gameObject);
+    }
+
     protected virtual Vector3 getWaypoint(Cell cell) {
         return cell.TokensPosition;
     }

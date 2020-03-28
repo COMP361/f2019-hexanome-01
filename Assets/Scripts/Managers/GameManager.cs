@@ -156,7 +156,7 @@ public class GameManager : Singleton<GameManager>
         }
 
         EventManager.TriggerMainHeroInit(MainHero);
-        thorald = Thorald.Instance;
+        //thorald = Thorald.Instance;
 
         // FARMERS
         farmers = new List<Farmer>();
