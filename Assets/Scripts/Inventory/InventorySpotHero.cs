@@ -5,9 +5,12 @@ using UnityEngine.UI;
 
 public class InventorySpotHero : MonoBehaviour
 {
-    // Start is called before the first frame update
-    public Image icon;
+    Image icon;
     Token token;
+
+    void Awake() {
+      icon = GetComponent<Image>();
+    }
 
     public void AddItem(Token newToken)
     {

@@ -35,7 +35,7 @@ public class GoldOptions : MonoBehaviour
     //    cancelBtnCell.onClick.AddListener(delegate { EventManager.TriggerGoldCellCancel(); });
 
         cancelBtnHero = heroPanel.transform.Find("Cancel Button").GetComponent<Button>();
-    //    cancelBtnHero.onClick.AddListener(delegate { EventManager.TriggerGoldHeroCancel(); });
+        cancelBtnHero.onClick.AddListener(delegate { Hide(); });
 
         pickGoldBtn = cellPanel.transform.Find("Button Pick Gold").GetComponent<Button>();
   //      pickGoldBtn.onClick.AddListener(delegate { EventManager.TriggerPickGold(); });

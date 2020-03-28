@@ -6,28 +6,23 @@ using UnityEngine.UI;
 
 public class InventoryUIHero : Singleton<InventoryUIHero>
 {
-    // Start is called before the first frame update
+  public Transform smallToken;
+  public Transform bigToken;
+  public Transform  helm;
+  public Transform gold;
+  protected InventorySpotHero[] smallSpots;
 
-    public Transform  smallTokenParent;
-    public Transform bigParent;
-    public Transform  helmParent;
-    public Transform goldParent;
-    protected InventorySpotHero[] smallSpots;
-    protected InventorySpotHero bigSpot;
-    protected InventorySpotHero helmSpot;
-    protected InventorySpotHero goldSpot;
-
-    protected Transform goldText;
-
-
-
+  protected InventorySpotHero bigSpot;
+  protected InventorySpotHero helmSpot;
+  protected InventorySpotHero goldSpot;
+  protected Transform goldText;
 
   void Start()
   {
-    smallSpots = smallTokenParent.GetComponentsInChildren<InventorySpotHero>();
-    bigSpot = bigParent.GetComponentInChildren<InventorySpotHero>();
-    helmSpot = helmParent.GetComponentInChildren<InventorySpotHero>();
-    goldSpot = goldParent.GetComponentInChildren<InventorySpotHero>();
+    smallSpots = smallToken.GetComponentsInChildren<InventorySpotHero>();
+    bigSpot = bigToken.GetComponentInChildren<InventorySpotHero>();
+    helmSpot = helm.GetComponentInChildren<InventorySpotHero>();
+    goldSpot = gold.GetComponentInChildren<InventorySpotHero>();
 
     goldText = transform.FindDeepChild("GoldText");
     goldText.gameObject.SetActive(false);
