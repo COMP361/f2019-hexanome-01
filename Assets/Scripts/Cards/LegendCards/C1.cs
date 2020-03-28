@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = System.Random;
 
 public class C1 : LegendCard
 {
@@ -21,6 +22,8 @@ public class C1 : LegendCard
 
     public override void ApplyEffect()
     {
-        throw new System.NotImplementedException();
+        Random rand = new Random();
+        int towerSkralCell = rand.Next(1, 6) + 50;
+        GameManager.instance.towerskrals.Add(TowerSkral.Factory(towerSkralCell, 3)); //TODO set num of players
     }
 }

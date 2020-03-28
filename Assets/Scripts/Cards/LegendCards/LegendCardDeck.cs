@@ -16,4 +16,9 @@ public class LegendCardDeck {
         cards.Add(new G());
         cards.Add(new N());
     }
+
+    public LegendCard getCard(string id)
+    {
+        return cards.Find(x => x.id == id);
+    }
 }

@@ -20,6 +20,6 @@ public class C2 : LegendCard
 
     public override void ApplyEffect()
     {
-        throw new System.NotImplementedException();
+        //throw new System.NotImplementedException();
     }
 }
