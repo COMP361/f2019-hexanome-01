@@ -107,7 +107,7 @@ public class GameManager : Singleton<GameManager>
         castle.Init(players.Count);
         monstersToMove = new List<Enemy>();
 
-        narrator = new Narrator(); 
+        narrator = new Narrator();
 
         heroes = new List<Hero>();
 
