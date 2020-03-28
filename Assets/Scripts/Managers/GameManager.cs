@@ -20,7 +20,7 @@ public class GameManager : Singleton<GameManager>
 
     public Narrator narrator;
     public List<Farmer> farmers;
-    public List<Enemy> gors, skrals, trolls, wardraks;
+    public List<Enemy> gors, skrals, trolls, wardraks, towerskrals;
     public Thorald thorald;
     private int currentPlayerIndex = 0;
     private int mainHeroIndex = -1;
@@ -177,6 +177,7 @@ public class GameManager : Singleton<GameManager>
 
         trolls = new List<Enemy>();
         wardraks = new List<Enemy>();
+        towerskrals = new List<Enemy>();
 
         eventCards = new EventCards();
 
@@ -378,6 +379,7 @@ public class GameManager : Singleton<GameManager>
         foreach (WellCell well in wells) {
             well.resetWell();
         }
+        narrator.MoveNarrator();
         playerTurn = new Queue<Player>(players);
     }
 
