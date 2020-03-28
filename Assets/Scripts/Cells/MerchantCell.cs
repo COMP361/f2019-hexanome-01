@@ -19,7 +19,7 @@ public class MerchantCell : Cell {
     #endregion
 
     #region Static Fields
-    public static readonly Item[] BaseProducts = { Item.Bow, Item.Helm, Item.Falcon, Item.Wineskin, Item.Telescope};
+    public static readonly Items[] BaseProducts = { Items.Bow, Items.Helm, Items.Falcon, Items.Wineskin, Items.Telescope};
     #endregion
 
     #region Fields
@@ -40,7 +40,7 @@ public class MerchantCell : Cell {
     protected override void Start() {
         // Initialize Merchant products with the basics
         products = new Dictionary<string, int>();
-        foreach (Item pname in BaseProducts) {
+        foreach (Items pname in BaseProducts) {
             this.products.Add(pname.ToString(), 2);
         }
         base.Start();

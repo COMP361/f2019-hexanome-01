@@ -49,18 +49,17 @@ public class InventoryUIHero : Singleton<InventoryUIHero>
 
   void UpdateUI(HeroInventory heroInv){
     //updating smallSpots
-    
     for(int i = 0; i < smallSpots.Length; i++){
-      if(i < heroInv.smallTokens.Count){
-        smallSpots[i].AddItem(heroInv.smallTokens[i]);
+      if(i < heroInv.smallItems.Count){
+        smallSpots[i].AddItem(heroInv.smallItems[i]);
       }
       else{
         smallSpots[i].ClearSpot();
       }
     }
 
-    if(heroInv.bigToken != null){
-      bigSpot.AddItem(heroInv.bigToken);
+    if(heroInv.bigItem != null){
+      bigSpot.AddItem(heroInv.bigItem);
     }
     else{
       bigSpot.ClearSpot();
@@ -75,7 +74,7 @@ public class InventoryUIHero : Singleton<InventoryUIHero>
 
     if(heroInv.numOfGold > 0){
       goldSpot.AddItem(heroInv.golds[0]);
-      goldText.GetComponent<Text>().text = "X" +heroInv.numOfGold;
+      goldText.GetComponent<Text>().text = "X" + heroInv.numOfGold;
       goldText.gameObject.SetActive(true);
     }
     else{

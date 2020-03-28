@@ -5,7 +5,7 @@
     Warrior
 }
 
-public enum Item {
+public enum Items {
     Wineskin,
     Shield,
     Bow,
@@ -15,4 +15,12 @@ public enum Item {
     WitchBrew,
     Herb,
     RuneStone
+}
+
+public enum ItemType
+{
+    SmallItem,
+    BigIem,
+    GoldCoin,
+    Helmet
 }
