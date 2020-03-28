@@ -24,7 +24,6 @@ public class GameManager : Singleton<GameManager>
     public Thorald thorald;
     private int currentPlayerIndex = 0;
     private int mainHeroIndex = -1;
-    public LegendCards legendCards;
     public EventCards eventCards;
     public Fog fog;
     public Castle castle;
