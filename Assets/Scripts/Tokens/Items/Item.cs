@@ -2,27 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
-
 public class Item : Token
 {
-
-
     ItemType itemType;
 
-    void Start()
-    {
-
+    void Start() {
     }
 
-    void Update()
-    {
-
+    void Update() {
     }
 
-
-    public void useCell(){
+    public void UseCell(){
     }
-    public void useHero(){
+
+    public void UseHero(){
     }
 }

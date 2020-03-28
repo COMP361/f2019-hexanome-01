@@ -10,8 +10,7 @@ public class FogGold : Fog {
     }
 
     public override void ApplyEffect() {
-        GameObject goldCoinGO = PhotonNetwork.Instantiate("Prefabs/Tokens/GoldCoin", Vector3.zero, Quaternion.identity, 0);
-        Token goldCoin = goldCoinGO.GetComponent<GoldCoin>();
+        SmallToken goldCoin = GoldCoin.Factory();
         GameManager.instance.CurrentPlayer.heroInventory.AddGold(goldCoin);
         Cell = null;
         Destroy(gameObject);

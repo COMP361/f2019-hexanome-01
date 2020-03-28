@@ -2,8 +2,7 @@
 using System;
 using Random = System.Random;
 
-public class Narrator : MonoBehaviour
-{
+public class Narrator {
     public int index; // 0 -> A
     public int runestoneIndex;
     public char runestoneLetter;
@@ -11,8 +10,7 @@ public class Narrator : MonoBehaviour
 
     public LegendCardDeck legendCardDeck;
 
-    public Narrator()
-    {
+    public Narrator() {
         index = 0;
         setRunestonePosition();
         legendCardDeck = new LegendCardDeck(false);
@@ -69,8 +67,7 @@ public class Narrator : MonoBehaviour
         }
     }
 
-    public void MoveNarrator()
-    {
+    public void MoveNarrator() {
         if (index < 78)
         {
             index++;

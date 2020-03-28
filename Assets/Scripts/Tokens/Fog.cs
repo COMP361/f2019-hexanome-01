@@ -9,6 +9,7 @@ public class Fog : Token {
 
     public void OnEnable() {
         EventManager.MoveComplete += OnMoveComplete;
+        base.OnEnable();
 	}
 
 	public void OnDisable() {

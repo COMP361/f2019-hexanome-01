@@ -9,20 +9,6 @@ public class InventorySpotHero : MonoBehaviour
     public Image icon;
     Token token;
 
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-
-
-    }
-
-
     public void AddItem(Token newToken)
     {
       token = newToken;
