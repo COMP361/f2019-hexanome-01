@@ -63,7 +63,7 @@ public class InventoryUIHero : Singleton<InventoryUIHero>
     }
 
     if(heroInv.numOfGold > 0){
-      goldSpot.AddItem(heroInv.golds[0]);
+      goldSpot.AddItem((Token) heroInv.golds2[0]);
       goldText.GetComponent<Text>().text = "X" + heroInv.numOfGold;
       goldText.gameObject.SetActive(true);
     }

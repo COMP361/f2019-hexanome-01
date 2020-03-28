@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
 using Photon.Realtime;
+using  System.Collections.Specialized;
 public class HeroInventory
 {
     public List<SmallToken> smallTokens { get; private set; }
@@ -18,6 +19,9 @@ public class HeroInventory
     public int numOfGold { get; private set; }
     public PhotonView photonView;
 
+    public OrderedDictionary golds2 { get; private set; }
+    public OrderedDictionary AllTokens2 { get; private set; }
+
     void OnEnable() {
       EventManager.InventoryUICellEnter += updateUI;
     }
@@ -27,7 +31,7 @@ public class HeroInventory
     }
 
     public HeroInventory(string parentHero){
-      AllTokens = new List<Token>(); 
+      AllTokens = new List<Token>();
       smallTokens = new List<SmallToken>();
       golds = new List<GoldCoin>();
       bigToken =null;
@@ -35,6 +39,10 @@ public class HeroInventory
       spaceSmall = 3;
       numOfGold = 0;
       this.parentHero = parentHero;
+      golds2 = new OrderedDictionary();
+      AllTokens2 = new OrderedDictionary();
+
+
     }
 
 
@@ -88,7 +96,7 @@ public class HeroInventory
         if (listType.IsCompatibleWith(token.GetType())) {
             smallTokens.Remove((SmallToken)token);
             return;
-          }/* 
+          }/*
         listType = BigToken.GetType();
         if (listType.IsCompatibleWith(token.GetType())) {
           if (bigToken == token){
@@ -123,16 +131,51 @@ public class HeroInventory
             {
                 amtToRemove--;
                 if(amtToRemove < golds.Count) {
-                  AllTokens.Remove(golds[amtToRemove]);                
+                  AllTokens.Remove(golds[amtToRemove]);
                   golds.RemoveAt(amtToRemove);
-                } 
+                }
             }
-            
+
         }
         EventManager.TriggerInventoryUIHeroUpdate(this);
     }
 
     #endregion
+
+    public void AddGoldTest(SmallToken gold){
+
+      int viewID = gold.GetComponent<PhotonView>().ViewID;
+      GameManager.instance.AddGoldHeroTestRPC(viewID, parentHero);
+    }
+
+    public void RemoveGoldTest(SmallToken gold){
+
+      int viewID = gold.GetComponent<PhotonView>().ViewID;
+      GameManager.instance.RemoveGoldHeroTestRPC(viewID, parentHero);
+    }
+
+    public void addGoldTest2(Token gold){
+        int id = gold.GetComponent<PhotonView>().ViewID;
+        golds2.Add(id, (GoldCoin)gold);
+        AllTokens2.Add(id,(GoldCoin)gold);
+        numOfGold++;
+        if(GameManager.instance.MainHero.TokenName.Equals(parentHero)){
+          EventManager.TriggerInventoryUIHeroUpdate(this);
+        }
+        Debug.Log("IS THERE AN OBJECT: " + parentHero + " " + ((Token)golds2[0]).TokenName);
+    }
+
+    public void RemoveGoldTest2(Token toRemove){
+      if (golds2.Count >= amtToRemove)
+      {
+          numOfGold-= amtToRemove;
+          while(amtToRemove != 0)
+          {
+
+            }
+          }
+
+    }
 
     public void updateUI(CellInventory inventory, int index){}
 

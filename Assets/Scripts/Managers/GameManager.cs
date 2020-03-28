@@ -295,7 +295,7 @@ public class GameManager : Singleton<GameManager>
             while (mageGold != 0)
             {
                 SmallToken goldCoin = GoldCoin.Factory();
-                mage.heroInventory.AddGold(goldCoin);
+                mage.heroInventory.AddGoldTest(goldCoin);
                 mageGold--;
             }
         }
@@ -514,6 +514,32 @@ public class GameManager : Singleton<GameManager>
         GameObject goldCoinGO = PhotonNetwork.Instantiate("Prefabs/Tokens/GoldCoin", Vector3.zero, Quaternion.identity, 0);
         GoldCoin goldCoin = goldCoinGO.GetComponent<GoldCoin>();
         cell.Inventory.AddToken(goldCoin);
+    }
+
+
+    [PunRPC]
+     public void AddGoldHeroTestRPC(int viewID, string hero){
+        Token toAdd = PhotonView.Find(viewID).gameObject.GetComponent<GoldCoin>();
+        Hero toAddTo = findHero(hero);
+        toAddTo.heroInventory.addGoldTest2(toAdd);
+
+        }
+
+    [PunRPC]
+     public void RemoveGoldHeroTestRPC(int viewID, string hero){
+        Token toRemove = PhotonView.Find(viewID).gameObject.GetComponent<GoldCoin>();
+        Hero toRemoveFrom = findHero(hero);
+        toRemoveFrom.heroInventory.RemoveGoldTest2(toRemove);
+
+        }
+
+    public Hero findHero(string hero){
+      for (int i = 0; i <heroes.Count(); i++){
+        if(heroes[i].TokenName.Equals(hero)){
+          return heroes[i];
+        }
+      }
+      return null;
     }
 
     #endregion
