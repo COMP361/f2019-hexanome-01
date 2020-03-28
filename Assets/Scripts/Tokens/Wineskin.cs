@@ -34,14 +34,5 @@ public class Wineskin : SmallToken
         return wineskin;
     }
 
-    public void useCell()
-    {
-        // TODO
-    }
-    public void useHero()
-    {
-        //TODO
-    }
-
     public static string Type { get => typeof(Wineskin).ToString(); }
 }

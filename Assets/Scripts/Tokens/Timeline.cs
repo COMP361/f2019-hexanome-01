@@ -87,7 +87,7 @@ public class Timeline
         // if path reaches 8, 9 10 decreae willpoints
         if (cost > freeHours) { 
             int wp = (cost - freeHours) * 2;
-            hero.decrementWP(wp);
+            hero.Willpower -= wp;
         }
 
         Index += cost;

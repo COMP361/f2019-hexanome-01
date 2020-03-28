@@ -77,8 +77,8 @@ public class HeroInventory
       AllTokens.Add(token);
       numOfGold++;
       if(GameManager.instance.MainHero.heroInventory == this){
-      EventManager.TriggerInventoryUIHeroUpdate(this);
-    }
+        EventManager.TriggerInventoryUIHeroUpdate(this);
+      }
       return true;
     }
 

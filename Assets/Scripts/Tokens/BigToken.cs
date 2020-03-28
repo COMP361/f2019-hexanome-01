@@ -37,11 +37,6 @@ public class BigToken : Token
         return bigToken;
       }
 
-      public void useCell(){
-      }
-      public void useHero(){
-      }
-
       public static string Type { get => typeof(BigToken).ToString(); }
 
     }

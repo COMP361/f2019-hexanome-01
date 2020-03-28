@@ -6,20 +6,19 @@ using UnityEngine;
 
 public class GoldCoin : Token
 {
+  public PhotonView photonView;
 
-      public PhotonView photonView;
-    
-      public void Awake() {
-        TokenName = Type;
-      }
+  public void Awake() {
+    TokenName = Type;
+  }
 
-      public void useCell(){
-        EventManager.TriggerCellGoldClick(this);
-      }
-      public void useHero(){
-        EventManager.TriggerHeroGoldClick(this);
-      }
+  public override void UseCell(){
+    EventManager.TriggerCellGoldClick(this);
+  }
 
-      public static string Type { get => typeof(GoldCoin).ToString(); }
+  public override void UseHero(){
+    EventManager.TriggerHeroGoldClick(this);
+  }
 
-    }
+  public static string Type { get => typeof(GoldCoin).ToString(); }
+}

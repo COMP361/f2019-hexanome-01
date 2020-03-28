@@ -10,8 +10,8 @@ public class MerchantCell : Cell {
      * Standard Merchant - 18,57
      * Dwarf Merchant - 71
      * Witch - Random (one of the fog cells)
-     */
-    /* Inventory Information:
+     *
+     * Inventory Information:
      * Standard Items - shield, bow, falcon, wineskin, telescope
      * Special Items - strength, witch
      */

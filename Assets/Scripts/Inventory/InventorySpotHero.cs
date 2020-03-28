@@ -38,11 +38,8 @@ public class InventorySpotHero : MonoBehaviour
     }
 
     public void UseItem(){
-
       if(token != null){
-        if(token.TokenName.Equals("GoldCoin")){
-        ((GoldCoin) token).useHero();
-        }
+        token.UseHero();
       }
     }
 }

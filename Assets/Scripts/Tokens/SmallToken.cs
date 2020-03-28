@@ -37,11 +37,6 @@ public class SmallToken : Token
         return smallToken;
       }
 
-      public void useCell(){
-      }
-      public void useHero(){
-      }
-
       public static string Type { get => typeof(SmallToken).ToString(); }
 
     }

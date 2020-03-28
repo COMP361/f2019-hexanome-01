@@ -19,7 +19,7 @@ public class PlayerBoard : MonoBehaviour
     void OnDisable() {
         EventManager.FarmersInventoriesUpdate -= UpdateFarmerCount;
         EventManager.UpdateHeroStats -= UpdatePlayerStats;
-        EventManager.MainHeroInit += InitHero;
+        EventManager.MainHeroInit -= InitHero;
     }
 
     // Start is called before the first frame update

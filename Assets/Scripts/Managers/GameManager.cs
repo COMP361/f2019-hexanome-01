@@ -23,7 +23,6 @@ public class GameManager : Singleton<GameManager>
     public Thorald thorald;
     private int currentPlayerIndex = 0;
     private int mainHeroIndex = -1;
-    public Fog fog;
     public LegendCards legendCards;
     public EventCards eventCards;
     public Castle castle;
@@ -179,7 +178,7 @@ public class GameManager : Singleton<GameManager>
         legendCards = new LegendCards();
         eventCards = new EventCards();
 
-        fog = new Fog();
+        Fog.Factory();
 
         wells = new List<WellCell>();
         wells.Add(Cell.FromId(5) as WellCell);
