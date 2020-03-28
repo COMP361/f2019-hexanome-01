@@ -37,11 +37,6 @@ public class InventoryUIHero : Singleton<InventoryUIHero>
     EventManager.InventoryUIHeroUpdate -= UpdateUI;
   }
 
-  void Update(){
-
-    }
-
-
   void UpdateUI(HeroInventory heroInv){
     //updating smallSpots
     for(int i = 0; i < smallSpots.Length; i++){

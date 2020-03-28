@@ -17,11 +17,12 @@ public class GameManager : Singleton<GameManager>
     public List<Player> players;
     public Queue<Player> playerTurn;
     public List<Hero> heroes;
-
     public Narrator narrator;
     public List<Farmer> farmers;
+
     public List<Enemy> gors, skrals, trolls, wardraks, towerskrals;
-    public Thorald thorald;
+    private Thorald thorald;
+    public Witch witch = null;
     private int currentPlayerIndex = 0;
     private int mainHeroIndex = -1;
     public EventCards eventCards;
