@@ -318,7 +318,7 @@ public class GameManager : Singleton<GameManager>
             while (warriorWineskins != 0)
             {
                 Item wineskin = Wineskin.Factory();
-                warrior.heroInventory.AddSmallItem(wineskin);
+                warrior.heroInventory.AddSmallToken(wineskin);
                 warriorWineskins--;
             }
 
@@ -330,7 +330,7 @@ public class GameManager : Singleton<GameManager>
             while (archerWineskins != 0)
             {
                 Item wineskin = Wineskin.Factory();
-                archer.heroInventory.AddSmallItem(wineskin);
+                archer.heroInventory.AddSmallToken(wineskin);
                 archerWineskins--;
             }
         }
@@ -341,7 +341,7 @@ public class GameManager : Singleton<GameManager>
             while (dwarfWineskins != 0)
             {
                 Item wineskin = Wineskin.Factory();
-                dwarf.heroInventory.AddSmallItem(wineskin);
+                dwarf.heroInventory.AddSmallToken(wineskin);
                 dwarfWineskins--;
             }
         }
@@ -352,7 +352,7 @@ public class GameManager : Singleton<GameManager>
             while (mageWineskins != 0)
             {
                 Item wineskin = Wineskin.Factory();
-                mage.heroInventory.AddSmallItem(wineskin);
+                mage.heroInventory.AddSmallToken(wineskin);
                 mageWineskins--;
             }
         }

@@ -8,7 +8,7 @@ public class InventoryUIHero : Singleton<InventoryUIHero>
 {
     // Start is called before the first frame update
 
-    public Transform  smallItemsParent;
+    public Transform  smallTokenParent;
     public Transform bigParent;
     public Transform  helmParent;
     public Transform goldParent;
@@ -24,7 +24,7 @@ public class InventoryUIHero : Singleton<InventoryUIHero>
 
   void Start()
   {
-    smallSpots = smallItemsParent.GetComponentsInChildren<InventorySpotHero>();
+    smallSpots = smallTokenParent.GetComponentsInChildren<InventorySpotHero>();
     bigSpot = bigParent.GetComponentInChildren<InventorySpotHero>();
     helmSpot = helmParent.GetComponentInChildren<InventorySpotHero>();
     goldSpot = goldParent.GetComponentInChildren<InventorySpotHero>();
@@ -50,16 +50,16 @@ public class InventoryUIHero : Singleton<InventoryUIHero>
   void UpdateUI(HeroInventory heroInv){
     //updating smallSpots
     for(int i = 0; i < smallSpots.Length; i++){
-      if(i < heroInv.smallItems.Count){
-        smallSpots[i].AddItem(heroInv.smallItems[i]);
+      if(i < heroInv.smallTokens.Count){
+        smallSpots[i].AddItem(heroInv.smallTokens[i]);
       }
       else{
         smallSpots[i].ClearSpot();
       }
     }
 
-    if(heroInv.bigItem != null){
-      bigSpot.AddItem(heroInv.bigItem);
+    if(heroInv.bigToken != null){
+      bigSpot.AddItem(heroInv.bigToken);
     }
     else{
       bigSpot.ClearSpot();

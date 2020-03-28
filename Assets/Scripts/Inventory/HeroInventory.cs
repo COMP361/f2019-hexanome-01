@@ -7,11 +7,11 @@ using Photon.Pun;
 using Photon.Realtime;
 public class HeroInventory
 {
-    public List<Item> smallItems { get; private set; }
+    public List<SmallToken> smallTokens { get; private set; }
     public List<GoldCoin> golds { get; private set; }
-    public Item bigItem { get; private set; }
+    public BigToken bigToken { get; private set; }
     public Helm helm { get; private set; }
-    public List<Item> AllItems { get; private set; }
+    public List<Token> AllTokens { get; private set; }
 
     public string parentHero;
     private int spaceSmall;
@@ -27,10 +27,10 @@ public class HeroInventory
     }
 
     public HeroInventory(string parentHero){
-      AllItems = new List<Item>();
-      smallItems = new List<Item>();
+      AllTokens = new List<Token>(); 
+      smallTokens = new List<SmallToken>();
       golds = new List<GoldCoin>();
-      bigItem =null;
+      bigToken =null;
       helm = null;
       spaceSmall = 3;
       numOfGold = 0;
@@ -40,41 +40,41 @@ public class HeroInventory
 
 #region AddTokens
 
-    public bool AddSmallItem(Item item){
+    public bool AddSmallToken(Token token){
 
-      if(smallItems.Count >= spaceSmall){
+      if(smallTokens.Count >= spaceSmall){
         Debug.Log("Not enough room ");
         return false;
       }
-       smallItems.Add(item);
+       smallTokens.Add((SmallToken)token);
        EventManager.TriggerInventoryUIHeroUpdate(this);
        return true;
     }
 
-    public bool AddBigItem(Item item){
-      if(bigItem != null){
+    public bool AddBigToken(Token token){
+      if(bigToken != null){
         Debug.Log("Not enough room ");
         return false;
       }
-       bigItem = item;
+       bigToken = (BigToken)token;
        EventManager.TriggerInventoryUIHeroUpdate(this);
        return true;
     }
 
-    public bool AddHelm(Item item){
+    public bool AddHelm(Token token){
       if(helm != null){
         Debug.Log("Not enough room ");
         return false;
       }
-       helm = (Helm)item;
+       helm = (Helm)token;
        EventManager.TriggerInventoryUIHeroUpdate(this);
        return true;
     }
 
     // maybe have a void return type
-    public bool AddGold(Item item){
-      golds.Add((GoldCoin)item);
-      AllItems.Add(item);
+    public bool AddGold(Token token){
+      golds.Add((GoldCoin)token);
+      AllTokens.Add(token);
       numOfGold++;
       if(GameManager.instance.MainHero.heroInventory == this){
         EventManager.TriggerInventoryUIHeroUpdate(this);
@@ -82,13 +82,13 @@ public class HeroInventory
       return true;
     }
 
-    public void RemoveToken(Item item){
+    public void RemoveToken(Token token){
         Type listType;
-        listType = smallItems.GetListType();
-        if (listType.IsCompatibleWith(item.GetType())) {
-            smallItems.Remove(item);
+        listType = smallTokens.GetListType();
+        if (listType.IsCompatibleWith(token.GetType())) {
+            smallTokens.Remove((SmallToken)token);
             return;
-          }/*
+          }/* 
         listType = BigToken.GetType();
         if (listType.IsCompatibleWith(token.GetType())) {
           if (bigToken == token){
@@ -106,11 +106,11 @@ public class HeroInventory
         }
         */
         listType = golds.GetListType();
-        if (listType.IsCompatibleWith(item.GetType())) {
-          golds.Remove((GoldCoin)item);
+        if (listType.IsCompatibleWith(token.GetType())) {
+          golds.Remove((GoldCoin)token);
           return;
         }
-        AllItems.Remove(item);
+        AllTokens.Remove(token);
         EventManager.TriggerInventoryUIHeroUpdate(this);
     }
 
@@ -123,11 +123,11 @@ public class HeroInventory
             {
                 amtToRemove--;
                 if(amtToRemove < golds.Count) {
-                  AllItems.Remove(golds[amtToRemove]);
+                  AllTokens.Remove(golds[amtToRemove]);                
                   golds.RemoveAt(amtToRemove);
-                }
+                } 
             }
-
+            
         }
         EventManager.TriggerInventoryUIHeroUpdate(this);
     }
