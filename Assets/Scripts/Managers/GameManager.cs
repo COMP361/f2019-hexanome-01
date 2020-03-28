@@ -295,7 +295,7 @@ public class GameManager : Singleton<GameManager>
             while (mageGold != 0)
             {
                 SmallToken goldCoin = GoldCoin.Factory();
-                mage.heroInventory.AddGoldTest(goldCoin);
+                mage.heroInventory.AddGold(goldCoin);
                 mageGold--;
             }
         }
@@ -527,10 +527,9 @@ public class GameManager : Singleton<GameManager>
 
     [PunRPC]
      public void RemoveGoldHeroTestRPC(int viewID, string hero){
-        Token toRemove = PhotonView.Find(viewID).gameObject.GetComponent<GoldCoin>();
+      //  Token toRemove = PhotonView.Find(viewID).gameObject.GetComponent<GoldCoin>();
         Hero toRemoveFrom = findHero(hero);
-        toRemoveFrom.heroInventory.RemoveGoldTest2(toRemove);
-
+        toRemoveFrom.heroInventory.RemoveGoldTest2(viewID);
         }
 
     public Hero findHero(string hero){

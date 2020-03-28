@@ -80,6 +80,7 @@ public class HeroInventory
     }
 
     // maybe have a void return type
+    /*
     public bool AddGold(Token token){
       golds.Add((GoldCoin)token);
       AllTokens.Add(token);
@@ -88,7 +89,7 @@ public class HeroInventory
         EventManager.TriggerInventoryUIHeroUpdate(this);
       }
       return true;
-    }
+    } */
 
     public void RemoveToken(Token token){
         Type listType;
@@ -122,6 +123,7 @@ public class HeroInventory
         EventManager.TriggerInventoryUIHeroUpdate(this);
     }
 
+/*
     public void RemoveGold(int amtToRemove)
     {
         if (golds.Count >= amtToRemove)
@@ -139,23 +141,30 @@ public class HeroInventory
         }
         EventManager.TriggerInventoryUIHeroUpdate(this);
     }
-
+*/
     #endregion
 
-    public void AddGoldTest(SmallToken gold){
+    public void AddGold(SmallToken gold){
 
       int viewID = gold.GetComponent<PhotonView>().ViewID;
       GameManager.instance.AddGoldHeroTestRPC(viewID, parentHero);
     }
 
-    public void RemoveGoldTest(SmallToken gold){
+    public void RemoveGold(int amtToRemove){
+      if(numOfGold >= amtToRemove){
+        for(int i = 0; i< amtToRemove; i++){
+          int viewID = ((GoldCoin)golds2[i]).GetComponent<PhotonView>().ViewID;
+          GameManager.instance.RemoveGoldHeroTestRPC(viewID, parentHero);
+        }
+      }
+      else{
+        // error not enough gold
+      }
 
-      int viewID = gold.GetComponent<PhotonView>().ViewID;
-      GameManager.instance.RemoveGoldHeroTestRPC(viewID, parentHero);
     }
 
     public void addGoldTest2(Token gold){
-        int id = gold.GetComponent<PhotonView>().ViewID;
+        string id = convertToKey(gold.GetComponent<PhotonView>().ViewID);
         golds2.Add(id, (GoldCoin)gold);
         AllTokens2.Add(id,(GoldCoin)gold);
         numOfGold++;
@@ -165,19 +174,21 @@ public class HeroInventory
         Debug.Log("IS THERE AN OBJECT: " + parentHero + " " + ((Token)golds2[0]).TokenName);
     }
 
-    public void RemoveGoldTest2(Token toRemove){
-      if (golds2.Count >= amtToRemove)
-      {
-          numOfGold-= amtToRemove;
-          while(amtToRemove != 0)
-          {
-
-            }
-          }
-
+    public void RemoveGoldTest2(int viewID){
+        numOfGold--;
+        AllTokens2.Remove(convertToKey(viewID));
+        golds2.Remove(convertToKey(viewID));
+        if(GameManager.instance.MainHero.TokenName.Equals(parentHero)){
+          EventManager.TriggerInventoryUIHeroUpdate(this);
+        }
     }
 
     public void updateUI(CellInventory inventory, int index){}
+
+    public string convertToKey(int a){
+      string toReturn = "" + a;
+      return toReturn;
+    }
 
 
 }
