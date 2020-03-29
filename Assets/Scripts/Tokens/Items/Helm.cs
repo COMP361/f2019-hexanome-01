@@ -4,7 +4,10 @@ using UnityEngine;
 
 public class Helm : Token
 {
-    public static Helm Factory()
+  public static string name = "Helm";
+  public static string desc = "A helm allows you to total up all identical dice values in a battle.";
+   
+  public static Helm Factory()
     {
       Sprite sprite = Resources.Load<Sprite>("Sprites/Tokens/Fog/Gold");
       GameObject go = new GameObject("Helm");
@@ -19,7 +22,7 @@ public class Helm : Token
     }
 
     public static Helm Factory(int cellID){
-      Sprite sprite = Resources.Load<Sprite>("Sprites/Tokens/Fog/Gold");
+      Sprite sprite = Resources.Load<Sprite>("Sprites/Tokens/Helmet");
       GameObject go = new GameObject("Helm");
       SpriteRenderer renderer = go.AddComponent<SpriteRenderer>();
       renderer.sprite = sprite;
@@ -33,4 +36,14 @@ public class Helm : Token
     }
 
     public static string Type { get => typeof(Helm).ToString(); }
+
+    public static void Buy() {
+        Hero hero = GameManager.instance.MainHero;
+        int cost = 2;
+        
+        if(hero.heroInventory.numOfGold >= cost) {
+            hero.heroInventory.RemoveGold(cost);
+            // add Helm to Inventory
+        }
+    }
   }

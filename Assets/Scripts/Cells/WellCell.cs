@@ -16,7 +16,7 @@ public class WellCell : Cell {
     EventManager.pickWellClick += EmptyWell;
     base.OnEnable();
   }
-
+  
   void OnDisable() {
     EventManager.pickWellClick -= EmptyWell;
   }

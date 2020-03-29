@@ -69,7 +69,6 @@ public class CellInventory : ICloneable {
 
     [PunRPC]
     public void RemoveTokenRPC(int objectIndex, int cellIndex){
-      //if(cellID == cellIndex){
         Type listType;
         Token token = AllTokens[objectIndex];
         AllTokens.Remove(token);
@@ -91,7 +90,6 @@ public class CellInventory : ICloneable {
           Farmers.Remove((Farmer)token);
           return;
         }
-    //  }
     }
 
     public void RemoveToken(int objectIndex){
@@ -120,15 +118,14 @@ public class CellInventory : ICloneable {
         InventoryUICell.instance.ForceUpdate(this, cellID);
         return;
       }
-       InventoryUICell.instance.ForceUpdate(this, cellID);
-    //  }
+      InventoryUICell.instance.ForceUpdate(this, cellID);
     }
 
   public void RemoveToken(Token token) {
-  //  int objectIndex = AllTokens.IndexOf(token);
-  //  int cellIndex = cellID;
-  //  photonView.RPC("RemoveTokenRPC", RpcTarget.AllViaServer, new object[] {objectIndex, cellIndex});
-  GameManager.instance.RemoveTokenCell(token, this);
+    //  int objectIndex = AllTokens.IndexOf(token);
+    //  int cellIndex = cellID;
+    //  photonView.RPC("RemoveTokenRPC", RpcTarget.AllViaServer, new object[] {objectIndex, cellIndex});
+    GameManager.instance.RemoveTokenCell(token, this);
   }
 
   public object Clone() {

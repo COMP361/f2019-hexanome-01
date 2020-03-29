@@ -155,29 +155,6 @@ public class EventManager : MonoBehaviour
         }
     }
 
-    // Fired when we enter a merchant cell with mouse
-    public delegate void MerchCellMouseEnterHandler(int cellID);
-    public static event MerchCellMouseEnterHandler MerchCellMouseEnter;
-    public static void TriggerMerchCellMouseEnter(int cellID)
-    {
-        if (MerchCellMouseEnter != null)
-        {
-            MerchCellMouseEnter(cellID);
-        }
-    }
-
-    // Fired when we enter a merchant cell with mouse
-    public delegate void MerchCellMouseLeaveHandler();
-    public static event MerchCellMouseLeaveHandler MerchCellMouseLeave;
-    public static void TriggerMerchCellMouseLeave()
-    {
-        if (MerchCellMouseLeave != null)
-        {
-            MerchCellMouseLeave();
-        }
-    }
-
-
     // Fired when we confirm the move action
     public delegate void MoveConfirmHandler();
     public static event MoveConfirmHandler MoveConfirm;

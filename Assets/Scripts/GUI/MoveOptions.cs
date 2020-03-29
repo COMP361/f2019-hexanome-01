@@ -53,10 +53,10 @@ public class MoveOptions : MonoBehaviour {
         confirmBtn = panel.transform.Find("Confirm Button").GetComponent<Button>();
         confirmBtn.onClick.AddListener(delegate { EventManager.TriggerMoveConfirm(); });
 
-        pickFarmerBtn = panel.transform.Find("Button Pick Farmer").GetComponent<Button>();
+        pickFarmerBtn = panel.transform.Find("Pick Farmer Button").GetComponent<Button>();
         pickFarmerBtn.onClick.AddListener(delegate { EventManager.TriggerPickFarmer(); });
 
-        dropFarmerBtn = panel.transform.Find("Button Drop Farmer").GetComponent<Button>();
+        dropFarmerBtn = panel.transform.Find("Drop Farmer Button").GetComponent<Button>();
         dropFarmerBtn.onClick.AddListener(delegate { EventManager.TriggerDropFarmer(); });
     }
 

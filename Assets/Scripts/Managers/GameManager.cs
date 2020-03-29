@@ -98,6 +98,10 @@ public class GameManager : Singleton<GameManager>
 
     void Start()
     {
+        GameObject canvas = GameObject.Find("Canvas");
+        canvas.transform.Find("DistributeGold").gameObject.SetActive(true);
+        canvas.transform.Find("DistributeWineskins").gameObject.SetActive(true);
+
         castle = Castle.Instance;
         castle.Init(players.Count);
         monstersToMove = new List<Enemy>();
@@ -249,6 +253,8 @@ public class GameManager : Singleton<GameManager>
 
     void DistributeGold(int warriorGold, int archerGold, int dwarfGold, int mageGold)
     {
+        GameObject distributeGoldGO = GameObject.Find("DistributeGold");
+        
         Hero warrior = heroes.Where(x => x.Type.ToString() == "Warrior").FirstOrDefault();
         if (warriorGold > 0 && warrior != null)
         {
@@ -291,7 +297,6 @@ public class GameManager : Singleton<GameManager>
             }
         }
 
-        GameObject distributeGoldGO = GameObject.Find("DistributeGold");
         if (PhotonNetwork.IsMasterClient)
         {
             distributeGoldGO.SetActive(false);
@@ -300,6 +305,8 @@ public class GameManager : Singleton<GameManager>
 
     void DistributeWineskins(int warriorWineskins, int archerWineskins, int dwarfWineskins, int mageWineskins)
     {
+        GameObject distributeWineskinsGO = GameObject.Find("DistributeWineskins");
+        
         Hero warrior = heroes.Where(x => x.Type.ToString() == "Warrior").FirstOrDefault();
         if (warriorWineskins > 0 && warrior != null)
         {
@@ -345,7 +352,6 @@ public class GameManager : Singleton<GameManager>
             }
         }
 
-        GameObject distributeWineskinsGO = GameObject.Find("DistributeWineskins");
         if (PhotonNetwork.IsMasterClient)
         {
             distributeWineskinsGO.SetActive(false);
@@ -361,14 +367,17 @@ public class GameManager : Singleton<GameManager>
         EventCardDeck.Instance.GetCard();
 
         InitMonsterMove();
-        foreach (Hero h in heroes) {
-            h.timeline.EndDay();
+        
+        foreach (Hero hero in heroes) {
+            hero.timeline.EndDay();
         }
 
         foreach (WellCell well in wells) {
             well.ResetWell();
         }
+
         narrator.MoveNarrator();
+        
         playerTurn = new Queue<Player>(players);
     }
 
@@ -500,8 +509,7 @@ public class GameManager : Singleton<GameManager>
     }
 
     [PunRPC]
-    public void AddGoldCellRPC(int cellIndex){
-
+    public void AddGoldCellRPC(int cellIndex) {
         Cell cell = Cell.FromId(cellIndex);
         GameObject goldCoinGO = PhotonNetwork.Instantiate("Prefabs/Tokens/GoldCoin", Vector3.zero, Quaternion.identity, 0);
         GoldCoin goldCoin = goldCoinGO.GetComponent<GoldCoin>();

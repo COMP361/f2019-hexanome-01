@@ -27,8 +27,8 @@ public class GoldOptions : MonoBehaviour
 
 
     void Awake() {
-        heroPanel = transform.Find("Hero").gameObject;
-        cellPanel = transform.Find("Cell").gameObject;
+        heroPanel = transform.Find("Gold Drop Action").gameObject;
+        cellPanel = transform.Find("Gold Pick Action").gameObject;
       //  gold = null;
 
         cancelBtnCell = cellPanel.transform.Find("Cancel Button").GetComponent<Button>();
@@ -37,15 +37,14 @@ public class GoldOptions : MonoBehaviour
         cancelBtnHero = heroPanel.transform.Find("Cancel Button").GetComponent<Button>();
         cancelBtnHero.onClick.AddListener(delegate { Hide(); });
 
-        pickGoldBtn = cellPanel.transform.Find("Button Pick Gold").GetComponent<Button>();
+        pickGoldBtn = cellPanel.transform.Find("Pick Gold Button").GetComponent<Button>();
   //      pickGoldBtn.onClick.AddListener(delegate { EventManager.TriggerPickGold(); });
 
-        dropGoldBtn = heroPanel.transform.Find("Button Drop Gold").GetComponent<Button>();
+        dropGoldBtn = heroPanel.transform.Find("Drop Gold Button").GetComponent<Button>();
     //    dropGoldBtn.onClick.AddListener(delegate { EventManager.TriggerDropGold(); });
     }
 
     public void ShowHero(GoldCoin gold) {
-     //   this.gold = gold;
         heroPanel.SetActive(true);
     }
 
@@ -55,15 +54,14 @@ public class GoldOptions : MonoBehaviour
     }
 
     public void Hide() {
-       //   this.gold = null;
         cellPanel.SetActive(false);
         heroPanel.SetActive(false);
     }
 
     public void DropGold() {
-       GameManager.instance.MainHero.heroInventory.RemoveGold(1);
-       int cellID = GameManager.instance.MainHero.Cell.Index;
-       GameManager.instance.photonView.RPC("AddGoldCellRPC", RpcTarget.AllViaServer, cellID);
+        GameManager.instance.MainHero.heroInventory.RemoveGold(1);
+        int cellID = GameManager.instance.MainHero.Cell.Index;
+        GameManager.instance.photonView.RPC("AddGoldCellRPC", RpcTarget.AllViaServer, cellID);
         Hide();
     }
 
