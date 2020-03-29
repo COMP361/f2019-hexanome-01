@@ -4,11 +4,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GoldCoin : SmallToken
+public class GoldCoin : Token
 {
   public PhotonView photonView;
 
-  public static SmallToken Factory() {
+  public static GoldCoin Factory() {
     GameObject goldCoinGO = PhotonNetwork.Instantiate("Prefabs/Tokens/GoldCoin", Vector3.zero, Quaternion.identity, 0);
     return goldCoinGO.GetComponent<GoldCoin>();
   }

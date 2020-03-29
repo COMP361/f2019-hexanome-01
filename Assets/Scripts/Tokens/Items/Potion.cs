@@ -25,7 +25,7 @@ public class Potion : SmallToken
         potion.Cell = Cell.FromId(cellID);
         return potion;
     }
-    
+
 
     public static string Type { get => typeof(Potion).ToString(); }
 }

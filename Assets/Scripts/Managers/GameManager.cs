@@ -263,8 +263,8 @@ public class GameManager : Singleton<GameManager>
         {
             while (warriorGold != 0)
             {
-                SmallToken goldCoin = GoldCoin.Factory();
-                warrior.heroInventory.AddGold(goldCoin);
+                Token goldCoin = GoldCoin.Factory();
+                warrior.heroInventory.AddItem(goldCoin);
                 warriorGold--;
             }
 
@@ -274,8 +274,8 @@ public class GameManager : Singleton<GameManager>
         {
             while (archerGold != 0)
             {
-                SmallToken goldCoin = GoldCoin.Factory();
-                archer.heroInventory.AddGold(goldCoin);
+                Token goldCoin = GoldCoin.Factory();
+                archer.heroInventory.AddItem(goldCoin);
                 archerGold--;
             }
         }
@@ -284,8 +284,8 @@ public class GameManager : Singleton<GameManager>
         {
             while (dwarfGold != 0)
             {
-                SmallToken goldCoin = GoldCoin.Factory();
-                dwarf.heroInventory.AddGold(goldCoin);
+                Token goldCoin = GoldCoin.Factory();
+                dwarf.heroInventory.AddItem(goldCoin);
                 dwarfGold--;
             }
         }
@@ -294,8 +294,8 @@ public class GameManager : Singleton<GameManager>
         {
             while (mageGold != 0)
             {
-                SmallToken goldCoin = GoldCoin.Factory();
-                mage.heroInventory.AddGold(goldCoin);
+                Token goldCoin = GoldCoin.Factory();
+                mage.heroInventory.AddItem(goldCoin);
                 mageGold--;
             }
         }
@@ -315,7 +315,7 @@ public class GameManager : Singleton<GameManager>
             while (warriorWineskins != 0)
             {
                 SmallToken wineskin = Wineskin.Factory();
-                warrior.heroInventory.AddSmallToken(wineskin);
+                warrior.heroInventory.AddItem(wineskin);
                 warriorWineskins--;
             }
 
@@ -327,7 +327,7 @@ public class GameManager : Singleton<GameManager>
             while (archerWineskins != 0)
             {
                 SmallToken wineskin = Wineskin.Factory();
-                archer.heroInventory.AddSmallToken(wineskin);
+                archer.heroInventory.AddItem(wineskin);
                 archerWineskins--;
             }
         }
@@ -338,7 +338,7 @@ public class GameManager : Singleton<GameManager>
             while (dwarfWineskins != 0)
             {
                 SmallToken wineskin = Wineskin.Factory();
-                dwarf.heroInventory.AddSmallToken(wineskin);
+                dwarf.heroInventory.AddItem(wineskin);
                 dwarfWineskins--;
             }
         }
@@ -349,7 +349,7 @@ public class GameManager : Singleton<GameManager>
             while (mageWineskins != 0)
             {
                 SmallToken wineskin = Wineskin.Factory();
-                mage.heroInventory.AddSmallToken(wineskin);
+                mage.heroInventory.AddItem(wineskin);
                 mageWineskins--;
             }
         }
@@ -518,19 +518,56 @@ public class GameManager : Singleton<GameManager>
 
 
     [PunRPC]
-     public void AddGoldHeroTestRPC(int viewID, string hero){
-        Token toAdd = PhotonView.Find(viewID).gameObject.GetComponent<GoldCoin>();
+     public void AddGoldHeroRPC(int viewID, string hero){
+        GoldCoin toAdd = PhotonView.Find(viewID).gameObject.GetComponent<GoldCoin>();
         Hero toAddTo = findHero(hero);
-        toAddTo.heroInventory.addGoldTest2(toAdd);
+        toAddTo.heroInventory.addGold2(toAdd);
+    }
 
+    [PunRPC]
+     public void AddSmallTokenRPC(int viewID, string hero){
+        SmallToken toAdd = PhotonView.Find(viewID).gameObject.GetComponent<SmallToken>();
+        Hero toAddTo = findHero(hero);
+        toAddTo.heroInventory.AddSmallToken2(toAdd);
+    }
+
+    [PunRPC]
+     public void AddBigTokenRPC(int viewID, string hero){
+        BigToken toAdd = PhotonView.Find(viewID).gameObject.GetComponent<BigToken>();
+        Hero toAddTo = findHero(hero);
+        toAddTo.heroInventory.AddBigToken2(toAdd);
+    }
+
+    [PunRPC]
+     public void AddHelmRPC(int viewID, string hero){
+        Helm toAdd = PhotonView.Find(viewID).gameObject.GetComponent<Helm>();
+        Hero toAddTo = findHero(hero);
+        toAddTo.heroInventory.AddHelm2(toAdd);
+    }
+
+    [PunRPC]
+     public void RemoveGoldHeroRPC(int viewID, string hero){
+        Hero toRemoveFrom = findHero(hero);
+        toRemoveFrom.heroInventory.RemoveGold2(viewID);
         }
 
     [PunRPC]
-     public void RemoveGoldHeroTestRPC(int viewID, string hero){
-      //  Token toRemove = PhotonView.Find(viewID).gameObject.GetComponent<GoldCoin>();
-        Hero toRemoveFrom = findHero(hero);
-        toRemoveFrom.heroInventory.RemoveGoldTest2(viewID);
-        }
+    public void RemoveSmallTokenRPC(int viewID, string hero){
+      Hero toRemoveFrom = findHero(hero);
+      toRemoveFrom.heroInventory.RemoveSmallToken2(viewID);
+    }
+
+    [PunRPC]
+    public void RemoveBigTokenRPC(int viewID, string hero){
+      Hero toRemoveFrom = findHero(hero);
+      toRemoveFrom.heroInventory.RemoveBigToken2(viewID);
+    }
+
+    [PunRPC]
+    public void RemoveHelmRPC(int viewID, string hero){
+      Hero toRemoveFrom = findHero(hero);
+      toRemoveFrom.heroInventory.RemoveHelm2(viewID);
+    }
 
     public Hero findHero(string hero){
       for (int i = 0; i <heroes.Count(); i++){

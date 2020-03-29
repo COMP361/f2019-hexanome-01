@@ -55,10 +55,10 @@ public class WellCell : Cell {
 
         hero.Willpower = currWP;
       }
-
-      if(GameManager.instance.MainHero.TokenName.Equals(heroType)) {
-        EventManager.TriggerUpdateHeroStats(hero);
-      }
+    }
+    if(GameManager.instance.MainHero.TokenName.Equals(heroType)) {
+  //    Debug.Log("WHAT IS HAPPENING: " + GameManager.instance.MainHero);
+    //  EventManager.TriggerUpdateHeroStats(GameManager.instance.MainHero);
     }
   }
 

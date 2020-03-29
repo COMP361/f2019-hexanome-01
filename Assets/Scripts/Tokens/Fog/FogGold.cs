@@ -10,8 +10,8 @@ public class FogGold : Fog {
     }
 
     public override void ApplyEffect() {
-        SmallToken goldCoin = GoldCoin.Factory();
-        GameManager.instance.CurrentPlayer.heroInventory.AddGold(goldCoin);
+        Token goldCoin = GoldCoin.Factory();
+        GameManager.instance.CurrentPlayer.heroInventory.AddItem(goldCoin);
         Cell = null;
         Destroy(gameObject);
     }

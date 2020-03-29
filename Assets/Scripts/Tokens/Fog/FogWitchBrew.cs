@@ -12,8 +12,8 @@ public class FogWitchBrew : Fog {
         GameManager.instance.witch = Witch.Instance;
 
         Token potion = Potion.Factory();
-        GameManager.instance.CurrentPlayer.heroInventory.AddSmallToken(potion);
-        
+        GameManager.instance.CurrentPlayer.heroInventory.AddItem(potion);
+
         Cell = null;
         Destroy(gameObject);
     }

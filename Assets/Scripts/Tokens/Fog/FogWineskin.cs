@@ -9,7 +9,7 @@ public class FogWineSkin : Fog {
 
     public override void ApplyEffect() {
         Token wineskin = Wineskin.Factory();
-        GameManager.instance.CurrentPlayer.heroInventory.AddSmallToken(wineskin);
+        GameManager.instance.CurrentPlayer.heroInventory.AddItem(wineskin);
         Cell = null;
         Destroy(gameObject);
     }
