@@ -569,4 +569,14 @@ public class EventManager : MonoBehaviour
             UpdateHeroStats(hero);
         }
     }
+
+    public delegate void EventCardHandler(EventCard card);
+    public static event EventCardHandler EventCard;
+    public static void TriggerEventCard(EventCard card)
+    {
+        if (EventCard != null)
+        {
+            EventCard(card);
+        }
+    }
 }

@@ -9,4 +9,8 @@ public class LC22 : EventCard {
         effect = "The well token on space 45 is removed from the game.";
         shield = true;
     }
+
+    public override void ApplyEffect() {
+        ((WellCell)Cell.FromId(45)).DestroyWell();
+    }
 }

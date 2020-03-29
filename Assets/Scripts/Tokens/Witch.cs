@@ -7,8 +7,9 @@ public class Witch : Token {
     static Witch _instance;
     public string Type { get; protected set; }
     
+    public int PotionPrice { get; set; }
     
-    public static void Factory(int cellID)
+    public static void Factory()
     {
         Sprite sprite = Resources.Load<Sprite>("Sprites/Tokens/Witch");
         GameObject go = new GameObject( typeof(Witch).ToString());
@@ -19,7 +20,13 @@ public class Witch : Token {
 
         Witch witch = go.AddComponent<Witch>();
         witch.Type = typeof(Witch).ToString();
-        witch.Cell = Cell.FromId(cellID);
+        witch.Cell = null;
+
+        if (GameManager.instance.players.Count == 4) {
+            witch.PotionPrice = 5;
+        } else {
+            witch.PotionPrice = 4;
+        }
     }
 
     void Awake()
@@ -39,6 +46,10 @@ public class Witch : Token {
     {
         get
         {
+            if (!_instance)
+            {
+                Witch.Factory();
+            }
             return _instance;
         }
         private set

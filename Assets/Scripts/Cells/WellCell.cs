@@ -8,16 +8,17 @@ public class WellCell : Cell {
   public GameObject goFullWell;
   public GameObject goEmptyWell;
   bool isEmptied = false;
+  bool isDestroyed = false;  
   public Token well;
   public PhotonView photonView;
 
   void OnEnable() {
-    EventManager.pickWellClick += emptyWell;
+    EventManager.pickWellClick += EmptyWell;
     base.OnEnable();
   }
 
   void OnDisable() {
-    EventManager.pickWellClick -= emptyWell;
+    EventManager.pickWellClick -= EmptyWell;
   }
 
   protected virtual void Awake() {
@@ -28,7 +29,17 @@ public class WellCell : Cell {
     base.Start();
   }
 
-  public void emptyWell(Hero hero, Well well) {
+  public void DestroyWell() {
+    isDestroyed = true;
+    Inventory.RemoveToken(well);
+    goFullWell.SetActive(false);
+    goEmptyWell.SetActive(false);
+    well = null;
+  }
+
+  public void EmptyWell(Hero hero, Well well) {
+    if(isDestroyed) return;
+
     if(Index == hero.Cell.Index){
       Inventory.RemoveToken(well);
       photonView.RPC("EmptyWellRPC", RpcTarget.AllViaServer, new object[] {this.Index, GameManager.instance.MainHero.TokenName});
@@ -37,6 +48,8 @@ public class WellCell : Cell {
 
   [PunRPC]
   public void EmptyWellRPC(int cellIndex, string heroType) {
+    if(isDestroyed) return;
+
     if(this.Index == cellIndex){
       isEmptied = true;
       goFullWell.SetActive(false);
@@ -62,11 +75,13 @@ public class WellCell : Cell {
     }
   }
 
-  public void resetWell() {
+  public void ResetWell() {
+    if(isDestroyed) return;
+
     isEmptied = false;
     goFullWell.SetActive(true);
     goEmptyWell.SetActive(false);
     well = Well.Factory();
-    this.Inventory.AddToken(well);
+    Inventory.AddToken(well);
   }
 }

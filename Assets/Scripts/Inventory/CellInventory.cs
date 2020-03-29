@@ -12,8 +12,6 @@ public class CellInventory : ICloneable {
   protected string description;
   public int cellID;
   public PhotonView photonView;
-
-  //public enum
   public List<Token> AllTokens { get; private set; }
   public List<Hero> Heroes { get; private set; }
   public List<Enemy> Enemies { get; private set; }
@@ -97,7 +95,6 @@ public class CellInventory : ICloneable {
     }
 
     public void RemoveToken(int objectIndex){
-      //if(cellID == cellIndex){
       if(objectIndex > AllTokens.Count - 1 || objectIndex < 0) return;
 
       Token token = AllTokens[objectIndex];

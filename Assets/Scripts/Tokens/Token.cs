@@ -19,6 +19,13 @@ public class Token : MonoBehaviour {
             return _cell;
         }
         set {
+            if(value == null) {
+                gameObject.SetActive(false);
+
+            } else {
+                gameObject.SetActive(true);
+            }
+
             if(_cell != null && _cell.Inventory != null) {
               _cell.Inventory.RemoveToken(this);
             }

@@ -19,14 +19,9 @@ public class GameManager : Singleton<GameManager>
     public List<Hero> heroes;
     public Narrator narrator;
     public List<Farmer> farmers;
-
     public List<Enemy> gors, skrals, trolls, wardraks, towerskrals;
-    private Thorald thorald;
-    public Witch witch = null;
     private int currentPlayerIndex = 0;
     private int mainHeroIndex = -1;
-    public EventCards eventCards;
-    public Fog fog;
     public Castle castle;
     private ICommand command;
     public PhotonView photonView;
@@ -157,8 +152,7 @@ public class GameManager : Singleton<GameManager>
         }
 
         EventManager.TriggerMainHeroInit(MainHero);
-        thorald = Thorald.Instance;
-
+        
         // FARMERS
         farmers = new List<Farmer>();
         farmers.Add(Farmer.Factory(24));
@@ -175,12 +169,9 @@ public class GameManager : Singleton<GameManager>
         skrals = new List<Enemy>();
         skrals.Add(Skral.Factory(19));
 
-
         trolls = new List<Enemy>();
         wardraks = new List<Enemy>();
         towerskrals = new List<Enemy>();
-
-        eventCards = new EventCards();
 
         Fog.Factory();
 
@@ -191,7 +182,7 @@ public class GameManager : Singleton<GameManager>
         wells.Add(Cell.FromId(55) as WellCell);
 
         foreach (WellCell well in wells) {
-            well.resetWell();
+            well.ResetWell();
         }
 
         GiveTurn();
@@ -366,15 +357,16 @@ public class GameManager : Singleton<GameManager>
         EndTurn();
     }
 
-    void StartDay()
-    {
+    void StartDay() {
+        EventCardDeck.Instance.GetCard();
+
         InitMonsterMove();
-        foreach (Hero h in heroes)
-        {
+        foreach (Hero h in heroes) {
             h.timeline.EndDay();
         }
+
         foreach (WellCell well in wells) {
-            well.resetWell();
+            well.ResetWell();
         }
         narrator.MoveNarrator();
         playerTurn = new Queue<Player>(players);
@@ -453,7 +445,7 @@ public class GameManager : Singleton<GameManager>
         {
             GameObject commandGO = GameObject.Instantiate((GameObject)Resources.Load("Prefabs/Commands/MoveCommand")) as GameObject;
             command = commandGO.GetComponent<MoveCommand>();
-            ((MoveCommand)command).Init(thorald);
+            ((MoveCommand)command).Init(Thorald.Instance);
         }
     }
 
@@ -461,7 +453,7 @@ public class GameManager : Singleton<GameManager>
     void InitThoraldMoveRPC(int viewId)
     {
         command = PhotonView.Find(viewId).GetComponentInParent<MoveCommand>();
-        ((MoveCommand)command).Init(thorald);
+        ((MoveCommand)command).Init(Thorald.Instance);
     }
 
     void ExecuteMove()

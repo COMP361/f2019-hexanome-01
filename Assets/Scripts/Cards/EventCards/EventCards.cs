@@ -2,19 +2,8 @@ using UnityEngine;
 using System.Collections.Generic;
 
 public class EventCards {
-    List<Card> cards = new List<Card>();
-
-    public void Shuffle() {
-        for (int i = 0; i < cards.Count; i++) {
-            Card temp = cards[i];
-            int randomIndex = Random.Range(i, cards.Count);
-            cards[i] = cards[randomIndex];
-            cards[randomIndex] = temp;
-        }
-    }
-
     public EventCards() {
-        Card card = new Card(1);
+        /*Card card = new Card(1);
         card.intro = "The dwarf merchant Garz makes an offer.";
         card.effect = "Each hero can now purchase any article from the equipment store (except the witch brew) in exchange for 3 willpower points."; 
         cards.Add(card);
@@ -107,22 +96,6 @@ public class EventCards {
         card.group = true;
         cards.Add(card);
 
-        card = new Card(29);
-        card.intro = "The keepers of the Tree of Songs offer a gift."; 
-        card.effect = "Now place a shield on space 57. A hero who enters space 57 or is already standing there can collect the shield. If more than one hero is standing there, the hero with the lowest rank gets the shield.";
-        cards.Add(card);
-
-        card = new Card(30);
-        card.intro = "A drink in the tavern."; 
-        card.effect = "Place a wineskin on the tavern space (72). A hero who enters space 72 or is already standing there can collect the wineskin. If more than one hero is standing there, the hero with the lowest rank gets the wineskin.";
-        cards.Add(card);
-
-        card = new Card(31);
-        card.intro = "Hot rain from the south lashes the land."; 
-        card.effect = "Any hero who is not on a forest space, in the mine (space 71), in the tavern (space 72), or in the castle (space 0) loses 2 willpower points.";
-        card.shield = true;
-        cards.Add(card);
-
         card = new Card(33);
         card.intro = "Their adventure is wearing down the heroes."; 
         card.effect = "One of the heroes immediatey loses 1 stength point. You can decide as a group which hero that will be. If no hero has more than 1 strength point, nothing happens.";
@@ -134,19 +107,6 @@ public class EventCards {
         card.intro = "The dwarf merchant Garz meets one of the heroes and offers him a trade."; 
         card.effect = "One of the heroes can now purchase 10 willpower points in exchange for 2 strength points. You can decide as a group which hero that will be.";
         card.group = true;
-        cards.Add(card);
-    }
-
-    private class Card {
-        public int id;
-        public string intro;
-        public string effect;
-        public bool shield;
-        public bool group = false;
-
-        public Card(int id) {
-            this.id = id;
-            shield = false;
-        }
+        cards.Add(card);*/
     }
 }

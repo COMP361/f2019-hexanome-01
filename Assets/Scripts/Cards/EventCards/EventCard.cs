@@ -1,10 +1,13 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class EventCard {
-    protected int id;
+public abstract class EventCard {
+    public int id;
+    public string intro;
+    public string effect;
+    
+    public bool shield = false;
+    public bool group = false;
 
-    protected string intro;
-    protected string effect;
-    protected bool shield;
+    public abstract void ApplyEffect();
 }

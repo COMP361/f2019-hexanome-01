@@ -33,11 +33,7 @@ public class MerchantCellUI : Singleton<MerchantCellUI>
   }
 
   void Start() {
-    if(GameManager.instance.heroes.Count == 3) {
-      transform.Find("MerchantUI/Potion/Button/Text").GetComponent<UnityEngine.UI.Text>().text = "" + 4;
-    } else {
-      transform.Find("MerchantUI/Potion/Button/Text").GetComponent<UnityEngine.UI.Text>().text = "" + 5;
-    }
+    transform.Find("MerchantUI/Potion/Button/Text").GetComponent<UnityEngine.UI.Text>().text = "" + Witch.Instance.PotionPrice;
   }
 
   void Enter(int index){
@@ -52,12 +48,23 @@ public class MerchantCellUI : Singleton<MerchantCellUI>
     if(GameManager.instance.MainHero == null || !GameManager.instance.MainHero.GetType().IsCompatibleWith(token.GetType())) return;
         
     Hero hero = (Hero)token;
-    Button strengthBtn = transform.Find("MerchantUI/Items/Strenght/Button").GetComponent<Button>();
-
+    Component[] btns = transform.Find("MerchantUI/Items/").GetComponentsInChildren(typeof(Button));
+    
     if(hero.heroInventory.numOfGold < 2 || !typeof(MerchantCell).IsCompatibleWith(hero.Cell.GetType())) {
-      Buttons.Lock(strengthBtn);
+      for(int i = 0; i < btns.Length; i++) {
+        Buttons.Lock((Button)btns[i]);
+      }
     } else {
-      Buttons.Unlock(strengthBtn);
+      for(int i = 0; i < btns.Length; i++) {
+        Buttons.Unlock((Button)btns[i]);
+      }
+    }
+
+    Button potionBtn = transform.Find("MerchantUI/Potion/Button").GetComponent<Button>();
+    if(hero.heroInventory.numOfGold < Witch.Instance.PotionPrice || (Witch.Instance.Cell != null && hero.Cell.Index != Witch.Instance.Cell.Index)) {
+      Buttons.Lock(potionBtn);
+    } else {
+      Buttons.Unlock(potionBtn);
     }
   }
 }
