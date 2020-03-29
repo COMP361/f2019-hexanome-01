@@ -1,4 +1,6 @@
-﻿using System.Collections;
+using Photon.Pun;
+using Photon.Realtime;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,7 +8,7 @@ public class Potion : SmallToken
 {
     public static string name = "Potion";
     public static string desc = "Each side of the potion token can be used to double a hero’s dice value during a battle.";
-
+    public PhotonView photonView;
     public static Potion Factory()
     {
         Sprite sprite = Resources.Load<Sprite>("Sprites/Tokens/Potion");
@@ -34,10 +36,10 @@ public class Potion : SmallToken
       public static void Buy() {
         Hero hero = GameManager.instance.MainHero;
         int cost = Witch.Instance.PotionPrice;;
-        
+
         if(hero.heroInventory.numOfGold >= cost) {
             hero.heroInventory.RemoveGold(cost);
-        
+
             Token potion = Potion.Factory();
             GameManager.instance.CurrentPlayer.heroInventory.AddItem(potion);
         }

@@ -26,6 +26,15 @@ public class Gor : Enemy
 
         return gor;
     }
+/*
+    public void awake(){
+      gor.TokenName = Type;
+      gor.Cell = Cell.FromId(cellID);
 
+      gor.Will = 4;
+      gor.Strength = 2;
+      gor.Reward = 2;
+    }
+*/
     public static string Type { get => typeof(Gor).ToString(); }
 }

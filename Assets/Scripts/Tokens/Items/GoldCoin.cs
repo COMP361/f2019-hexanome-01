@@ -13,6 +13,9 @@ public class GoldCoin : Token
     return goldCoinGO.GetComponent<GoldCoin>();
   }
 
+public void OnEnable(){
+}
+
   public void Awake() {
     TokenName = Type;
   }

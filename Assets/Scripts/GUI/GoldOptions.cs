@@ -60,15 +60,15 @@ public class GoldOptions : MonoBehaviour
 
     public void DropGold() {
         GameManager.instance.MainHero.heroInventory.RemoveGold(1);
-        int cellID = GameManager.instance.MainHero.Cell.Index;
-        GameManager.instance.photonView.RPC("AddGoldCellRPC", RpcTarget.AllViaServer, cellID);
+        Cell cell = GameManager.instance.MainHero.Cell;
+        Token goldCoin = GoldCoin.Factory();
+        cell.Inventory.AddToken(goldCoin);
         Hide();
     }
 
     public void PickGold() {
         Cell cell = Cell.FromId(GameManager.instance.MainHero.Cell.Index);
         cell.Inventory.RemoveToken(gold);
-        InventoryUICell.instance.ForceUpdate(cell.Inventory, cell.Index);
         GameManager.instance.MainHero.heroInventory.AddGold(gold);
         Hide();
     }

@@ -10,6 +10,6 @@ public class FogEvent : Fog {
     public override void ApplyEffect() {
         EventCardDeck.Instance.GetCard();
         Cell = null;
-        Destroy(gameObject);  
+        Destroy(gameObject);
     }
 }

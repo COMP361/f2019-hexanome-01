@@ -156,7 +156,7 @@ public class GameManager : Singleton<GameManager>
         }
 
         EventManager.TriggerMainHeroInit(MainHero);
-        
+
         // FARMERS
         farmers = new List<Farmer>();
         farmers.Add(Farmer.Factory(24));
@@ -254,7 +254,7 @@ public class GameManager : Singleton<GameManager>
     void DistributeGold(int warriorGold, int archerGold, int dwarfGold, int mageGold)
     {
         GameObject distributeGoldGO = GameObject.Find("DistributeGold");
-        
+
         Hero warrior = heroes.Where(x => x.Type.ToString() == "Warrior").FirstOrDefault();
         if (warriorGold > 0 && warrior != null)
         {
@@ -306,7 +306,7 @@ public class GameManager : Singleton<GameManager>
     void DistributeWineskins(int warriorWineskins, int archerWineskins, int dwarfWineskins, int mageWineskins)
     {
         GameObject distributeWineskinsGO = GameObject.Find("DistributeWineskins");
-        
+
         Hero warrior = heroes.Where(x => x.Type.ToString() == "Warrior").FirstOrDefault();
         if (warriorWineskins > 0 && warrior != null)
         {
@@ -367,7 +367,7 @@ public class GameManager : Singleton<GameManager>
         EventCardDeck.Instance.GetCard();
 
         InitMonsterMove();
-        
+
         foreach (Hero hero in heroes) {
             hero.timeline.EndDay();
         }
@@ -377,7 +377,7 @@ public class GameManager : Singleton<GameManager>
         }
 
         narrator.MoveNarrator();
-        
+
         playerTurn = new Queue<Player>(players);
     }
 
@@ -509,12 +509,28 @@ public class GameManager : Singleton<GameManager>
     }
 
     [PunRPC]
-    public void AddGoldCellRPC(int cellIndex) {
+    public void AddItemCellRPC(int viewID, int cellIndex) {
+        Token toAdd = PhotonView.Find(viewID).gameObject.GetComponent<Token>();
+        Cell toAddTo = Cell.FromId(cellIndex);
+        toAddTo.Inventory.AddItem2(toAdd);
+    }
+
+    [PunRPC]
+    public void RemoveItemCellRPC(int viewID, int cellIndex) {
+      Cell toRemoveFrom = Cell.FromId(cellIndex);
+      toRemoveFrom.Inventory.RemoveItem(viewID);
+    }
+
+/*
+    [PunRPC]
+    public void AddGoldCellRPC(int viewID, int cellIndex) {
         Cell cell = Cell.FromId(cellIndex);
         GameObject goldCoinGO = PhotonNetwork.Instantiate("Prefabs/Tokens/GoldCoin", Vector3.zero, Quaternion.identity, 0);
         GoldCoin goldCoin = goldCoinGO.GetComponent<GoldCoin>();
         cell.Inventory.AddToken(goldCoin);
     }
+*/
+
 
 
     [PunRPC]

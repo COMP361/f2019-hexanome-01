@@ -10,25 +10,26 @@ public class HeroInventory
 {
   //  public List<SmallToken> smallTokens { get; private set; }
   //  public List<GoldCoin> golds { get; private set; }
+  //   public List<Token> AllTokens { get; private set; }
+
     public BigToken bigToken { get; private set; }
     public Helm helm { get; private set; }
- //   public List<Token> AllTokens { get; private set; }
 
     public string parentHero;
     private int spaceSmall;
     public int numOfGold { get; private set; }
     public PhotonView photonView;
 
-    public OrderedDictionary golds2 { get; private set; }
-    public OrderedDictionary AllTokens2 { get; private set; }
-    public OrderedDictionary smallTokens2 { get; private set; }
+    public OrderedDictionary golds { get; private set; }
+    public OrderedDictionary AllTokens { get; private set; }
+    public OrderedDictionary smallTokens { get; private set; }
 
     void OnEnable() {
-      EventManager.InventoryUICellEnter += updateUI;
+  //  EventManager.InventoryUICellEnter += updateUI;
     }
 
     void OnDisable() {
-      EventManager.InventoryUICellEnter -= updateUI;
+    //  EventManager.InventoryUICellEnter -= updateUI;
     }
 
     public HeroInventory(string parentHero){
@@ -40,9 +41,9 @@ public class HeroInventory
       spaceSmall = 3;
       numOfGold = 0;
       this.parentHero = parentHero;
-      golds2 = new OrderedDictionary();
-      AllTokens2 = new OrderedDictionary();
-      smallTokens2 = new OrderedDictionary();
+      golds = new OrderedDictionary();
+      AllTokens = new OrderedDictionary();
+      smallTokens = new OrderedDictionary();
     }
 
 
@@ -57,8 +58,8 @@ public class HeroInventory
 
     public void addGold2(GoldCoin gold){
         string id = convertToKey(gold.GetComponent<PhotonView>().ViewID);
-        golds2.Add(id, (GoldCoin)gold);
-        AllTokens2.Add(id,(GoldCoin)gold);
+        golds.Add(id, (GoldCoin)gold);
+        AllTokens.Add(id,(GoldCoin)gold);
         numOfGold++;
         if(GameManager.instance.MainHero.TokenName.Equals(parentHero)){
           EventManager.TriggerInventoryUIHeroUpdate(this);
@@ -68,7 +69,7 @@ public class HeroInventory
     public void RemoveGold(int amtToRemove){
       if(numOfGold >= amtToRemove){
         for(int i = 0; i< amtToRemove; i++){
-          int viewID = ((GoldCoin)golds2[i]).GetComponent<PhotonView>().ViewID;
+          int viewID = ((GoldCoin)golds[i]).GetComponent<PhotonView>().ViewID;
           GameManager.instance.RemoveGoldHeroRPC(viewID, parentHero);
         }
       }
@@ -79,8 +80,8 @@ public class HeroInventory
 
     public void RemoveGold2(int viewID){
         numOfGold--;
-        AllTokens2.Remove(convertToKey(viewID));
-        golds2.Remove(convertToKey(viewID));
+        AllTokens.Remove(convertToKey(viewID));
+        golds.Remove(convertToKey(viewID));
         if(GameManager.instance.MainHero.TokenName.Equals(parentHero)){
           EventManager.TriggerInventoryUIHeroUpdate(this);
         }
@@ -89,7 +90,7 @@ public class HeroInventory
 
     //what to do with errors
     public bool AddSmallToken(SmallToken smallToken){
-      if(smallTokens2.Count >= spaceSmall){
+      if(smallTokens.Count >= spaceSmall){
         Debug.Log("Not enough room ");
         return false;
       }
@@ -102,21 +103,29 @@ public class HeroInventory
 
     public void AddSmallToken2(SmallToken smallToken){
       string id = convertToKey(smallToken.GetComponent<PhotonView>().ViewID);
-      smallTokens2.Add(id, (SmallToken)smallToken);
-      AllTokens2.Add(id,(SmallToken)smallToken);
+      smallTokens.Add(id, (SmallToken)smallToken);
+      AllTokens.Add(id,(SmallToken)smallToken);
       if(GameManager.instance.MainHero.TokenName.Equals(parentHero)){
         EventManager.TriggerInventoryUIHeroUpdate(this);
       }
     }
 
     public void RemoveSmallToken(SmallToken smallToken){
-          int viewID = smallToken.GetComponent<PhotonView>().ViewID;
-          GameManager.instance.RemoveSmallTokenRPC(viewID, parentHero);
+      if(smallTokens.Contains(smallToken)){
+      int viewID = smallToken.GetComponent<PhotonView>().ViewID;
+      GameManager.instance.RemoveSmallTokenRPC(viewID, parentHero);
+      }
+
+      else {
+        //ERROR
+        Debug.Log("Error hero inventory remove smallToken");
+      }
+
     }
 
     public void RemoveSmallToken2(int viewID){
-      AllTokens2.Remove(convertToKey(viewID));
-      smallTokens2.Remove(convertToKey(viewID));
+      AllTokens.Remove(convertToKey(viewID));
+      smallTokens.Remove(convertToKey(viewID));
       if(GameManager.instance.MainHero.TokenName.Equals(parentHero)){
         EventManager.TriggerInventoryUIHeroUpdate(this);
       }
@@ -129,7 +138,7 @@ public class HeroInventory
         return true;
       }
       else{
-        //Error
+        //Error already has a big token
         return false;
       }
     }
@@ -143,8 +152,13 @@ public class HeroInventory
     }
 
     public void RemoveBigToken(BigToken item){
+      if(bigToken.GetComponent<PhotonView>().ViewID == item.GetComponent<PhotonView>().ViewID){
         int viewID = item.GetComponent<PhotonView>().ViewID;
         GameManager.instance.RemoveBigTokenRPC(viewID, parentHero);
+      }
+      else {
+        Debug.Log("Error hero inventory remove BigToken");
+      }
     }
 
     public void RemoveBigToken2(int viewID){
@@ -163,7 +177,7 @@ public class HeroInventory
         return true;
       }
       else{
-        //Error
+        //Error already a helm
         return false;
       }
     }
@@ -177,8 +191,13 @@ public class HeroInventory
     }
 
     public void RemoveHelm(Helm item){
+      if(helm.GetComponent<PhotonView>().ViewID == item.GetComponent<PhotonView>().ViewID){
         int viewID = item.GetComponent<PhotonView>().ViewID;
         GameManager.instance.RemoveHelmRPC(viewID, parentHero);
+      }
+      else {
+        Debug.Log("Error hero inventory remove helm");
+      }
     }
 
     public void RemoveHelm2(int viewID){
@@ -191,7 +210,7 @@ public class HeroInventory
     }
 
 
-    public void updateUI(CellInventory inventory, int index){}
+  //  public void updateUI(CellInventory inventory, int index){}
 
     public string convertToKey(int a){
       string toReturn = "" + a;

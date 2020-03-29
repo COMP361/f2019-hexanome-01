@@ -49,15 +49,20 @@ public class InventoryUICell : Singleton<InventoryUICell>
     if(!isLocked){
       this.index = index;
       InventorySpotCell.cellIndex = index;
+
       for(int i = 0; i < spots.Length; i++){
         if(i < cellInv.AllTokens.Count){
           spots[i].AddItem(cellInv.AllTokens[i]);
-        } else {
+        } else if(i < cellInv.items.Count + cellInv.AllTokens.Count){
+          spots[i].AddItem((Token) cellInv.items[i - cellInv.AllTokens.Count]);
+        }
+        else{
           spots[i].ClearSpot();
         }
-        titleTransformGraphic.GetComponent<Text>().text = title;
-        titleTransformGraphic.gameObject.SetActive(true);
       }
+
+      titleTransformGraphic.GetComponent<Text>().text = title;
+      titleTransformGraphic.gameObject.SetActive(true);
     }
   }
 
