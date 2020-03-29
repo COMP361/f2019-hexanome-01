@@ -11,17 +11,17 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9f3758f8f58fdef43803eb9be1df0608, type: 3}
   m_Name: PhotonServerSettings
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier:
   AppSettings:
     AppIdRealtime: 9b223d93-49fa-401b-bc57-78d41fd33d24
     AppIdChat: 290f9ddb-d388-4d45-807b-908a81aa204b
-    AppIdVoice: 
-    AppVersion: 0.0.0
+    AppIdVoice:
+    AppVersion:
     UseNameServer: 1
-    FixedRegion: 
-    Server: 
+    FixedRegion:
+    Server:
     Port: 0
-    Protocol: 1
+    Protocol: 0
     EnableLobbyStatistics: 0
     NetworkLogging: 1
   PunLogging: 0
@@ -29,61 +29,35 @@ MonoBehaviour:
   RunInBackground: 1
   StartInOfflineMode: 0
   RpcList:
-  - ClickRpc
-  - DestroyRpc
-  - DestroySpaceship
-  - Fire
-  - RespawnSpaceship
-  - GetHeroes
-  - Test1
-  - Test2
-  - Test
-  - NetworkExecuteMove
-  - NetworkInitMove
-  - ReceiveExecuteMove
-  - ReceiveInitMove
-  - ReceiveSetDestination
-  - receiveCurrentPlayerLock
-  - ReceiveInitMoveAll
-  - receiveUpdateHero
-  - ReceiveOnClickedConfirmButton
-  - SetDestination
-  - TriggerEndDayRPC
-  - DetachFarmerRPC
-  - ExecuteMoveRPC
-  - InitMoveRPC
-  - SetDestinationRPC
-  - SetFarmerDestinationRPC
-  - ExecuteRPC
-  - InitRPC
-  - AttachFarmerRPC
-  - TriggerSkipRPC
-  - TriggerActionUpdateRPC
-  - TriggerEndTurnRPC
-  - TriggerStartDayRPC
-  - showPanelRPC
-  - DistributeGoldRPC
-  - killMonsterRPC
-  - DistributeWineskinsRPC
-  - DropGoldRPC
-  - RemoveTokenCellRPC
-  - RemoveTokenRPC
-  - DisposeRPC
-  - EmptyWellRPC
-  - AddTokenRPC
-  - AddGoldCellRPC
-  - InitThoraldMoveRPC
-  - AddGoldHeroTestRPC
-  - RemoveGoldHeroTestRPC
   - AddBigTokenRPC
   - AddGoldHeroRPC
   - AddHelmRPC
+  - AddItemCellRPC
   - AddSmallTokenRPC
+  - AttachFarmerRPC
+  - ClickRpc
+  - DestroyRpc
+  - DetachFarmerRPC
+  - DistributeGoldRPC
+  - DistributeWineskinsRPC
+  - EmptyWellRPC
+  - ExecuteRPC
+  - InitMoveRPC
+  - InitThoraldMoveRPC
+  - killMonsterRPC
+  - ReceiveOnClickedConfirmButton
+  - receiveUpdateHero
   - RemoveBigTokenRPC
   - RemoveGoldHeroRPC
   - RemoveHelmRPC
-  - RemoveSmallTokenRPC
-  - AddItemCellRPC
   - RemoveItemCellRPC
+  - RemoveSmallTokenRPC
+  - RemoveTokenCellRPC
+  - SetDestinationRPC
+  - SetFarmerDestinationRPC
+  - TriggerActionUpdateRPC
+  - TriggerEndDayRPC
+  - TriggerEndTurnRPC
+  - TriggerSkipRPC
   DisableAutoOpenWizard: 1
-  ShowSettings: 1
+  ShowSettings: 0
