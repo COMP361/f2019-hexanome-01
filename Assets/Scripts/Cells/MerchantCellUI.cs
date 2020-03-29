@@ -91,7 +91,7 @@ public class MerchantCellUI : Singleton<MerchantCellUI>
   }
 
   void LockItems(Token token) {
-    if(GameManager.instance.MainHero == null || !GameManager.instance.MainHero.GetType().IsCompatibleWith(token.GetType())) return;
+    if(btns == null || GameManager.instance.MainHero == null || !GameManager.instance.MainHero.GetType().IsCompatibleWith(token.GetType())) return;
         
     Hero hero = (Hero)token;
     
