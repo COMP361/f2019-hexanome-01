@@ -18,10 +18,10 @@ public class Hero : Movable
     protected int rank;
     public string Type { get; protected set; }
     public Color Color { get; set; }
-    
+
     public Timeline timeline;
     public HeroInventory heroInventory;
-    
+
     public string HeroName {
         get {
             return names[(int)sex];
@@ -30,9 +30,9 @@ public class Hero : Movable
 
     public int[] Dices { get; protected set; }
     public Action Action { get; set; } = Action.None;
-    
+
     private int _strength = 1;
-    public int Strength { 
+    public int Strength {
         get {
             return _strength;
         }
@@ -42,9 +42,10 @@ public class Hero : Movable
             EventManager.TriggerUpdateHeroStats(this);
         }
     }
-    
+
     private int _willpower = 7;
-    public int Willpower { 
+    
+    public int Willpower {
         get {
             return _willpower;
         }
@@ -54,7 +55,7 @@ public class Hero : Movable
             EventManager.TriggerUpdateHeroStats(this);
         }
     }
- 
+
     protected override Vector3 getWaypoint(Cell cell)
     {
         return cell.HeroesPosition;

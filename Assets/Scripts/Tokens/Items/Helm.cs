@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Helm : Item
+public class Helm : Token
 {
     public static Helm Factory()
     {

@@ -14,7 +14,7 @@ public class LC12 : EventCard {
     public override void ApplyEffect() {        
         foreach(Hero hero in GameManager.instance.heroes) {
             if(cellsID.Contains(hero.Cell.Index)) {
-                Token wineskin = Wineskin.Factory();
+                SmallToken wineskin = Wineskin.Factory();
                 hero.heroInventory.AddSmallToken(wineskin);
             } 
         }

@@ -26,4 +26,5 @@ public class SmallToken : Token
   }
 
   public static string Type { get => typeof(SmallToken).ToString(); }
+
 }

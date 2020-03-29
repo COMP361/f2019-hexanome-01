@@ -24,7 +24,7 @@ public class MerchantCell : Cell {
 
     #region Fields
     public Dictionary<string, int> products;
-    public Dictionary<Item, int> specialProducts;
+    public Dictionary<Token, int> specialProducts;
 
     #endregion
 
