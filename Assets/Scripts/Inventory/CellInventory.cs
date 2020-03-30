@@ -90,8 +90,10 @@ public class CellInventory : ICloneable {
     public void addItem(Token item){
       if(item != null){
       int viewID = item.GetComponent<PhotonView>().ViewID;
-      GameManager.instance.AddItemCellRPC(viewID, cellID);
-      }
+    //  GameManager.instance.AddItemCellRPC(viewID, cellID);
+      GameManager.instance.photonView.RPC("AddItemCellRPC", RpcTarget.AllViaServer, new object[] {viewID, cellID});
+
+    }
       // else error
     }
     public void AddItem2(Token item){
@@ -149,7 +151,9 @@ public class CellInventory : ICloneable {
       // is an item
       else{
         int viewID = token.GetComponent<PhotonView>().ViewID;
-        GameManager.instance.RemoveItemCellRPC(viewID, cellID);
+      //  GameManager.instance.RemoveItemCellRPC(viewID, cellID);
+        GameManager.instance.photonView.RPC("RemoveItemCellRPC", RpcTarget.AllViaServer, new object[] {viewID, cellID});
+
         }
       }
     }

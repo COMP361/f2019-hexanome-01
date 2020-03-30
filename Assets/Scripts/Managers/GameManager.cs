@@ -260,9 +260,12 @@ public class GameManager : Singleton<GameManager>
         {
             while (warriorGold != 0)
             {
+              if( GameManager.instance.MainHero.TokenName.Equals("Warrior"))
+              {
                 Token goldCoin = GoldCoin.Factory();
                 warrior.heroInventory.AddItem(goldCoin);
-                warriorGold--;
+              }
+              warriorGold--;
             }
 
         }
@@ -271,8 +274,12 @@ public class GameManager : Singleton<GameManager>
         {
             while (archerGold != 0)
             {
+                if(GameManager.instance.MainHero.TokenName.Equals("Archer"))
+                {
                 Token goldCoin = GoldCoin.Factory();
                 archer.heroInventory.AddItem(goldCoin);
+
+                }
                 archerGold--;
             }
         }
@@ -281,8 +288,11 @@ public class GameManager : Singleton<GameManager>
         {
             while (dwarfGold != 0)
             {
+                if(GameManager.instance.MainHero.TokenName.Equals("Dwarf"))
+                {
                 Token goldCoin = GoldCoin.Factory();
                 dwarf.heroInventory.AddItem(goldCoin);
+                }
                 dwarfGold--;
             }
         }
@@ -291,8 +301,11 @@ public class GameManager : Singleton<GameManager>
         {
             while (mageGold != 0)
             {
+              if(GameManager.instance.MainHero.TokenName.Equals("Mage"))
+              {
                 Token goldCoin = GoldCoin.Factory();
                 mage.heroInventory.AddItem(goldCoin);
+              }
                 mageGold--;
             }
         }
@@ -312,8 +325,12 @@ public class GameManager : Singleton<GameManager>
         {
             while (warriorWineskins != 0)
             {
+              if(GameManager.instance.MainHero.TokenName.Equals("Warrior"))
+              {
                 SmallToken wineskin = Wineskin.Factory();
                 warrior.heroInventory.AddItem(wineskin);
+
+              }
                 warriorWineskins--;
             }
 
@@ -324,9 +341,13 @@ public class GameManager : Singleton<GameManager>
         {
             while (archerWineskins != 0)
             {
+              if(GameManager.instance.MainHero.TokenName.Equals("Archer"))
+              {
                 SmallToken wineskin = Wineskin.Factory();
                 archer.heroInventory.AddItem(wineskin);
-                archerWineskins--;
+
+              }
+              archerWineskins--;
             }
         }
 
@@ -335,8 +356,12 @@ public class GameManager : Singleton<GameManager>
         {
             while (dwarfWineskins != 0)
             {
+              if(GameManager.instance.MainHero.TokenName.Equals("Dwarf"))
+              {
                 SmallToken wineskin = Wineskin.Factory();
                 dwarf.heroInventory.AddItem(wineskin);
+
+              }
                 dwarfWineskins--;
             }
         }
@@ -346,9 +371,12 @@ public class GameManager : Singleton<GameManager>
         {
             while (mageWineskins != 0)
             {
+              if(GameManager.instance.MainHero.TokenName.Equals("Mage"))
+              {
                 SmallToken wineskin = Wineskin.Factory();
                 mage.heroInventory.AddItem(wineskin);
-                mageWineskins--;
+              }
+              mageWineskins--;
             }
         }
 
@@ -538,6 +566,7 @@ public class GameManager : Singleton<GameManager>
         GoldCoin toAdd = PhotonView.Find(viewID).gameObject.GetComponent<GoldCoin>();
         Hero toAddTo = findHero(hero);
         toAddTo.heroInventory.addGold2(toAdd);
+        Debug.Log("here motherfucker");
     }
 
     [PunRPC]

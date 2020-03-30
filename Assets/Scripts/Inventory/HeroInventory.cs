@@ -53,7 +53,10 @@ public class HeroInventory
 
     public void AddGold(GoldCoin gold){
       int viewID = gold.GetComponent<PhotonView>().ViewID;
-      GameManager.instance.AddGoldHeroRPC(viewID, parentHero);
+    //  GameManager.instance.AddGoldHeroRPC(viewID, parentHero);
+      Debug.Log("HowManyCallAreMadeHere");
+      GameManager.instance.photonView.RPC("AddGoldHeroRPC", RpcTarget.AllViaServer, new object[] {viewID, parentHero});
+
     }
 
     public void addGold2(GoldCoin gold){
@@ -70,7 +73,9 @@ public class HeroInventory
       if(numOfGold >= amtToRemove){
         for(int i = 0; i< amtToRemove; i++){
           int viewID = ((GoldCoin)golds[i]).GetComponent<PhotonView>().ViewID;
-          GameManager.instance.RemoveGoldHeroRPC(viewID, parentHero);
+        //  GameManager.instance.RemoveGoldHeroRPC(viewID, parentHero);
+          GameManager.instance.photonView.RPC("RemoveGoldHeroRPC", RpcTarget.AllViaServer, new object[] {viewID, parentHero});
+
         }
       }
       else{
@@ -96,7 +101,10 @@ public class HeroInventory
       }
       else{
         int viewID = smallToken.GetComponent<PhotonView>().ViewID;
-        GameManager.instance.AddSmallTokenRPC(viewID, parentHero);
+      //  GameManager.instance.AddSmallTokenRPC(viewID, parentHero);
+        GameManager.instance.photonView.RPC("AddSmallTokenRPC", RpcTarget.AllViaServer, new object[] {viewID, parentHero});
+
+
         return true;
       }
     }
@@ -113,7 +121,9 @@ public class HeroInventory
     public void RemoveSmallToken(SmallToken smallToken){
       if(smallTokens.Contains(smallToken)){
       int viewID = smallToken.GetComponent<PhotonView>().ViewID;
-      GameManager.instance.RemoveSmallTokenRPC(viewID, parentHero);
+    //  GameManager.instance.RemoveSmallTokenRPC(viewID, parentHero);
+      GameManager.instance.photonView.RPC("RemoveSmallTokenRPC", RpcTarget.AllViaServer, new object[] {viewID, parentHero});
+
       }
 
       else {
@@ -134,7 +144,9 @@ public class HeroInventory
     public bool AddBigToken(BigToken item){
       if(bigToken == null){
         int viewID = item.GetComponent<PhotonView>().ViewID;
-        GameManager.instance.AddBigTokenRPC(viewID, parentHero);
+      //  GameManager.instance.AddBigTokenRPC(viewID, parentHero);
+        GameManager.instance.photonView.RPC("AddBigTokenRPC", RpcTarget.AllViaServer, new object[] {viewID, parentHero});
+
         return true;
       }
       else{
@@ -154,7 +166,9 @@ public class HeroInventory
     public void RemoveBigToken(BigToken item){
       if(bigToken.GetComponent<PhotonView>().ViewID == item.GetComponent<PhotonView>().ViewID){
         int viewID = item.GetComponent<PhotonView>().ViewID;
-        GameManager.instance.RemoveBigTokenRPC(viewID, parentHero);
+      //  GameManager.instance.RemoveBigTokenRPC(viewID, parentHero);
+        GameManager.instance.photonView.RPC("RemoveBigTokenRPC", RpcTarget.AllViaServer, new object[] {viewID, parentHero});
+
       }
       else {
         Debug.Log("Error hero inventory remove BigToken");
@@ -173,7 +187,9 @@ public class HeroInventory
     public bool AddHelm(Helm item){
       if(helm == null){
         int viewID = item.GetComponent<PhotonView>().ViewID;
-        GameManager.instance.AddHelmRPC(viewID, parentHero);
+      //  GameManager.instance.AddHelmRPC(viewID, parentHero);
+        GameManager.instance.photonView.RPC("AddHelmRPC", RpcTarget.AllViaServer, new object[] {viewID, parentHero});
+
         return true;
       }
       else{
@@ -193,7 +209,9 @@ public class HeroInventory
     public void RemoveHelm(Helm item){
       if(helm.GetComponent<PhotonView>().ViewID == item.GetComponent<PhotonView>().ViewID){
         int viewID = item.GetComponent<PhotonView>().ViewID;
-        GameManager.instance.RemoveHelmRPC(viewID, parentHero);
+        //GameManager.instance.RemoveHelmRPC(viewID, parentHero);
+        GameManager.instance.photonView.RPC("RemoveHelmRPC", RpcTarget.AllViaServer, new object[] {viewID, parentHero});
+
       }
       else {
         Debug.Log("Error hero inventory remove helm");
@@ -219,13 +237,15 @@ public class HeroInventory
 
     public void AddItem(Token item){
 
+
+
       if(item == null){
         return;
       }
       if (item is GoldCoin){
         AddGold((GoldCoin) item);
       }
-      if (item is Helm){
+      else if (item is Helm){
         AddHelm((Helm) item);
       }
       else if (item.GetType().IsSubclassOf(typeof(SmallToken))){

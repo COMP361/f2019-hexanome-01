@@ -59,10 +59,12 @@ public class GoldOptions : MonoBehaviour
     }
 
     public void DropGold() {
+
         GameManager.instance.MainHero.heroInventory.RemoveGold(1);
         Cell cell = GameManager.instance.MainHero.Cell;
         Token goldCoin = GoldCoin.Factory();
         cell.Inventory.AddToken(goldCoin);
+
         Hide();
     }
 
