@@ -6,28 +6,23 @@ using UnityEngine.UI;
 
 public class InventoryUIHero : Singleton<InventoryUIHero>
 {
-    // Start is called before the first frame update
+  public Transform smallToken;
+  public Transform bigToken;
+  public Transform  helm;
+  public Transform gold;
+  protected InventorySpotHero[] smallSpots;
 
-    public Transform  smallItemsParent;
-    public Transform bigParent;
-    public Transform  helmParent;
-    public Transform goldParent;
-    protected InventorySpotHero[] smallSpots;
-    protected InventorySpotHero bigSpot;
-    protected InventorySpotHero helmSpot;
-    protected InventorySpotHero goldSpot;
-
-    protected Transform goldText;
-
-
-
+  protected InventorySpotHero bigSpot;
+  protected InventorySpotHero helmSpot;
+  protected InventorySpotHero goldSpot;
+  protected Transform goldText;
 
   void Start()
   {
-    smallSpots = smallItemsParent.GetComponentsInChildren<InventorySpotHero>();
-    bigSpot = bigParent.GetComponentInChildren<InventorySpotHero>();
-    helmSpot = helmParent.GetComponentInChildren<InventorySpotHero>();
-    goldSpot = goldParent.GetComponentInChildren<InventorySpotHero>();
+    smallSpots = smallToken.GetComponentsInChildren<InventorySpotHero>();
+    bigSpot = bigToken.GetComponentInChildren<InventorySpotHero>();
+    helmSpot = helm.GetComponentInChildren<InventorySpotHero>();
+    goldSpot = gold.GetComponentInChildren<InventorySpotHero>();
 
     goldText = transform.FindDeepChild("GoldText");
     goldText.gameObject.SetActive(false);
@@ -42,24 +37,19 @@ public class InventoryUIHero : Singleton<InventoryUIHero>
     EventManager.InventoryUIHeroUpdate -= UpdateUI;
   }
 
-  void Update(){
-
-    }
-
-
   void UpdateUI(HeroInventory heroInv){
     //updating smallSpots
     for(int i = 0; i < smallSpots.Length; i++){
-      if(i < heroInv.smallItems.Count){
-        smallSpots[i].AddItem(heroInv.smallItems[i]);
+      if(i < heroInv.smallTokens.Count){
+        smallSpots[i].AddItem((SmallToken)heroInv.smallTokens[i]);
       }
       else{
         smallSpots[i].ClearSpot();
       }
     }
 
-    if(heroInv.bigItem != null){
-      bigSpot.AddItem(heroInv.bigItem);
+    if(heroInv.bigToken != null){
+      bigSpot.AddItem(heroInv.bigToken);
     }
     else{
       bigSpot.ClearSpot();
@@ -73,7 +63,7 @@ public class InventoryUIHero : Singleton<InventoryUIHero>
     }
 
     if(heroInv.numOfGold > 0){
-      goldSpot.AddItem(heroInv.golds[0]);
+      goldSpot.AddItem((Token) heroInv.golds[0]);
       goldText.GetComponent<Text>().text = "X" + heroInv.numOfGold;
       goldText.gameObject.SetActive(true);
     }

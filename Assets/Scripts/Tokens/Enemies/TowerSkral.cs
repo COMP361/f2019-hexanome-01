@@ -20,16 +20,9 @@ public class TowerSkral : Enemy
         skral.Will = 6;
         skral.Reward = 4; // Not sure about this
 
-        if (numPlayers == 2)
-        {
-            skral.Strength = 20;
-        }
-        if (numPlayers == 3)
-        {
+        if (numPlayers == 3) {
             skral.Strength = 30;
-        }
-        if (numPlayers == 4)
-        {
+        } else {
             skral.Strength = 40;
         }
 

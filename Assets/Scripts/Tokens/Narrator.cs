@@ -2,8 +2,7 @@
 using System;
 using Random = System.Random;
 
-public class Narrator : MonoBehaviour
-{
+public class Narrator {
     public int index; // 0 -> A
     public int runestoneIndex;
     public char runestoneLetter;

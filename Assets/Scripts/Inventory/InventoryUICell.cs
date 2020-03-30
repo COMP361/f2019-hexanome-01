@@ -40,37 +40,42 @@ public class InventoryUICell : Singleton<InventoryUICell>
   }
 
   void Update(){
-      if(Input.GetButtonDown("LockCellInventory")){
-        isLocked = !isLocked;
-      }
+    if(Input.GetButtonDown("LockCellInventory")){
+      isLocked = !isLocked;
     }
+  }
 
-    void UpdateUIEnter(CellInventory cellInv, int index){
-      if(!isLocked){
-        this.index = index;
-        InventorySpotCell.cellIndex = index;
-        for(int i = 0; i < spots.Length; i++){
-          if(i < cellInv.AllTokens.Count){
-            spots[i].AddItem(cellInv.AllTokens[i]);
-          } else {
-            spots[i].ClearSpot();
-          }
-          titleTransformGraphic.GetComponent<Text>().text = title;
-          titleTransformGraphic.gameObject.SetActive(true);
+  void UpdateUIEnter(CellInventory cellInv, int index){
+    if(!isLocked){
+      this.index = index;
+      InventorySpotCell.cellIndex = index;
+
+      for(int i = 0; i < spots.Length; i++){
+        if(i < cellInv.AllTokens.Count){
+          spots[i].AddItem(cellInv.AllTokens[i]);
+        } else if(i < cellInv.items.Count + cellInv.AllTokens.Count){
+          spots[i].AddItem((Token) cellInv.items[i - cellInv.AllTokens.Count]);
+        }
+        else{
+          spots[i].ClearSpot();
         }
       }
+
+      titleTransformGraphic.GetComponent<Text>().text = "Cell: " + index;
+      titleTransformGraphic.gameObject.SetActive(true);
     }
+  }
 
-   void BlockOnClick(){
-        blockPanel.SetActive(true);
-   }
+  void BlockOnClick(){
+    blockPanel.SetActive(true);
+  }
 
-   public void hideBlock(){
-        blockPanel.SetActive(false);
-   }
+  public void hideBlock(){
+    blockPanel.SetActive(false);
+  }
 
-   public void ForceUpdate(CellInventory inv, int index){
-     isLocked = false;
-     UpdateUIEnter(inv,index);
-   }
- }
+  public void ForceUpdate(CellInventory inv, int index){
+    isLocked = false;
+    UpdateUIEnter(inv,index);
+  }
+}

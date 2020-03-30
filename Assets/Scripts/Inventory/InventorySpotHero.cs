@@ -5,23 +5,12 @@ using UnityEngine.UI;
 
 public class InventorySpotHero : MonoBehaviour
 {
-    // Start is called before the first frame update
-    public Image icon;
+    Image icon;
     Token token;
 
-    void Start()
-    {
-
+    void Awake() {
+      icon = GetComponent<Image>();
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-
-
-    }
-
 
     public void AddItem(Token newToken)
     {
@@ -38,11 +27,8 @@ public class InventorySpotHero : MonoBehaviour
     }
 
     public void UseItem(){
-
       if(token != null){
-        if(token.TokenName.Equals("GoldCoin")){
-        ((GoldCoin) token).useHero();
-        }
+        token.UseHero();
       }
     }
 }

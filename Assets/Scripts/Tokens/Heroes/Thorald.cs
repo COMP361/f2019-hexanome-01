@@ -7,23 +7,19 @@ public class Thorald : Movable
     static Thorald _instance;
 
     public string Type { get; protected set; }
-    public Color Color { get; set; }
     protected int rank;
     
     static void Factory()
     {
-        Color color = new Color(0, 0, 0, 1);
-        
         Sprite sprite = Resources.Load<Sprite>("Sprites/Tokens/Thorald");
-        GameObject go = new GameObject("Warrior");
+        GameObject go = new GameObject(typeof(Thorald).ToString());
         SpriteRenderer renderer = go.AddComponent<SpriteRenderer>();
         renderer.sprite = sprite;
         renderer.sortingOrder = 2;
         go.transform.localScale = new Vector3(10, 10, 10);
 
         Thorald thorald = go.AddComponent<Thorald>();
-        thorald.Color = color;
-
+        
         thorald.Type = typeof(Thorald).ToString();
         thorald.TokenName = thorald.Type;
 

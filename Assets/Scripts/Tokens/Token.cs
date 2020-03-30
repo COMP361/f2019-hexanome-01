@@ -13,17 +13,28 @@ using UnityEngine;
 public class Token : MonoBehaviour {
     protected string description;
     private Cell _cell;
+
     public Cell Cell {
         get {
             return _cell;
         }
         set {
-            if(_cell != null && _cell.Inventory != null){
+            if(value == null) {
+                gameObject.SetActive(false);
+
+            } else {
+                gameObject.SetActive(true);
+            }
+
+            if(_cell != null && _cell.Inventory != null) {
               _cell.Inventory.RemoveToken(this);
             }
             _cell = value;
-            gameObject.transform.position = getWaypoint(_cell);
-            _cell.Inventory.AddToken(this);
+            
+            if(_cell != null && _cell.Inventory != null) {
+                gameObject.transform.position = getWaypoint(_cell);
+                _cell.Inventory.AddToken(this);
+            }
 
             EventManager.TriggerCellUpdate(this);
         }
@@ -66,6 +77,14 @@ public class Token : MonoBehaviour {
     }
 
     protected virtual Vector3 getWaypoint(Cell cell) {
+        if(cell == null) return Vector3.negativeInfinity;
         return cell.TokensPosition;
+    }
+
+    public virtual void UseCell(){
+        Debug.Log("UseCell");
+    }
+
+    public virtual void UseHero(){
     }
 }

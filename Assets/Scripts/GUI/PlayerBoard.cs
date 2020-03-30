@@ -19,7 +19,7 @@ public class PlayerBoard : MonoBehaviour
     void OnDisable() {
         EventManager.FarmersInventoriesUpdate -= UpdateFarmerCount;
         EventManager.UpdateHeroStats -= UpdatePlayerStats;
-        EventManager.MainHeroInit += InitHero;
+        EventManager.MainHeroInit -= InitHero;
     }
 
     // Start is called before the first frame update
@@ -30,8 +30,10 @@ public class PlayerBoard : MonoBehaviour
     }
 
     private void UpdatePlayerStats(Hero hero) {
+      if(hero.TokenName.Equals(GameManager.instance.MainHero.TokenName)){
         strength.text = hero.Strength.ToString();
         willPower.text = hero.Willpower.ToString();
+      }
     }
 
     void UpdateFarmerCount(int attachedFarmers, int noTargetFarmers, int detachedFarmers) {

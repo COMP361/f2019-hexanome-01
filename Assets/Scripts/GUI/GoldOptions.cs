@@ -27,25 +27,24 @@ public class GoldOptions : MonoBehaviour
 
 
     void Awake() {
-        heroPanel = transform.Find("Hero").gameObject;
-        cellPanel = transform.Find("Cell").gameObject;
+        heroPanel = transform.Find("Gold Drop Action").gameObject;
+        cellPanel = transform.Find("Gold Pick Action").gameObject;
       //  gold = null;
 
         cancelBtnCell = cellPanel.transform.Find("Cancel Button").GetComponent<Button>();
     //    cancelBtnCell.onClick.AddListener(delegate { EventManager.TriggerGoldCellCancel(); });
 
         cancelBtnHero = heroPanel.transform.Find("Cancel Button").GetComponent<Button>();
-    //    cancelBtnHero.onClick.AddListener(delegate { EventManager.TriggerGoldHeroCancel(); });
+        cancelBtnHero.onClick.AddListener(delegate { Hide(); });
 
-        pickGoldBtn = cellPanel.transform.Find("Button Pick Gold").GetComponent<Button>();
+        pickGoldBtn = cellPanel.transform.Find("Pick Gold Button").GetComponent<Button>();
   //      pickGoldBtn.onClick.AddListener(delegate { EventManager.TriggerPickGold(); });
 
-        dropGoldBtn = heroPanel.transform.Find("Button Drop Gold").GetComponent<Button>();
+        dropGoldBtn = heroPanel.transform.Find("Drop Gold Button").GetComponent<Button>();
     //    dropGoldBtn.onClick.AddListener(delegate { EventManager.TriggerDropGold(); });
     }
 
     public void ShowHero(GoldCoin gold) {
-     //   this.gold = gold;
         heroPanel.SetActive(true);
     }
 
@@ -57,32 +56,21 @@ public class GoldOptions : MonoBehaviour
     public void Hide() {
         cellPanel.SetActive(false);
         heroPanel.SetActive(false);
-       // this.gold = null;
     }
 
     public void DropGold() {
-        // EventManager.TriggerDropGoldClick();
-       GameManager.instance.MainHero.heroInventory.RemoveGold(1);
-       //  photonView.RPC("DropGoldRPC", RpcTarget.AllViaServer);
-       int cellID = GameManager.instance.MainHero.Cell.Index;
-       GameManager.instance.photonView.RPC("AddGoldCellRPC", RpcTarget.AllViaServer, cellID);
+
+        GameManager.instance.MainHero.heroInventory.RemoveGold(1);
+        Cell cell = GameManager.instance.MainHero.Cell;
+        Token goldCoin = GoldCoin.Factory();
+        cell.Inventory.AddToken(goldCoin);
 
         Hide();
     }
 
-    [PunRPC]
-    public void DropGoldRPC(){
-    //    GameObject goldCoinGO = PhotonNetwork.Instantiate("Prefabs/Tokens/GoldCoin", Vector3.zero, Quaternion.identity, 0);
-    //    Token goldCoin = goldCoinGO.GetComponent<GoldCoin>();
-    //    int cellID = GameManager.instance.MainHero.Cell.Index;
-    //    GameManager.instance.photonView.RPC("AddGoldCellRPC", RpcTarget.AllViaServer, cellID);
-    }
-
     public void PickGold() {
-        //  EventManager.TriggerDropGoldClick();
         Cell cell = Cell.FromId(GameManager.instance.MainHero.Cell.Index);
         cell.Inventory.RemoveToken(gold);
-        InventoryUICell.instance.ForceUpdate(cell.Inventory, cell.Index);
         GameManager.instance.MainHero.heroInventory.AddGold(gold);
         Hide();
     }

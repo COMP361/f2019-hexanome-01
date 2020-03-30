@@ -25,8 +25,6 @@ public class MoveCommand : MonoBehaviour, ICommand
     }
 
     private Movable movable;
-    //private int timeCost;
-    //private int willpowerCost;
     private Cell goal;
     private MapPath path;
     private List<Cell> freeCells;

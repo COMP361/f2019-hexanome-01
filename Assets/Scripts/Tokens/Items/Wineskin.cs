@@ -1,47 +1,37 @@
-﻿using System.Collections;
+using Photon.Pun;
+using Photon.Realtime;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Wineskin : Item
+public class Wineskin : SmallToken
 {
+    public static string name = "Wineskin";
+    public static string desc = "Each side of the wineskin can be used to advance 1 space without having to move the time marker.";
+
     public static Wineskin Factory()
     {
-
-        Sprite sprite = Resources.Load<Sprite>("Sprites/Tokens/Fog/WineSkin");
-        GameObject go = new GameObject("WineSkin");
-        SpriteRenderer renderer = go.AddComponent<SpriteRenderer>();
-        renderer.sprite = sprite;
-        renderer.sortingOrder = 2;
-
-        Wineskin wineskin = go.AddComponent<Wineskin>();
-        wineskin.TokenName = Type;
-
-        return wineskin;
+      GameObject wineSkinGO = PhotonNetwork.Instantiate("Prefabs/Tokens/Wineskin", Vector3.zero, Quaternion.identity, 0);
+      return wineSkinGO.GetComponent<Wineskin>();
     }
 
     public static Wineskin Factory(int cellID)
     {
-        Sprite sprite = Resources.Load<Sprite>("Sprites/Tokens/Fog/WineSkin");
-        GameObject go = new GameObject("WineSkin");
-        SpriteRenderer renderer = go.AddComponent<SpriteRenderer>();
-        renderer.sprite = sprite;
-        renderer.sortingOrder = 2;
-
-        Wineskin wineskin = go.AddComponent<Wineskin>();
-        wineskin.TokenName = Type;
+        Wineskin wineskin = Wineskin.Factory();
         wineskin.Cell = Cell.FromId(cellID);
-
         return wineskin;
     }
 
-    public void useCell()
-    {
-        // TODO
-    }
-    public void useHero()
-    {
-        //TODO
-    }
-
     public static string Type { get => typeof(Wineskin).ToString(); }
+
+    public static void Buy() {
+        Hero hero = GameManager.instance.MainHero;
+        int cost = 2;
+        
+        if(hero.heroInventory.numOfGold >= cost) {
+            hero.heroInventory.RemoveGold(cost);
+            Token wineskin = Wineskin.Factory();
+            GameManager.instance.CurrentPlayer.heroInventory.AddItem(wineskin);      
+        }
+   }
 }

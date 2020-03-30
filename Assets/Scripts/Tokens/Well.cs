@@ -17,7 +17,7 @@ public class Well : Token
     return well;
   }
 
-  public void useCell(){
+  public override void UseCell(){
     EventManager.TriggerCellWellClick(this);
   }
 

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class LegendCard : MonoBehaviour
+public abstract class LegendCard
 {
     public string id;
     public string story;
