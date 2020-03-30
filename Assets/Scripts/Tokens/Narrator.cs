@@ -8,6 +8,8 @@ public class Narrator : MonoBehaviour
     public int runestoneIndex;
     public char runestoneLetter;
     public bool witchFound;
+    public bool medicineDelivered;
+    public bool towerSkralDefeated;
     public LegendCardDeck legendCardDeck;
 
     GameObject narratorToken;
@@ -64,10 +66,17 @@ public class Narrator : MonoBehaviour
     public void CheckLegendCards()
     {
         // Check if narrator is at runestones
-        if (!witchFound && index == runestoneIndex)
+        if (index == runestoneIndex)
         {
             LegendCard runestoneCard = legendCardDeck.getCard("RunestoneCard");
-            runestoneCard.ApplyEffect();
+            if (!legendCardDeck.isEasy && witchFound)
+            {
+                runestoneCard.ApplyEffect();
+            }
+            else if (legendCardDeck.isEasy)
+            {
+                runestoneCard.ApplyEffect();
+            }
         }
 
         if (index == 2) // C

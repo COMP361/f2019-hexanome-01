@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Photon.Pun;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -28,7 +29,11 @@ public class RunestoneCard : LegendCard
 
     public override void ApplyEffect()
     {
-        //throw new System.NotImplementedException();
+        int firstRunestoneCell = (int)PhotonNetwork.CurrentRoom.CustomProperties["RunestoneCell1"];
+        int secondRunestoneCell = (int)PhotonNetwork.CurrentRoom.CustomProperties["RunestoneCell2"];
+        int thirdRunestoneCell = (int)PhotonNetwork.CurrentRoom.CustomProperties["RunestoneCell3"];
+        int fourthRunestoneCell = (int)PhotonNetwork.CurrentRoom.CustomProperties["RunestoneCell4"];
+        int fifthRunestoneCell = (int)PhotonNetwork.CurrentRoom.CustomProperties["RunestoneCell5"];
     }
 }
 

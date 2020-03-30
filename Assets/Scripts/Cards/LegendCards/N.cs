@@ -15,6 +15,13 @@ public class N : LegendCard
 
     public override void ApplyEffect()
     {
-        //throw new System.NotImplementedException();
+       if(GameManager.instance.narrator.medicineDelivered && GameManager.instance.narrator.towerSkralDefeated)
+        {
+            Debug.Log("Game Won");
+        }
+        else
+        {
+            Debug.Log("Game Lost");
+        }
     }
 }

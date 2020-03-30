@@ -4,9 +4,12 @@ using System.Collections.Generic;
 public class LegendCardDeck {
 
     // Order of cards: A3-A4-C1-C2-witch-runestones-G-N
-    List<LegendCard> cards = new List<LegendCard>();
+    public List<LegendCard> cards;
+    public bool isEasy;
 
     public LegendCardDeck(bool isEasy) {
+        cards = new List<LegendCard>();
+        this.isEasy = isEasy;
         cards.Add(new A3(isEasy));
         cards.Add(new A4());
         cards.Add(new C1(isEasy));
