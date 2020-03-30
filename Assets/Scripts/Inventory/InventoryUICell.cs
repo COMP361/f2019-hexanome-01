@@ -61,7 +61,7 @@ public class InventoryUICell : Singleton<InventoryUICell>
         }
       }
 
-      titleTransformGraphic.GetComponent<Text>().text = title;
+      titleTransformGraphic.GetComponent<Text>().text = "Cell: " + index;
       titleTransformGraphic.gameObject.SetActive(true);
     }
   }
