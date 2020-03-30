@@ -566,7 +566,6 @@ public class GameManager : Singleton<GameManager>
         GoldCoin toAdd = PhotonView.Find(viewID).gameObject.GetComponent<GoldCoin>();
         Hero toAddTo = findHero(hero);
         toAddTo.heroInventory.addGold2(toAdd);
-        Debug.Log("here motherfucker");
     }
 
     [PunRPC]

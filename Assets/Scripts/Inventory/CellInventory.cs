@@ -82,6 +82,10 @@ public class CellInventory : ICloneable {
       AllTokens.Add(token);
       return;
     }
+    if(token is Witch){
+      AllTokens.Add(token);
+      return;
+    }
 
     // if none of these options means its an item
     addItem(token);

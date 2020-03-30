@@ -54,7 +54,6 @@ public class HeroInventory
     public void AddGold(GoldCoin gold){
       int viewID = gold.GetComponent<PhotonView>().ViewID;
     //  GameManager.instance.AddGoldHeroRPC(viewID, parentHero);
-      Debug.Log("HowManyCallAreMadeHere");
       GameManager.instance.photonView.RPC("AddGoldHeroRPC", RpcTarget.AllViaServer, new object[] {viewID, parentHero});
 
     }
