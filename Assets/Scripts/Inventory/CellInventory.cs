@@ -86,9 +86,13 @@ public class CellInventory : ICloneable {
       AllTokens.Add(token);
       return;
     }
+    if (token is Thorald){
+      AllTokens.Add(token);
+      return;
+    }
 
-    // if none of these options means its an item
-    addItem(token);
+        // if none of these options means its an item
+        addItem(token);
     }
 
     public void addItem(Token item){

@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using System;
 using Random = System.Random;
+using Photon.Pun;
+using UnityEngine.UI;
+using TMPro;
 
 public class Narrator {
     public int index; // 0 -> A
@@ -11,6 +14,7 @@ public class Narrator {
     public bool towerSkralDefeated;
     public LegendCardDeck legendCardDeck;
 
+    public TMP_Text TasksListText;
     GameObject narratorToken;
     GameObject runestoneToken;
 
@@ -20,6 +24,8 @@ public class Narrator {
         setRunestonePosition();
         witchFound = false;
         legendCardDeck = new LegendCardDeck(false);
+
+        TasksListText = GameObject.Find("TasksListText").GetComponent<TMP_Text>();
 
         narratorToken = new GameObject("Narrator");
         Sprite sprite = Resources.Load<Sprite>("Sprites/Tokens/Narrator");
@@ -68,6 +74,7 @@ public class Narrator {
         if (index == runestoneIndex)
         {
             LegendCard runestoneCard = legendCardDeck.getCard("RunestoneCard");
+            witchFound = true;//REMOVE AFTER
             if (!legendCardDeck.isEasy && witchFound)
             {
                 runestoneCard.ApplyEffect();
@@ -84,6 +91,7 @@ public class Narrator {
             LegendCard c2 = legendCardDeck.getCard("C2");
             c1.ApplyEffect();
             c2.ApplyEffect();
+            TasksListText.text = "- Kill the Tower Skral";
         }
 
         if (index == 6) // G
@@ -105,11 +113,11 @@ public class Narrator {
         LegendCard witchCard = legendCardDeck.getCard("WitchCard");
         witchCard.ApplyEffect();
     }
-
+    
+    // Decide when the runestone card will be triggered
     public void setRunestonePosition()
     {
-        Random rand = new Random();
-        int roll = rand.Next(1, 6);
+        int roll = (int)PhotonNetwork.CurrentRoom.CustomProperties["RunestoneCardPosition"];
         switch (roll)
         {
             case 1:

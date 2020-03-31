@@ -24,3 +24,10 @@ public enum ItemType
     GoldCoin,
     Helmet
 }
+
+public enum RunestoneColor
+{
+    Blue,
+    Green,
+    Yellow
+}

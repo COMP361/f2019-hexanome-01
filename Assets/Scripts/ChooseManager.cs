@@ -109,8 +109,13 @@ public class ChooseManager : MonoBehaviour
         ExitGames.Client.Photon.Hashtable towerSkralTable = new ExitGames.Client.Photon.Hashtable();
         towerSkralTable.Add("TowerSkralCell", towerSkralCell);
         PhotonNetwork.CurrentRoom.SetCustomProperties(towerSkralTable);
+        // Add where runestone card will be
+        int roll = rand.Next(1, 6);
+        ExitGames.Client.Photon.Hashtable runestoneCardTable = new ExitGames.Client.Photon.Hashtable();
+        runestoneCardTable.Add("RunestoneCardPosition", roll);
+        PhotonNetwork.CurrentRoom.SetCustomProperties(runestoneCardTable);
         // Add where runestones will spawn
-        for(int i = 1; i <= 5; i++)
+        for (int i = 1; i <= 5; i++)
         {
             int tens = rand.Next(1, 6);
             int ones = rand.Next(1, 6);
