@@ -53,13 +53,22 @@ public class Potion : SmallToken
 
       public static void Buy() {
         Hero hero = GameManager.instance.MainHero;
-        int cost = Witch.Instance.PotionPrice;;
+        int cost = Witch.Instance.PotionPrice;
 
         if(hero.heroInventory.numOfGold >= cost) {
+            Potion toAdd = Potion.Factory();
+            if(hero.heroInventory.AddSmallToken(toAdd)){
             hero.heroInventory.RemoveGold(cost);
-
-            Token potion = Potion.Factory();
-            GameManager.instance.CurrentPlayer.heroInventory.AddItem(potion);
+          }
+          else{
+            EventManager.TriggerBuyError(1);
+            return;
+          }
         }
+        else{
+          EventManager.TriggerBuyError(0);
+          return;
+        }
+
     }
 }

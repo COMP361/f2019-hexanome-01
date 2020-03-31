@@ -41,6 +41,15 @@ public class Wineskin : SmallToken
           if(hero.heroInventory.AddSmallToken(toAdd)){
             hero.heroInventory.RemoveGold(cost);
           }
+          else{
+            EventManager.TriggerBuyError(1);
+            return;
+          }
         }
-   }
+        else{
+          EventManager.TriggerBuyError(0);
+          return;
+        }
+    }
+
 }

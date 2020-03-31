@@ -250,7 +250,7 @@ public class EventManager : MonoBehaviour
     public static void TriggerMoveThorald()
     {
         EventManager.TriggerActionUpdate(Action.MoveThorald.Value);
-        
+
         if (MoveThorald != null)
         {
             MoveThorald();
@@ -554,6 +554,16 @@ public class EventManager : MonoBehaviour
         if (EventCard != null)
         {
             EventCard(card);
+        }
+    }
+
+    public delegate void BuyErrorHandler(int type);
+    public static event BuyErrorHandler BuyError;
+    public static void TriggerBuyError(int type)
+    {
+        if (BuyError != null)
+        {
+            BuyError(type);
         }
     }
 }

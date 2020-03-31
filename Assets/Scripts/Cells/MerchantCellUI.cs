@@ -6,95 +6,116 @@ using UnityEngine.UI;
 
 public class MerchantCellUI : Singleton<MerchantCellUI>
 {
-  List<int> cellsID = new List<int>(){ 71, 57, 18 };  
+  List<int> cellsID = new List<int>(){ 71, 57, 18 };
 
   GameObject merchantPanel;
   GameObject buyPanel;
   Text panelTitle;
   Text panelDesc;
 
-  Button buyBtn, cancelBtn;
+  GameObject errorPanel;
+  Text errorPanelTitle;
+  Text errorPanelDesc;
+
+
+  Button buyBtn, cancelBtn, okBtn;
   Component[] btns;
   string item;
 
   void OnEnable() {
     EventManager.CurrentPlayerUpdate += LockItems;
-    EventManager.CellUpdate += LockItems; 
+    EventManager.CellUpdate += LockItems;
     EventManager.MainHeroInit += LockItems;
+    EventManager.BuyError += ShowErrorPanel;
   }
 
   void OnDisable() {
-    EventManager.CurrentPlayerUpdate -= LockItems; 
-    EventManager.CellUpdate -= LockItems; 
+    EventManager.CurrentPlayerUpdate -= LockItems;
+    EventManager.CellUpdate -= LockItems;
     EventManager.MainHeroInit -= LockItems;
+    EventManager.BuyError -= ShowErrorPanel;
   }
 
   void Start() {
     merchantPanel = transform.Find("MerchantUI").gameObject;
     buyPanel = transform.Find("BuyPanel").gameObject;
+    errorPanel = transform.Find("ErrorPanel").gameObject;
     panelTitle = buyPanel.transform.Find("Title").GetComponent<Text>();
     panelDesc = buyPanel.transform.Find("Description").GetComponent<Text>();
+    errorPanelTitle = errorPanel.transform.Find("Title").GetComponent<Text>();
+    errorPanelDesc = errorPanel.transform.Find("Description").GetComponent<Text>();
 
     btns = transform.Find("MerchantUI/Items/").GetComponentsInChildren(typeof(Button));
     buyBtn = buyPanel.transform.Find("Buy Button").GetComponent<Button>();
-    
+
     cancelBtn = buyPanel.transform.Find("Cancel Button").GetComponent<Button>();
     cancelBtn.onClick.AddListener(delegate { HidePanel(); });
-    
+
+    okBtn = errorPanel.transform.Find("OK Button").GetComponent<Button>();
+    okBtn.onClick.AddListener(delegate { HideErrorPanel(); });
+
     transform.Find("MerchantUI/Potion/Button/Text").GetComponent<UnityEngine.UI.Text>().text = "" + Witch.Instance.PotionPrice;
 
     for(int i = 0; i < btns.Length; i++) {
       Button btn = (Button)btns[i];
 
       if(btn.transform.parent.name == "Strength") {
-        btn.onClick.AddListener(() => { 
+        btn.onClick.AddListener(() => {
           ShowPanel(Strength.name, Strength.desc);
+          buyBtn.onClick.RemoveAllListeners() ;
           buyBtn.onClick.AddListener(() => { Strength.Buy(); HidePanel(); });
         });
       } else if(btn.transform.parent.name == "Helm") {
-        btn.onClick.AddListener(() => { 
+        btn.onClick.AddListener(() => {
           ShowPanel(Helm.name, Helm.desc);
+          buyBtn.onClick.RemoveAllListeners() ;
           buyBtn.onClick.AddListener(() => { Helm.Buy(); HidePanel(); });
         });
       } else if(btn.transform.parent.name == "Telescope") {
-        btn.onClick.AddListener(() => { 
+        btn.onClick.AddListener(() => {
           ShowPanel(Telescope.name, Telescope.desc);
+          buyBtn.onClick.RemoveAllListeners() ;
           buyBtn.onClick.AddListener(() => { Telescope.Buy(); HidePanel(); });
         });
       } else if(btn.transform.parent.name == "Wineskin") {
-        btn.onClick.AddListener(() => { 
+        btn.onClick.AddListener(() => {
           ShowPanel(Wineskin.name, Wineskin.desc);
+          buyBtn.onClick.RemoveAllListeners() ;
           buyBtn.onClick.AddListener(() => { Wineskin.Buy(); HidePanel(); });
         });
       } else if(btn.transform.parent.name == "Shield") {
-        btn.onClick.AddListener(() => { 
+        btn.onClick.AddListener(() => {
           ShowPanel(Shield.name, Shield.desc);
+          buyBtn.onClick.RemoveAllListeners() ;
           buyBtn.onClick.AddListener(() => { Shield.Buy(); HidePanel(); });
         });
       } else if(btn.transform.parent.name == "Bow") {
-        btn.onClick.AddListener(() => { 
+        btn.onClick.AddListener(() => {
           ShowPanel(Bow.name, Bow.desc);
+          buyBtn.onClick.RemoveAllListeners() ;
           buyBtn.onClick.AddListener(() => { Bow.Buy(); HidePanel(); });
         });
       } else if(btn.transform.parent.name == "Falcon") {
-        btn.onClick.AddListener(() => { 
+        btn.onClick.AddListener(() => {
           ShowPanel(Falcon.name, Falcon.desc);
+          buyBtn.onClick.RemoveAllListeners() ;
           buyBtn.onClick.AddListener(() => { Falcon.Buy(); HidePanel(); });
         });
       } else if(btn.transform.parent.name == "Potion") {
-        btn.onClick.AddListener(() => { 
+        btn.onClick.AddListener(() => {
           ShowPanel(Potion.name, Potion.desc);
+          buyBtn.onClick.RemoveAllListeners() ;
           buyBtn.onClick.AddListener(() => { Potion.Buy(); HidePanel(); });
         });
-      } 
+      }
     }
   }
 
   void LockItems(Token token) {
     if(btns == null || GameManager.instance.MainHero == null || !GameManager.instance.MainHero.GetType().IsCompatibleWith(token.GetType())) return;
-        
+
     Hero hero = (Hero)token;
-    
+
     if(hero.heroInventory.numOfGold < 2 || !cellsID.Contains(hero.Cell.Index)) {
       for(int i = 0; i < btns.Length; i++) {
         Buttons.Lock((Button)btns[i]);
@@ -117,10 +138,26 @@ public class MerchantCellUI : Singleton<MerchantCellUI>
     buyPanel.SetActive(false);
   }
 
+  void HideErrorPanel() {
+    errorPanel.SetActive(false);
+  }
+
   public void ShowPanel(string name, string desc) {
     panelTitle.text = name;
     panelDesc.text = desc;
     buyPanel.transform.Find("Title").GetComponent<Text>();
     buyPanel.SetActive(true);
+  }
+
+  public void ShowErrorPanel(int type){
+    if(type == 0){
+      errorPanelTitle.text = "Error!";
+      errorPanelDesc.text = "Not enough gold.";
+    }
+    if(type == 1){
+      errorPanelTitle.text = "Error!";
+      errorPanelDesc.text = "Not enough space.";
+    }
+    errorPanel.SetActive(true);
   }
 }

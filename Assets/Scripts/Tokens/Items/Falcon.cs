@@ -41,6 +41,14 @@ public class Falcon : BigToken{
         if(hero.heroInventory.AddBigToken(toAdd)){
           hero.heroInventory.RemoveGold(cost);
         }
+        else{
+          EventManager.TriggerBuyError(1);
+          return;
+        }
       }
-   }
+      else{
+        EventManager.TriggerBuyError(0);
+        return;
+      }
+  }
 }

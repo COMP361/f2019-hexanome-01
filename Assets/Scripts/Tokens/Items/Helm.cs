@@ -43,6 +43,14 @@ public class Helm : Token
           if(hero.heroInventory.AddHelm(toAdd)){
             hero.heroInventory.RemoveGold(cost);
           }
+          else{
+            EventManager.TriggerBuyError(1);
+            return;
+          }
+        }
+        else{
+          EventManager.TriggerBuyError(0);
+          return;
         }
     }
   }
