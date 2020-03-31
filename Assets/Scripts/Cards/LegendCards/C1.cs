@@ -1,6 +1,9 @@
-﻿using System.Collections;
+﻿using Photon.Pun;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using Random = System.Random;
 
 public class C1 : LegendCard
 {
@@ -21,6 +24,9 @@ public class C1 : LegendCard
 
     public override void ApplyEffect()
     {
-        throw new System.NotImplementedException();
+        int towerSkrallCell = (int) PhotonNetwork.CurrentRoom.CustomProperties["TowerSkralCell"];
+        int numPlayers = PhotonNetwork.PlayerList.Count();
+        GameManager.instance.towerskrals.Add(TowerSkral.Factory(towerSkrallCell, numPlayers));
+        GameManager.instance.farmers.Add(Farmer.Factory(28));
     }
 }

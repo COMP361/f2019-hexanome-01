@@ -28,6 +28,7 @@ public class GameManager : Singleton<GameManager>
     public ActionOptions actionOptions;
     List<Enemy> monstersToMove;
     List<WellCell> wells;
+    public Thorald thorald;
 
     #endregion
 
@@ -208,7 +209,7 @@ public class GameManager : Singleton<GameManager>
         monstersToMove.AddRange(trolls);
         monstersToMove.AddRange(wardraks);
 
-        MonsterMove();
+       // MonsterMove();
     }
 
 

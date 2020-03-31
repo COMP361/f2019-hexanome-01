@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Photon.Pun;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -28,7 +29,20 @@ public class RunestoneCard : LegendCard
 
     public override void ApplyEffect()
     {
-        throw new System.NotImplementedException();
+        if (PhotonNetwork.IsMasterClient)
+        {
+            int firstRunestoneCell = (int)PhotonNetwork.CurrentRoom.CustomProperties["RunestoneCell1"];
+            int secondRunestoneCell = (int)PhotonNetwork.CurrentRoom.CustomProperties["RunestoneCell2"];
+            int thirdRunestoneCell = (int)PhotonNetwork.CurrentRoom.CustomProperties["RunestoneCell3"];
+            int fourthRunestoneCell = (int)PhotonNetwork.CurrentRoom.CustomProperties["RunestoneCell4"];
+            int fifthRunestoneCell = (int)PhotonNetwork.CurrentRoom.CustomProperties["RunestoneCell5"];
+            //Debug.Log(firstRunestoneCell + "  " + secondRunestoneCell + "  " + thirdRunestoneCell + "  " + fourthRunestoneCell + "  " + fifthRunestoneCell);
+            Runestone runestone1 = Runestone.Factory(firstRunestoneCell, RunestoneColor.Blue);
+            Runestone runestone2 = Runestone.Factory(secondRunestoneCell, RunestoneColor.Blue);
+            Runestone runestone3 = Runestone.Factory(thirdRunestoneCell, RunestoneColor.Green);
+            Runestone runestone4 = Runestone.Factory(fourthRunestoneCell, RunestoneColor.Green);
+            Runestone runestone5 = Runestone.Factory(fifthRunestoneCell, RunestoneColor.Yellow);
+        }
     }
 }
 

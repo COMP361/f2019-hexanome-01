@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
+using System;
 using System.Linq;
 using Photon.Realtime;
 using UnityEngine.EventSystems;
+using Random = System.Random;
 
 public class ChooseManager : MonoBehaviour
 {
@@ -101,6 +103,27 @@ public class ChooseManager : MonoBehaviour
 
     public void OnClickStartButton()
     {
+        // Add where the tower skral will spawn;
+        Random rand = new Random();
+        int towerSkralCell = rand.Next(1, 6) + 50;
+        ExitGames.Client.Photon.Hashtable towerSkralTable = new ExitGames.Client.Photon.Hashtable();
+        towerSkralTable.Add("TowerSkralCell", towerSkralCell);
+        PhotonNetwork.CurrentRoom.SetCustomProperties(towerSkralTable);
+        // Add where runestone card will be
+        int roll = rand.Next(1, 6);
+        ExitGames.Client.Photon.Hashtable runestoneCardTable = new ExitGames.Client.Photon.Hashtable();
+        runestoneCardTable.Add("RunestoneCardPosition", roll);
+        PhotonNetwork.CurrentRoom.SetCustomProperties(runestoneCardTable);
+        // Add where runestones will spawn
+        for (int i = 1; i <= 5; i++)
+        {
+            int tens = rand.Next(1, 6);
+            int ones = rand.Next(1, 6);
+            int runestoneCell = tens * 10 + ones;
+            ExitGames.Client.Photon.Hashtable runestoneTable = new ExitGames.Client.Photon.Hashtable();
+            runestoneTable.Add("RunestoneCell" + i, runestoneCell);
+            PhotonNetwork.CurrentRoom.SetCustomProperties(runestoneTable);
+        }
         PhotonNetwork.LoadLevel(3);
     }
 }
