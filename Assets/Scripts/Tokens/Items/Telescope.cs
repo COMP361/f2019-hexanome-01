@@ -21,7 +21,7 @@ public class Telescope : SmallToken
     public static Telescope Factory(int cellID)
     {
         object[] myCustomInitData = {cellID};
-        GameObject telescopeGO = PhotonNetwork.Instantiate("Prefabs/Tokens/Teescope", Vector3.zero, Quaternion.identity, 0, myCustomInitData);
+        GameObject telescopeGO = PhotonNetwork.Instantiate("Prefabs/Tokens/Telescope", Vector3.zero, Quaternion.identity, 0, myCustomInitData);
         return telescopeGO.GetComponent<Telescope>();
     }
 
@@ -39,7 +39,7 @@ public class Telescope : SmallToken
         int cost = 2;
 
         if(hero.heroInventory.numOfGold >= cost) {
-          SmallToken toAdd = Telescope.Factory();
+          Telescope toAdd = Telescope.Factory();
           if(hero.heroInventory.AddSmallToken(toAdd)){
             hero.heroInventory.RemoveGold(cost);
           }
