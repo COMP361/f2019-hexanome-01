@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class FightHeroChoice : MonoBehaviour
 {
-    public GameObject currentHeroImage;
+    //public GameObject currentHeroImage;
     // Start is called before the first frame update
     private void Awake()
     {
@@ -13,7 +13,7 @@ public class FightHeroChoice : MonoBehaviour
         {
 
         }
-        currentHeroImage.GetComponent<SpriteRenderer>().sprite = GameManager.instance.CurrentPlayer.getSprite(); 
+        //currentHeroImage.GetComponent<SpriteRenderer>().sprite = GameManager.instance.CurrentPlayer.getSprite(); 
 
     }
 }

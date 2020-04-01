@@ -113,8 +113,6 @@ public class nroll : MonoBehaviour
         else
         {
             return 0;
-            Debug.Log("number of regular dice wrong");
-           
         }
     }
 
@@ -150,7 +148,6 @@ public class nroll : MonoBehaviour
         else
         {
             return 0;
-            Debug.Log("number of special dice wrong");
         }
     }
 

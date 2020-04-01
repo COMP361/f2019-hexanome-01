@@ -109,12 +109,12 @@ public class FightPanel : MonoBehaviour
            + GameManager.instance.CurrentPlayer.getSex() 
            + "_"
            + GameManager.instance.CurrentPlayer.Type.ToLower());
-        Debug.Log(EnemyName.text.ToLower());
-        Debug.Log(GameManager.instance.CurrentPlayer.Type);
-        Debug.Log("Sprites/heroes/"
-           + GameManager.instance.CurrentPlayer.getSex()
-           + "_"
-           + GameManager.instance.CurrentPlayer.Type.ToLower());
+        //Debug.Log(EnemyName.text.ToLower());
+        //Debug.Log(GameManager.instance.CurrentPlayer.Type);
+        //Debug.Log("Sprites/heroes/"
+        //   + GameManager.instance.CurrentPlayer.getSex()
+        //   + "_"
+        //   + GameManager.instance.CurrentPlayer.Type.ToLower());
         MonsterSprite.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprites/Enemies/" + EnemyName.text.ToLower());
         //MonsterSprite.GetComponent<SpriteRenderer>().sortingLayerName = "Popup";
     }
