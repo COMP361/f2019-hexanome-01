@@ -8,6 +8,7 @@ using System;
 
 public class MultiplayerFightPlayer : MonoBehaviour
 {
+    public GameObject panel;
     public PhotonView pv;
     public Text AttackMessage;
     // Heroes 
@@ -36,10 +37,7 @@ public class MultiplayerFightPlayer : MonoBehaviour
 
     public void activateMage()
     {
-        if (mage == null)
-        {
-            mage = new HeroFighter("Mage");
-        }
+        mage = new HeroFighter("Mage");
         mage.isPresent = !mage.isPresent;
 
         Image img = mage_button.GetComponent<Image>();
@@ -49,16 +47,14 @@ public class MultiplayerFightPlayer : MonoBehaviour
         }
         else
         {
+            DisableFighter(mage);
             img.color = Color.white;
         }
     }
 
     public void activateArcher()
     {
-        if(archer == null)
-        {
-            archer = new HeroFighter("Archer");
-        }
+        archer = new HeroFighter("Archer");
         archer.isPresent = !archer.isPresent;
 
         Image img = archer_button.GetComponent<Image>();
@@ -68,30 +64,25 @@ public class MultiplayerFightPlayer : MonoBehaviour
         }
         else
         {
+            DisableFighter(archer);
             img.color = Color.white;
         }
     }
 
     public void activateWarrior()
     {
-        if(warrior == null)
-        {
-            warrior = new HeroFighter("Warrior");
-        }
+        warrior = new HeroFighter("Warrior");
         warrior.isPresent = !warrior.isPresent;
 
         Image img = warrior_button.GetComponent<Image>();
         if (warrior.isPresent)
         {
             img.color = Color.blue;
-            //myColorBlock.highlightedColor = Color.blue;
-            //warrior_button.colors = myColorBlock;
         }
         else
         {
+            DisableFighter(warrior);
             img.color = Color.white;
-            //myColorBlock.highlightedColor = Color.white;
-            //warrior_button.colors = myColorBlock;
         }
     }
 
@@ -107,6 +98,7 @@ public class MultiplayerFightPlayer : MonoBehaviour
         }
         else
         {
+            DisableFighter(dwarf);
             img.color = Color.white;
         }
     }
@@ -297,6 +289,9 @@ public class MultiplayerFightPlayer : MonoBehaviour
         HeroesTotalStrength.text = total_hero_strength.ToString();
         MonsterTotalStrength.text = total_monster_strength.ToString();
 
+        HeroesTotalStrength.text = 13.ToString();
+        total_hero_strength = 13;
+
         // Actors fighting.
         int difference;
         if(total_hero_strength > total_monster_strength)
@@ -317,10 +312,7 @@ public class MultiplayerFightPlayer : MonoBehaviour
                 }
                 if (h.hero.State.Willpower <= 0) // Remove the hero from the fight
                 {
-                    h.name.text = "Empty";
-                    h.spriteRenderer.sprite = null;
-                    h.strength.text = "0";
-                    h.wp.text = "0";
+                    DisableFighter(h);
                     h.hero.State.Strength -= 1;
                     h.hero.State.Willpower = 3;
                     fighters.Remove(h);
@@ -334,6 +326,12 @@ public class MultiplayerFightPlayer : MonoBehaviour
             }
         }
 
+        if(fighters.Count == 0)
+        {
+            RestoreMonster();
+            panel.SetActive(false);
+        }
+
         foreach(HeroFighter hf in fighters)
         {
             hf.hasRolled = false;
@@ -343,6 +341,12 @@ public class MultiplayerFightPlayer : MonoBehaviour
         if (int.Parse(MonsterWP.text) <= 0)
         {
             killMonster();
+            foreach(HeroFighter h in fighters)
+            {
+                DisableFighter(h);
+            }
+            DisableMonsterUI();
+            panel.SetActive(false);
         }
     }
 
@@ -433,6 +437,29 @@ public class MultiplayerFightPlayer : MonoBehaviour
         Cell c = Cell.FromId(id);
         Token m = c.Inventory.Enemies[0];
         Destroy(m.gameObject);
+    }
+
+    private void DisableFighter(HeroFighter h)
+    {
+        foreach (regularDices rd in h.rd)
+        {
+            rd.gameObject.SetActive(false);
+        }
+
+        h.name.text = "Empty";
+        h.spriteRenderer.sprite = null;
+        h.strength.text = "0";
+        h.wp.text = "0";
+        fighters.Remove(h);
+    }
+
+    private void DisableMonsterUI()
+    {
+        MonsterName.text = "No Monsters";
+        MonsterSprite.GetComponent<SpriteRenderer>().sprite = null;
+        MonsterStrength.text = "";
+        MonsterWP.text = "";
+        MonsterTotalStrength.text = "";
     }
 }
 
