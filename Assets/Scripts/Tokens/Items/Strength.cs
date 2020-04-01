@@ -1,3 +1,6 @@
+using Photon.Pun;
+using Photon.Realtime;
+
 public class Strength {
     public static string name = "Strength";
     public static string desc = "A strength point helps you battle monsters by making you stronger.";
@@ -8,8 +11,9 @@ public class Strength {
 
         if(hero.heroInventory.numOfGold >= cost) {
             hero.heroInventory.RemoveGold(cost);
-            hero.Strength = hero.Strength + 1;
+            GameManager.instance.photonView.RPC("AddStrengthRPC", RpcTarget.AllViaServer, new object[] {1, hero.TokenName});
         }
+
         else{
           EventManager.TriggerBuyError(0);
           return;

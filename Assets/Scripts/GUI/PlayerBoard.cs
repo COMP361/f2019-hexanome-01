@@ -14,12 +14,15 @@ public class PlayerBoard : MonoBehaviour
         EventManager.FarmersInventoriesUpdate += UpdateFarmerCount;
         EventManager.UpdateHeroStats += UpdatePlayerStats;
         EventManager.MainHeroInit += InitHero;
+        EventManager.CompleteHeroBoardUpdate += updateCompleteBoard;
     }
 
     void OnDisable() {
         EventManager.FarmersInventoriesUpdate -= UpdateFarmerCount;
         EventManager.UpdateHeroStats -= UpdatePlayerStats;
         EventManager.MainHeroInit -= InitHero;
+        EventManager.CompleteHeroBoardUpdate -= updateCompleteBoard;
+
     }
 
     // Start is called before the first frame update
@@ -53,5 +56,13 @@ public class PlayerBoard : MonoBehaviour
         go.SetActive(true);
 
         UpdatePlayerStats(hero);
+    }
+
+    //NEED SOMETHING FOR FARMERCOUNT
+    void updateCompleteBoard(Hero hero){
+        InitHero(hero);
+        strength.text = hero.Strength.ToString();
+        willPower.text = hero.Willpower.ToString();
+
     }
 }

@@ -345,9 +345,12 @@ public class EventManager : MonoBehaviour
             if (!PhotonNetwork.OfflineMode)
             {
                 string playerHero = (string)PhotonNetwork.LocalPlayer.CustomProperties["Class"];
+              //  if(heroInventory.parentHero.Equals(CharChoice.choice.TokenName))
                 if (heroInventory.parentHero == playerHero)
                 {
                     InventoryUIHeroUpdate(heroInventory);
+                    Hero hero = GameManager.instance.findHero(heroInventory.parentHero);
+                    TriggerCompleteHeroBoardUpdate(hero);
                 }
             }
             else
@@ -355,6 +358,29 @@ public class EventManager : MonoBehaviour
                 InventoryUIHeroUpdate(heroInventory);
             }
 
+        }
+    }
+
+
+    public delegate void InventoryUIHeroPeakHandler(HeroInventory heroInventory);
+    public static event InventoryUIHeroPeakHandler InventoryUIHeroPeak;
+    public static void TriggerInventoryUIHeroPeak(HeroInventory heroInventory)
+    {
+        if (InventoryUIHeroPeak != null)
+        {
+            InventoryUIHeroPeak(heroInventory);
+            Hero hero = GameManager.instance.findHero(heroInventory.parentHero);
+            TriggerCompleteHeroBoardUpdate(hero);
+        }
+    }
+
+    public delegate void CompleteHeroBoardUpdateHandler(Hero hero);
+    public static event CompleteHeroBoardUpdateHandler CompleteHeroBoardUpdate;
+    public static void TriggerCompleteHeroBoardUpdate(Hero hero)
+    {
+        if (CompleteHeroBoardUpdate != null)
+        {
+            CompleteHeroBoardUpdate(hero);
         }
     }
 

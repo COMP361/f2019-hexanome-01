@@ -189,6 +189,10 @@ public class GameManager : Singleton<GameManager>
         foreach (WellCell well in wells) {
             well.ResetWell();
         }
+        CharChoice.instance.Init(heroes);
+        CharChoice.choice = MainHero;
+
+
 
         GiveTurn();
     }
@@ -612,6 +616,20 @@ public class GameManager : Singleton<GameManager>
     public void RemoveHelmRPC(int viewID, string hero){
       Hero toRemoveFrom = findHero(hero);
       toRemoveFrom.heroInventory.RemoveHelm2(viewID);
+    }
+
+    [PunRPC]
+    public void AddStrengthRPC(int amt, string hero){
+      Hero toAddTo= findHero(hero);
+      toAddTo.Strength = toAddTo.Strength + 1;
+      if(MainHero.TokenName.Equals(hero)){
+        EventManager.TriggerInventoryUIHeroPeak(GameManager.instance.MainHero.heroInventory);
+      }
+      else if(hero.Equals(CharChoice.choice.TokenName)){
+          EventManager.TriggerInventoryUIHeroPeak(findHero(hero).heroInventory);
+      }
+
+
     }
 
     public Hero findHero(string hero){

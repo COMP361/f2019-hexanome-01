@@ -66,6 +66,9 @@ public class HeroInventory
         if(GameManager.instance.MainHero.TokenName.Equals(parentHero)){
           EventManager.TriggerInventoryUIHeroUpdate(this);
         }
+        else if(parentHero.Equals(CharChoice.choice.TokenName)){
+          EventManager.TriggerInventoryUIHeroPeak(this);
+        }
     }
 
     public void RemoveGold(int amtToRemove){
@@ -88,6 +91,9 @@ public class HeroInventory
         golds.Remove(convertToKey(viewID));
         if(GameManager.instance.MainHero.TokenName.Equals(parentHero)){
           EventManager.TriggerInventoryUIHeroUpdate(this);
+        }
+        else if(parentHero.Equals(CharChoice.choice.TokenName)){
+          EventManager.TriggerInventoryUIHeroPeak(this);
         }
     }
 
@@ -115,6 +121,9 @@ public class HeroInventory
       if(GameManager.instance.MainHero.TokenName.Equals(parentHero)){
         EventManager.TriggerInventoryUIHeroUpdate(this);
       }
+      else if(parentHero.Equals(CharChoice.choice.TokenName)){
+        EventManager.TriggerInventoryUIHeroPeak(this);
+      }
     }
 
     public void RemoveSmallToken(SmallToken smallToken){
@@ -138,6 +147,9 @@ public class HeroInventory
       if(GameManager.instance.MainHero.TokenName.Equals(parentHero)){
         EventManager.TriggerInventoryUIHeroUpdate(this);
       }
+      else if(parentHero.Equals(CharChoice.choice.TokenName)){
+        EventManager.TriggerInventoryUIHeroPeak(this);
+      }
     }
 
     public bool AddBigToken(BigToken item){
@@ -160,6 +172,9 @@ public class HeroInventory
       if(GameManager.instance.MainHero.TokenName.Equals(parentHero)){
         EventManager.TriggerInventoryUIHeroUpdate(this);
       }
+      else if(parentHero.Equals(CharChoice.choice.TokenName)){
+        EventManager.TriggerInventoryUIHeroPeak(this);
+      }
     }
 
     public void RemoveBigToken(BigToken item){
@@ -180,6 +195,9 @@ public class HeroInventory
       }
       if(GameManager.instance.MainHero.TokenName.Equals(parentHero)){
         EventManager.TriggerInventoryUIHeroUpdate(this);
+      }
+      else if(parentHero.Equals(CharChoice.choice.TokenName)){
+        EventManager.TriggerInventoryUIHeroPeak(this);
       }
     }
 
@@ -203,6 +221,9 @@ public class HeroInventory
       if(GameManager.instance.MainHero.TokenName.Equals(parentHero)){
         EventManager.TriggerInventoryUIHeroUpdate(this);
       }
+      else if(parentHero.Equals(CharChoice.choice.TokenName)){
+        EventManager.TriggerInventoryUIHeroPeak(this);
+      }
     }
 
     public void RemoveHelm(Helm item){
@@ -223,6 +244,9 @@ public class HeroInventory
       }
       if(GameManager.instance.MainHero.TokenName.Equals(parentHero)){
         EventManager.TriggerInventoryUIHeroUpdate(this);
+      }
+      else if(parentHero.Equals(CharChoice.choice.TokenName)){
+        EventManager.TriggerInventoryUIHeroPeak(this);
       }
     }
 

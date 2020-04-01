@@ -31,14 +31,19 @@ public class InventoryUIHero : Singleton<InventoryUIHero>
 
   protected virtual void OnEnable() {
     EventManager.InventoryUIHeroUpdate += UpdateUI;
+    EventManager.InventoryUIHeroPeak += UpdateUI;
   }
 
   protected virtual void OnDisable() {
     EventManager.InventoryUIHeroUpdate -= UpdateUI;
+    EventManager.InventoryUIHeroPeak -= UpdateUI;
   }
 
   void UpdateUI(HeroInventory heroInv){
     //updating smallSpots
+
+    Hero hero = GameManager.instance.findHero(heroInv.parentHero);
+    //InventorySpotHero.parentHero = hero;
     for(int i = 0; i < smallSpots.Length; i++){
       if(i < heroInv.smallTokens.Count){
         smallSpots[i].AddItem((SmallToken)heroInv.smallTokens[i]);
