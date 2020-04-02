@@ -13,6 +13,13 @@ public class HalfWineskin : SmallToken
     return halfWineskinGO.GetComponent<HalfWineskin>();
   }
 
+  public static HalfWineskin Factory(string hero)
+  {
+      HalfWineskin halfWineskin = HalfWineskin.Factory();
+      GameManager.instance.findHero(hero).heroInventory.AddItem(halfWineskin);
+      return halfWineskin;
+  }
+
 public void OnEnable(){
 }
 

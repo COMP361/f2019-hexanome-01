@@ -18,6 +18,21 @@ public class Wineskin : SmallToken
 
     public static Wineskin Factory(int cellID)
     {
+        Wineskin wineskin = Wineskin.Factory();
+        wineskin.Cell = Cell.FromId(cellID);
+        return wineskin;
+    }
+
+    public static Wineskin Factory(string hero)
+    {
+      Wineskin wineskin = Wineskin.Factory();
+      GameManager.instance.findHero(hero).heroInventory.AddItem(wineskin);
+      return wineskin;
+    }
+
+    /*
+    public static Wineskin Factory(int cellID)
+    {
         object[] myCustomInitData = {cellID};
         GameObject WineskinGO = PhotonNetwork.Instantiate("Prefabs/Tokens/Wineskin", Vector3.zero, Quaternion.identity, 0, myCustomInitData);
         return WineskinGO.GetComponent<Wineskin>();
@@ -30,6 +45,9 @@ public class Wineskin : SmallToken
       }
       this.Cell = Cell.FromId((int)data[0]);
     }
+    */
+
+
     public static string Type { get => typeof(Wineskin).ToString(); }
 
     public static void Buy() {

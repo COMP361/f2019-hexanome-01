@@ -12,35 +12,31 @@ public class Potion : SmallToken
 
     public static Potion Factory()
     {
-      /*
-        Sprite sprite = Resources.Load<Sprite>("Sprites/Tokens/Potion");
-        GameObject go = new GameObject("Potion");
-        SpriteRenderer renderer = go.AddComponent<SpriteRenderer>();
-        renderer.sprite = sprite;
-        renderer.sortingOrder = 2;
-
-        Potion potion = go.AddComponent<Potion>();
-        potion.TokenName = Type;
-
-        return potion;
-        */
         GameObject potionGO = PhotonNetwork.Instantiate("Prefabs/Tokens/Potion", Vector3.zero, Quaternion.identity, 0);
         return potionGO.GetComponent<Potion>();
     }
 
     public static Potion Factory(int cellID)
     {
-      /*
-        Potion potion = Potion.Factory();
-        potion.Cell = Cell.FromId(cellID);
-        return potion;
-        */
-        object[] myCustomInitData = {cellID};
+      Potion potion = Potion.Factory();
+      potion.Cell = Cell.FromId(cellID);
+      return potion;
 
+      /*
+        object[] myCustomInitData = {cellID};
         GameObject potionGO = PhotonNetwork.Instantiate("Prefabs/Tokens/Potion",  Vector3.zero, Quaternion.identity, 0, myCustomInitData);
         return potionGO.GetComponent<Potion>();
+        */
     }
 
+    public static Potion Factory(string hero)
+    {
+      Potion potion = Potion.Factory();
+      GameManager.instance.findHero(hero).heroInventory.AddItem(potion);
+      return potion;
+    }
+
+/*
     public void onEnable(){
       object[] data = photonView.InstantiationData;
       if(data == null){
@@ -48,6 +44,7 @@ public class Potion : SmallToken
       }
       this.Cell = Cell.FromId((int)data[0]);
     }
+    */
 
     public static string Type { get => typeof(Potion).ToString(); }
 

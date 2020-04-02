@@ -12,6 +12,7 @@ public class Runestone : SmallToken
     public static bool isCovered;
 
     public static GameObject token;
+    public PhotonView photonView;
 
     public static Runestone Factory(RunestoneColor runestoneColor)
     {

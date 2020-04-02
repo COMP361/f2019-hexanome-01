@@ -9,10 +9,8 @@ public class FogWitchBrew : Fog {
 
     public override void ApplyEffect() {
         Witch.Instance.Cell = Cell;
-
-        Token potion = Potion.Factory();
-        GameManager.instance.CurrentPlayer.heroInventory.AddItem(potion);
-
+        Token potion = Potion.Factory(Cell.Index);
+      //  GameManager.instance.CurrentPlayer.heroInventory.AddItem(potion);
         Cell = null;
         Destroy(gameObject);
     }

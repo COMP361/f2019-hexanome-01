@@ -8,8 +8,8 @@ public class FogWineSkin : Fog {
     }
 
     public override void ApplyEffect() {
-        Token wineskin = Wineskin.Factory();
-        GameManager.instance.CurrentPlayer.heroInventory.AddItem(wineskin);
+        Token wineskin = Wineskin.Factory(Cell.Index);
+      //  GameManager.instance.CurrentPlayer.heroInventory.AddItem(wineskin);
         Cell = null;
         Destroy(gameObject);
     }

@@ -13,6 +13,13 @@ public class HalfPotion : SmallToken
     return halfPotionGO.GetComponent<HalfPotion>();
   }
 
+  public static HalfPotion Factory(string hero)
+  {
+    HalfPotion halfPotion = HalfPotion.Factory();
+    GameManager.instance.findHero(hero).heroInventory.AddItem(halfPotion);
+    return halfPotion;
+  }
+
 public void OnEnable(){
 }
 
