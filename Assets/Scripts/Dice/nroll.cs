@@ -21,7 +21,7 @@ public class nroll : MonoBehaviour
     {
         numRegularDices = fp.nb_rd;
         numSpecialDices = fp.nb_sd;
-        if(numSpecialDices == 0) { hasSpecial = false; } else { hasSpecial = true; }
+        if (numSpecialDices == 0) { hasSpecial = false; } else { hasSpecial = true; }
     }
 
     // Update is called once per frame
@@ -40,7 +40,7 @@ public class nroll : MonoBehaviour
     {
         if (numRegularDices == 1)
         {
-            
+
             regularDice1.OnMouseDown();
             int rmax1 = regularDice1.getFinalSide();
             int smax1 = 0;
@@ -52,7 +52,7 @@ public class nroll : MonoBehaviour
             sendStrength(temp);
             return temp;
         }
-        else if(numRegularDices == 2)
+        else if (numRegularDices == 2)
         {
             regularDice1.OnMouseDown();
             //var x = regularDice1.RollTheDice();
@@ -70,7 +70,7 @@ public class nroll : MonoBehaviour
             sendStrength(temp);
             return temp;
         }
-        else if(numRegularDices == 3)
+        else if (numRegularDices == 3)
         {
             regularDice1.OnMouseDown();
             regularDice2.OnMouseDown();
@@ -89,7 +89,7 @@ public class nroll : MonoBehaviour
             sendStrength(temp);
             return temp;
         }
-        else if(numRegularDices == 4)
+        else if (numRegularDices == 4)
         {
             regularDice1.OnMouseDown();
             regularDice2.OnMouseDown();
@@ -113,8 +113,6 @@ public class nroll : MonoBehaviour
         else
         {
             return 0;
-            Debug.Log("number of regular dice wrong");
-           
         }
     }
 
@@ -149,13 +147,12 @@ public class nroll : MonoBehaviour
         }
         else
         {
-            Debug.Log("number of special dice wrong");
             return 0;
         }
     }
 
 
-    public int getMaxValue( regularDices[] rdList)
+    public int getMaxValue(regularDices[] rdList)
     {
         int max = 0;
         foreach (regularDices dice in rdList)
@@ -168,7 +165,7 @@ public class nroll : MonoBehaviour
         }
         return max;
     }
-    
+
     public int getBigger(int rr, int ss)
     {
         if (rr > ss)
