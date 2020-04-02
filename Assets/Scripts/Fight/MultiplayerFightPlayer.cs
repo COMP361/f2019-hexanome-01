@@ -11,7 +11,7 @@ public class MultiplayerFightPlayer : MonoBehaviour
     public GameObject panel;
     public PhotonView pv;
     public Text AttackMessage;
-    // Heroes 
+    // Heroes
     private HeroFighter mage;
     public Button mage_button;
     private HeroFighter archer;
@@ -69,7 +69,7 @@ public class MultiplayerFightPlayer : MonoBehaviour
         }
         dieToFlip.OnflipDie();
 
-        regularDices[] activeDice = new regularDices[lastHeroToRoll.hero.Dices[lastHeroToRoll.hero.State.Willpower]];
+        regularDices[] activeDice = new regularDices[lastHeroToRoll.hero.Dices[lastHeroToRoll.hero.Willpower]];
         int maxDie;
         int i = 0;
         foreach (regularDices rd in lastHeroToRoll.rd)
@@ -219,11 +219,11 @@ public class MultiplayerFightPlayer : MonoBehaviour
         }
 
         foreach(HeroFighter h in fighters)
-        {  
+        {
             h.name.text = h.hero.name;
-            h.strength.text = h.hero.State.Strength.ToString();
-            h.wp.text = h.hero.State.Willpower.ToString();
-            for(int i=0; i<h.hero.Dices[h.hero.State.Willpower]; i++)
+            h.strength.text = h.hero.Strength.ToString();
+            h.wp.text = h.hero.Willpower.ToString();
+            for(int i=0; i<h.hero.Dices[h.hero.Willpower]; i++)
             {
                 h.rd[i].gameObject.SetActive(true);
             }
@@ -233,7 +233,7 @@ public class MultiplayerFightPlayer : MonoBehaviour
     public void InitializeMonster()
     {
         monster = GameManager.instance.CurrentPlayer.Cell.Inventory.Enemies[0];
-        MonsterName.text = monster.TokenName;     
+        MonsterName.text = monster.TokenName;
         MonsterStrength.text = monster.Strength.ToString();
         og_MonsterStrength = monster.Strength;
         MonsterWP.text = monster.Will.ToString();
@@ -251,7 +251,7 @@ public class MultiplayerFightPlayer : MonoBehaviour
 
         lastHeroToRoll = hero;
 
-        regularDices[] activeDice = new regularDices[hero.hero.Dices[hero.hero.State.Willpower]];
+        regularDices[] activeDice = new regularDices[hero.hero.Dices[hero.hero.Willpower]];
         int maxDie;
         int i = 0;
         foreach (regularDices rd in hero.rd)
@@ -336,7 +336,7 @@ public class MultiplayerFightPlayer : MonoBehaviour
                 return;
             }
             total_hero_strength += h.lastRoll;
-            total_hero_strength += h.hero.State.Strength;
+            total_hero_strength += h.hero.Strength;
         }
 
         HeroesTotalStrength.text = total_hero_strength.ToString();
@@ -357,21 +357,21 @@ public class MultiplayerFightPlayer : MonoBehaviour
             difference = total_monster_strength - total_hero_strength;
             foreach(HeroFighter h in fighters)
             {
-                h.hero.State.Willpower -= difference;
-                h.wp.text = h.hero.State.Willpower.ToString();
+                h.hero.Willpower -= difference;
+                h.wp.text = h.hero.Willpower.ToString();
                 foreach(regularDices rd in h.rd)
                 {
                     rd.gameObject.SetActive(false);
                 }
-                if (h.hero.State.Willpower <= 0) // Remove the hero from the fight
+                if (h.hero.Willpower <= 0) // Remove the hero from the fight
                 {
                     DisableFighter(h);
-                    h.hero.State.Strength -= 1;
-                    h.hero.State.Willpower = 3;
+                    h.hero.Strength -= 1;
+                    h.hero.Willpower = 3;
                     fighters.Remove(h);
                     continue;
                 }
-                for (int i = 0; i < h.hero.Dices[h.hero.State.Willpower]; i++)
+                for (int i = 0; i < h.hero.Dices[h.hero.Willpower]; i++)
                 {
                     h.rd[i].gameObject.SetActive(true);
                 }
@@ -480,7 +480,7 @@ public class MultiplayerFightPlayer : MonoBehaviour
     [PunRPC]
     private void killMonsterRPC()
     {
-        kill();     
+        kill();
     }
 
     private void killMonster()
@@ -528,7 +528,7 @@ public class MultiplayerFightPlayer : MonoBehaviour
     }
 }
 
-public class HeroFighter 
+public class HeroFighter
 {
     public Hero hero;
     public Text name;
@@ -552,8 +552,8 @@ public class HeroFighter
                 GameObject.Find("Multiplayer-Fight/Heroes/" + type + "/regular dice/rd4").GetComponent<regularDices>()
             };
         this.hero = GameManager.instance.heroes.Find(x => x.Type.Equals(type));
-        Debug.Log("Sprites/heroes/" + hero.getSex().ToLower() + "_" + hero.Type.ToLower());
+        Debug.Log("Sprites/heroes/" + hero.Sex + "_" + hero.Type.ToLower());
         this.spriteRenderer = GameObject.Find("Multiplayer-Fight/Heroes/" + type + "/Sprite").GetComponent<SpriteRenderer>();
-        this.spriteRenderer.sprite = Resources.Load<Sprite>("Sprites/heroes/" + hero.getSex().ToLower() + "_" + hero.Type.ToLower());
+        this.spriteRenderer.sprite = Resources.Load<Sprite>("Sprites/heroes/" + hero.Sex + "_" + hero.Type.ToLower());
     }
 }

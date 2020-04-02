@@ -20,7 +20,7 @@ public class regularDices : MonoBehaviour {
         diceSides = Resources.LoadAll<Sprite>("Dices/regularDices/");
         Debug.Log(diceSides.Length);
 	}
-	
+
     // If you left click over the dice then RollTheDice coroutine is started
     public void OnMouseDown()
     {
@@ -46,7 +46,7 @@ public class regularDices : MonoBehaviour {
             randomDiceSide = Random.Range(0, 5);
 
             // Set sprite to upper face of dice from array according to random value
-            
+
             rend.sprite = diceSides[randomDiceSide];
 
             // Pause before next itteration
@@ -64,6 +64,10 @@ public class regularDices : MonoBehaviour {
     public int getFinalSide()
     {
         return finalSide;
+    }
+    public void OnflipDie()
+    {
+      //ENTER FUNCTION
     }
 
 }

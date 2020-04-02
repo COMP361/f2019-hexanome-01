@@ -29,6 +29,12 @@ public class Hero : Movable
         }
     }
 
+    public Sex Sex {
+        get {
+            return sex;
+        }
+    }
+
     public string HeroDescription{
         get {
             return heroDescription;
