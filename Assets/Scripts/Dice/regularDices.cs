@@ -27,6 +27,20 @@ public class regularDices : MonoBehaviour {
         StartCoroutine("RollTheDice");
     }
 
+    public void OnflipDie()
+    {
+        StartCoroutine("FlipTheDie");
+    }
+
+    public IEnumerator FlipTheDie()
+    {
+        int otherSide = 7 - this.finalSide;
+        this.finalSide = otherSide;
+        this.rend.sprite = diceSides[otherSide - 1];
+
+        yield return new WaitForSeconds(0.05f);
+    }
+
     // Coroutine that rolls the dice
     public IEnumerator RollTheDice()
     {
@@ -58,7 +72,7 @@ public class regularDices : MonoBehaviour {
         finalSide = randomDiceSide + 1;
 
         // Show final dice value in Console
-        Debug.Log(finalSide);
+        //Debug.Log(finalSide);
         yield return new WaitForSeconds(0.05f);
     }
     public int getFinalSide()

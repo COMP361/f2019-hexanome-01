@@ -34,6 +34,57 @@ public class MultiplayerFightPlayer : MonoBehaviour
     private int og_MonsterWP;
     public Text MonsterTotalStrength;
 
+    // Mage's superpower
+    private bool hasflippedDie = false;
+    private HeroFighter lastHeroToRoll;
+    public Text flipMessage;
+
+    public void MageSuperpower()
+    {
+        if (!fighters.Contains(mage))
+        {
+            flipMessage.text = "No wizard, Thus no flip!";
+            return;
+        }
+
+        if (hasflippedDie)
+        {
+            flipMessage.text = "Already used the superpower this round.";
+            return;
+        }
+
+        if(lastHeroToRoll == null || !lastHeroToRoll.hasRolled)
+        {
+            flipMessage.text = "Nobody rolled their dice yet!";
+        }
+
+        int smallestdie = 6;
+        regularDices dieToFlip = lastHeroToRoll.rd[0];
+        foreach(regularDices rd in lastHeroToRoll.rd)
+        {
+            if ((rd.finalSide <= smallestdie) && rd.gameObject.activeSelf)
+            {
+                dieToFlip = rd;
+            }
+        }
+        dieToFlip.OnflipDie();
+
+        regularDices[] activeDice = new regularDices[lastHeroToRoll.hero.Dices[lastHeroToRoll.hero.State.Willpower]];
+        int maxDie;
+        int i = 0;
+        foreach (regularDices rd in lastHeroToRoll.rd)
+        {
+            if (rd.gameObject.activeSelf)
+            {
+                activeDice[i] = rd;
+                i++;
+            }
+        }
+        maxDie = getMaxValue(activeDice);
+
+        lastHeroToRoll.hasRolled = true;
+        lastHeroToRoll.lastRoll = maxDie;
+    }
 
     public void activateMage()
     {
@@ -198,6 +249,8 @@ public class MultiplayerFightPlayer : MonoBehaviour
             return hero.lastRoll;
         }
 
+        lastHeroToRoll = hero;
+
         regularDices[] activeDice = new regularDices[hero.hero.Dices[hero.hero.State.Willpower]];
         int maxDie;
         int i = 0;
@@ -289,8 +342,8 @@ public class MultiplayerFightPlayer : MonoBehaviour
         HeroesTotalStrength.text = total_hero_strength.ToString();
         MonsterTotalStrength.text = total_monster_strength.ToString();
 
-        HeroesTotalStrength.text = 13.ToString();
-        total_hero_strength = 13;
+        //HeroesTotalStrength.text = 13.ToString(); FOR TESTING PURPOSES
+        //total_hero_strength = 13;
 
         // Actors fighting.
         int difference;
@@ -341,13 +394,18 @@ public class MultiplayerFightPlayer : MonoBehaviour
         if (int.Parse(MonsterWP.text) <= 0)
         {
             killMonster();
-            foreach(HeroFighter h in fighters)
-            {
-                DisableFighter(h);
-            }
+            DisableFighter(archer);
+            DisableFighter(mage);
+            DisableFighter(warrior);
+            DisableFighter(dwarf);
             DisableMonsterUI();
             panel.SetActive(false);
         }
+
+        //restore the flipped thingy
+        flipMessage.text = "";
+        lastHeroToRoll = null;
+        hasflippedDie = false;
     }
 
     public void AbandonFightMage()
@@ -441,6 +499,10 @@ public class MultiplayerFightPlayer : MonoBehaviour
 
     private void DisableFighter(HeroFighter h)
     {
+        if(h == null)
+        {
+            return;
+        }
         foreach (regularDices rd in h.rd)
         {
             rd.gameObject.SetActive(false);
@@ -450,7 +512,10 @@ public class MultiplayerFightPlayer : MonoBehaviour
         h.spriteRenderer.sprite = null;
         h.strength.text = "0";
         h.wp.text = "0";
-        fighters.Remove(h);
+        if (fighters.Contains(h))
+        {
+            fighters.Remove(h);
+        }
     }
 
     private void DisableMonsterUI()
