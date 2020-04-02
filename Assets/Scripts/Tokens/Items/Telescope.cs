@@ -20,11 +20,20 @@ public class Telescope : SmallToken
 
     public static Telescope Factory(int cellID)
     {
-        object[] myCustomInitData = {cellID};
-        GameObject telescopeGO = PhotonNetwork.Instantiate("Prefabs/Tokens/Telescope", Vector3.zero, Quaternion.identity, 0, myCustomInitData);
-        return telescopeGO.GetComponent<Telescope>();
+      Telescope telescope = Telescope.Factory();
+      telescope.Cell = Cell.FromId(cellID);
+      return telescope;
     }
 
+    public static Telescope Factory(string hero)
+    {
+      Telescope telescope = Telescope.Factory();
+      GameManager.instance.findHero(hero).heroInventory.AddItem(telescope);
+      return telescope;
+    }
+
+
+/*
     public void onEnable(){
       object[] data = photonView.InstantiationData;
       if(data == null){
@@ -32,7 +41,7 @@ public class Telescope : SmallToken
       }
       this.Cell = Cell.FromId((int)data[0]);
     }
-
+*/
 
     public static void Buy() {
         Hero hero = GameManager.instance.MainHero;
