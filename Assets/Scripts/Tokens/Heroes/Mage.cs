@@ -9,7 +9,7 @@ public class Mage : Hero
     static void Factory()
     {
         Color color = new Color(0.6f, 0.2f, 1, 1);
-        
+
         GameObject go = new GameObject();
         Mage mage = go.AddComponent<Mage>();
         mage.Type = typeof(Mage).ToString();
@@ -26,7 +26,7 @@ public class Mage : Hero
 
         mage.rank = 34;
         mage.Cell = Cell.FromId(mage.rank);
-        
+
         mage.Dices = new int[21] {
             1, 1, 1, 1, 1, 1, 1,
             1, 1, 1, 1, 1, 1, 1,
@@ -37,6 +37,8 @@ public class Mage : Hero
             "Eara",
             "Liphardus"
         };
+
+        mage.heroDescription = "EARA \n Wizard of the north - Rand 34 \n Ability: Immediatately after rolling her die during battle, Eara may flip her die to its opposite side. During a team battle. Eara may flip another's hero die instead of her own.";
 
         mage.Init();
     }

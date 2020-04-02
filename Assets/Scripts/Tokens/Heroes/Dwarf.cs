@@ -9,7 +9,7 @@ public class Dwarf : Hero
     static void Factory()
     {
         Color color = new Color(1, 0.9f, 0, 1);
-        
+
         GameObject go = new GameObject();
         Dwarf dwarf = go.AddComponent<Dwarf>();
         dwarf.Type = typeof(Dwarf).ToString();
@@ -37,6 +37,8 @@ public class Dwarf : Hero
             "Brigha",
             "Kram"
         };
+
+        dwarf.heroDescription = "KRAM \n Dwarf of the deep Mines - Rank 7 \n Ability: When Kran buys strength points in space 71 (the mine), he may buy each strength point for 1 gold.";
 
         dwarf.Init();
     }

@@ -21,10 +21,17 @@ public class Hero : Movable
 
     public Timeline timeline;
     public HeroInventory heroInventory;
+    protected string heroDescription;
 
     public string HeroName {
         get {
             return names[(int)sex];
+        }
+    }
+
+    public string HeroDescription{
+        get {
+            return heroDescription;
         }
     }
 
@@ -44,7 +51,7 @@ public class Hero : Movable
     }
 
     private int _willpower = 7;
-    
+
     public int Willpower {
         get {
             return _willpower;

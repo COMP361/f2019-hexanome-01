@@ -9,7 +9,7 @@ public class Warrior : Hero
     static void Factory()
     {
         Color color = new Color(0.09f, 0.6f, 1, 1);
-        
+
         GameObject go = new GameObject();
         Warrior warrior = go.AddComponent<Warrior>();
         warrior.Type = typeof(Warrior).ToString();
@@ -37,6 +37,8 @@ public class Warrior : Hero
             "Mairen",
             "Thorn"
         };
+
+        warrior.heroDescription = "THORN \n Warrior of the Reeded Lands - Rank 14 \n Ability: Each time Thorn empties a well, he gains 5 willpower points (instead of 3)";
 
         warrior.Init();
     }
