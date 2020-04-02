@@ -55,7 +55,7 @@ public class FightPanel : MonoBehaviour
         SetImages();
         SetStrength();
         SetWP();
-        nb_rd = GameManager.instance.CurrentPlayer.Dices[GameManager.instance.CurrentPlayer.State.Willpower];
+        nb_rd = GameManager.instance.CurrentPlayer.Dices[GameManager.instance.CurrentPlayer.Willpower];
         monster_object = GameManager.instance.CurrentPlayer.Cell.Inventory.Enemies[0];
         switch (nb_rd)
         {
@@ -109,14 +109,7 @@ public class FightPanel : MonoBehaviour
             + GameManager.instance.CurrentPlayer.getSex()
             + "_"
             + GameManager.instance.CurrentPlayer.Type.ToLower());
-        //Debug.Log(EnemyName.text.ToLower());
-        //Debug.Log(GameManager.instance.CurrentPlayer.Type);
-        //Debug.Log("Sprites/heroes/"
-        //   + GameManager.instance.CurrentPlayer.getSex()
-        //   + "_"
-        //   + GameManager.instance.CurrentPlayer.Type.ToLower());
         MonsterSprite.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprites/Enemies/" + EnemyName.text.ToLower());
-        //MonsterSprite.GetComponent<SpriteRenderer>().sortingLayerName = "Popup";
     }
 
     private void SetNames()
@@ -128,7 +121,7 @@ public class FightPanel : MonoBehaviour
     private void SetStrength()
     {
         og_SMonster = GameManager.instance.CurrentPlayer.Cell.Inventory.Enemies[0].Strength;
-        hero_strength = GameManager.instance.CurrentPlayer.State.Strength;
+        hero_strength = GameManager.instance.CurrentPlayer.Strength;
         monster_strength = GameManager.instance.CurrentPlayer.Cell.Inventory.Enemies[0].Strength;
         HeroStrength.text = hero_strength.ToString();
         EnemyStrength.text = monster_strength.ToString();
@@ -137,7 +130,7 @@ public class FightPanel : MonoBehaviour
     private void SetWP()
     {
         og_WPMonster = GameManager.instance.CurrentPlayer.Cell.Inventory.Enemies[0].Will;
-        HeroWP.text = GameManager.instance.CurrentPlayer.State.Willpower.ToString();
+        HeroWP.text = GameManager.instance.CurrentPlayer.Willpower.ToString();
         EnemyWP.text = GameManager.instance.CurrentPlayer.Cell.Inventory.Enemies[0].Will.ToString();
     }
 
@@ -149,8 +142,8 @@ public class FightPanel : MonoBehaviour
     public void Attack(int attack_str)
     {
         rollMessage.text = "";
-        GameManager.instance.CurrentPlayer.State.Strength = hero_strength;
-        int hero_wp = GameManager.instance.CurrentPlayer.State.Willpower;
+        GameManager.instance.CurrentPlayer.Strength = hero_strength;
+        int hero_wp = GameManager.instance.CurrentPlayer.Willpower;
         int monster_wp = GameManager.instance.CurrentPlayer.Cell.Inventory.Enemies[0].Will;
 
         int total_strength_hero = attack_str + hero_strength;
@@ -186,7 +179,7 @@ public class FightPanel : MonoBehaviour
         else if (total_strength_hero < total_strength_monster)
         {
             hero_wp -= (total_strength_monster - total_strength_hero);
-            GameManager.instance.CurrentPlayer.State.Willpower = hero_wp;
+            GameManager.instance.CurrentPlayer.Willpower = hero_wp;
             HeroWP.text = hero_wp.ToString();
         }
 
@@ -210,11 +203,11 @@ public class FightPanel : MonoBehaviour
             // set remainingGold to wtv the reward is!
         }
 
-        if (GameManager.instance.CurrentPlayer.State.Willpower <= 0)
+        if (GameManager.instance.CurrentPlayer.Willpower <= 0)
         {
-            GameManager.instance.CurrentPlayer.State.Willpower = 3;
-            if (GameManager.instance.CurrentPlayer.State.Strength > 1) GameManager.instance.CurrentPlayer.State.Strength -= 1;
-            else GameManager.instance.CurrentPlayer.State.Strength = 1;
+            GameManager.instance.CurrentPlayer.Willpower = 3;
+            if (GameManager.instance.CurrentPlayer.Strength > 1) GameManager.instance.CurrentPlayer.Strength -= 1;
+            else GameManager.instance.CurrentPlayer.Strength = 1;
             this.gameObject.SetActive(!this.gameObject.activeSelf);
             GameManager.instance.CurrentPlayer.Cell.Inventory.Enemies[0].Will = og_WPMonster;
         }
