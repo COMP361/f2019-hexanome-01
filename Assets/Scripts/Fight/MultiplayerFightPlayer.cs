@@ -542,18 +542,18 @@ public class HeroFighter
 
     public HeroFighter(string type)
     {
-        this.name = GameObject.Find("Multiplayer-Fight/Heroes/" + type + "/Name").GetComponent<Text>();
-        this.strength = GameObject.Find("Multiplayer-Fight/Heroes/" + type + "/Strength").GetComponent<Text>();
-        this.wp = GameObject.Find("Multiplayer-Fight/Heroes/" + type + "/WP").GetComponent<Text>();
+        this.name = GameObject.Find("Canvas/Fight/Multiplayer-Fight/Heroes/" + type + "/Name").GetComponent<Text>();
+        this.strength = GameObject.Find("Canvas/Fight/Multiplayer-Fight/Heroes/" + type + "/Strength").GetComponent<Text>();
+        this.wp = GameObject.Find("Canvas/Fight/Multiplayer-Fight/Heroes/" + type + "/WP").GetComponent<Text>();
         this.rd = new regularDices[] {
-                GameObject.Find("Multiplayer-Fight/Heroes/" + type + "/regular dice/rd1").GetComponent<regularDices>(),
-                GameObject.Find("Multiplayer-Fight/Heroes/" + type + "/regular dice/rd2").GetComponent<regularDices>(),
-                GameObject.Find("Multiplayer-Fight/Heroes/" + type + "/regular dice/rd3").GetComponent<regularDices>(),
-                GameObject.Find("Multiplayer-Fight/Heroes/" + type + "/regular dice/rd4").GetComponent<regularDices>()
+                GameObject.Find("Canvas/Fight/Multiplayer-Fight/Heroes/" + type + "/regular dice/rd1").GetComponent<regularDices>(),
+                GameObject.Find("Canvas/Fight/Multiplayer-Fight/Heroes/" + type + "/regular dice/rd2").GetComponent<regularDices>(),
+                GameObject.Find("Canvas/Fight/Multiplayer-Fight/Heroes/" + type + "/regular dice/rd3").GetComponent<regularDices>(),
+                GameObject.Find("Canvas/Fight/Multiplayer-Fight/Heroes/" + type + "/regular dice/rd4").GetComponent<regularDices>()
             };
         this.hero = GameManager.instance.heroes.Find(x => x.Type.Equals(type));
-        Debug.Log("Sprites/heroes/" + hero.getSex().ToLower() + "_" + hero.Type.ToLower());
-        this.spriteRenderer = GameObject.Find("Multiplayer-Fight/Heroes/" + type + "/Sprite").GetComponent<SpriteRenderer>();
+        Debug.Log("Sprites/Tokens/Heroes/" + hero.getSex().ToLower() + "_" + hero.Type.ToLower());
+        this.spriteRenderer = GameObject.Find("Canvas/Fight/Multiplayer-Fight/Heroes/" + type + "/Sprite").GetComponent<SpriteRenderer>();
         this.spriteRenderer.sprite = Resources.Load<Sprite>("Sprites/Tokens/Heroes/" + hero.getSex().ToLower() + "_" + hero.Type.ToLower());
     }
 }
