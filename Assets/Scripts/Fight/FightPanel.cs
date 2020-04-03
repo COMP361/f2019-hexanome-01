@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
+using System;
+using Random = UnityEngine.Random;
 
 public class FightPanel : MonoBehaviour
 {
@@ -43,11 +45,14 @@ public class FightPanel : MonoBehaviour
     private List<regularDices> regular_dice = new List<regularDices>();
     private List<specialDices> special_dice = new List<specialDices>();
 
+    public GameObject heroSprite;
+    public GameObject MonsterSprite;
 
     // Start is called before the first frame update
     public void Start()
     {
         SetNames();
+        SetImages();
         SetStrength();
         SetWP();
         nb_rd = GameManager.instance.CurrentPlayer.Dices[GameManager.instance.CurrentPlayer.Willpower];
@@ -98,6 +103,15 @@ public class FightPanel : MonoBehaviour
         }
     }
 
+    private void SetImages() //WILL NEED TO ADJUST FOR ARCHER
+    {
+        heroSprite.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprites/Tokens/Heroes/"
+            + GameManager.instance.CurrentPlayer.getSex()
+            + "_"
+            + GameManager.instance.CurrentPlayer.Type.ToLower());
+        MonsterSprite.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprites/Tokens/Enemies/" + EnemyName.text.ToLower());
+    }
+
     private void SetNames()
     {
         HeroName.text = GameManager.instance.CurrentPlayer.HeroName;
@@ -139,17 +153,19 @@ public class FightPanel : MonoBehaviour
         if (monster_die1 == monster_die2)
         {
             total_strength_monster = monster_die1 + monster_die2;
-        } else if (monster_die1 > monster_die2)
+        }
+        else if (monster_die1 > monster_die2)
         {
             total_strength_monster = monster_die1;
-        } else
+        }
+        else
         {
             total_strength_monster = monster_die2;
         }
         total_strength_monster += monster_strength;
-        EnemyStrength.text = ""+ total_strength_monster;
+        EnemyStrength.text = "" + total_strength_monster;
 
-       // total_strength_monster = 1;// TO REMOVE ABSOLUTELY 
+        // total_strength_monster = 1;// TO REMOVE ABSOLUTELY 
 
         round_hero_strength.text = total_strength_hero.ToString();
         round_monster_strength.text = total_strength_monster.ToString();
@@ -174,11 +190,11 @@ public class FightPanel : MonoBehaviour
             {
                 killMonster();
                 //pv.RPC("killMonsterRPC", RpcTarget.AllViaServer);
-                //GameManager.instance.CurrentPlayer.cell.Inventory.RemoveToken(monster_object);
+                //GameManager.instance.CurrentPlayer.State.cell.Inventory.RemoveToken(monster_object);
             }
             else
             {
-                //GameManager.instance.CurrentPlayer.cell.Inventory.RemoveToken(monster_object);
+                //GameManager.instance.CurrentPlayer.State.cell.Inventory.RemoveToken(monster_object);
                 killMonster();
             }
 
@@ -187,7 +203,7 @@ public class FightPanel : MonoBehaviour
             // set remainingGold to wtv the reward is!
         }
 
-        if (GameManager.instance.CurrentPlayer.Willpower <= 0) 
+        if (GameManager.instance.CurrentPlayer.Willpower <= 0)
         {
             GameManager.instance.CurrentPlayer.Willpower = 3;
             if (GameManager.instance.CurrentPlayer.Strength > 1) GameManager.instance.CurrentPlayer.Strength -= 1;
@@ -207,9 +223,9 @@ public class FightPanel : MonoBehaviour
         //monster_object.SetActive(!monster_object.activeSelf);
         kill();
         //EventManager.TriggerEnemyDestroyed((Enemy)monster_object);
-        //GameManager.instance.CurrentPlayer.cell.Inventory.Enemies[0].gameObject.SetActive(false);
-        //Destroy(GameManager.instance.CurrentPlayer.cell.Inventory.Enemies[0].gameObject);
-        //GameManager.instance.CurrentPlayer.cell.Inventory.RemoveToken(monster_object);
+        //GameManager.instance.CurrentPlayer.State.cell.Inventory.Enemies[0].gameObject.SetActive(false);
+        //Destroy(GameManager.instance.CurrentPlayer.State.cell.Inventory.Enemies[0].gameObject);
+        //GameManager.instance.CurrentPlayer.State.cell.Inventory.RemoveToken(monster_object);
     }
 
     void killMonster()

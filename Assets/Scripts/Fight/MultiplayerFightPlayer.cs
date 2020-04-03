@@ -11,7 +11,7 @@ public class MultiplayerFightPlayer : MonoBehaviour
     public GameObject panel;
     public PhotonView pv;
     public Text AttackMessage;
-    // Heroes
+    // Heroes 
     private HeroFighter mage;
     public Button mage_button;
     private HeroFighter archer;
@@ -53,14 +53,14 @@ public class MultiplayerFightPlayer : MonoBehaviour
             return;
         }
 
-        if(lastHeroToRoll == null || !lastHeroToRoll.hasRolled)
+        if (lastHeroToRoll == null || !lastHeroToRoll.hasRolled)
         {
             flipMessage.text = "Nobody rolled their dice yet!";
         }
 
         int smallestdie = 6;
         regularDices dieToFlip = lastHeroToRoll.rd[0];
-        foreach(regularDices rd in lastHeroToRoll.rd)
+        foreach (regularDices rd in lastHeroToRoll.rd)
         {
             if ((rd.finalSide <= smallestdie) && rd.gameObject.activeSelf)
             {
@@ -94,7 +94,7 @@ public class MultiplayerFightPlayer : MonoBehaviour
         Image img = mage_button.GetComponent<Image>();
         if (mage.isPresent)
         {
-            img.color = new Color(121f/255f, 7f / 255f, 242f / 255f, 1);
+            img.color = new Color(121f / 255f, 7f / 255f, 242f / 255f, 1);
         }
         else
         {
@@ -210,7 +210,7 @@ public class MultiplayerFightPlayer : MonoBehaviour
         fighters = new List<HeroFighter>();
         List<HeroFighter> notFighters = new List<HeroFighter> { warrior, archer, mage, dwarf };
 
-        foreach(HeroFighter h in notFighters)
+        foreach (HeroFighter h in notFighters)
         {
             if (h != null && h.isPresent)
             {
@@ -218,12 +218,12 @@ public class MultiplayerFightPlayer : MonoBehaviour
             }
         }
 
-        foreach(HeroFighter h in fighters)
+        foreach (HeroFighter h in fighters)
         {
             h.name.text = h.hero.name;
             h.strength.text = h.hero.Strength.ToString();
             h.wp.text = h.hero.Willpower.ToString();
-            for(int i=0; i<h.hero.Dices[h.hero.Willpower]; i++)
+            for (int i = 0; i < h.hero.Dices[h.hero.Willpower]; i++)
             {
                 h.rd[i].gameObject.SetActive(true);
             }
@@ -239,7 +239,7 @@ public class MultiplayerFightPlayer : MonoBehaviour
         MonsterWP.text = monster.Will.ToString();
         og_MonsterWP = monster.Will;
 
-        MonsterSprite.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprites/Enemies/" + MonsterName.text.ToLower());
+        MonsterSprite.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprites/Tokens/Enemies/" + MonsterName.text.ToLower());
     }
 
     private int rollDice(HeroFighter hero)
@@ -297,7 +297,7 @@ public class MultiplayerFightPlayer : MonoBehaviour
         }
         else if (die1 > die2)
         {
-           return die1;
+            return die1;
         }
         else
         {
@@ -307,7 +307,7 @@ public class MultiplayerFightPlayer : MonoBehaviour
 
     private bool isReadyToAttack()
     {
-        foreach(HeroFighter hf in fighters)
+        foreach (HeroFighter hf in fighters)
         {
             if (hf.hasRolled)
             {
@@ -329,9 +329,9 @@ public class MultiplayerFightPlayer : MonoBehaviour
         int total_hero_strength = 0;
         int total_monster_strength = int.Parse(MonsterStrength.text) + monsterRoll();
 
-        foreach(HeroFighter h in fighters)
+        foreach (HeroFighter h in fighters)
         {
-            if(h.lastRoll == -1)
+            if (h.lastRoll == -1)
             {
                 return;
             }
@@ -347,19 +347,19 @@ public class MultiplayerFightPlayer : MonoBehaviour
 
         // Actors fighting.
         int difference;
-        if(total_hero_strength > total_monster_strength)
+        if (total_hero_strength > total_monster_strength)
         {
             difference = total_hero_strength - total_monster_strength;
             MonsterWP.text = (int.Parse(MonsterWP.text) - difference).ToString();
         }
-        else if(total_hero_strength < total_monster_strength)
+        else if (total_hero_strength < total_monster_strength)
         {
             difference = total_monster_strength - total_hero_strength;
-            foreach(HeroFighter h in fighters)
+            foreach (HeroFighter h in fighters)
             {
                 h.hero.Willpower -= difference;
                 h.wp.text = h.hero.Willpower.ToString();
-                foreach(regularDices rd in h.rd)
+                foreach (regularDices rd in h.rd)
                 {
                     rd.gameObject.SetActive(false);
                 }
@@ -379,13 +379,13 @@ public class MultiplayerFightPlayer : MonoBehaviour
             }
         }
 
-        if(fighters.Count == 0)
+        if (fighters.Count == 0)
         {
             RestoreMonster();
             panel.SetActive(false);
         }
 
-        foreach(HeroFighter hf in fighters)
+        foreach (HeroFighter hf in fighters)
         {
             hf.hasRolled = false;
             hf.lastRoll = -1;
@@ -499,7 +499,7 @@ public class MultiplayerFightPlayer : MonoBehaviour
 
     private void DisableFighter(HeroFighter h)
     {
-        if(h == null)
+        if (h == null)
         {
             return;
         }
@@ -542,18 +542,18 @@ public class HeroFighter
 
     public HeroFighter(string type)
     {
-        this.name = GameObject.Find("Multiplayer-Fight/Heroes/" + type + "/Name").GetComponent<Text>();
-        this.strength = GameObject.Find("Multiplayer-Fight/Heroes/" + type + "/Strength").GetComponent<Text>();
-        this.wp = GameObject.Find("Multiplayer-Fight/Heroes/" + type + "/WP").GetComponent<Text>();
+        this.name = GameObject.Find("Canvas/Fight/Multiplayer-Fight/Heroes/" + type + "/Name").GetComponent<Text>();
+        this.strength = GameObject.Find("Canvas/Fight/Multiplayer-Fight/Heroes/" + type + "/Strength").GetComponent<Text>();
+        this.wp = GameObject.Find("Canvas/Fight/Multiplayer-Fight/Heroes/" + type + "/WP").GetComponent<Text>();
         this.rd = new regularDices[] {
-                GameObject.Find("Multiplayer-Fight/Heroes/" + type + "/regular dice/rd1").GetComponent<regularDices>(),
-                GameObject.Find("Multiplayer-Fight/Heroes/" + type + "/regular dice/rd2").GetComponent<regularDices>(),
-                GameObject.Find("Multiplayer-Fight/Heroes/" + type + "/regular dice/rd3").GetComponent<regularDices>(),
-                GameObject.Find("Multiplayer-Fight/Heroes/" + type + "/regular dice/rd4").GetComponent<regularDices>()
+                GameObject.Find("Canvas/Fight/Multiplayer-Fight/Heroes/" + type + "/regular dice/rd1").GetComponent<regularDices>(),
+                GameObject.Find("Canvas/Fight/Multiplayer-Fight/Heroes/" + type + "/regular dice/rd2").GetComponent<regularDices>(),
+                GameObject.Find("Canvas/Fight/Multiplayer-Fight/Heroes/" + type + "/regular dice/rd3").GetComponent<regularDices>(),
+                GameObject.Find("Canvas/Fight/Multiplayer-Fight/Heroes/" + type + "/regular dice/rd4").GetComponent<regularDices>()
             };
         this.hero = GameManager.instance.heroes.Find(x => x.Type.Equals(type));
-        Debug.Log("Sprites/heroes/" + hero.Sex + "_" + hero.Type.ToLower());
-        this.spriteRenderer = GameObject.Find("Multiplayer-Fight/Heroes/" + type + "/Sprite").GetComponent<SpriteRenderer>();
-        this.spriteRenderer.sprite = Resources.Load<Sprite>("Sprites/heroes/" + hero.Sex + "_" + hero.Type.ToLower());
+        Debug.Log("Sprites/Tokens/Heroes/" + hero.getSex().ToLower() + "_" + hero.Type.ToLower());
+        this.spriteRenderer = GameObject.Find("Canvas/Fight/Multiplayer-Fight/Heroes/" + type + "/Sprite").GetComponent<SpriteRenderer>();
+        this.spriteRenderer.sprite = Resources.Load<Sprite>("Sprites/Tokens/Heroes/" + hero.getSex().ToLower() + "_" + hero.Type.ToLower());
     }
 }

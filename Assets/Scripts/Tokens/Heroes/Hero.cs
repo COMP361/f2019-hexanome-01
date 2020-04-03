@@ -35,6 +35,18 @@ public class Hero : Movable
         }
     }
 
+    public String getSex()
+    {
+        if (sex == 0)
+        {
+            return "female";
+        }
+        else
+        {
+            return "male";
+        }
+    }
+
     public string HeroDescription{
         get {
             return heroDescription;
