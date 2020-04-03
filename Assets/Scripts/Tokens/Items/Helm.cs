@@ -18,18 +18,27 @@ public class Helm : Token
 
   public static Helm Factory(int cellID)
   {
-      object[] myCustomInitData = {cellID};
-      GameObject HelmGO = PhotonNetwork.Instantiate("Prefabs/Tokens/Helm", Vector3.zero, Quaternion.identity, 0, myCustomInitData);
-      return HelmGO.GetComponent<Helm>();
+      Helm helm = Helm.Factory();
+      helm.Cell = Cell.FromId(cellID);
+      return helm;
   }
 
+  public static Helm Factory(string hero)
+  {
+    Helm helm = Helm.Factory();
+    GameManager.instance.findHero(hero).heroInventory.AddItem(helm);
+    return helm;
+  }
+
+
+  /*
   public void onEnable(){
     object[] data = photonView.InstantiationData;
     if(data == null){
       return;
     }
     this.Cell = Cell.FromId((int)data[0]);
-  }
+  }*/
 
 
     public static string Type { get => typeof(Helm).ToString(); }

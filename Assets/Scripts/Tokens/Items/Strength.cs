@@ -1,9 +1,28 @@
 using Photon.Pun;
 using Photon.Realtime;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
-public class Strength {
+public class Strength : Token {
     public static string name = "Strength";
     public static string desc = "A strength point helps you battle monsters by making you stronger.";
+
+    public PhotonView photonView;
+
+
+    public static Strength Factory()
+    {
+        GameObject strengthGO = PhotonNetwork.Instantiate("Prefabs/Tokens/Strength", Vector3.zero, Quaternion.identity, 0);
+        return strengthGO.GetComponent<Strength>();
+    }
+
+    public static Strength Factory(int cellID)
+    {
+      Strength strength = Strength.Factory();
+      strength.Cell = Cell.FromId(cellID);
+      return strength;
+    }
 
     public static void Buy() {
         Hero hero = GameManager.instance.MainHero;

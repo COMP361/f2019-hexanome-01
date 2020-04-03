@@ -19,11 +19,19 @@ public class Bow : BigToken {
 
     public static Bow Factory(int cellID)
     {
-        object[] myCustomInitData = {cellID};
-        GameObject bowGO = PhotonNetwork.Instantiate("Prefabs/Tokens/Bow", Vector3.zero, Quaternion.identity, 0, myCustomInitData);
-        return bowGO.GetComponent<Bow>();
+      Bow bow = Bow.Factory();
+      bow.Cell = Cell.FromId(cellID);
+      return bow;
     }
 
+    public static Bow Factory(string hero)
+    {
+      Bow bow = Bow.Factory();
+      GameManager.instance.findHero(hero).heroInventory.AddItem(bow);
+      return bow;
+    }
+
+/*
     public void onEnable(){
       object[] data = photonView.InstantiationData;
       if(data == null){
@@ -31,6 +39,7 @@ public class Bow : BigToken {
       }
       this.Cell = Cell.FromId((int)data[0]);
     }
+    */
 
     public static void Buy() {
         Hero hero = GameManager.instance.MainHero;
