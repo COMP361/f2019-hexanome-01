@@ -17,6 +17,7 @@ public class ChatManager : MonoBehaviour, IChatClientListener
     public InputField chatInputBox;
     protected internal AppSettings chatAppSettings;
     public ChatClient chatClient;
+    public string roomName;
 
     [SerializeField]
     List<ChatMessage> messageList = new List<ChatMessage>();
@@ -24,6 +25,7 @@ public class ChatManager : MonoBehaviour, IChatClientListener
     public void Start()
     {
         username = PhotonNetwork.LocalPlayer.NickName;
+        roomName = PhotonNetwork.CurrentRoom.Name;
         //DontDestroyOnLoad(this.gameObject);
         this.chatAppSettings = PhotonNetwork.PhotonServerSettings.AppSettings;
         bool appIdPresent = !string.IsNullOrEmpty(this.chatAppSettings.AppIdChat);
@@ -43,7 +45,7 @@ public class ChatManager : MonoBehaviour, IChatClientListener
 
     public void OnConnected()
     {
-        this.chatClient.Subscribe(new string[] { "global" });
+        this.chatClient.Subscribe(new string[] { roomName });
     }
 
     void Update()
@@ -55,7 +57,7 @@ public class ChatManager : MonoBehaviour, IChatClientListener
 
         if ((Input.GetKey(KeyCode.Return) || Input.GetKey(KeyCode.KeypadEnter)) && this.chatInputBox.text != "")
         {
-            this.chatClient.PublishMessage("global", this.username + ": " + this.chatInputBox.text);
+            this.chatClient.PublishMessage(roomName, this.username + ": " + this.chatInputBox.text);
             this.chatInputBox.text = "";
         }
         else if (!chatInputBox.isFocused && Input.GetKeyDown(KeyCode.Return))
@@ -127,7 +129,7 @@ public class ChatManager : MonoBehaviour, IChatClientListener
 
     public void OnSubscribed(string[] channels, bool[] results)
     {
-        this.chatClient.PublishMessage("global", this.username + " has connected to the chat!");
+        this.chatClient.PublishMessage(roomName, this.username + " has connected to the chat!");
     }
 
     public void OnUnsubscribed(string[] channels)
