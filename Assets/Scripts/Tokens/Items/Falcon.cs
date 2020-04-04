@@ -7,7 +7,6 @@ using UnityEngine;
 public class Falcon : BigToken{
     public static string name = "Falcon";
     public static string desc = "Two heroes can exchange as many small articles, gold, or gemstones at one time as they like even if they are not standing on the same space.";
-
     public PhotonView photonView;
 
 
@@ -24,6 +23,16 @@ public class Falcon : BigToken{
       return falconGO.GetComponent<Falcon>();
   }
 
+  public override void UseCell(){
+  //  EventManager.TriggerCellGoldClick(this);
+  }
+
+  public override void UseHero(){
+  //  EventManager.TriggerHeroGoldClick(this);
+  }
+
+
+/*
   public void onEnable(){
     object[] data = photonView.InstantiationData;
     if(data == null){
@@ -31,6 +40,7 @@ public class Falcon : BigToken{
     }
     this.Cell = Cell.FromId((int)data[0]);
   }
+  */
 
   public static void Buy() {
       Hero hero = GameManager.instance.MainHero;

@@ -30,6 +30,14 @@ public class Helm : Token
     return helm;
   }
 
+  public override void UseCell(){
+    Debug.Log("Use Helm Cell");
+  }
+
+  public override void UseHero(){
+    Debug.Log("Use helm Hero");
+  }
+
 
   /*
   public void onEnable(){

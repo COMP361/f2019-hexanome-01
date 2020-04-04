@@ -153,7 +153,7 @@ public class CellInventory : ICloneable {
 
     public void RemoveToken(Token token) {
     if(token != null){
-      if(token is Hero || token is Fog || token is Well || token is Enemy || token is Farmer){
+      if(token is Hero || token is Fog || token is Well || token is Enemy || token is Farmer || token is Witch || token is Thorald){
       GameManager.instance.RemoveTokenCell(token, this);
       }
       // is an item

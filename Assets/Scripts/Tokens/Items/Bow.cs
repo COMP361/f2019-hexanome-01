@@ -31,6 +31,15 @@ public class Bow : BigToken {
       return bow;
     }
 
+    public override void UseCell(){
+    //  EventManager.TriggerCellGoldClick(this);
+    }
+
+    public override void UseHero(){
+    //  EventManager.TriggerHeroGoldClick(this);
+    }
+
+
 /*
     public void onEnable(){
       object[] data = photonView.InstantiationData;

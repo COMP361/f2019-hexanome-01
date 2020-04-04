@@ -31,4 +31,12 @@ public class Herb : SmallToken
         return herb;
     }
 
+    public override void UseCell(){
+      Debug.Log("Use Herb Cell");
+    }
+
+    public override void UseHero(){
+      Debug.Log("Use Herb Hero");
+    }
+
 }

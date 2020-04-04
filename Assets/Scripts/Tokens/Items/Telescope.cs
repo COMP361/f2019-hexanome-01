@@ -32,6 +32,15 @@ public class Telescope : SmallToken
       return telescope;
     }
 
+    public override void UseCell(){
+      Debug.Log("Use Telescope Cell");
+    }
+
+    public override void UseHero(){
+      Debug.Log("Use Telescope Hero");
+    }
+
+
 
 /*
     public void onEnable(){
