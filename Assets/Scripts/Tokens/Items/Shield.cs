@@ -31,11 +31,17 @@ public class Shield: BigToken {
     }
 
     public override void UseCell(){
+      EventManager.TriggerCellItemClick(this);
       Debug.Log("Use Shield Cell");
     }
 
     public override void UseHero(){
       Debug.Log("Use Shield Hero");
+      EventManager.TriggerHeroItemClick(this);
+    }
+
+    public override void UseEffect(){
+      Debug.Log("Use Shield Effect");
     }
 
 /*

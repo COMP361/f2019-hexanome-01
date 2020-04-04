@@ -127,7 +127,7 @@ public class HeroInventory
     }
 
     public void RemoveSmallToken(SmallToken smallToken){
-      if(smallTokens.Contains(smallToken)){
+      if(smallTokens.Contains(convertToKey(smallToken.GetComponent<PhotonView>().ViewID))){
       int viewID = smallToken.GetComponent<PhotonView>().ViewID;
     //  GameManager.instance.RemoveSmallTokenRPC(viewID, parentHero);
       GameManager.instance.photonView.RPC("RemoveSmallTokenRPC", RpcTarget.AllViaServer, new object[] {viewID, parentHero});
@@ -258,25 +258,28 @@ public class HeroInventory
       return toReturn;
     }
 
-    public void AddItem(Token item){
+    public bool AddItem(Token item){
 
 
 
       if(item == null){
-        return;
+        return false;
       }
       if (item is GoldCoin){
         AddGold((GoldCoin) item);
+        return true;
       }
       else if (item is Helm){
-        AddHelm((Helm) item);
+      return  AddHelm((Helm) item);
       }
       else if (item.GetType().IsSubclassOf(typeof(SmallToken))){
-        AddSmallToken((SmallToken) item);
+      return  AddSmallToken((SmallToken) item);
       }
       else if (item.GetType().IsSubclassOf(typeof(BigToken))){
-        AddBigToken((BigToken) item);
+      return  AddBigToken((BigToken) item);
       }
+
+      return false;
     }
 
   #endregion

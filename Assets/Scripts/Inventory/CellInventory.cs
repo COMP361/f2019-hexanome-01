@@ -159,12 +159,19 @@ public class CellInventory : ICloneable {
       // is an item
       else{
         int viewID = token.GetComponent<PhotonView>().ViewID;
+        if(items.Contains(convertToKey(token.GetComponent<PhotonView>().ViewID))){
       //  GameManager.instance.RemoveItemCellRPC(viewID, cellID);
         GameManager.instance.photonView.RPC("RemoveItemCellRPC", RpcTarget.AllViaServer, new object[] {viewID, cellID});
-
+        }
+        else{
+          Debug.Log("Error Cell RemoveToken1");
         }
       }
     }
+    else{
+      Debug.Log("Error Cell RemoveToken2");
+    }
+  }
 
 
 

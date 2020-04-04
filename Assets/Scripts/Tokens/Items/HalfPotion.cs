@@ -35,5 +35,9 @@ public void OnEnable(){
     Debug.Log("Use HalfPotion Hero");
   }
 
+  public override void UseEffect(){
+      Debug.Log("Use HalfPotion Effect");
+}
+
   public static string Type { get => typeof(HalfPotion).ToString(); }
 }

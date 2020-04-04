@@ -32,11 +32,17 @@ public class Herb : SmallToken
     }
 
     public override void UseCell(){
+      EventManager.TriggerCellItemClick(this);
       Debug.Log("Use Herb Cell");
     }
 
     public override void UseHero(){
       Debug.Log("Use Herb Hero");
+      EventManager.TriggerHeroItemClick(this);
     }
+
+    public override void UseEffect(){
+        Debug.Log("Use Herb Effect");
+  }
 
 }

@@ -31,12 +31,18 @@ public class Helm : Token
   }
 
   public override void UseCell(){
+    EventManager.TriggerCellItemClick(this);
     Debug.Log("Use Helm Cell");
   }
 
   public override void UseHero(){
     Debug.Log("Use helm Hero");
+    EventManager.TriggerHeroItemClick(this);
   }
+
+  public override void UseEffect(){
+      Debug.Log("Use helm Effect");
+}
 
 
   /*

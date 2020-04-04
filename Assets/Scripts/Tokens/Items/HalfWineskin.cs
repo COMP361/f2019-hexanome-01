@@ -35,5 +35,9 @@ public void OnEnable(){
     Debug.Log("Use HalfWineskin Hero");
   }
 
+  public override void UseEffect(){
+      Debug.Log("Use HalfWineskin Effect");  
+}
+
   public static string Type { get => typeof(HalfWineskin).ToString(); }
 }

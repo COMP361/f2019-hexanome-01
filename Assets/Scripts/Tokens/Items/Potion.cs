@@ -37,12 +37,18 @@ public class Potion : SmallToken
     }
 
     public override void UseCell(){
+      EventManager.TriggerCellItemClick(this);
       Debug.Log("Use Potion Cell");
     }
 
     public override void UseHero(){
       Debug.Log("Use Potion Hero");
+      EventManager.TriggerHeroItemClick(this);
     }
+
+    public override void UseEffect(){
+        Debug.Log("Use Potion Effect");
+  }
 
 /*
     public void onEnable(){

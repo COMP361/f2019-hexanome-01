@@ -13,6 +13,7 @@ using UnityEngine;
 public class Token : MonoBehaviour {
     protected string description;
     private Cell _cell;
+    public string desc;
 
     public Cell Cell {
         get {
@@ -83,9 +84,19 @@ public class Token : MonoBehaviour {
     }
 
     public virtual void UseCell(){
-        Debug.Log("UseCell");
     }
 
     public virtual void UseHero(){
     }
+    public virtual void UseEffect(){
+    }
+
+/*
+    public virtual string Type{
+      get{
+        return "Token";
+      }
+    }
+    */
+
 }

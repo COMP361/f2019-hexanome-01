@@ -24,12 +24,18 @@ public class Falcon : BigToken{
   }
 
   public override void UseCell(){
+    EventManager.TriggerCellItemClick(this);
   //  EventManager.TriggerCellGoldClick(this);
   }
 
   public override void UseHero(){
   //  EventManager.TriggerHeroGoldClick(this);
+  EventManager.TriggerHeroItemClick(this);
   }
+
+  public override void UseEffect(){
+      Debug.Log("Use Falcon Effect");
+}
 
 
 /*

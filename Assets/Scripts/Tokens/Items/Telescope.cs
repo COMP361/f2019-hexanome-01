@@ -33,11 +33,17 @@ public class Telescope : SmallToken
     }
 
     public override void UseCell(){
+      EventManager.TriggerCellItemClick(this);
       Debug.Log("Use Telescope Cell");
     }
 
     public override void UseHero(){
       Debug.Log("Use Telescope Hero");
+      EventManager.TriggerHeroItemClick(this);
+    }
+
+    public override void UseEffect(){
+      Debug.Log("Use Telescope Effect");
     }
 
 

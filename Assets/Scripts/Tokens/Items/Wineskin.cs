@@ -31,11 +31,17 @@ public class Wineskin : SmallToken
     }
 
     public override void UseCell(){
+      EventManager.TriggerCellItemClick(this);
       Debug.Log("Use Wineskin Cell");
     }
 
     public override void UseHero(){
       Debug.Log("Use Wineskin Hero");
+      EventManager.TriggerHeroItemClick(this);
+    }
+
+    public override void UseEffect(){
+      Debug.Log("Use Wineskin Effect");
     }
 
 
@@ -78,5 +84,6 @@ public class Wineskin : SmallToken
           return;
         }
     }
+
 
 }

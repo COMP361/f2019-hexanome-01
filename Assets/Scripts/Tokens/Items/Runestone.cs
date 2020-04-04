@@ -31,12 +31,19 @@ public class Runestone : SmallToken
     }
 
     public override void UseCell(){
+      EventManager.TriggerCellItemClick(this);
       Debug.Log("Use Runestone Cell");
     }
 
     public override void UseHero(){
       Debug.Log("Use Runestone Hero");
+      EventManager.TriggerHeroItemClick(this);
     }
+
+    public override void UseEffect(){
+      Debug.Log("Use Runestone Effect");
+    }
+
 
     public void uncoverRunestone()
     {

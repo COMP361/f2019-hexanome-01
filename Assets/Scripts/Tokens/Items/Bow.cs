@@ -32,11 +32,17 @@ public class Bow : BigToken {
     }
 
     public override void UseCell(){
-    //  EventManager.TriggerCellGoldClick(this);
-    }
+      EventManager.TriggerCellItemClick(this);
+      Debug.Log("Use Bow Effect");
+  }
 
     public override void UseHero(){
     //  EventManager.TriggerHeroGoldClick(this);
+    EventManager.TriggerHeroItemClick(this);
+    }
+
+    public override void UseEffect(){
+      Debug.Log("Use Bow Effect");
     }
 
 

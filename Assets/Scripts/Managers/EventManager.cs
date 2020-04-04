@@ -436,6 +436,27 @@ public class EventManager : MonoBehaviour
     }
 
 
+    public delegate void HeroItemClickHandler(Token item);
+    public static event HeroItemClickHandler HeroItemClick;
+    public static void TriggerHeroItemClick(Token item)
+    {
+        if (HeroItemClick != null)
+        {
+            HeroItemClick(item);
+        }
+    }
+
+    public delegate void CellItemClickHandler(Token item);
+    public static event CellItemClickHandler CellItemClick;
+    public static void TriggerCellItemClick(Token item)
+    {
+        if (CellItemClick != null)
+        {
+            CellItemClick(item);
+        }
+    }
+
+
 
 
     public delegate void HeroGoldClickHandler(GoldCoin gold);
