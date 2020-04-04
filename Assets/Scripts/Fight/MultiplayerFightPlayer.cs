@@ -42,6 +42,10 @@ public class MultiplayerFightPlayer : MonoBehaviour
     private HeroFighter lastHeroToRoll;
     public Text flipMessage;
 
+    // Thorald
+    private bool Thorald = false;
+    public GameObject ThoraldSprite;
+
     public void MageSuperpower()
     {
         if (!fighters.Contains(mage))
@@ -254,6 +258,8 @@ public class MultiplayerFightPlayer : MonoBehaviour
                 h.rd[i].gameObject.SetActive(true);
             }
         }
+
+        IsThoraldPresent();
     }
 
     public void InitializeMonster()
@@ -411,6 +417,12 @@ public class MultiplayerFightPlayer : MonoBehaviour
 
         HeroesTotalStrength.text = total_hero_strength.ToString();
         MonsterTotalStrength.text = total_monster_strength.ToString();
+
+        if (Thorald)
+        {
+            HeroesTotalStrength.text += " + 5";
+            total_hero_strength += 5;
+        }
 
         //HeroesTotalStrength.text = 13.ToString(); FOR TESTING PURPOSES
         //total_hero_strength = 13;
@@ -644,6 +656,20 @@ public class MultiplayerFightPlayer : MonoBehaviour
         else
         {
             panel.gameObject.SetActive(true);
+        }
+    }
+
+    private void IsThoraldPresent()
+    {
+        if (GameManager.instance.thorald.Cell.Equals(GameManager.instance.CurrentPlayer.Cell))
+        {
+            Thorald = true;
+            ThoraldSprite.gameObject.SetActive(true);
+        }
+        else
+        {
+            Thorald = false;
+            ThoraldSprite.gameObject.SetActive(false);
         }
     }
 }
