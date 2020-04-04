@@ -19,11 +19,26 @@ public class Shield: BigToken {
 
     public static Shield Factory(int cellID)
     {
+      Shield shield = Shield.Factory();
+      shield.Cell = Cell.FromId(cellID);
+      return shield;
+
+      /*
         object[] myCustomInitData = {cellID};
-        GameObject shieldGO = PhotonNetwork.Instantiate("Prefabs/Tokens/Shield", Vector3.zero, Quaternion.identity, 0, myCustomInitData);
-        return shieldGO.GetComponent<Shield>();
+        GameObject potionGO = PhotonNetwork.Instantiate("Prefabs/Tokens/Potion",  Vector3.zero, Quaternion.identity, 0, myCustomInitData);
+        return potionGO.GetComponent<Potion>();
+        */
     }
 
+    public override void UseCell(){
+      Debug.Log("Use Shield Cell");
+    }
+
+    public override void UseHero(){
+      Debug.Log("Use Shield Hero");
+    }
+
+/*
     public void onEnable(){
       object[] data = photonView.InstantiationData;
       if(data == null){
@@ -31,7 +46,7 @@ public class Shield: BigToken {
       }
       this.Cell = Cell.FromId((int)data[0]);
     }
-
+*/
     public static void Buy() {
         Hero hero = GameManager.instance.MainHero;
         int cost = 2;

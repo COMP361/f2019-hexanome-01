@@ -30,6 +30,15 @@ public class Wineskin : SmallToken
       return wineskin;
     }
 
+    public override void UseCell(){
+      Debug.Log("Use Wineskin Cell");
+    }
+
+    public override void UseHero(){
+      Debug.Log("Use Wineskin Hero");
+    }
+
+
     /*
     public static Wineskin Factory(int cellID)
     {

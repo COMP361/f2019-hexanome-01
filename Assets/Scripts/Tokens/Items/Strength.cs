@@ -24,6 +24,10 @@ public class Strength : Token {
       return strength;
     }
 
+    public override void UseCell(){
+      Debug.Log("Use Strength Cell");
+    }
+
     public static void Buy() {
         Hero hero = GameManager.instance.MainHero;
         int cost = (hero.GetType() == typeof(Dwarf) && hero.Cell.Index == 71) ? 1 : 2;

@@ -31,4 +31,13 @@ public class Willpoint : SmallToken
         return willpoint;
     }
 
+    public override void UseCell(){
+      Debug.Log("Use WillPoint Cell");
+    }
+
+
+
+
+
+
 }

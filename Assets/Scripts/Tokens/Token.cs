@@ -20,6 +20,7 @@ public class Token : MonoBehaviour {
         }
         set {
             if(value == null) {
+              //  _cell.Inventory.RemoveToken(this);
                 gameObject.SetActive(false);
 
             } else {
@@ -30,7 +31,7 @@ public class Token : MonoBehaviour {
               _cell.Inventory.RemoveToken(this);
             }
             _cell = value;
-            
+
             if(_cell != null && _cell.Inventory != null) {
                 gameObject.transform.position = getWaypoint(_cell);
                 _cell.Inventory.AddToken(this);
@@ -39,7 +40,7 @@ public class Token : MonoBehaviour {
             EventManager.TriggerCellUpdate(this);
         }
     }
-    
+
     public void OnEnable() {
         this.transform.parent = GameObject.Find("Tokens").transform;
     }

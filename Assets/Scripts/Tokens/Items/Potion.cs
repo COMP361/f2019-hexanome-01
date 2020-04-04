@@ -36,6 +36,14 @@ public class Potion : SmallToken
       return potion;
     }
 
+    public override void UseCell(){
+      Debug.Log("Use Potion Cell");
+    }
+
+    public override void UseHero(){
+      Debug.Log("Use Potion Hero");
+    }
+
 /*
     public void onEnable(){
       object[] data = photonView.InstantiationData;

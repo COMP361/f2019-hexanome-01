@@ -30,6 +30,14 @@ public class Runestone : SmallToken
         return runestone;
     }
 
+    public override void UseCell(){
+      Debug.Log("Use Runestone Cell");
+    }
+
+    public override void UseHero(){
+      Debug.Log("Use Runestone Hero");
+    }
+
     public void uncoverRunestone()
     {
         string runestoneColor = color.ToString();
