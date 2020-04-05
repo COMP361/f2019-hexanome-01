@@ -38,7 +38,7 @@ public class Strength : Token {
         }
 
         else{
-          EventManager.TriggerBuyError(0);
+          EventManager.TriggerError(0);
           return;
         }
    }

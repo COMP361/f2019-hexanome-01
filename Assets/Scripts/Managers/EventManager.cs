@@ -604,13 +604,13 @@ public class EventManager : MonoBehaviour
         }
     }
 
-    public delegate void BuyErrorHandler(int type);
-    public static event BuyErrorHandler BuyError;
-    public static void TriggerBuyError(int type)
+    public delegate void ErrorHandler(int type);
+    public static event ErrorHandler Error;
+    public static void TriggerError(int type)
     {
-        if (BuyError != null)
+        if (Error != null)
         {
-            BuyError(type);
+            Error(type);
         }
     }
 }

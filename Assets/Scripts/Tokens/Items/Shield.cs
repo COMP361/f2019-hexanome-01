@@ -63,12 +63,11 @@ public class Shield: BigToken {
             hero.heroInventory.RemoveGold(cost);
           }
           else{
-            EventManager.TriggerBuyError(1);
             return;
           }
         }
         else{
-          EventManager.TriggerBuyError(0);
+          EventManager.TriggerError(0);
           return;
         }
     }

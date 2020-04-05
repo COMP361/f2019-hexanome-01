@@ -33,9 +33,7 @@ public class HeroInventory
     }
 
     public HeroInventory(string parentHero){
-    //  AllTokens = new List<Token>();
-    //  smallTokens = new List<SmallToken>();
-    //  golds = new List<GoldCoin>();
+
       bigToken =null;
       helm = null;
       spaceSmall = 3;
@@ -101,7 +99,7 @@ public class HeroInventory
     //what to do with errors
     public bool AddSmallToken(SmallToken smallToken){
       if(smallTokens.Count >= spaceSmall){
-        Debug.Log("Not enough room ");
+        EventManager.TriggerError(1);
         return false;
       }
       else{
@@ -162,6 +160,7 @@ public class HeroInventory
       }
       else{
         //Error already has a big token
+        EventManager.TriggerError(1);
         return false;
       }
     }
@@ -211,6 +210,7 @@ public class HeroInventory
       }
       else{
         //Error already a helm
+        EventManager.TriggerError(1);
         return false;
       }
     }

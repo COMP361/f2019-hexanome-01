@@ -191,9 +191,6 @@ public class GameManager : Singleton<GameManager>
         }
         CharChoice.instance.Init(heroes);
         CharChoice.choice = MainHero;
-
-
-
         GiveTurn();
     }
 

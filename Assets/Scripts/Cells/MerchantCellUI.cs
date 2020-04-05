@@ -13,12 +13,10 @@ public class MerchantCellUI : Singleton<MerchantCellUI>
   Text panelTitle;
   Text panelDesc;
 
-  GameObject errorPanel;
-  Text errorPanelTitle;
-  Text errorPanelDesc;
 
 
-  Button buyBtn, cancelBtn, okBtn;
+
+  Button buyBtn, cancelBtn;
   Component[] btns;
   string item;
 
@@ -26,24 +24,21 @@ public class MerchantCellUI : Singleton<MerchantCellUI>
     EventManager.CurrentPlayerUpdate += LockItems;
     EventManager.CellUpdate += LockItems;
     EventManager.MainHeroInit += LockItems;
-    EventManager.BuyError += ShowErrorPanel;
+
   }
 
   void OnDisable() {
     EventManager.CurrentPlayerUpdate -= LockItems;
     EventManager.CellUpdate -= LockItems;
     EventManager.MainHeroInit -= LockItems;
-    EventManager.BuyError -= ShowErrorPanel;
+
   }
 
   void Start() {
     merchantPanel = transform.Find("MerchantUI").gameObject;
     buyPanel = transform.Find("BuyPanel").gameObject;
-    errorPanel = transform.Find("ErrorPanel").gameObject;
     panelTitle = buyPanel.transform.Find("Title").GetComponent<Text>();
     panelDesc = buyPanel.transform.Find("Description").GetComponent<Text>();
-    errorPanelTitle = errorPanel.transform.Find("Title").GetComponent<Text>();
-    errorPanelDesc = errorPanel.transform.Find("Description").GetComponent<Text>();
 
     btns = transform.Find("MerchantUI/Items/").GetComponentsInChildren(typeof(Button));
     buyBtn = buyPanel.transform.Find("Buy Button").GetComponent<Button>();
@@ -51,8 +46,7 @@ public class MerchantCellUI : Singleton<MerchantCellUI>
     cancelBtn = buyPanel.transform.Find("Cancel Button").GetComponent<Button>();
     cancelBtn.onClick.AddListener(delegate { HidePanel(); });
 
-    okBtn = errorPanel.transform.Find("OK Button").GetComponent<Button>();
-    okBtn.onClick.AddListener(delegate { HideErrorPanel(); });
+
 
     transform.Find("MerchantUI/Potion/Button/Text").GetComponent<UnityEngine.UI.Text>().text = "" + Witch.Instance.PotionPrice;
 
@@ -138,9 +132,6 @@ public class MerchantCellUI : Singleton<MerchantCellUI>
     buyPanel.SetActive(false);
   }
 
-  void HideErrorPanel() {
-    errorPanel.SetActive(false);
-  }
 
   public void ShowPanel(string name, string desc) {
     panelTitle.text = name;
@@ -149,15 +140,5 @@ public class MerchantCellUI : Singleton<MerchantCellUI>
     buyPanel.SetActive(true);
   }
 
-  public void ShowErrorPanel(int type){
-    if(type == 0){
-      errorPanelTitle.text = "Error!";
-      errorPanelDesc.text = "Not enough gold.";
-    }
-    if(type == 1){
-      errorPanelTitle.text = "Error!";
-      errorPanelDesc.text = "Not enough space.";
-    }
-    errorPanel.SetActive(true);
-  }
+
 }
