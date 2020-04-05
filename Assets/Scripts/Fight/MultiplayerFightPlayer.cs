@@ -34,11 +34,17 @@ public class MultiplayerFightPlayer : MonoBehaviour
     public Text MonsterWP;
     private int og_MonsterWP;
     public Text MonsterTotalStrength;
+    public regularDices[] GST_dice = new regularDices[2]; // GorsSkralTroll_dice
+    public specialDices[] wardrack_dice = new specialDices[2];
 
     // Mage's superpower
     private bool hasflippedDie = false;
     private HeroFighter lastHeroToRoll;
     public Text flipMessage;
+
+    // Thorald
+    private bool Thorald = false;
+    public GameObject ThoraldSprite;
 
     public void MageSuperpower()
     {
@@ -252,6 +258,8 @@ public class MultiplayerFightPlayer : MonoBehaviour
                 h.rd[i].gameObject.SetActive(true);
             }
         }
+
+        IsThoraldPresent();
     }
 
     public void InitializeMonster()
@@ -262,6 +270,17 @@ public class MultiplayerFightPlayer : MonoBehaviour
         og_MonsterStrength = monster.Strength;
         MonsterWP.text = monster.Will.ToString();
         og_MonsterWP = monster.Will;
+
+        if (monster.TokenName.Equals("Wardrack"))
+        {
+            wardrack_dice[0].gameObject.SetActive(true);
+            wardrack_dice[1].gameObject.SetActive(true);
+        }
+        else
+        {
+            GST_dice[0].gameObject.SetActive(true);
+            GST_dice[1].gameObject.SetActive(true);
+        }
 
         MonsterSprite.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprites/Tokens/Enemies/" + MonsterName.text.ToLower());
     }
@@ -330,8 +349,24 @@ public class MultiplayerFightPlayer : MonoBehaviour
 
     public int monsterRoll()
     {
-        int die1 = Random.Range(0, 5) + 1;
-        int die2 = Random.Range(0, 5) + 1;
+        int die1;
+        int die2;
+        if (monster.TokenName.Equals("Wardrack"))
+        {
+            wardrack_dice[0].OnMouseDown();
+            wardrack_dice[1].OnMouseDown();
+            die1 = wardrack_dice[0].finalSide;
+            die2 = wardrack_dice[1].finalSide;
+        }
+        else
+        {
+            GST_dice[0].OnMouseDown();
+            GST_dice[1].OnMouseDown();
+            die1 = GST_dice[0].finalSide;
+            die2 = GST_dice[1].finalSide;
+        }
+
+        
         if (die1 == die2)
         {
             return (die1 + die2);
@@ -382,6 +417,12 @@ public class MultiplayerFightPlayer : MonoBehaviour
 
         HeroesTotalStrength.text = total_hero_strength.ToString();
         MonsterTotalStrength.text = total_monster_strength.ToString();
+
+        if (Thorald)
+        {
+            HeroesTotalStrength.text += " + 5";
+            total_hero_strength += 5;
+        }
 
         //HeroesTotalStrength.text = 13.ToString(); FOR TESTING PURPOSES
         //total_hero_strength = 13;
@@ -581,6 +622,17 @@ public class MultiplayerFightPlayer : MonoBehaviour
         MonsterStrength.text = "";
         MonsterWP.text = "";
         MonsterTotalStrength.text = "";
+
+        if (monster.TokenName.Equals("Wardrack"))
+        {
+            wardrack_dice[0].gameObject.SetActive(false);
+            wardrack_dice[1].gameObject.SetActive(false);
+        }
+        else
+        {
+            GST_dice[0].gameObject.SetActive(false);
+            GST_dice[1].gameObject.SetActive(false);
+        }
     }
 
     public void ActivateMultiplayerFightPanel()
@@ -604,6 +656,20 @@ public class MultiplayerFightPlayer : MonoBehaviour
         else
         {
             panel.gameObject.SetActive(true);
+        }
+    }
+
+    private void IsThoraldPresent()
+    {
+        if (GameManager.instance.thorald.Cell.Equals(GameManager.instance.CurrentPlayer.Cell))
+        {
+            Thorald = true;
+            ThoraldSprite.gameObject.SetActive(true);
+        }
+        else
+        {
+            Thorald = false;
+            ThoraldSprite.gameObject.SetActive(false);
         }
     }
 }

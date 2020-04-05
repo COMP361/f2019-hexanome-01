@@ -8,7 +8,7 @@ public class specialDices : MonoBehaviour {
 
     // Reference to sprite renderer to change sprites
     private SpriteRenderer rend;
-    public static int finalSide;
+    public int finalSide;
     // Use this for initialization
     private void Start () {
 
@@ -21,7 +21,7 @@ public class specialDices : MonoBehaviour {
 	}
 	
     // If you left click over the dice then RollTheDice coroutine is started
-    private void OnMouseDown()
+    public void OnMouseDown()
     {
         StartCoroutine("RollTheDice");
     }
@@ -45,19 +45,36 @@ public class specialDices : MonoBehaviour {
             randomDiceSide = Random.Range(0, 5);
 
             // Set sprite to upper face of dice from array according to random value
-            Debug.Log(randomDiceSide);
+            //Debug.Log(randomDiceSide);
             rend.sprite = diceSides[randomDiceSide];
 
             // Pause before next itteration
-            yield return new WaitForSeconds(0.05f);
         }
-
+        
         // Assigning final side so you can use this value later in your game
         // for player movement for example
         finalSide = randomDiceSide + 1;
 
+        if(finalSide <= 2)
+        {
+            finalSide = 6;
+        }
+        else if(finalSide == 3)
+        {
+            finalSide = 8;
+        }
+        else if(finalSide <= 5)
+        {
+            finalSide = 10;
+        }
+        else
+        {
+            finalSide = 12;
+        }
+
+        yield return new WaitForSeconds(0.05f);
         // Show final dice value in Console
-        Debug.Log(finalSide);
+        //Debug.Log(finalSide);
     }
     public int getFinalSide()
     {
