@@ -41,18 +41,6 @@ public class Hero : Movable
         }
     }
 
-    public String getSex()
-    {
-        if (sex == 0)
-        {
-            return "female";
-        }
-        else
-        {
-            return "male";
-        }
-    }
-
     public string HeroDescription{
         get {
             return heroDescription;
@@ -68,21 +56,26 @@ public class Hero : Movable
             return _strength;
         }
         set {
-            if(value < 0) _strength = 0;
-            _strength = value;
+            if(value < 0) {
+                _strength = 0;
+            } else {
+                _strength = value;
+            }
             EventManager.TriggerUpdateHeroStats(this);
         }
     }
 
     private int _willpower = 7;
-
     public int Willpower {
         get {
             return _willpower;
         }
         set {
-            if(value < 0) _willpower = 0;
-            _willpower = value;
+            if(value < 0) {
+                _willpower = 0;
+            } else {
+                _willpower = value;
+            }
             EventManager.TriggerUpdateHeroStats(this);
         }
     }
@@ -114,6 +107,7 @@ public class HeroState {
     public int willpower;
     public int strength;
     public int timelineIndex;
+    public Sex sex;
     
     
     public HeroState() {}
@@ -133,6 +127,9 @@ public class HeroState {
         HeroState.Instance.willpower = hero.Willpower;
         HeroState.Instance.strength = hero.Strength;
         HeroState.Instance.timelineIndex = hero.timeline.Index;
+        HeroState.Instance.sex = hero.Sex;
+        
+        //HeroState.Instance.Inventory = hero.timeline.Index;
 
         FileManager.Save(Path.Combine(saveId, _gameDataId), HeroState.Instance);
     }

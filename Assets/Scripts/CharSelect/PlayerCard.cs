@@ -15,7 +15,7 @@ public class PlayerCard : MonoBehaviour {
     GameObject m_stage1;
     GameObject m_stage2;
     HeroUI[] m_heroUI;
-    private bool m_isMale = true;
+    //private bool m_isMale = true;
 
     public PhotonView photonView;
 
