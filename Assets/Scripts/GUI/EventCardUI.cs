@@ -31,7 +31,6 @@ public class EventCardUI : MonoBehaviour {
 
     public void Show(EventCard card) {
         this.card = card;
-        Debug.Log("" + 123);
         text.text = card.intro;
         text.text += "\n" + card.effect;
         id.text = "" + card.id;

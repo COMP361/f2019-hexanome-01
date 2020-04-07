@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine;
 using UnityEngine.UI;
-public class CharChoice : Singleton<CharChoice>
+public class CharChoice : MonoBehaviour
 {
 
   public static Hero choice { get; set; }
 
-  Button ArcherBtn, DwarfBtn, MageBtn, WarriorBtn;
+  static Button ArcherBtn, DwarfBtn, MageBtn, WarriorBtn;
 
-  void Start(){
+  void Awake(){
+    Debug.Log("Pourquoi ca marche pas");
     ArcherBtn = transform.Find("Archer").GetComponent<Button>();
     DwarfBtn = transform.Find("Dwarf").GetComponent<Button>();
     MageBtn = transform.Find("Mage").GetComponent<Button>();
@@ -22,15 +23,13 @@ public class CharChoice : Singleton<CharChoice>
     WarriorBtn.onClick.AddListener(() => { clickWarrior(); });
 
 
-
-
     ArcherBtn.interactable = false;
     DwarfBtn.interactable = false;
     MageBtn.interactable = false;
     WarriorBtn.interactable = false;
   }
 
-  public void Init(List<Hero> heroes){
+  public static void Init(List<Hero> heroes){
 
     foreach(Hero hero in heroes){
       if(hero.TokenName.Equals("Archer")){
@@ -48,22 +47,22 @@ public class CharChoice : Singleton<CharChoice>
     }
   }
 
-  public void clickArcher(){
+  public static void clickArcher(){
     Hero hero = GameManager.instance.findHero("Archer");
      CharChoice.choice = hero;
     EventManager.TriggerInventoryUIHeroPeak(hero.heroInventory);
   }
-  public void clickDwarf(){
+  public static void clickDwarf(){
     Hero hero = GameManager.instance.findHero("Dwarf");
     CharChoice.choice = hero;
     EventManager.TriggerInventoryUIHeroPeak(hero.heroInventory);
   }
-  public void clickMage(){
+  public static void clickMage(){
     Hero hero = GameManager.instance.findHero("Mage");
     CharChoice.choice = hero;
     EventManager.TriggerInventoryUIHeroPeak(hero.heroInventory);
   }
-  public void clickWarrior(){
+  public static  void clickWarrior(){
     Hero hero = GameManager.instance.findHero("Warrior");
     CharChoice.choice = hero;
   //  Debug.Log("Tchuips " + hero.TokenName + " " + hero.heroInventory.parentHero);

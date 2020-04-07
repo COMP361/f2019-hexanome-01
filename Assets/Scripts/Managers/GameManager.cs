@@ -194,7 +194,9 @@ public class GameManager : Singleton<GameManager>
         foreach (WellCell well in wells) {
             well.ResetWell();
         }
-        CharChoice.instance.Init(heroes);
+
+
+        CharChoice.Init(heroes);
         CharChoice.choice = MainHero;
         GiveTurn();
     }
@@ -215,7 +217,7 @@ public class GameManager : Singleton<GameManager>
         monstersToMove.AddRange(trolls);
         monstersToMove.AddRange(wardraks);
 
-       // MonsterMove();
+        MonsterMove();
     }
 
 
