@@ -22,11 +22,11 @@ public class Hero : Movable
     protected string heroDescription;
     
     void OnEnable() {
-        //EventManager.Save += Save;
+        EventManager.Save += Save;
     }
 
     void OnDisable() {
-        //EventManager.Save -= Save;
+        EventManager.Save -= Save;
     }
 
     public string HeroName {
@@ -108,7 +108,7 @@ public class HeroState {
     public int strength;
     public int timelineIndex;
     public Sex sex;
-    
+    public List<string> inventory = new List<string>();
     
     public HeroState() {}
 
@@ -129,7 +129,9 @@ public class HeroState {
         HeroState.Instance.timelineIndex = hero.timeline.Index;
         HeroState.Instance.sex = hero.Sex;
         
-        //HeroState.Instance.Inventory = hero.timeline.Index;
+        /*foreach(Token token in hero.heroInventory.AllTokens){
+            HeroState.Instance.inventory.Add(token.GetType().ToString());
+        }*/
 
         FileManager.Save(Path.Combine(saveId, _gameDataId), HeroState.Instance);
     }

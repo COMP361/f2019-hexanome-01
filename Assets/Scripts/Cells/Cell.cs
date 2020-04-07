@@ -53,11 +53,13 @@ public class Cell : MonoBehaviour, IComparable<Cell>
     protected void OnEnable()
     {
         EventManager.GameOver += Deactivate;
+        EventManager.Save += Save;
     }
 
     protected void OnDisable()
     {
         EventManager.GameOver -= Deactivate;
+        EventManager.Save -= Save;
     }
 
     #region Functions [Unity + Constructor]
@@ -190,9 +192,33 @@ public class Cell : MonoBehaviour, IComparable<Cell>
 
         return cell;
     }
+    
 
+    public void Load() {
+    }
+
+    public void Save(String saveId)
+    {
+        AllCellState cellStates;
+        cellStates.cells = new List<CellState>();
+
+        String _gameDataId = "Cells.json";
+        
+        for(int i = 0; i <= 72; i++) {
+            cellStates.cells.Add(new CellState(Cell.FromId(i)));
+        }
+        
+        Debug.Log(cells.Count);
+
+        FileManager.Save(Path.Combine(saveId, _gameDataId), cellStates);
+    }
     #endregion
 }
+
+[Serializable]
+struct AllCellState {
+    public List<CellState> cells;
+};
 
 [Serializable]
 public class CellState
@@ -200,6 +226,7 @@ public class CellState
     public int cellIndex;
     public List<string> cellInventory = new List<string>();
 
+    
     public CellState(Cell cell) {
         this.cellIndex = cell.Index;
         foreach(Token token in cell.Inventory.AllTokens){
