@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -191,4 +192,18 @@ public class Cell : MonoBehaviour, IComparable<Cell>
     }
 
     #endregion
+}
+
+[Serializable]
+public class CellState
+{
+    public int cellIndex;
+    public List<string> cellInventory = new List<string>();
+
+    public CellState(Cell cell) {
+        this.cellIndex = cell.Index;
+        foreach(Token token in cell.Inventory.AllTokens){
+            this.cellInventory.Add(token.name);
+        }
+    }
 }

@@ -22,11 +22,11 @@ public class Hero : Movable
     protected string heroDescription;
     
     void OnEnable() {
-        EventManager.Save += Save;
+        //EventManager.Save += Save;
     }
 
     void OnDisable() {
-        EventManager.Save -= Save;
+        //EventManager.Save -= Save;
     }
 
     public string HeroName {
