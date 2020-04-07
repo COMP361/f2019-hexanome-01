@@ -103,6 +103,12 @@ public class ChooseManager : MonoBehaviour
 
     public void OnClickStartButton()
     {
+        // Add where fog tokens spawn;
+        int[] fogCells = new int[] { 8, 11, 12, 13, 16, 32, 42, 44, 46, 64, 63, 56, 47, 48, 49 };
+        fogCells.Shuffle();
+        ExitGames.Client.Photon.Hashtable fogTable = new ExitGames.Client.Photon.Hashtable();
+        fogTable.Add("FogCells", fogCells);
+        PhotonNetwork.CurrentRoom.SetCustomProperties(fogTable);
         // Add where the tower skral will spawn;
         Random rand = new Random();
         int towerSkralCell = rand.Next(1, 6) + 50;
