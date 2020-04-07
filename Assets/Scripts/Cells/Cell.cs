@@ -199,38 +199,41 @@ public class Cell : MonoBehaviour, IComparable<Cell>
 
     public void Save(String saveId)
     {
-        AllCellState cellStates;
-        cellStates.cells = new List<CellState>();
-
         String _gameDataId = "Cells.json";
-        
-        for(int i = 0; i <= 72; i++) {
-            cellStates.cells.Add(new CellState(Cell.FromId(i)));
-        }
-        
-        Debug.Log(cells.Count);
-
-        FileManager.Save(Path.Combine(saveId, _gameDataId), cellStates);
+        FileManager.Save(Path.Combine(saveId, _gameDataId), new CellStates());
     }
     #endregion
 }
 
 [Serializable]
-struct AllCellState {
-    public List<CellState> cells;
+public class CellState {
+    public int index;
+    public List<string> inventory;
+
+    
+    public CellState(int index) {
+        this.index = index;
+        inventory = new List<string>();
+    }
 };
 
 [Serializable]
-public class CellState
+public class CellStates
 {
-    public int cellIndex;
-    public List<string> cellInventory = new List<string>();
-
+    public List<CellState> cellStates;
     
-    public CellState(Cell cell) {
-        this.cellIndex = cell.Index;
-        foreach(Token token in cell.Inventory.AllTokens){
-            this.cellInventory.Add(token.name);
+    public CellStates() {
+        cellStates = new List<CellState>();
+
+        for(int i = 0; i <= 72; i++) {
+            Cell cell = Cell.FromId(i);
+            CellState cellState = new CellState(cell.Index);
+
+            foreach(Token token in cell.Inventory.AllTokens){
+                cellState.inventory.Add(token.name);
+            }
+
+            cellStates.Add(cellState);
         }
     }
 }
