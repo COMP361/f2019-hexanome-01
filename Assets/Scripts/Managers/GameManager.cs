@@ -29,6 +29,7 @@ public class GameManager : Singleton<GameManager>
     List<Enemy> monstersToMove;
     List<WellCell> wells;
     public Thorald thorald;
+    //public GameState gameState;
 
     #endregion
 
@@ -54,6 +55,7 @@ public class GameManager : Singleton<GameManager>
         EventManager.MoveComplete += UpdateMonsterToMove;
         EventManager.DistributeGold += DistributeGold;
         EventManager.DistributeWinekins += DistributeWineskins;
+        //EventManager.Save += Save;
     }
 
     void OnDisable()
@@ -70,6 +72,7 @@ public class GameManager : Singleton<GameManager>
         EventManager.MoveComplete -= UpdateMonsterToMove;
         EventManager.DistributeGold -= DistributeGold;
         EventManager.DistributeWinekins -= DistributeWineskins;
+        //EventManager.Save -= Save;
     }
 
     void RemoveEnemy(Enemy enemy)
@@ -102,6 +105,8 @@ public class GameManager : Singleton<GameManager>
         GameObject canvas = GameObject.Find("Canvas");
         canvas.transform.Find("DistributeGold").gameObject.SetActive(true);
         canvas.transform.Find("DistributeWineskins").gameObject.SetActive(true);
+
+        //gameState = GameState.Instance;
 
         castle = Castle.Instance;
         castle.Init(players.Count);
@@ -212,7 +217,7 @@ public class GameManager : Singleton<GameManager>
         monstersToMove.AddRange(trolls);
         monstersToMove.AddRange(wardraks);
 
-       // MonsterMove();
+        MonsterMove();
     }
 
 
@@ -466,6 +471,11 @@ public class GameManager : Singleton<GameManager>
             ((MoveCommand)command).Init(CurrentPlayer);
         }
     }
+
+    /*void Save(string saveId)
+    {
+        gameState.Save(saveId);
+    }*/
 
     [PunRPC]
     void InitMoveRPC(int viewId)

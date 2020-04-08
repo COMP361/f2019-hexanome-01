@@ -57,9 +57,11 @@ public class ActionOptions : MonoBehaviour
             Buttons.Lock(fightBtn);
         }
     }
+    
     public void Show() {
         gameObject.SetActive(true);
     }
+    
     public void Hide() {
         gameObject.SetActive(false);
     }

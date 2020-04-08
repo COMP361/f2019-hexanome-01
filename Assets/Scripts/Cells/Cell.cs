@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -52,11 +53,13 @@ public class Cell : MonoBehaviour, IComparable<Cell>
     protected void OnEnable()
     {
         EventManager.GameOver += Deactivate;
+        EventManager.Save += Save;
     }
 
     protected void OnDisable()
     {
         EventManager.GameOver -= Deactivate;
+        EventManager.Save -= Save;
     }
 
     #region Functions [Unity + Constructor]
@@ -189,6 +192,53 @@ public class Cell : MonoBehaviour, IComparable<Cell>
 
         return cell;
     }
+    
 
+    public void Load() {
+    }
+
+    public void Save(String saveId)
+    {
+        String _gameDataId = "Cells.json";
+        FileManager.Save(Path.Combine(saveId, _gameDataId), new CellStates());
+    }
     #endregion
+}
+
+[Serializable]
+public class CellState {
+    public int index;
+    public List<string> inventory;
+
+    
+    public CellState(int index) {
+        this.index = index;
+        inventory = new List<string>();
+    }
+};
+
+[Serializable]
+public class CellStates
+{
+    public List<CellState> cellStates;
+    
+    public CellStates() {
+        cellStates = new List<CellState>();
+
+        for(int i = 0; i <= 84 ; i++) {
+            if(i > 72 && i < 80) continue;
+
+            Cell cell = Cell.FromId(i);
+            CellState cellState = new CellState(cell.Index);
+
+            foreach(Token token in cell.Inventory.AllTokens){
+                // Exclude heroes
+                if(!typeof(Hero).IsCompatibleWith(token.GetType())) {
+                    cellState.inventory.Add(token.GetType().ToString());
+                }
+            }
+
+            cellStates.Add(cellState);
+        }
+    }
 }

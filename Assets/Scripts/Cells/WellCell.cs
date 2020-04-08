@@ -7,7 +7,7 @@ using Photon.Realtime;
 public class WellCell : Cell {
   public GameObject goFullWell;
   public GameObject goEmptyWell;
-  bool isEmptied = false;
+  //bool isEmptied = false;
   bool isDestroyed = false;
   public Token well;
   public PhotonView photonView;
@@ -51,7 +51,7 @@ public class WellCell : Cell {
     if(isDestroyed) return;
 
     if(this.Index == cellIndex){
-      isEmptied = true;
+      //isEmptied = true;
       goFullWell.SetActive(false);
       goEmptyWell.SetActive(true);
       well = null;
@@ -69,11 +69,10 @@ public class WellCell : Cell {
         hero.Willpower = currWP;
       }
     }
+    
     if(GameManager.instance.MainHero.TokenName.Equals(heroType)) {
-  //    Debug.Log("WHAT IS HAPPENING: " + GameManager.instance.MainHero);
       EventManager.TriggerInventoryUIHeroPeak(GameManager.instance.MainHero.heroInventory);
-    }
-    else if(heroType.Equals(CharChoice.choice.TokenName)){
+    } else if(heroType.Equals(CharChoice.choice.TokenName)){
       EventManager.TriggerInventoryUIHeroPeak(GameManager.instance.findHero(heroType).heroInventory);
     }
   }
@@ -81,7 +80,7 @@ public class WellCell : Cell {
   public void ResetWell() {
     if(isDestroyed) return;
 
-    isEmptied = false;
+    //isEmptied = false;
     goFullWell.SetActive(true);
     goEmptyWell.SetActive(false);
     well = Well.Factory();

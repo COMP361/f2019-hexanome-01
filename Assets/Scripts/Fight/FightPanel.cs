@@ -106,7 +106,7 @@ public class FightPanel : MonoBehaviour
     private void SetImages() //WILL NEED TO ADJUST FOR ARCHER
     {
         heroSprite.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprites/Tokens/Heroes/"
-            + GameManager.instance.CurrentPlayer.getSex()
+            + GameManager.instance.CurrentPlayer.Sex.ToString()
             + "_"
             + GameManager.instance.CurrentPlayer.Type.ToLower());
         MonsterSprite.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprites/Tokens/Enemies/" + EnemyName.text.ToLower());

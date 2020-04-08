@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class StartTheGame : MonoBehaviour
+public class Menu : MonoBehaviour
 {
-    public void StartGameClick()
-    {
-        SceneManager.LoadScene(1);
+    public void MenuStart() {
+        SceneManager.LoadScene("Lobby");
     }
 }

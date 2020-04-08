@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using Photon.Pun;
 using Photon.Realtime;
+using System.IO;
 
 public class EventManager : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class EventManager : MonoBehaviour
     // Fired when a cell is clicked
     public delegate void CellClickHandler(int cellID);
     public static event CellClickHandler CellClick;
+    
     public static void TriggerCellClick(int cellID)
     {
         if (CellClick != null)
@@ -611,6 +613,29 @@ public class EventManager : MonoBehaviour
         if (Error != null)
         {
             Error(type);
+        }
+    }
+
+    public delegate void SaveHandler(String saveId);
+    public static event SaveHandler Save;
+    public static void TriggerSave()
+    {
+        if (Save != null)
+        {
+            DateTime dt = DateTime.Now;
+            String folderName = "Games/save_" + dt.ToString("yyyy-MM-dd-HH-mm-ss");
+            Directory.CreateDirectory(Path.Combine(Application.persistentDataPath, folderName));
+            Save(folderName);
+        }
+    }
+
+    public delegate void LoadHandler();
+    public static event LoadHandler Load;
+    public static void TriggerLoad()
+    {
+        if (Load != null)
+        {
+            Load();
         }
     }
 }
