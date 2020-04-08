@@ -31,11 +31,13 @@ public class RunestoneCard : LegendCard
     {
         if (PhotonNetwork.IsMasterClient)
         {
-            int firstRunestoneCell = (int)PhotonNetwork.CurrentRoom.CustomProperties["RunestoneCell1"];
-            int secondRunestoneCell = (int)PhotonNetwork.CurrentRoom.CustomProperties["RunestoneCell2"];
-            int thirdRunestoneCell = (int)PhotonNetwork.CurrentRoom.CustomProperties["RunestoneCell3"];
-            int fourthRunestoneCell = (int)PhotonNetwork.CurrentRoom.CustomProperties["RunestoneCell4"];
-            int fifthRunestoneCell = (int)PhotonNetwork.CurrentRoom.CustomProperties["RunestoneCell5"];
+            int[] runestoneCells = GameManager.instance.narrator.runestoneCells;
+
+            int firstRunestoneCell = runestoneCells[0];
+            int secondRunestoneCell = runestoneCells[1];
+            int thirdRunestoneCell = runestoneCells[2];
+            int fourthRunestoneCell = runestoneCells[3];
+            int fifthRunestoneCell = runestoneCells[4];
             //Debug.Log(firstRunestoneCell + "  " + secondRunestoneCell + "  " + thirdRunestoneCell + "  " + fourthRunestoneCell + "  " + fifthRunestoneCell);
             Runestone runestone1 = Runestone.Factory(firstRunestoneCell, RunestoneColor.Blue);
             Runestone runestone2 = Runestone.Factory(secondRunestoneCell, RunestoneColor.Blue);

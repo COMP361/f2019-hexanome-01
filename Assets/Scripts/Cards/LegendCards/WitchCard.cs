@@ -23,7 +23,7 @@ public class WitchCard : LegendCard
 
     public override void ApplyEffect()
     {
-        int herbRoll = (int)PhotonNetwork.CurrentRoom.CustomProperties["HerbRoll"];
+        int herbRoll = GameManager.instance.narrator.herbRoll;
         if(herbRoll == 1 || herbRoll == 2)
         {
             herbCell = 37;

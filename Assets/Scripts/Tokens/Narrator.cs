@@ -9,6 +9,10 @@ public class Narrator {
     public int index; // 0 -> A
     public int runestoneIndex;
     public char runestoneLetter;
+    public int herbRoll;
+    public int towerSkralCell;
+    public int runestoneRoll;
+    public int[] runestoneCells;
     public bool witchFound;
     public bool medicineDelivered;
     public bool towerSkralDefeated;
@@ -24,6 +28,10 @@ public class Narrator {
         setRunestonePosition();
         witchFound = false;
         legendCardDeck = new LegendCardDeck(false);
+        herbRoll = (int)PhotonNetwork.CurrentRoom.CustomProperties["HerbRoll"];
+        towerSkralCell = (int)PhotonNetwork.CurrentRoom.CustomProperties["TowerSkralCell"];
+        runestoneRoll = (int)PhotonNetwork.CurrentRoom.CustomProperties["RunestoneCardPosition"];
+        runestoneCells = PhotonNetwork.CurrentRoom.CustomProperties["RunestoneCells"] as int[];
 
         TasksListText = GameObject.Find("TasksListText").GetComponent<TMP_Text>();
 
