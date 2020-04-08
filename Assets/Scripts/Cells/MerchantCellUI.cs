@@ -12,10 +12,6 @@ public class MerchantCellUI : Singleton<MerchantCellUI>
   GameObject buyPanel;
   Text panelTitle;
   Text panelDesc;
-
-
-
-
   Button buyBtn, cancelBtn;
   Component[] btns;
   string item;
@@ -24,14 +20,12 @@ public class MerchantCellUI : Singleton<MerchantCellUI>
     EventManager.CurrentPlayerUpdate += LockItems;
     EventManager.CellUpdate += LockItems;
     EventManager.MainHeroInit += LockItems;
-
   }
 
   void OnDisable() {
     EventManager.CurrentPlayerUpdate -= LockItems;
     EventManager.CellUpdate -= LockItems;
     EventManager.MainHeroInit -= LockItems;
-
   }
 
   void Start() {
@@ -45,8 +39,6 @@ public class MerchantCellUI : Singleton<MerchantCellUI>
 
     cancelBtn = buyPanel.transform.Find("Cancel Button").GetComponent<Button>();
     cancelBtn.onClick.AddListener(delegate { HidePanel(); });
-
-
 
     transform.Find("MerchantUI/Potion/Button/Text").GetComponent<UnityEngine.UI.Text>().text = "" + Witch.Instance.PotionPrice;
 
@@ -132,13 +124,10 @@ public class MerchantCellUI : Singleton<MerchantCellUI>
     buyPanel.SetActive(false);
   }
 
-
   public void ShowPanel(string name, string desc) {
     panelTitle.text = name;
     panelDesc.text = desc;
     buyPanel.transform.Find("Title").GetComponent<Text>();
     buyPanel.SetActive(true);
   }
-
-
 }

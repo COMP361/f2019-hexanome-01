@@ -270,13 +270,13 @@ public class HeroInventory
         return true;
       }
       else if (item is Helm){
-      return  AddHelm((Helm) item);
+        return  AddHelm((Helm) item);
       }
       else if (item.GetType().IsSubclassOf(typeof(SmallToken))){
-      return  AddSmallToken((SmallToken) item);
+        return  AddSmallToken((SmallToken) item);
       }
       else if (item.GetType().IsSubclassOf(typeof(BigToken))){
-      return  AddBigToken((BigToken) item);
+        return  AddBigToken((BigToken) item);
       }
 
       return false;

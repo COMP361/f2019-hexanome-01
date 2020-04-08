@@ -129,9 +129,9 @@ public class HeroState {
         HeroState.Instance.timelineIndex = hero.timeline.Index;
         HeroState.Instance.sex = hero.Sex;
         
-        /*foreach(Token token in hero.heroInventory.AllTokens){
-            HeroState.Instance.inventory.Add(token.GetType().ToString());
-        }*/
+        foreach(DictionaryEntry entry in hero.heroInventory.AllTokens){
+            HeroState.Instance.inventory.Add(entry.Value.GetType().ToString());
+        }
 
         FileManager.Save(Path.Combine(saveId, _gameDataId), HeroState.Instance);
     }

@@ -22,16 +22,17 @@ public class ChooseManager : MonoBehaviour
     public Button dwarf;
     public Button confirmButton;
     public Button startButton;
+    public Button loadButton;
     public Text turnText;
-    public Text selectionText;
     public string currentSelection;
-
     public PhotonView photonView;
 
     // Start is called before the first frame update
     void Awake()
     {
         startButton.gameObject.SetActive(false);
+        loadButton.gameObject.SetActive(false);
+        
         playerTurn = new Queue<Player>();
         foreach(Player p in players)
         {
@@ -42,6 +43,12 @@ public class ChooseManager : MonoBehaviour
         buttons.Add(warrior);
         buttons.Add(mage);
         buttons.Add(dwarf);
+
+        archer.interactable = false;
+        warrior.interactable = false;
+        mage.interactable = false;
+        dwarf.interactable = false;
+        confirmButton.interactable = false;
     }
 
     // Update is called once per frame
@@ -52,31 +59,26 @@ public class ChooseManager : MonoBehaviour
         {
             turnText.text = "Time to start the game!";
             startButton.gameObject.SetActive(true);
+            loadButton.gameObject.SetActive(true);
         }
         else if (playerTurn.Count != 0 && playerTurn.Peek().Equals(PhotonNetwork.LocalPlayer))
         {
             turnText.text = "It is your turn to pick!";
             foreach (Button b in buttons)
             {
-                b.enabled = true;
+                b.interactable = true;
             }
-            confirmButton.enabled = true;
+            confirmButton.interactable = true;
         }
         else
         {
             turnText.text = "Waiting for other players...";
-            archer.enabled = false;
-            warrior.enabled = false;
-            mage.enabled = false;
-            dwarf.enabled = false;
-            confirmButton.enabled = false;
         }
     }
 
     public void OnClickedClassButton(Button button)
     {
         currentSelection = button.name;
-        selectionText.text = "You have chosen the " + button.name;
     }
 
     public void OnClickedConfirmButton()
@@ -95,10 +97,15 @@ public class ChooseManager : MonoBehaviour
     [PunRPC]
     public void ReceiveOnClickedConfirmButton(string selection)
     {
-        Button b = GameObject.Find(selection).GetComponent<Button>();
-        b.GetComponent<Image>().color = Color.grey;
+        Button btn = GameObject.Find(selection).GetComponent<Button>();
+        btn.enabled = false;
         buttons.RemoveAll(x => x.name == selection);
+        foreach (Button b in buttons)
+        {
+            b.interactable = false;
+        }
         playerTurn.Dequeue();
+        confirmButton.interactable = false;
     }
 
     public void OnClickStartButton()

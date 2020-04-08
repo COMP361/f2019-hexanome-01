@@ -1,16 +1,20 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
+using System.IO;
 
 public class Castle : Cell
 {
     void OnEnable() {
         EventManager.MoveComplete += updateShields;
+        EventManager.Save += Save;
         base.OnEnable();
     }
 
     void OnDisable() {
         EventManager.MoveComplete -= updateShields;
+        EventManager.Save -= Save;
         base.OnDisable();
     }
     
@@ -60,5 +64,19 @@ public class Castle : Cell
         EventManager.TriggerShieldsUpdate(ShieldsCount);
     }
 
+    public void Save(String saveId) {
+        String _gameDataId = "Castle.json";
+        FileManager.Save(Path.Combine(saveId, _gameDataId), new CastleState(ShieldsCount));
+    }
+
     public static Castle Instance { get; private set; }
 }
+
+
+public class CastleState {
+    public int shields;
+    
+    public CastleState(int shields) {
+        this.shields = shields;
+    }
+};
