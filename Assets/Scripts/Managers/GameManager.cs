@@ -115,6 +115,15 @@ public class GameManager : Singleton<GameManager>
         skrals = new List<Enemy>();
         wardraks = new List<Enemy>();
         towerskrals = new List<Enemy>();
+        wells = new List<WellCell>();
+        wells.Add(Cell.FromId(5) as WellCell);
+        wells.Add(Cell.FromId(35) as WellCell);
+        wells.Add(Cell.FromId(45) as WellCell);
+        wells.Add(Cell.FromId(55) as WellCell);
+        foreach (WellCell well in wells)
+        {
+            well.ResetWell();
+        }
 
         // Add each player's respective hero
         foreach (Player p in players)
@@ -189,17 +198,6 @@ public class GameManager : Singleton<GameManager>
         skrals.Add(Skral.Factory(19));
 
         Fog.Factory();
-
-        wells = new List<WellCell>();
-        wells.Add(Cell.FromId(5) as WellCell);
-        wells.Add(Cell.FromId(35) as WellCell);
-        wells.Add(Cell.FromId(45) as WellCell);
-        wells.Add(Cell.FromId(55) as WellCell);
-
-        foreach (WellCell well in wells)
-        {
-            well.ResetWell();
-        }
     }
 
     void LoadGame(string directory)
@@ -214,9 +212,30 @@ public class GameManager : Singleton<GameManager>
             foreach (string token in cellstate.inventory)
             {
                 Type type = Type.GetType(token);
-                if (type == typeof(Gor))
+                if (type == typeof(Farmer))
+                {
+                    farmers.Add(Farmer.Factory(cellstate.index));
+                }
+                else if (type == typeof(Gor))
                 {
                     gors.Add(Gor.Factory(cellstate.index));
+                }
+                else if (type == typeof(Skral))
+                {
+                    skrals.Add(Skral.Factory(cellstate.index));
+                }
+                else if(type == typeof(Wardrak))
+                {
+                    wardraks.Add(Wardrak.Factory(cellstate.index));
+                }
+                else if (type == typeof(TowerSkral))
+                {
+                    towerskrals.Add(TowerSkral.Factory(cellstate.index, players.Count));
+                }
+                else if (type.ToString().StartsWith("Fog"))
+                {
+                    string id = type.ToString().Replace("Fog", "");
+                    Fog.Load(id, type, cellstate.index);
                 }
             }
         }

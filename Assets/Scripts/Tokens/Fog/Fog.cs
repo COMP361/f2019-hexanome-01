@@ -59,6 +59,26 @@ public class Fog : Token {
             tokens.Add(fogToken);
         }
     }
+
+    public static void Load(string id, Type type, int cell)
+    {
+        Sprite sprite = Resources.Load<Sprite>("Sprites/Tokens/Fog/" + id);
+        if (sprite == null)
+        {
+            Debug.Log("Error creating the Fog Token");
+            return;
+        }
+
+        GameObject fog = GameObject.Instantiate((GameObject)Resources.Load("Prefabs/Tokens/Fog")) as GameObject;
+        GameObject secretToken = fog.transform.Find("Token").gameObject;
+        secretToken.GetComponent<SpriteRenderer>().sprite = sprite;
+
+        Fog fogToken = (Fog)fog.AddComponent(type);
+        fogToken.TokenName = sprite.name + "Fog";
+        tokens.Add(fogToken);
+        fogToken.Cell = Cell.FromId(cell);
+    }
+
     public static void Destroy() {
         for(int i = 0; i < tokens.Count; i++) {
             Destroy(tokens[i].gameObject);
