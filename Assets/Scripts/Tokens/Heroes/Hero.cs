@@ -73,6 +73,8 @@ public class Hero : Movable
         set {
             if(value < 0) {
                 _willpower = 0;
+            } else if(value > 20) {
+                _willpower = 20;
             } else {
                 _willpower = value;
             }

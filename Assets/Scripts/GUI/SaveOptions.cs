@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 public class SaveOptions : MonoBehaviour
 {
-    Button saveBtn, loadBtn;
+    Button saveBtn;
     void OnEnable() {
         EventManager.ActionUpdate += LockActions;
     }
@@ -15,9 +15,6 @@ public class SaveOptions : MonoBehaviour
     {
         saveBtn = transform.Find("Save Button").GetComponent<Button>();
         saveBtn.onClick.AddListener(delegate { EventManager.TriggerSave(); });
-
-        loadBtn = transform.Find("Load Button").GetComponent<Button>();
-        loadBtn.onClick.AddListener(delegate { EventManager.TriggerLoad(); });
     }
 
     void LockActions(int action) {

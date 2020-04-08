@@ -20,7 +20,7 @@ public class Timeline
         Sprite sprite = Resources.Load<Sprite>("Sprites/Tokens/Heroes/" + hero.GetType().ToString());
         SpriteRenderer sr = token.AddComponent<SpriteRenderer>();
         sr.sprite = sprite;
-        sr.sortingOrder = 2;
+        sr.sortingOrder = 3;
         token.transform.localScale = new Vector3(10, 10, 10);
         token.transform.parent = GameObject.Find("Tokens").transform;
         token.transform.position = GameObject.Find("Timeline/Sunrise/" + hero.name).transform.position;

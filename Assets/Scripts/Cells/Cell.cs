@@ -225,12 +225,17 @@ public class CellStates
     public CellStates() {
         cellStates = new List<CellState>();
 
-        for(int i = 0; i <= 72; i++) {
+        for(int i = 0; i <= 84 ; i++) {
+            if(i > 72 && i < 80) continue;
+
             Cell cell = Cell.FromId(i);
             CellState cellState = new CellState(cell.Index);
 
             foreach(Token token in cell.Inventory.AllTokens){
-                cellState.inventory.Add(token.name);
+                // Exclude heroes
+                if(!typeof(Hero).IsCompatibleWith(token.GetType())) {
+                    cellState.inventory.Add(token.GetType().ToString());
+                }
             }
 
             cellStates.Add(cellState);
