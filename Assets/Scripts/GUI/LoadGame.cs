@@ -14,7 +14,6 @@ public class LoadGame : MonoBehaviour
     public List<Player> players;
     private string[] heroes = { "Archer", "Warrior", "Mage", "Dwarf" };
 
-    // Start is called before the first frame update
     void Start() {
         players = PhotonNetwork.PlayerList.ToList();
         
@@ -51,6 +50,7 @@ public class LoadGame : MonoBehaviour
                 txt.text = dirName;
 
                 button.transform.SetParent(gameObject.transform);
+                button.transform.localScale = new Vector3(1, 1, 1);
             }
         }
     }
