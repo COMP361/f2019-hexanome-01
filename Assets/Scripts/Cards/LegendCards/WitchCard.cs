@@ -1,9 +1,12 @@
-﻿using System.Collections;
+﻿using Photon.Pun;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class WitchCard : LegendCard
 {
+    public int herbCell;
+
     public WitchCard()
     {
         this.id = "WitchCard";
@@ -20,6 +23,21 @@ public class WitchCard : LegendCard
 
     public override void ApplyEffect()
     {
-        //throw new System.NotImplementedException();
+        int herbRoll = (int)PhotonNetwork.CurrentRoom.CustomProperties["HerbRoll"];
+        if(herbRoll == 1 || herbRoll == 2)
+        {
+            herbCell = 37;
+        }
+        if (herbRoll == 1 || herbRoll == 2)
+        {
+            herbCell = 67;
+        }
+        if (herbRoll == 1 || herbRoll == 2)
+        {
+            herbCell = 61;
+        }
+        Debug.Log("Herb is at cell " + herbCell);
+        Herb.Factory(herbCell);
+        Gor.Factory(herbCell);
     }
 }

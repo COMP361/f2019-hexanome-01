@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using Photon.Pun;
+using System.Linq;
 
 public class Fog : Token {
     static List<int> cellsID = new List<int>(){ 8, 11, 12, 13, 16, 32, 42, 44, 46, 64, 63, 56, 47, 48, 49 };
@@ -25,10 +27,11 @@ public class Fog : Token {
         FogGor.Factory();
         FogGold.Factory();
         FogEvent.Factory();
-        
-        cellsID.Shuffle();
 
-        if(tokens.Count > cellsID.Count) {
+        int[] cellArray = PhotonNetwork.CurrentRoom.CustomProperties["FogCells"] as int[];
+        cellsID = cellArray.ToList();
+
+        if (tokens.Count > cellsID.Count) {
             Debug.Log("Wrong number of Fog tokens initialized. Abort.");
             Fog.Destroy();
             return;
