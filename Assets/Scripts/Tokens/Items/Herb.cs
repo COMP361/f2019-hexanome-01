@@ -24,9 +24,9 @@ public class Herb : SmallToken
         return herbGo.GetComponent<Herb>();
     }
 
-    public static Herb Factory(int cellID, Herbs type)
+    public static Herb Factory(int cellID)
     {
-        Herb herb = Herb.Factory(type);
+        Herb herb = Herb.Factory(Herbs.Herb3);
         herb.Cell = Cell.FromId(cellID);
         return herb;
     }

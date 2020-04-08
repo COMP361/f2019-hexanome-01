@@ -237,6 +237,10 @@ public class CellStates
                     cellState.inventory.Add(token.GetType().ToString());
                 }
             }
+            foreach (DictionaryEntry entry in cell.Inventory.items)
+            {
+                cellState.inventory.Add(entry.Value.GetType().ToString());
+            }
 
             cellStates.Add(cellState);
         }

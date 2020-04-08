@@ -232,10 +232,18 @@ public class GameManager : Singleton<GameManager>
                 {
                     towerskrals.Add(TowerSkral.Factory(cellstate.index, players.Count));
                 }
-                else if (type.ToString().StartsWith("Fog"))
+                else if (type.IsSubclassOf(typeof(Fog)))
                 {
                     string id = type.ToString().Replace("Fog", "");
                     Fog.Load(id, type, cellstate.index);
+                }
+                else if (type == typeof(GoldCoin))
+                {
+                    GoldCoin.Factory(cellstate.index);
+                }
+                else if (type.IsSubclassOf(typeof(SmallToken)) || type.IsSubclassOf(typeof(BigToken)))
+                {
+                    type.GetMethod("Factory", new[] { typeof(int) }).Invoke(type, new object[] { cellstate.index });
                 }
             }
         }
