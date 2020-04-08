@@ -102,86 +102,91 @@ public class GameManager : Singleton<GameManager>
 
     void Start()
     {
+        string saveDirectory = (string)PhotonNetwork.CurrentRoom.CustomProperties["Save"];
+
+        playerTurn = new Queue<Player>(players);
+        castle = Castle.Instance;
+        castle.Init(players.Count);
+        monstersToMove = new List<Enemy>();
+        narrator = new Narrator();
+        heroes = new List<Hero>();
+        farmers = new List<Farmer>();
+        gors = new List<Enemy>();
+        skrals = new List<Enemy>();
+        wardraks = new List<Enemy>();
+        towerskrals = new List<Enemy>();
+
+        // Add each player's respective hero
+        foreach (Player p in players)
+        {
+            string hero = (string)p.CustomProperties["Class"];
+
+            if (hero != null)
+            {
+                switch (hero)
+                {
+                    case "Warrior":
+                        heroes.Add(Warrior.Instance);
+                        break;
+                    case "Archer":
+                        heroes.Add(Archer.Instance);
+                        break;
+                    case "Mage":
+                        heroes.Add(Mage.Instance);
+                        break;
+                    case "Dwarf":
+                        heroes.Add(Dwarf.Instance);
+                        break;
+                }
+
+                string mainHero = (string)PhotonNetwork.LocalPlayer.CustomProperties["Class"];
+
+                if (hero.Equals(mainHero))
+                {
+                    mainHeroIndex = heroes.Count - 1;
+                }
+            }
+        }
+
+        if (saveDirectory == null)
+        {
+            NewGame();
+        }
+        else
+        {
+            LoadGame(saveDirectory);
+        }
+
+        EventManager.TriggerMainHeroInit(MainHero);
+        CharChoice.Init(heroes);
+        CharChoice.choice = MainHero;
+        GiveTurn();
+    }
+
+    #endregion
+
+    #region Functions [GameManager]
+
+    void NewGame()
+    {
         GameObject canvas = GameObject.Find("Canvas");
         canvas.transform.Find("DistributeGold").gameObject.SetActive(true);
         canvas.transform.Find("DistributeWineskins").gameObject.SetActive(true);
 
         //gameState = GameState.Instance;
 
-        castle = Castle.Instance;
-        castle.Init(players.Count);
-        monstersToMove = new List<Enemy>();
-
-        narrator = new Narrator();
-
-        heroes = new List<Hero>();
-
-        if (!PhotonNetwork.OfflineMode)
-        {
-            // Add each player's respective hero
-            foreach (Player p in players)
-            {
-                string hero = (string)p.CustomProperties["Class"];
-
-                if (hero != null)
-                {
-                    switch (hero)
-                    {
-                        case "Warrior":
-                            heroes.Add(Warrior.Instance);
-                            break;
-                        case "Archer":
-                            heroes.Add(Archer.Instance);
-                            break;
-                        case "Mage":
-                            heroes.Add(Mage.Instance);
-                            break;
-                        case "Dwarf":
-                            heroes.Add(Dwarf.Instance);
-                            break;
-                    }
-
-                    string mainHero = (string)PhotonNetwork.LocalPlayer.CustomProperties["Class"];
-
-                    if (hero.Equals(mainHero))
-                    {
-                        mainHeroIndex = heroes.Count - 1;
-                    }
-                }
-            }
-
-            playerTurn = new Queue<Player>(players);
-
-        }
-        else
-        {
-            heroes.Add(Warrior.Instance);
-            heroes.Add(Archer.Instance);
-            heroes.Add(Mage.Instance);
-            heroes.Add(Dwarf.Instance);
-        }
-
-        EventManager.TriggerMainHeroInit(MainHero);
-
         // FARMERS
-        farmers = new List<Farmer>();
         farmers.Add(Farmer.Factory(24));
         farmers.Add(Farmer.Factory(36));
 
         // MONSTERS
-        gors = new List<Enemy>();
         gors.Add(Gor.Factory(8));
         gors.Add(Gor.Factory(20));
         gors.Add(Gor.Factory(21));
         gors.Add(Gor.Factory(26));
         gors.Add(Gor.Factory(48));
 
-        skrals = new List<Enemy>();
         skrals.Add(Skral.Factory(19));
-
-        trolls = new List<Enemy>();
-        wardraks = new List<Enemy>();
-        towerskrals = new List<Enemy>();
 
         Fog.Factory();
 
@@ -191,19 +196,34 @@ public class GameManager : Singleton<GameManager>
         wells.Add(Cell.FromId(45) as WellCell);
         wells.Add(Cell.FromId(55) as WellCell);
 
-        foreach (WellCell well in wells) {
+        foreach (WellCell well in wells)
+        {
             well.ResetWell();
         }
-
-
-        CharChoice.Init(heroes);
-        CharChoice.choice = MainHero;
-        GiveTurn();
     }
 
-    #endregion
+    void LoadGame(string directory)
+    {
+        // Load from json here
+        // Heroes
 
-    #region Functions [GameManager]
+        // Cells
+        CellStates Cells = FileManager.Load<CellStates>(directory + "/Cells.json");
+        foreach (CellState cellstate in Cells.cellStates)
+        {
+            foreach (string token in cellstate.inventory)
+            {
+                Type type = Type.GetType(token);
+                if (type == typeof(Gor))
+                {
+                    gors.Add(Gor.Factory(cellstate.index));
+                }
+            }
+        }
+
+        // Narrator
+    }
+
     void InitMonsterMove()
     {
         gors.Sort();
