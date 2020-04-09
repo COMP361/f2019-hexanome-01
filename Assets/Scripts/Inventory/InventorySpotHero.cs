@@ -7,13 +7,11 @@ public class InventorySpotHero : MonoBehaviour
 {
     Image icon;
     Token token;
-    //public static Hero parentHero { get; set; }
 
     void Awake() {
       icon = GetComponent<Image>();
     }
-
-
+    
     public void AddItem(Token newToken)
     {
       token = newToken;

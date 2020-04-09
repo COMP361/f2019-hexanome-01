@@ -552,9 +552,9 @@ public class GameManager : Singleton<GameManager>
 
     [PunRPC]
     public void AddItemCellRPC(int viewID, int cellIndex) {
-        Token toAdd = PhotonView.Find(viewID).gameObject.GetComponent<Token>();
-        Cell toAddTo = Cell.FromId(cellIndex);
-        toAddTo.Inventory.AddItem2(toAdd);
+      Token toAdd = PhotonView.Find(viewID).gameObject.GetComponent<Token>();
+      Cell toAddTo = Cell.FromId(cellIndex);
+      toAddTo.Inventory.AddItem2(toAdd);
     }
 
     [PunRPC]
@@ -563,23 +563,11 @@ public class GameManager : Singleton<GameManager>
       toRemoveFrom.Inventory.RemoveItem(viewID);
     }
 
-/*
     [PunRPC]
-    public void AddGoldCellRPC(int viewID, int cellIndex) {
-        Cell cell = Cell.FromId(cellIndex);
-        GameObject goldCoinGO = PhotonNetwork.Instantiate("Prefabs/Tokens/GoldCoin", Vector3.zero, Quaternion.identity, 0);
-        GoldCoin goldCoin = goldCoinGO.GetComponent<GoldCoin>();
-        cell.Inventory.AddToken(goldCoin);
-    }
-*/
-
-
-
-    [PunRPC]
-     public void AddGoldHeroRPC(int viewID, string hero){
-        GoldCoin toAdd = PhotonView.Find(viewID).gameObject.GetComponent<GoldCoin>();
-        Hero toAddTo = findHero(hero);
-        toAddTo.heroInventory.addGold2(toAdd);
+    public void AddGoldHeroRPC(int viewID, string hero){
+      GoldCoin toAdd = PhotonView.Find(viewID).gameObject.GetComponent<GoldCoin>();
+      Hero toAddTo = findHero(hero);
+      toAddTo.heroInventory.addGold2(toAdd);
     }
 
     [PunRPC]
@@ -607,7 +595,7 @@ public class GameManager : Singleton<GameManager>
      public void RemoveGoldHeroRPC(int viewID, string hero){
         Hero toRemoveFrom = findHero(hero);
         toRemoveFrom.heroInventory.RemoveGold2(viewID);
-        }
+    }
 
     [PunRPC]
     public void RemoveSmallTokenRPC(int viewID, string hero){

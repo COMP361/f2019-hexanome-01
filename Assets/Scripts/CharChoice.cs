@@ -65,8 +65,6 @@ public class CharChoice : MonoBehaviour
   public static  void clickWarrior(){
     Hero hero = GameManager.instance.findHero("Warrior");
     CharChoice.choice = hero;
-  //  Debug.Log("Tchuips " + hero.TokenName + " " + hero.heroInventory.parentHero);
-  //  Debug.Log("Tchuips2 " + ((Token)hero.heroInventory.AllTokens[0]).TokenName);
     EventManager.TriggerInventoryUIHeroPeak(hero.heroInventory);
   }
 

@@ -17,32 +17,29 @@ public class Herb : SmallToken
 
     public static Herb Factory(Herbs type)
     {
-        herbType = type;
-
-        GameObject herbGo = PhotonNetwork.Instantiate("Prefabs/Tokens/" + herbType, Vector3.zero, Quaternion.identity, 0);
-        token = herbGo;
-        return herbGo.GetComponent<Herb>();
+      herbType = type;
+      GameObject herbGo = PhotonNetwork.Instantiate("Prefabs/Tokens/" + herbType, Vector3.zero, Quaternion.identity, 0);
+      token = herbGo;
+      return herbGo.GetComponent<Herb>();
     }
 
     public static Herb Factory(int cellID, Herbs type)
     {
-        Herb herb = Herb.Factory(type);
-        herb.Cell = Cell.FromId(cellID);
-        return herb;
+      Herb herb = Herb.Factory(type);
+      herb.Cell = Cell.FromId(cellID);
+      return herb;
     }
 
     public override void UseCell(){
       EventManager.TriggerCellItemClick(this);
-      Debug.Log("Use Herb Cell");
     }
 
     public override void UseHero(){
-      Debug.Log("Use Herb Hero");
       EventManager.TriggerHeroItemClick(this);
     }
 
     public override void UseEffect(){
-        Debug.Log("Use Herb Effect");
-  }
+      Debug.Log("Use Herb Effect");
+    }
 
 }

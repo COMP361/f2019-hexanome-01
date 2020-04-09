@@ -18,9 +18,9 @@ public class Helm : Token
 
   public static Helm Factory(int cellID)
   {
-      Helm helm = Helm.Factory();
-      helm.Cell = Cell.FromId(cellID);
-      return helm;
+    Helm helm = Helm.Factory();
+    helm.Cell = Cell.FromId(cellID);
+    return helm;
   }
 
   public static Helm Factory(string hero)
@@ -32,47 +32,35 @@ public class Helm : Token
 
   public override void UseCell(){
     EventManager.TriggerCellItemClick(this);
-    Debug.Log("Use Helm Cell");
   }
 
   public override void UseHero(){
-    Debug.Log("Use helm Hero");
     EventManager.TriggerHeroItemClick(this);
   }
 
   public override void UseEffect(){
       Debug.Log("Use helm Effect");
-}
+  }
 
+  public static string Type { get => typeof(Helm).ToString(); }
 
-  /*
-  public void onEnable(){
-    object[] data = photonView.InstantiationData;
-    if(data == null){
+  public static void Buy() {
+    Hero hero = GameManager.instance.MainHero;
+    int cost = 2;
+
+    if(hero.heroInventory.numOfGold >= cost) {
+      Helm toAdd = Helm.Factory();
+      if(hero.heroInventory.AddHelm(toAdd)){
+        hero.heroInventory.RemoveGold(cost);
+      }
+      else{
+        return;
+      }
+    }
+    else{
+      EventManager.TriggerError(0);
       return;
     }
-    this.Cell = Cell.FromId((int)data[0]);
-  }*/
-
-
-    public static string Type { get => typeof(Helm).ToString(); }
-
-    public static void Buy() {
-        Hero hero = GameManager.instance.MainHero;
-        int cost = 2;
-
-        if(hero.heroInventory.numOfGold >= cost) {
-          Helm toAdd = Helm.Factory();
-          if(hero.heroInventory.AddHelm(toAdd)){
-            hero.heroInventory.RemoveGold(cost);
-          }
-          else{
-            return;
-          }
-        }
-        else{
-          EventManager.TriggerError(0);
-          return;
-        }
-    }
   }
+
+}

@@ -4,7 +4,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
 public class Bow : BigToken {
     public static string name = "Bow";
     public static string desc = "A hero with a bow may attack a creature in an adjacent space.";
@@ -33,45 +32,33 @@ public class Bow : BigToken {
 
     public override void UseCell(){
       EventManager.TriggerCellItemClick(this);
-      Debug.Log("Use Bow Effect");
-  }
+    }
 
     public override void UseHero(){
-    //  EventManager.TriggerHeroGoldClick(this);
-    EventManager.TriggerHeroItemClick(this);
+      EventManager.TriggerHeroItemClick(this);
     }
 
     public override void UseEffect(){
       Debug.Log("Use Bow Effect");
     }
 
-
-/*
-    public void onEnable(){
-      object[] data = photonView.InstantiationData;
-      if(data == null){
-        return;
-      }
-      this.Cell = Cell.FromId((int)data[0]);
-    }
-    */
-
     public static void Buy() {
-        Hero hero = GameManager.instance.MainHero;
-        int cost = 2;
+      Hero hero = GameManager.instance.MainHero;
+      int cost = 2;
 
-        if(hero.heroInventory.numOfGold >= cost) {
-          Bow toAdd = Bow.Factory();
-          if(hero.heroInventory.AddBigToken(toAdd)){
-            hero.heroInventory.RemoveGold(cost);
-          }
-          else{
-            return;
-          }
+      if(hero.heroInventory.numOfGold >= cost) {
+        Bow toAdd = Bow.Factory();
+        if(hero.heroInventory.AddBigToken(toAdd)){
+          hero.heroInventory.RemoveGold(cost);
         }
         else{
-          EventManager.TriggerError(0);
           return;
         }
+      }
+      else{
+        EventManager.TriggerError(0);
+        return;
+      }
    }
+
 }

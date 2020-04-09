@@ -19,14 +19,7 @@ public class HeroInventory
     public OrderedDictionary AllTokens { get; private set; }
     public OrderedDictionary smallTokens { get; private set; }
 
-    void OnEnable() {
-    }
-
-    void OnDisable() {
-    }
-
     public HeroInventory(string parentHero){
-
       bigToken =null;
       helm = null;
       spaceSmall = 3;
@@ -66,7 +59,6 @@ public class HeroInventory
         for(int i = 0; i< amtToRemove; i++){
           int viewID = ((GoldCoin)golds[i]).GetComponent<PhotonView>().ViewID;
           GameManager.instance.photonView.RPC("RemoveGoldHeroRPC", RpcTarget.AllViaServer, new object[] {viewID, parentHero});
-
         }
       }
       else{
@@ -95,8 +87,6 @@ public class HeroInventory
       else{
         int viewID = smallToken.GetComponent<PhotonView>().ViewID;
         GameManager.instance.photonView.RPC("AddSmallTokenRPC", RpcTarget.AllViaServer, new object[] {viewID, parentHero});
-
-
         return true;
       }
     }
@@ -117,11 +107,8 @@ public class HeroInventory
       if(smallTokens.Contains(convertToKey(smallToken.GetComponent<PhotonView>().ViewID))){
       int viewID = smallToken.GetComponent<PhotonView>().ViewID;
       GameManager.instance.photonView.RPC("RemoveSmallTokenRPC", RpcTarget.AllViaServer, new object[] {viewID, parentHero});
-
       }
-
       else {
-        //ERROR
         Debug.Log("Error hero inventory remove smallToken");
       }
 
@@ -142,7 +129,6 @@ public class HeroInventory
       if(bigToken == null){
         int viewID = item.GetComponent<PhotonView>().ViewID;
         GameManager.instance.photonView.RPC("AddBigTokenRPC", RpcTarget.AllViaServer, new object[] {viewID, parentHero});
-
         return true;
       }
       else{
@@ -167,7 +153,6 @@ public class HeroInventory
       if(bigToken.GetComponent<PhotonView>().ViewID == item.GetComponent<PhotonView>().ViewID){
         int viewID = item.GetComponent<PhotonView>().ViewID;
         GameManager.instance.photonView.RPC("RemoveBigTokenRPC", RpcTarget.AllViaServer, new object[] {viewID, parentHero});
-
       }
       else {
         Debug.Log("Error hero inventory remove BigToken");
@@ -191,7 +176,6 @@ public class HeroInventory
       if(helm == null){
         int viewID = item.GetComponent<PhotonView>().ViewID;
         GameManager.instance.photonView.RPC("AddHelmRPC", RpcTarget.AllViaServer, new object[] {viewID, parentHero});
-
         return true;
       }
       else{
@@ -217,7 +201,6 @@ public class HeroInventory
       if(helm.GetComponent<PhotonView>().ViewID == item.GetComponent<PhotonView>().ViewID){
         int viewID = item.GetComponent<PhotonView>().ViewID;
         GameManager.instance.photonView.RPC("RemoveHelmRPC", RpcTarget.AllViaServer, new object[] {viewID, parentHero});
-
       }
       else {
         Debug.Log("Error hero inventory remove helm");
@@ -237,17 +220,12 @@ public class HeroInventory
       }
     }
 
-
-
     public string convertToKey(int a){
       string toReturn = "" + a;
       return toReturn;
     }
 
     public bool AddItem(Token item){
-
-
-
       if(item == null){
         return false;
       }
@@ -264,7 +242,6 @@ public class HeroInventory
       else if (item.GetType().IsSubclassOf(typeof(BigToken))){
         return  AddBigToken((BigToken) item);
       }
-
       return false;
     }
 

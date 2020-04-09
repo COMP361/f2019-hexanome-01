@@ -14,7 +14,7 @@ public class EventManager : MonoBehaviour
     // Fired when a cell is clicked
     public delegate void CellClickHandler(int cellID);
     public static event CellClickHandler CellClick;
-    
+
     public static void TriggerCellClick(int cellID)
     {
         if (CellClick != null)
@@ -320,6 +320,7 @@ public class EventManager : MonoBehaviour
         if (StartDay != null) StartDay();
     }
 
+    // Triggered when mouse enters the border of a cell
     public delegate void InventoryUICellEnterHandler(CellInventory cellInventory, int index);
     public static event InventoryUICellEnterHandler InventoryUICellEnter;
     public static void TriggerInventoryUICellEnter(CellInventory cellInventory, int index)
@@ -330,6 +331,7 @@ public class EventManager : MonoBehaviour
         }
     }
 
+    // Triggered when mouse exits the border of a cell
     public delegate void InventoryUICellExitHandler();
     public static event InventoryUICellExitHandler InventoryUICellExit;
     public static void TriggerInventoryUICellExit()
@@ -340,6 +342,7 @@ public class EventManager : MonoBehaviour
         }
     }
 
+    //Fired when a change to a hero inventory happens
     public delegate void InventoryUIHeroUpdateHandler(HeroInventory heroInventory);
     public static event InventoryUIHeroUpdateHandler InventoryUIHeroUpdate;
     public static void TriggerInventoryUIHeroUpdate(HeroInventory heroInventory) {
@@ -359,11 +362,11 @@ public class EventManager : MonoBehaviour
             {
                 InventoryUIHeroUpdate(heroInventory);
             }
-
         }
     }
 
 
+    // Triggered when a hero clicks on a hero button to see his inventory
     public delegate void InventoryUIHeroPeakHandler(HeroInventory heroInventory);
     public static event InventoryUIHeroPeakHandler InventoryUIHeroPeak;
     public static void TriggerInventoryUIHeroPeak(HeroInventory heroInventory)
@@ -376,6 +379,7 @@ public class EventManager : MonoBehaviour
         }
     }
 
+    // Triggered to update all the HeroPlayerBoard
     public delegate void CompleteHeroBoardUpdateHandler(Hero hero);
     public static event CompleteHeroBoardUpdateHandler CompleteHeroBoardUpdate;
     public static void TriggerCompleteHeroBoardUpdate(Hero hero)
@@ -397,6 +401,7 @@ public class EventManager : MonoBehaviour
         }
     }
 
+    //Triggered when the inventory of a cell is changed
     public delegate void CellUpdateHandler(Token token);
     public static event CellUpdateHandler CellUpdate;
     public static void TriggerCellUpdate(Token token)
@@ -438,6 +443,7 @@ public class EventManager : MonoBehaviour
     }
 
 
+    // Happens when an item in the inventory of a hero is clicked
     public delegate void HeroItemClickHandler(Token item);
     public static event HeroItemClickHandler HeroItemClick;
     public static void TriggerHeroItemClick(Token item)
@@ -448,6 +454,7 @@ public class EventManager : MonoBehaviour
         }
     }
 
+    // Happens when an item in the inventory of a cell is clicked
     public delegate void CellItemClickHandler(Token item);
     public static event CellItemClickHandler CellItemClick;
     public static void TriggerCellItemClick(Token item)
@@ -460,7 +467,7 @@ public class EventManager : MonoBehaviour
 
 
 
-
+    //Happens when a gold coin is clicked on the hero inventory
     public delegate void HeroGoldClickHandler(GoldCoin gold);
     public static event HeroGoldClickHandler heroGoldClick;
     public static void TriggerHeroGoldClick(GoldCoin gold)
@@ -471,6 +478,7 @@ public class EventManager : MonoBehaviour
         }
     }
 
+    //Happens when a gold coin is clicked on the cell inventory
     public delegate void CellGoldClickHandler(GoldCoin gold);
     public static event CellGoldClickHandler cellGoldClick;
     public static void TriggerCellGoldClick(GoldCoin gold)
@@ -481,6 +489,7 @@ public class EventManager : MonoBehaviour
         }
     }
 
+    //Happens when drop button of gold panel is clicked
     public delegate void DropGoldClickHandler();
     public static event DropGoldClickHandler dropGoldClick;
     public static void TriggerDropGoldClick()
@@ -491,6 +500,7 @@ public class EventManager : MonoBehaviour
         }
     }
 
+    // Happens when the well pick button is clicked on
     public delegate void PickWellClickHandler(Hero hero, Well well);
     public static event PickWellClickHandler pickWellClick;
     public static void TriggerPickWellClick(Hero hero, Well well)
@@ -501,6 +511,7 @@ public class EventManager : MonoBehaviour
         }
     }
 
+    // Happens when a well is clicked on the cell
     public delegate void CellWellClickHandler(Well well);
     public static event CellWellClickHandler cellWellClick;
     public static void TriggerCellWellClick(Well well)
@@ -511,6 +522,7 @@ public class EventManager : MonoBehaviour
         }
     }
 
+    //Happens when trying to click on item of a cell which is not the mainHero cell
     public delegate void BlockOnInventoryClickHandler();
     public static event BlockOnInventoryClickHandler blockOnInventoryClick;
     public static void TriggerBlockOnInventoryClick()
@@ -606,6 +618,7 @@ public class EventManager : MonoBehaviour
         }
     }
 
+    //Triggered when a error happens
     public delegate void ErrorHandler(int type);
     public static event ErrorHandler Error;
     public static void TriggerError(int type)

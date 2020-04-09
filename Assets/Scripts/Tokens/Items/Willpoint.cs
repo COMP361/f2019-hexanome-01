@@ -6,38 +6,29 @@ using UnityEngine;
 
 public class Willpoint : SmallToken
 {
-    // Start is called before the first frame update
-    public static string name = "Willpoint";
-    public static string desc = "Willpoints are useful to increase your hero";
-    public static Willpoints willpointType;
+  public static string name = "Willpoint";
+  public static string desc = "Willpoints are useful to increase your hero";
+  public static Willpoints willpointType;
 
+  public static GameObject token;
+  public PhotonView photonView;
 
-    public static GameObject token;
-    public PhotonView photonView;
+  public static Willpoint Factory(Willpoints type)
+  {
+    willpointType = type;
+    GameObject willpointGo = PhotonNetwork.Instantiate("Prefabs/Tokens/" + willpointType, Vector3.zero, Quaternion.identity, 0);
+    token = willpointGo;
+    return willpointGo.GetComponent<Willpoint>();
+  }
 
-    public static Willpoint Factory(Willpoints type)
-    {
-        willpointType = type;
+  public static Willpoint Factory(int cellID, Willpoints type)
+  {
+    Willpoint willpoint = Willpoint.Factory(type);
+    willpoint.Cell = Cell.FromId(cellID);
+    return willpoint;
+  }
 
-        GameObject willpointGo = PhotonNetwork.Instantiate("Prefabs/Tokens/" + willpointType, Vector3.zero, Quaternion.identity, 0);
-        token = willpointGo;
-        return willpointGo.GetComponent<Willpoint>();
-    }
-
-    public static Willpoint Factory(int cellID, Willpoints type)
-    {
-        Willpoint willpoint = Willpoint.Factory(type);
-        willpoint.Cell = Cell.FromId(cellID);
-        return willpoint;
-    }
-
-    public override void UseCell(){
-      Debug.Log("Use WillPoint Cell");
-    }
-
-
-
-
-
-
+  public override void UseCell(){
+    EventManager.TriggerCellItemClick(this);
+  }
 }

@@ -8,6 +8,10 @@ public class HalfWineskin : SmallToken
 {
   public PhotonView photonView;
 
+  public void Awake() {
+    TokenName = Type;
+  }
+
   public static HalfWineskin Factory() {
     GameObject halfWineskinGO = PhotonNetwork.Instantiate("Prefabs/Tokens/HalfWineskin", Vector3.zero, Quaternion.identity, 0);
     return halfWineskinGO.GetComponent<HalfWineskin>();
@@ -15,28 +19,21 @@ public class HalfWineskin : SmallToken
 
   public static HalfWineskin Factory(string hero)
   {
-      HalfWineskin halfWineskin = HalfWineskin.Factory();
-      GameManager.instance.findHero(hero).heroInventory.AddItem(halfWineskin);
-      return halfWineskin;
-  }
-
-public void OnEnable(){
-}
-
-  public void Awake() {
-    TokenName = Type;
+    HalfWineskin halfWineskin = HalfWineskin.Factory();
+    GameManager.instance.findHero(hero).heroInventory.AddItem(halfWineskin);
+    return halfWineskin;
   }
 
   public override void UseCell(){
-    Debug.Log("Use HalfWineskin Cell");
+    EventManager.TriggerCellItemClick(this);
   }
 
   public override void UseHero(){
-    Debug.Log("Use HalfWineskin Hero");
+    EventManager.TriggerHeroItemClick(this);
   }
 
   public override void UseEffect(){
-      Debug.Log("Use HalfWineskin Effect");  
+    Debug.Log("Use HalfWineskin Effect");
 }
 
   public static string Type { get => typeof(HalfWineskin).ToString(); }

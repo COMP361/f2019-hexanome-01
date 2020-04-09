@@ -5,38 +5,34 @@ using UnityEngine;
 public class BigToken : Token
 {
 
+  public static BigToken Factory()
+  {
+      Sprite sprite = Resources.Load<Sprite>("Sprites/Tokens/Fog/Gold");
+      GameObject go = new GameObject("BigToken");
+      SpriteRenderer renderer = go.AddComponent<SpriteRenderer>();
+      renderer.sprite = sprite;
+      renderer.sortingOrder = 2;
 
+      BigToken bigToken = go.AddComponent<BigToken>();
+      bigToken.TokenName = Type;
 
+      return bigToken;
+  }
 
-      public static BigToken Factory()
-      {
+  public static BigToken Factory(int cellID){
+    Sprite sprite = Resources.Load<Sprite>("Sprites/Tokens/Fog/Gold");
+    GameObject go = new GameObject("BigToken");
+    SpriteRenderer renderer = go.AddComponent<SpriteRenderer>();
+    renderer.sprite = sprite;
+    renderer.sortingOrder = 2;
 
-          Sprite sprite = Resources.Load<Sprite>("Sprites/Tokens/Fog/Gold");
-          GameObject go = new GameObject("BigToken");
-          SpriteRenderer renderer = go.AddComponent<SpriteRenderer>();
-          renderer.sprite = sprite;
-          renderer.sortingOrder = 2;
+    BigToken bigToken = go.AddComponent<BigToken>();
+    bigToken.TokenName = Type;
+    bigToken.Cell = Cell.FromId(cellID);
 
-          BigToken bigToken = go.AddComponent<BigToken>();
-          bigToken.TokenName = Type;
+    return bigToken;
+  }
 
-          return bigToken;
-      }
+  public static string Type { get => typeof(BigToken).ToString(); }
 
-      public static BigToken Factory(int cellID){
-        Sprite sprite = Resources.Load<Sprite>("Sprites/Tokens/Fog/Gold");
-        GameObject go = new GameObject("BigToken");
-        SpriteRenderer renderer = go.AddComponent<SpriteRenderer>();
-        renderer.sprite = sprite;
-        renderer.sortingOrder = 2;
-
-        BigToken bigToken = go.AddComponent<BigToken>();
-        bigToken.TokenName = Type;
-        bigToken.Cell = Cell.FromId(cellID);
-
-        return bigToken;
-      }
-
-      public static string Type { get => typeof(BigToken).ToString(); }
-
-    }
+}

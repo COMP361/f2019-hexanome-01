@@ -90,17 +90,14 @@ public class CellInventory : ICloneable {
       AllTokens.Add(token);
       return;
     }
-
-        // if none of these options means its an item
-        addItem(token);
+      // if none of these options means its an item
+      addItem(token);
     }
 
     public void addItem(Token item){
       if(item != null){
       int viewID = item.GetComponent<PhotonView>().ViewID;
-    //  GameManager.instance.AddItemCellRPC(viewID, cellID);
       GameManager.instance.photonView.RPC("AddItemCellRPC", RpcTarget.AllViaServer, new object[] {viewID, cellID});
-
     }
       // else error
     }
@@ -160,7 +157,6 @@ public class CellInventory : ICloneable {
       else{
         int viewID = token.GetComponent<PhotonView>().ViewID;
         if(items.Contains(convertToKey(token.GetComponent<PhotonView>().ViewID))){
-      //  GameManager.instance.RemoveItemCellRPC(viewID, cellID);
         GameManager.instance.photonView.RPC("RemoveItemCellRPC", RpcTarget.AllViaServer, new object[] {viewID, cellID});
         }
         else{
@@ -188,30 +184,3 @@ public class CellInventory : ICloneable {
   }
 
 }
-
-/*
-    [PunRPC]
-    public void RemoveTokenRPC(int objectIndex, int cellIndex){
-        Type listType;
-        Token token = AllTokens[objectIndex];
-        AllTokens.Remove(token);
-
-        listType = Heroes.GetListType();
-        if (listType.IsCompatibleWith(token.GetType())) {
-          Heroes.Remove((Hero)token);
-          return;
-        }
-
-        listType = Enemies.GetListType();
-        if (listType.IsCompatibleWith(token.GetType())) {
-            Enemies.Remove((Enemy)token);
-            return;
-          }
-
-        listType = Farmers.GetListType();
-        if (listType.IsCompatibleWith(token.GetType())) {
-          Farmers.Remove((Farmer)token);
-          return;
-        }
-    }
- */

@@ -8,6 +8,10 @@ public class GoldCoin : Token
 {
   public PhotonView photonView;
 
+  public void Awake() {
+    TokenName = Type;
+  }
+
   public static GoldCoin Factory() {
     GameObject goldCoinGO = PhotonNetwork.Instantiate("Prefabs/Tokens/GoldCoin", Vector3.zero, Quaternion.identity, 0);
     return goldCoinGO.GetComponent<GoldCoin>();
@@ -27,13 +31,6 @@ public class GoldCoin : Token
     return goldCoin;
   }
 
-public void OnEnable(){
-}
-
-  public void Awake() {
-    TokenName = Type;
-  }
-
   public override void UseCell(){
     EventManager.TriggerCellGoldClick(this);
   }
@@ -43,4 +40,5 @@ public void OnEnable(){
   }
 
   public static string Type { get => typeof(GoldCoin).ToString(); }
+  
 }

@@ -8,6 +8,10 @@ public class HalfPotion : SmallToken
 {
   public PhotonView photonView;
 
+  public void Awake() {
+    TokenName = Type;
+  }
+
   public static HalfPotion Factory() {
     GameObject halfPotionGO = PhotonNetwork.Instantiate("Prefabs/Tokens/HalfPotion", Vector3.zero, Quaternion.identity, 0);
     return halfPotionGO.GetComponent<HalfPotion>();
@@ -20,24 +24,17 @@ public class HalfPotion : SmallToken
     return halfPotion;
   }
 
-public void OnEnable(){
-}
-
-  public void Awake() {
-    TokenName = Type;
-  }
-
   public override void UseCell(){
-    Debug.Log("Use HalfPotion Cell");
+    EventManager.TriggerCellItemClick(this);
   }
 
   public override void UseHero(){
-    Debug.Log("Use HalfPotion Hero");
+    EventManager.TriggerHeroItemClick(this);
   }
 
   public override void UseEffect(){
-      Debug.Log("Use HalfPotion Effect");
-}
+    Debug.Log("Use HalfPotion Effect");
+  }
 
   public static string Type { get => typeof(HalfPotion).ToString(); }
 }
