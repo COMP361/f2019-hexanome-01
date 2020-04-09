@@ -224,7 +224,7 @@ public class GameManager : Singleton<GameManager>
                 {
                     skrals.Add(Skral.Factory(cellstate.index));
                 }
-                else if(type == typeof(Wardrak))
+                else if (type == typeof(Wardrak))
                 {
                     wardraks.Add(Wardrak.Factory(cellstate.index));
                 }
@@ -241,7 +241,7 @@ public class GameManager : Singleton<GameManager>
                 {
                     GoldCoin.Factory(cellstate.index);
                 }
-                else if (type.IsSubclassOf(typeof(SmallToken)) || type.IsSubclassOf(typeof(BigToken)))
+                else if (type.IsSubclassOf(typeof(SmallToken)))
                 {
                     type.GetMethod("Factory", new[] { typeof(int) }).Invoke(type, new object[] { cellstate.index });
                 }
@@ -249,6 +249,8 @@ public class GameManager : Singleton<GameManager>
         }
 
         // Narrator
+        NarratorState narratorState = FileManager.Load<NarratorState>(directory + "/Narrator.json");
+        narrator.Load(narratorState);
     }
 
     void InitMonsterMove()
@@ -461,6 +463,7 @@ public class GameManager : Singleton<GameManager>
         }
 
         narrator.MoveNarrator();
+        narrator.CheckLegendCards();
 
         playerTurn = new Queue<Player>(players);
     }

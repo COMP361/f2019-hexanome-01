@@ -10,24 +10,41 @@ public class Runestone : SmallToken
     public static string desc = "Collect three of different colors to unlock an awesome power.";
     public static RunestoneColor color;
     public static bool isCovered;
-
+    public static int runestoneCount = 0;
     public static GameObject token;
     public PhotonView photonView;
 
-    public static Runestone Factory(RunestoneColor runestoneColor)
+    public static Runestone Factory()
     {
-        color = runestoneColor;
+        if(runestoneCount == 0 || runestoneCount == 1)
+        {
+            color = RunestoneColor.Blue;
+        }
+        if (runestoneCount == 2 || runestoneCount == 3)
+        {
+            color = RunestoneColor.Green;
+        }
+        if (runestoneCount == 4)
+        {
+            color = RunestoneColor.Yellow;
+        }
         isCovered = true;
         GameObject runestoneGo = PhotonNetwork.Instantiate("Prefabs/Tokens/Runestone", Vector3.zero, Quaternion.identity, 0);
         token = runestoneGo;
+        runestoneCount++;
         return runestoneGo.GetComponent<Runestone>();
     }
 
-    public static Runestone Factory(int cellID, RunestoneColor runestoneColor)
+    public static Runestone Factory(int cellID)
     {
-        Runestone runestone = Runestone.Factory(runestoneColor);
+        Runestone runestone = Runestone.Factory();
         runestone.Cell = Cell.FromId(cellID);
         return runestone;
+    }
+
+    public RunestoneColor GetColor()
+    {
+        return color;
     }
 
     public override void UseCell(){

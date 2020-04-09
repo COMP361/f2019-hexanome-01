@@ -4,6 +4,7 @@ using Random = System.Random;
 using Photon.Pun;
 using UnityEngine.UI;
 using TMPro;
+using System.IO;
 
 public class Narrator {
     public int index; // 0 -> A
@@ -24,15 +25,17 @@ public class Narrator {
 
     public Narrator()
     {
+        EventManager.Save += Save;
+
         index = 0;
-        setRunestonePosition();
         witchFound = false;
         legendCardDeck = new LegendCardDeck(false);
         herbRoll = (int)PhotonNetwork.CurrentRoom.CustomProperties["HerbRoll"];
         towerSkralCell = (int)PhotonNetwork.CurrentRoom.CustomProperties["TowerSkralCell"];
         runestoneRoll = (int)PhotonNetwork.CurrentRoom.CustomProperties["RunestoneCardPosition"];
         runestoneCells = PhotonNetwork.CurrentRoom.CustomProperties["RunestoneCells"] as int[];
-
+        SetRunestonePosition();
+        
         TasksListText = GameObject.Find("TasksListText").GetComponent<TMP_Text>();
 
         narratorToken = new GameObject("Narrator");
@@ -62,7 +65,6 @@ public class Narrator {
         }
         char letter = (char)(index + 65);
         narratorToken.transform.position = GameObject.Find("Narrator/" + letter + "/Narrator").transform.position;
-        CheckLegendCards();
     }
 
     public void MoveNarratorToIndex(int indexToMove)
@@ -72,7 +74,6 @@ public class Narrator {
             index = indexToMove;
             char letter = (char)(index + 65);
             narratorToken.transform.position = GameObject.Find("Narrator/" + letter + "/Narrator").transform.position;
-            CheckLegendCards();
         }
     }
 
@@ -123,10 +124,9 @@ public class Narrator {
     }
     
     // Decide when the runestone card will be triggered
-    public void setRunestonePosition()
+    public void SetRunestonePosition()
     {
-        int roll = (int)PhotonNetwork.CurrentRoom.CustomProperties["RunestoneCardPosition"];
-        switch (roll)
+        switch (runestoneRoll)
         {
             case 1:
                 runestoneIndex = 1;
@@ -154,4 +154,60 @@ public class Narrator {
                 break;
         }
     }
+
+    public void Save(String saveId)
+    {
+        String _gameDataId = "Narrator.json";
+        FileManager.Save(Path.Combine(saveId, _gameDataId), new NarratorState());
+    }
+
+    public void Load(NarratorState narratorState)
+    {
+        this.index = narratorState.index;
+        this.runestoneIndex = narratorState.runestoneIndex;
+        this.runestoneLetter = narratorState.runestoneLetter;
+        this.herbRoll = narratorState.herbRoll;
+        this.towerSkralCell = narratorState.towerSkralCell;
+        this.runestoneRoll = narratorState.runestoneRoll;
+        this.runestoneCells = narratorState.runestoneCells;
+        this.witchFound = narratorState.witchFound;
+        this.medicineDelivered = narratorState.medicineDelivered;
+        this.towerSkralDefeated = narratorState.towerSkralDefeated;
+        Debug.Log(index);
+        Debug.Log(runestoneIndex);
+        Debug.Log(narratorToken);
+        MoveNarratorToIndex(this.index);
+        SetRunestonePosition();
+    }
+}
+
+[Serializable]
+public class NarratorState
+{
+    public int index;
+    public int runestoneIndex;
+    public char runestoneLetter;
+    public int herbRoll;
+    public int towerSkralCell;
+    public int runestoneRoll;
+    public int[] runestoneCells;
+    public bool witchFound;
+    public bool medicineDelivered;
+    public bool towerSkralDefeated;
+
+    public NarratorState()
+    {
+        Narrator narrator = GameManager.instance.narrator;
+        index = narrator.index;
+        runestoneIndex = narrator.runestoneIndex;
+        runestoneLetter = narrator.runestoneLetter;
+        herbRoll = narrator.herbRoll;
+        towerSkralCell = narrator.towerSkralCell;
+        runestoneRoll = narrator.runestoneRoll;
+        runestoneCells = narrator.runestoneCells;
+        witchFound = narrator.witchFound;
+        medicineDelivered = narrator.medicineDelivered;
+        towerSkralDefeated = narrator.towerSkralDefeated;
+    }
+
 }

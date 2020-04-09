@@ -239,7 +239,8 @@ public class CellStates
             }
             foreach (DictionaryEntry entry in cell.Inventory.items)
             {
-                cellState.inventory.Add(entry.Value.GetType().ToString());
+                string itemName = entry.Value.GetType().ToString();
+                cellState.inventory.Add(itemName);
             }
 
             cellStates.Add(cellState);

@@ -39,11 +39,11 @@ public class RunestoneCard : LegendCard
             int fourthRunestoneCell = runestoneCells[3];
             int fifthRunestoneCell = runestoneCells[4];
             //Debug.Log(firstRunestoneCell + "  " + secondRunestoneCell + "  " + thirdRunestoneCell + "  " + fourthRunestoneCell + "  " + fifthRunestoneCell);
-            Runestone runestone1 = Runestone.Factory(firstRunestoneCell, RunestoneColor.Blue);
-            Runestone runestone2 = Runestone.Factory(secondRunestoneCell, RunestoneColor.Blue);
-            Runestone runestone3 = Runestone.Factory(thirdRunestoneCell, RunestoneColor.Green);
-            Runestone runestone4 = Runestone.Factory(fourthRunestoneCell, RunestoneColor.Green);
-            Runestone runestone5 = Runestone.Factory(fifthRunestoneCell, RunestoneColor.Yellow);
+            Runestone runestone1 = Runestone.Factory(firstRunestoneCell);
+            Runestone runestone2 = Runestone.Factory(secondRunestoneCell);
+            Runestone runestone3 = Runestone.Factory(thirdRunestoneCell);
+            Runestone runestone4 = Runestone.Factory(fourthRunestoneCell);
+            Runestone runestone5 = Runestone.Factory(fifthRunestoneCell);
         }
     }
 }
