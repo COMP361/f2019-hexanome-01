@@ -91,7 +91,9 @@ public class HeroItemsActions : MonoBehaviour
       }
 
       else if(token is GoldCoin){
-      //
+      heroItemsPanelTitle.text = GoldCoin.name;
+      heroItemsPanelDesc.text = GoldCoin.desc;
+      useBtn.interactable = false;
       }
 
 
@@ -122,6 +124,12 @@ public class HeroItemsActions : MonoBehaviour
         GameManager.instance.MainHero.heroInventory.RemoveHelm((Helm) this.token);
         Cell cell = GameManager.instance.MainHero.Cell;
         cell.Inventory.AddToken(this.token);
+      }
+      else if (token is GoldCoin){
+        GameManager.instance.MainHero.heroInventory.RemoveGold(1);
+        Cell cell = GameManager.instance.MainHero.Cell;
+        Token goldCoin = GoldCoin.Factory();
+        cell.Inventory.AddToken(goldCoin);
       }
 
       HideHeroActions();

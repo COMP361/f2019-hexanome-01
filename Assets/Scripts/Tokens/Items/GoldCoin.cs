@@ -6,6 +6,8 @@ using UnityEngine;
 
 public class GoldCoin : Token
 {
+  public static string name = "GoldCoin";
+  public static string desc = "This is a Gold Coin! You can use it to buy things.";
   public PhotonView photonView;
 
   public void Awake() {
@@ -32,13 +34,13 @@ public class GoldCoin : Token
   }
 
   public override void UseCell(){
-    EventManager.TriggerCellGoldClick(this);
+    EventManager.TriggerCellItemClick(this);
   }
 
   public override void UseHero(){
-    EventManager.TriggerHeroGoldClick(this);
+    EventManager.TriggerHeroItemClick(this);
   }
 
   public static string Type { get => typeof(GoldCoin).ToString(); }
-  
+
 }

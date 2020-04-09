@@ -31,13 +31,19 @@ public class Strength : Token {
     Hero hero = GameManager.instance.MainHero;
     int cost = (hero.GetType() == typeof(Dwarf) && hero.Cell.Index == 71) ? 1 : 2;
 
-    if(hero.heroInventory.numOfGold >= cost) {
-        hero.heroInventory.RemoveGold(cost);
-        GameManager.instance.photonView.RPC("AddStrengthRPC", RpcTarget.AllViaServer, new object[] {1, hero.TokenName});
-    }
+    if(hero.timeline.Index != 0){
+      if(hero.heroInventory.numOfGold >= cost) {
+          hero.heroInventory.RemoveGold(cost);
+          GameManager.instance.photonView.RPC("AddStrengthRPC", RpcTarget.AllViaServer, new object[] {1, hero.TokenName});
+      }
 
+      else{
+        EventManager.TriggerError(0);
+        return;
+      }
+    }
     else{
-      EventManager.TriggerError(0);
+      EventManager.TriggerError(2);
       return;
     }
   }

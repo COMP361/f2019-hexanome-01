@@ -169,10 +169,6 @@ public class CellInventory : ICloneable {
     }
   }
 
-
-
-
-
   public object Clone() {
     CellInventory ci = (CellInventory)this.MemberwiseClone();
     return ci;

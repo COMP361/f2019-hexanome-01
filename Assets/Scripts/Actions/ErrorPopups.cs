@@ -41,11 +41,15 @@ public class ErrorPopups : Singleton<ErrorPopups>
     public void ShowErrorPanel(int type){
       if(type == 0){
         errorPanelTitle.text = "Error!";
-        errorPanelDesc.text = "Not enough gold.";
+        errorPanelDesc.text = "Not enough gold to buy this article.";
       }
       if(type == 1){
         errorPanelTitle.text = "Error!";
         errorPanelDesc.text = "Not enough space in your inventory.";
+      }
+      if(type == 2){
+        errorPanelTitle.text = "Error!";
+        errorPanelDesc.text = "You cannot execute a free action when your hero is located on the Sunrise cell of the timeline.";
       }
       errorPanel.SetActive(true);
     }

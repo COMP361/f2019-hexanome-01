@@ -11,7 +11,6 @@ public class CharChoice : MonoBehaviour
   static Button ArcherBtn, DwarfBtn, MageBtn, WarriorBtn;
 
   void Awake(){
-    Debug.Log("Pourquoi ca marche pas");
     ArcherBtn = transform.Find("Archer").GetComponent<Button>();
     DwarfBtn = transform.Find("Dwarf").GetComponent<Button>();
     MageBtn = transform.Find("Mage").GetComponent<Button>();

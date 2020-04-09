@@ -8,7 +8,7 @@ public class Telescope : SmallToken
 {
   public static string name = "Telescope";
   public static string desc = "The telescope can be used to d reveal all hidden tokens on adjacent spaces.";
-  
+
   public PhotonView photonView;
 
   public static Telescope Factory()
@@ -46,18 +46,23 @@ public class Telescope : SmallToken
   public static void Buy() {
     Hero hero = GameManager.instance.MainHero;
     int cost = 2;
-
-    if(hero.heroInventory.numOfGold >= cost) {
-      Telescope toAdd = Telescope.Factory();
-      if(hero.heroInventory.AddSmallToken(toAdd)){
-        hero.heroInventory.RemoveGold(cost);
+    if(hero.timeline.Index != 0){
+      if(hero.heroInventory.numOfGold >= cost) {
+        Telescope toAdd = Telescope.Factory();
+        if(hero.heroInventory.AddSmallToken(toAdd)){
+          hero.heroInventory.RemoveGold(cost);
+        }
+        else{
+          return;
+        }
       }
       else{
+        EventManager.TriggerError(0);
         return;
       }
     }
     else{
-      EventManager.TriggerError(0);
+      EventManager.TriggerError(2);
       return;
     }
   }

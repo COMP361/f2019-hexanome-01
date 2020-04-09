@@ -82,16 +82,16 @@ public class CellItemsActions : MonoBehaviour
       cellItemsPanelTitle.text = Telescope.name;
       cellItemsPanelDesc.text = Telescope.desc;
       }
-
       else if(token is GoldCoin){
-      //
+      cellItemsPanelTitle.text = GoldCoin.name;
+      cellItemsPanelDesc.text = GoldCoin.desc;
       }
-
-
+      else if (token is Well){
+      cellItemsPanelTitle.text = Well.name;
+      cellItemsPanelDesc.text = Well.desc;
+      }
       cellItemsPanel.SetActive(true);
   }
-
-
 
   public void HideCellActions() {
       this.token = null;
@@ -99,31 +99,17 @@ public class CellItemsActions : MonoBehaviour
   }
 
   public void PickItem() {
-
-    if(GameManager.instance.MainHero.heroInventory.AddItem(this.token)){
+    if(this.token is Well){
+      EventManager.TriggerPickWellClick(GameManager.instance.MainHero, (Well) this.token);
+    }
+    else if(GameManager.instance.MainHero.heroInventory.AddItem(this.token)){
       Cell cell = GameManager.instance.MainHero.Cell;
       cell.Inventory.RemoveToken(this.token);
     }
     else{
       Debug.Log("Error PickItem inventory full");
     }
-/*
-      if(token is SmallToken){
-      GameManager.instance.MainHero.heroInventory.RemoveSmallToken((SmallToken) this.token);
-      Cell cell = GameManager.instance.MainHero.Cell;
-      cell.Inventory.AddToken(this.token);
-      }
-      else if (token is BigToken){
-        GameManager.instance.MainHero.heroInventory.RemoveBigToken((BigToken) this.token);
-        Cell cell = GameManager.instance.MainHero.Cell;
-        cell.Inventory.AddToken(this.token);
-      }
-      else if (token is Helm){
-        GameManager.instance.MainHero.heroInventory.RemoveHelm((Helm) this.token);
-        Cell cell = GameManager.instance.MainHero.Cell;
-        cell.Inventory.AddToken(this.token);
-      }
-*/
+
       HideCellActions();
   }
 

@@ -47,19 +47,24 @@ public class Wineskin : SmallToken
   public static void Buy() {
     Hero hero = GameManager.instance.MainHero;
     int cost = 2;
+    if(hero.timeline.Index != 0){
+      if(hero.heroInventory.numOfGold >= cost) {
+        Wineskin toAdd = Wineskin.Factory();
+        if(hero.heroInventory.AddSmallToken(toAdd)){
+          hero.heroInventory.RemoveGold(cost);
+        }
+        else{
+          return;
+        }
 
-    if(hero.heroInventory.numOfGold >= cost) {
-      Wineskin toAdd = Wineskin.Factory();
-      if(hero.heroInventory.AddSmallToken(toAdd)){
-        hero.heroInventory.RemoveGold(cost);
       }
       else{
+        EventManager.TriggerError(0);
         return;
       }
-
     }
     else{
-      EventManager.TriggerError(0);
+      EventManager.TriggerError(2);
       return;
     }
   }

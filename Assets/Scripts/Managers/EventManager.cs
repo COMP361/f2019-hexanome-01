@@ -450,7 +450,12 @@ public class EventManager : MonoBehaviour
     {
         if (HeroItemClick != null)
         {
-            HeroItemClick(item);
+          if(GameManager.instance.MainHero.timeline.Index == 0){
+            EventManager.TriggerError(2);
+          }
+          else{
+          HeroItemClick(item);
+          }
         }
     }
 
@@ -461,7 +466,12 @@ public class EventManager : MonoBehaviour
     {
         if (CellItemClick != null)
         {
-            CellItemClick(item);
+          if(GameManager.instance.MainHero.timeline.Index == 0){
+            EventManager.TriggerError(2);
+          }
+          else{
+          CellItemClick(item);
+          }
         }
     }
 
@@ -511,16 +521,6 @@ public class EventManager : MonoBehaviour
         }
     }
 
-    // Happens when a well is clicked on the cell
-    public delegate void CellWellClickHandler(Well well);
-    public static event CellWellClickHandler cellWellClick;
-    public static void TriggerCellWellClick(Well well)
-    {
-        if (cellWellClick != null)
-        {
-            cellWellClick( well);
-        }
-    }
 
     //Happens when trying to click on item of a cell which is not the mainHero cell
     public delegate void BlockOnInventoryClickHandler();
