@@ -133,15 +133,18 @@ public class ChooseManager : MonoBehaviour
         runestoneCardTable.Add("RunestoneCardPosition", roll);
         PhotonNetwork.CurrentRoom.SetCustomProperties(runestoneCardTable);
         // Add where runestones will spawn
-        for (int i = 1; i <= 5; i++)
+        int[] runestoneCells = new int[5];
+        for (int i = 0; i < 5; i++)
         {
             int tens = rand.Next(1, 6);
             int ones = rand.Next(1, 6);
             int runestoneCell = tens * 10 + ones;
-            ExitGames.Client.Photon.Hashtable runestoneTable = new ExitGames.Client.Photon.Hashtable();
-            runestoneTable.Add("RunestoneCell" + i, runestoneCell);
-            PhotonNetwork.CurrentRoom.SetCustomProperties(runestoneTable);
+            runestoneCells[i] = runestoneCell;
+
         }
+        ExitGames.Client.Photon.Hashtable runestoneTable = new ExitGames.Client.Photon.Hashtable();
+        runestoneTable.Add("RunestoneCells", runestoneCells);
+        PhotonNetwork.CurrentRoom.SetCustomProperties(runestoneTable);
         PhotonNetwork.LoadLevel(3);
     }
 }

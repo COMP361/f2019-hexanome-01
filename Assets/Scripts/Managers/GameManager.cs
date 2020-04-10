@@ -102,100 +102,71 @@ public class GameManager : Singleton<GameManager>
 
     void Start()
     {
-        GameObject canvas = GameObject.Find("Canvas");
-        canvas.transform.Find("DistributeGold").gameObject.SetActive(true);
-        canvas.transform.Find("DistributeWineskins").gameObject.SetActive(true);
+        string saveDirectory = (string)PhotonNetwork.CurrentRoom.CustomProperties["Save"];
 
-        //gameState = GameState.Instance;
-
+        playerTurn = new Queue<Player>(players);
         castle = Castle.Instance;
         castle.Init(players.Count);
         monstersToMove = new List<Enemy>();
-
         narrator = new Narrator();
-
         heroes = new List<Hero>();
-
-        if (!PhotonNetwork.OfflineMode)
-        {
-            // Add each player's respective hero
-            foreach (Player p in players)
-            {
-                string hero = (string)p.CustomProperties["Class"];
-
-                if (hero != null)
-                {
-                    switch (hero)
-                    {
-                        case "Warrior":
-                            heroes.Add(Warrior.Instance);
-                            break;
-                        case "Archer":
-                            heroes.Add(Archer.Instance);
-                            break;
-                        case "Mage":
-                            heroes.Add(Mage.Instance);
-                            break;
-                        case "Dwarf":
-                            heroes.Add(Dwarf.Instance);
-                            break;
-                    }
-
-                    string mainHero = (string)PhotonNetwork.LocalPlayer.CustomProperties["Class"];
-
-                    if (hero.Equals(mainHero))
-                    {
-                        mainHeroIndex = heroes.Count - 1;
-                    }
-                }
-            }
-
-            playerTurn = new Queue<Player>(players);
-
-        }
-        else
-        {
-            heroes.Add(Warrior.Instance);
-            heroes.Add(Archer.Instance);
-            heroes.Add(Mage.Instance);
-            heroes.Add(Dwarf.Instance);
-        }
-
-        EventManager.TriggerMainHeroInit(MainHero);
-
-        // FARMERS
         farmers = new List<Farmer>();
-        farmers.Add(Farmer.Factory(24));
-        farmers.Add(Farmer.Factory(36));
-
-        // MONSTERS
         gors = new List<Enemy>();
-        gors.Add(Gor.Factory(8));
-        gors.Add(Gor.Factory(20));
-        gors.Add(Gor.Factory(21));
-        gors.Add(Gor.Factory(26));
-        gors.Add(Gor.Factory(48));
-
         skrals = new List<Enemy>();
-        skrals.Add(Skral.Factory(19));
-
-        trolls = new List<Enemy>();
         wardraks = new List<Enemy>();
         towerskrals = new List<Enemy>();
-
-        Fog.Factory();
-
         wells = new List<WellCell>();
         wells.Add(Cell.FromId(5) as WellCell);
         wells.Add(Cell.FromId(35) as WellCell);
         wells.Add(Cell.FromId(45) as WellCell);
         wells.Add(Cell.FromId(55) as WellCell);
-
-        foreach (WellCell well in wells) {
+        foreach (WellCell well in wells)
+        {
             well.ResetWell();
         }
 
+        // Add each player's respective hero
+        foreach (Player p in players)
+        {
+            string hero = (string)p.CustomProperties["Class"];
 
+            if (hero != null)
+            {
+                switch (hero)
+                {
+                    case "Warrior":
+                        heroes.Add(Warrior.Instance);
+                        break;
+                    case "Archer":
+                        heroes.Add(Archer.Instance);
+                        break;
+                    case "Mage":
+                        heroes.Add(Mage.Instance);
+                        break;
+                    case "Dwarf":
+                        heroes.Add(Dwarf.Instance);
+                        break;
+                }
+
+                string mainHero = (string)PhotonNetwork.LocalPlayer.CustomProperties["Class"];
+
+                if (hero.Equals(mainHero))
+                {
+                    mainHeroIndex = heroes.Count - 1;
+                }
+            }
+        }
+
+        if (saveDirectory == null)
+        {
+            NewGame();
+        }
+        else
+        {
+            LoadGame(saveDirectory);
+        }
+
+        EventManager.TriggerMainHeroInit(MainHero);
         CharChoice.Init(heroes);
         CharChoice.choice = MainHero;
         GiveTurn();
@@ -204,6 +175,84 @@ public class GameManager : Singleton<GameManager>
     #endregion
 
     #region Functions [GameManager]
+
+    void NewGame()
+    {
+        GameObject canvas = GameObject.Find("Canvas");
+        canvas.transform.Find("DistributeGold").gameObject.SetActive(true);
+        canvas.transform.Find("DistributeWineskins").gameObject.SetActive(true);
+
+        //gameState = GameState.Instance;
+
+        // FARMERS
+        farmers.Add(Farmer.Factory(24));
+        farmers.Add(Farmer.Factory(36));
+
+        // MONSTERS
+        gors.Add(Gor.Factory(8));
+        gors.Add(Gor.Factory(20));
+        gors.Add(Gor.Factory(21));
+        gors.Add(Gor.Factory(26));
+        gors.Add(Gor.Factory(48));
+
+        skrals.Add(Skral.Factory(19));
+
+        Fog.Factory();
+    }
+
+    void LoadGame(string directory)
+    {
+        // Load from json here
+        // Heroes
+
+        // Cells
+        CellStates Cells = FileManager.Load<CellStates>(directory + "/Cells.json");
+        foreach (CellState cellstate in Cells.cellStates)
+        {
+            foreach (string token in cellstate.inventory)
+            {
+                Type type = Type.GetType(token);
+                if (type == typeof(Farmer))
+                {
+                    farmers.Add(Farmer.Factory(cellstate.index));
+                }
+                else if (type == typeof(Gor))
+                {
+                    gors.Add(Gor.Factory(cellstate.index));
+                }
+                else if (type == typeof(Skral))
+                {
+                    skrals.Add(Skral.Factory(cellstate.index));
+                }
+                else if (type == typeof(Wardrak))
+                {
+                    wardraks.Add(Wardrak.Factory(cellstate.index));
+                }
+                else if (type == typeof(TowerSkral))
+                {
+                    towerskrals.Add(TowerSkral.Factory(cellstate.index, players.Count));
+                }
+                else if (type.IsSubclassOf(typeof(Fog)))
+                {
+                    string id = type.ToString().Replace("Fog", "");
+                    Fog.Load(id, type, cellstate.index);
+                }
+                else if (type == typeof(GoldCoin))
+                {
+                    GoldCoin.Factory(cellstate.index);
+                }
+                else if (type.IsSubclassOf(typeof(SmallToken)))
+                {
+                    type.GetMethod("Factory", new[] { typeof(int) }).Invoke(type, new object[] { cellstate.index });
+                }
+            }
+        }
+
+        // Narrator
+        NarratorState narratorState = FileManager.Load<NarratorState>(directory + "/Narrator.json");
+        narrator.Load(narratorState);
+    }
+
     void InitMonsterMove()
     {
         gors.Sort();
@@ -414,6 +463,7 @@ public class GameManager : Singleton<GameManager>
         }
 
         narrator.MoveNarrator();
+        narrator.CheckLegendCards();
 
         playerTurn = new Queue<Player>(players);
     }

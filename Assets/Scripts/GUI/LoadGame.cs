@@ -48,10 +48,18 @@ public class LoadGame : MonoBehaviour
                 GameObject button = Instantiate(btn) as GameObject;
                 Text txt = button.transform.Find("Text").GetComponent<Text>();
                 txt.text = dirName;
+                button.GetComponent<Button>().onClick.AddListener(() => { OnClick(dirName); });
 
                 button.transform.SetParent(gameObject.transform);
                 button.transform.localScale = new Vector3(1, 1, 1);
             }
+        }
+
+        void OnClick(string name)
+        {
+            ExitGames.Client.Photon.Hashtable SaveTable = new ExitGames.Client.Photon.Hashtable();
+            SaveTable.Add("Save", name);
+            PhotonNetwork.CurrentRoom.SetCustomProperties(SaveTable);
         }
     }
 }

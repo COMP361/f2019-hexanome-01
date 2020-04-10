@@ -24,7 +24,7 @@ public class C1 : LegendCard
 
     public override void ApplyEffect()
     {
-        int towerSkrallCell = (int) PhotonNetwork.CurrentRoom.CustomProperties["TowerSkralCell"];
+        int towerSkrallCell = GameManager.instance.narrator.towerSkralCell;
         int numPlayers = PhotonNetwork.PlayerList.Count();
         GameManager.instance.towerskrals.Add(TowerSkral.Factory(towerSkrallCell, numPlayers));
         GameManager.instance.farmers.Add(Farmer.Factory(28));

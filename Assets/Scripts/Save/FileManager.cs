@@ -10,13 +10,14 @@ public class FileManager
     /// <param name="filename">File Name</param>
     /// <returns>Instance</returns>
     public static T Load<T>(string filename) where T : new() {
-        string filePath = Path.Combine(Application.persistentDataPath, filename);
+        string filePath = Path.Combine(Application.persistentDataPath + "/Games/", filename);
         T output;
-
+        Debug.Log(filePath);
         if (File.Exists(filePath)) {
             string dataAsJson = File.ReadAllText(filePath);
             output = JsonUtility.FromJson<T>(dataAsJson);
         } else {
+            Debug.Log("file not found");
             output = new T();
         }
 
