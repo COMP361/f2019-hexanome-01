@@ -14,6 +14,7 @@ public class Token : MonoBehaviour {
     protected string description;
     private Cell _cell;
     public string desc;
+    public bool InUse = false;
 
     public Cell Cell {
         get {
@@ -47,7 +48,8 @@ public class Token : MonoBehaviour {
 
     public string TokenName {
         get {
-            return gameObject.name;        }
+            return gameObject.name;
+          }
         set {
             gameObject.name = value;
         }
@@ -88,6 +90,9 @@ public class Token : MonoBehaviour {
     public virtual void UseHero(){
     }
     public virtual void UseEffect(){
+    }
+
+    public virtual void HowManyFreeMoves(int PathSize){
     }
 
 /*

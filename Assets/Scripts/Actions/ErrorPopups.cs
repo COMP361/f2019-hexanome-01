@@ -51,6 +51,10 @@ public class ErrorPopups : Singleton<ErrorPopups>
         errorPanelTitle.text = "Error!";
         errorPanelDesc.text = "You cannot execute a free action when your hero is located on the Sunrise cell of the timeline.";
       }
+      if(type == 3){
+        errorPanelTitle.text = "Error!";
+        errorPanelDesc.text = "You are already using this item. Please select another item or continue";
+      }
       errorPanel.SetActive(true);
     }
 }

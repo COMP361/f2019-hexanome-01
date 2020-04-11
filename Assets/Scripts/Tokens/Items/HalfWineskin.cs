@@ -6,7 +6,11 @@ using UnityEngine;
 
 public class HalfWineskin : SmallToken
 {
+
+  public static string name = "Half-Wineskin";
+  public static string desc = "Each side of the wineskin can be used to advance 1 space without having to move the time marker.";
   public PhotonView photonView;
+
 
   public void Awake() {
     TokenName = Type;
@@ -33,8 +37,18 @@ public class HalfWineskin : SmallToken
   }
 
   public override void UseEffect(){
-    Debug.Log("Use HalfWineskin Effect");
-}
+    if(!InUse){
+      InUse = true;
+      EventManager.TriggerFreeMove(this);
+    }
+    else{
+      EventManager.TriggerError(3);
+    }
+  }
+
+  public override void HowManyFreeMoves(int pathSize){
+  EventManager.TriggerFreeMoveUI(this, pathSize);
+  }
 
   public static string Type { get => typeof(HalfWineskin).ToString(); }
 }

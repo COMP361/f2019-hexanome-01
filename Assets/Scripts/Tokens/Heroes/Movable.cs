@@ -10,7 +10,7 @@ public abstract class Movable : Token
     Sprite icon;
     protected virtual string IconPath => String.Empty;
     public int MovePerHour { get; set; }
-    
+
     void Update() {
         Move();
     }
@@ -19,17 +19,18 @@ public abstract class Movable : Token
         return cell.MovablesPosition;
     }
 
-    public void Move(List<Cell> path) {
+    public void Move(List<Cell> path, int freeMoves = 0) {
         // path first cell is the current cell, remove it
         if(AtCell(path[0])) path.RemoveAt(0);
-        
+
         this.path = path;
-        EventManager.TriggerMove(this, path.Count);
+        Debug.Log("Total FreeMoves " + freeMoves);
+        EventManager.TriggerMove(this, path.Count - freeMoves);
     }
 
     public void Move(Cell c) {
         if(AtCell(c)) return;
-        
+
         path = new List<Cell>();
         path.Add(c);
         EventManager.TriggerMove(this, path.Count);
@@ -56,7 +57,7 @@ public abstract class Movable : Token
     }
 
     public int GetMoveCost(int qty) {
-        if(MovePerHour == 0) return 0;        
+        if(MovePerHour == 0) return 0;
         return (int)Math.Ceiling((double)qty/MovePerHour);
     }
 

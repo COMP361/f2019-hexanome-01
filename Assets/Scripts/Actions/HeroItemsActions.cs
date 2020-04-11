@@ -13,17 +13,25 @@ public class HeroItemsActions : MonoBehaviour
   Text heroItemsPanelTitle;
   Text heroItemsPanelDesc;
 
+  bool canUseMoveItems;
+
 
   void OnEnable() {
     EventManager.HeroItemClick += ShowHeroActions;
+    EventManager.MoveSelect += UnlockMoveItems;
+    EventManager.LockMoveItems += LockMoveItems;
     }
 
   void OnDisable() {
     EventManager.HeroItemClick -= ShowHeroActions;
+    EventManager.MoveSelect -= UnlockMoveItems;
+    EventManager.LockMoveItems += LockMoveItems;
   }
 
 
   void Awake() {
+      canUseMoveItems = false;
+
       heroItemsPanel = transform.Find("Hero Items Actions").gameObject;
 
       heroItemsPanelTitle = heroItemsPanel.transform.Find("Panel Title").GetComponent<Text>();
@@ -49,51 +57,63 @@ public class HeroItemsActions : MonoBehaviour
       token = item;
 
       if(token is Wineskin){
-      heroItemsPanelTitle.text = Wineskin.name;
-      heroItemsPanelDesc.text = Wineskin.desc;
+        heroItemsPanelTitle.text = Wineskin.name;
+        heroItemsPanelDesc.text = Wineskin.desc;
+        if(!canUseMoveItems){
+          useBtn.interactable = false;
+        }
+        else{}
+      }
+      if(token is HalfWineskin){
+        heroItemsPanelTitle.text = HalfWineskin.name;
+        heroItemsPanelDesc.text = HalfWineskin.desc;
+        if(!canUseMoveItems){
+          useBtn.interactable = false;
+        }
+        else{}
       }
       else if(token is Potion){
-      heroItemsPanelTitle.text = Potion.name;
-      heroItemsPanelDesc.text = Potion.desc;
-      useBtn.interactable = false;
+        heroItemsPanelTitle.text = Potion.name;
+        heroItemsPanelDesc.text = Potion.desc;
+        useBtn.interactable = false;
       }
       else if(token is Bow){
-      heroItemsPanelTitle.text = Bow.name;
-      heroItemsPanelDesc.text = Bow.desc;
-      useBtn.interactable = false;
+        heroItemsPanelTitle.text = Bow.name;
+        heroItemsPanelDesc.text = Bow.desc;
+        useBtn.interactable = false;
       }
       else if(token is Falcon){
-      heroItemsPanelTitle.text = Falcon.name;
-      heroItemsPanelDesc.text = Falcon.desc;
+        heroItemsPanelTitle.text = Falcon.name;
+        heroItemsPanelDesc.text = Falcon.desc;
       }
       else if(token is Helm){
-      heroItemsPanelTitle.text = Helm.name;
-      heroItemsPanelDesc.text = Helm.desc;
-      useBtn.interactable = false;
+        heroItemsPanelTitle.text = Helm.name;
+        heroItemsPanelDesc.text = Helm.desc;
+        useBtn.interactable = false;
       }
       else if(token is Herb){
-      heroItemsPanelTitle.text = Herb.name;
-      heroItemsPanelDesc.text = Herb.desc;
+        heroItemsPanelTitle.text = Herb.name;
+        heroItemsPanelDesc.text = Herb.desc;
       }
       else if(token is Runestone){
-      heroItemsPanelTitle.text = Runestone.name;
-      heroItemsPanelDesc.text = Runestone.desc;
-      useBtn.interactable = false;
+        heroItemsPanelTitle.text = Runestone.name;
+        heroItemsPanelDesc.text = Runestone.desc;
+        useBtn.interactable = false;
       }
       else if(token is Shield){
-      heroItemsPanelTitle.text = Shield.name;
-      heroItemsPanelDesc.text = Shield.desc;
-      useBtn.interactable = false;
+        heroItemsPanelTitle.text = Shield.name;
+        heroItemsPanelDesc.text = Shield.desc;
+        useBtn.interactable = false;
       }
       else if(token is Telescope){
-      heroItemsPanelTitle.text = Telescope.name;
-      heroItemsPanelDesc.text = Telescope.desc;
+        heroItemsPanelTitle.text = Telescope.name;
+        heroItemsPanelDesc.text = Telescope.desc;
       }
 
       else if(token is GoldCoin){
-      heroItemsPanelTitle.text = GoldCoin.name;
-      heroItemsPanelDesc.text = GoldCoin.desc;
-      useBtn.interactable = false;
+        heroItemsPanelTitle.text = GoldCoin.name;
+        heroItemsPanelDesc.text = GoldCoin.desc;
+        useBtn.interactable = false;
       }
 
 
@@ -103,41 +123,48 @@ public class HeroItemsActions : MonoBehaviour
 
 
   public void HideHeroActions() {
-      this.token = null;
-      useBtn.interactable = true;
-      heroItemsPanel.SetActive(false);
+    this.token = null;
+    useBtn.interactable = true;
+    heroItemsPanel.SetActive(false);
   }
 
   public void DropItem() {
 
-      if(token is SmallToken){
-        GameManager.instance.MainHero.heroInventory.RemoveSmallToken((SmallToken) this.token);
-        Cell cell = GameManager.instance.MainHero.Cell;
-        cell.Inventory.AddToken(this.token);
-      }
-      else if (token is BigToken){
-        GameManager.instance.MainHero.heroInventory.RemoveBigToken((BigToken) this.token);
-        Cell cell = GameManager.instance.MainHero.Cell;
-        cell.Inventory.AddToken(this.token);
-      }
-      else if (token is Helm){
-        GameManager.instance.MainHero.heroInventory.RemoveHelm((Helm) this.token);
-        Cell cell = GameManager.instance.MainHero.Cell;
-        cell.Inventory.AddToken(this.token);
-      }
-      else if (token is GoldCoin){
-        GameManager.instance.MainHero.heroInventory.RemoveGold(1);
-        Cell cell = GameManager.instance.MainHero.Cell;
-        Token goldCoin = GoldCoin.Factory();
-        cell.Inventory.AddToken(goldCoin);
-      }
+    if(token is SmallToken){
+      GameManager.instance.MainHero.heroInventory.RemoveSmallToken((SmallToken) this.token);
+      Cell cell = GameManager.instance.MainHero.Cell;
+      cell.Inventory.AddToken(this.token);
+    }
+    else if (token is BigToken){
+      GameManager.instance.MainHero.heroInventory.RemoveBigToken((BigToken) this.token);
+      Cell cell = GameManager.instance.MainHero.Cell;
+      cell.Inventory.AddToken(this.token);
+    }
+    else if (token is Helm){
+      GameManager.instance.MainHero.heroInventory.RemoveHelm((Helm) this.token);
+      Cell cell = GameManager.instance.MainHero.Cell;
+      cell.Inventory.AddToken(this.token);
+    }
+    else if (token is GoldCoin){
+      GameManager.instance.MainHero.heroInventory.RemoveGold(1);
+      Cell cell = GameManager.instance.MainHero.Cell;
+      Token goldCoin = GoldCoin.Factory();
+      cell.Inventory.AddToken(goldCoin);
+    }
 
-      HideHeroActions();
+    HideHeroActions();
   }
 
   public void UseItem(){
-      token.UseEffect();
-      HideHeroActions();
+    token.UseEffect();
+    HideHeroActions();
+  }
+
+  public void UnlockMoveItems(){
+    canUseMoveItems = true;
+  }
+  public void LockMoveItems(){
+    canUseMoveItems = false;
   }
 
 

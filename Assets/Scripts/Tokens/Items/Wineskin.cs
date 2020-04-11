@@ -39,7 +39,17 @@ public class Wineskin : SmallToken
   }
 
   public override void UseEffect(){
-    Debug.Log("Use Wineskin Effect");
+    if(!InUse){
+      InUse = true;
+      EventManager.TriggerFreeMove(this);
+    }
+    else{
+      EventManager.TriggerError(3);
+    }
+  }
+
+  public override void HowManyFreeMoves(int pathSize){
+  EventManager.TriggerFreeMoveUI(this, pathSize);
   }
 
   public static string Type { get => typeof(Wineskin).ToString(); }
