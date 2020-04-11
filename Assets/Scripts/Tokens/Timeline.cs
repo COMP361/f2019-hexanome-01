@@ -15,7 +15,7 @@ public class Timeline
     {
         Index = 0;
         this.hero = hero;
-        
+
         token = new GameObject("Timeline" + hero.GetType());
         Sprite sprite = Resources.Load<Sprite>("Sprites/Tokens/Heroes/" + hero.GetType().ToString());
         SpriteRenderer sr = token.AddComponent<SpriteRenderer>();
@@ -64,28 +64,29 @@ public class Timeline
 
     private void OnMove(Movable movable, int qty) {
         if(movable.MovePerHour == 0) return;
+        if(qty == 0) return;
         if(GameManager.instance.CurrentPlayer != hero) return;
-        
+
         int cost = (int)Math.Ceiling((double)qty/movable.MovePerHour);
         Update(cost);
     }
 
-    // Update time of day 
+    // Update time of day
     public void Update(int cost)
     {
         int freeHours = GetFreeHours();
         int extendedHours = GetExtendedHours();
-        
+
         if (Index + cost > extendedLimit) {
             Debug.Log("Invalid Change of Timeline");
             Debug.Log("Index");
             Debug.Log(cost);
-            
+
             return;
         }
 
         // if path reaches 8, 9 10 decreae willpoints
-        if (cost > freeHours) { 
+        if (cost > freeHours) {
             int wp = (cost - freeHours) * 2;
             hero.Willpower -= wp;
         }
@@ -95,7 +96,7 @@ public class Timeline
     }
 
     void Update(Hero hero, int cost) {
-        if(hero != this.hero) return;        
+        if(hero != this.hero) return;
         Update(cost);
     }
 

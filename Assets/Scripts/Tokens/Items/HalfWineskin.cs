@@ -6,7 +6,10 @@ using UnityEngine;
 
 public class HalfWineskin : SmallToken
 {
+
+  public static string name = "Half-Wineskin";
   public PhotonView photonView;
+
 
   public void Awake() {
     TokenName = Type;
@@ -33,8 +36,12 @@ public class HalfWineskin : SmallToken
   }
 
   public override void UseEffect(){
-    Debug.Log("Use HalfWineskin Effect");
-}
+    EventManager.TriggerFreeMove(this);
+  }
+
+  public override void HowManyFreeMoves(int pathSize){
+  EventManager.TriggerFreeMoveUI(this, pathSize);
+  }
 
   public static string Type { get => typeof(HalfWineskin).ToString(); }
 }

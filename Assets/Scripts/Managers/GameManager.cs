@@ -321,7 +321,6 @@ public class GameManager : Singleton<GameManager>
               if( GameManager.instance.MainHero.TokenName.Equals("Warrior"))
               {
                 Token goldCoin = GoldCoin.Factory("Warrior");
-              //  warrior.heroInventory.AddItem(goldCoin);
               }
               warriorGold--;
             }
@@ -335,8 +334,6 @@ public class GameManager : Singleton<GameManager>
                 if(GameManager.instance.MainHero.TokenName.Equals("Archer"))
                 {
                 Token goldCoin = GoldCoin.Factory("Archer");
-              //  archer.heroInventory.AddItem(goldCoin);
-
                 }
                 archerGold--;
             }
@@ -349,7 +346,6 @@ public class GameManager : Singleton<GameManager>
                 if(GameManager.instance.MainHero.TokenName.Equals("Dwarf"))
                 {
                 Token goldCoin = GoldCoin.Factory("Dwarf");
-              //  dwarf.heroInventory.AddItem(goldCoin);
                 }
                 dwarfGold--;
             }
@@ -362,7 +358,6 @@ public class GameManager : Singleton<GameManager>
               if(GameManager.instance.MainHero.TokenName.Equals("Mage"))
               {
                 Token goldCoin = GoldCoin.Factory("Mage");
-                //mage.heroInventory.AddItem(goldCoin);
               }
                 mageGold--;
             }
@@ -386,8 +381,6 @@ public class GameManager : Singleton<GameManager>
               if(GameManager.instance.MainHero.TokenName.Equals("Warrior"))
               {
                 SmallToken wineskin = Wineskin.Factory("Warrior");
-              //  warrior.heroInventory.AddItem(wineskin);
-
               }
                 warriorWineskins--;
             }
@@ -402,8 +395,6 @@ public class GameManager : Singleton<GameManager>
               if(GameManager.instance.MainHero.TokenName.Equals("Archer"))
               {
                 SmallToken wineskin = Wineskin.Factory("Archer");
-              //  archer.heroInventory.AddItem(wineskin);
-
               }
               archerWineskins--;
             }
@@ -417,8 +408,6 @@ public class GameManager : Singleton<GameManager>
               if(GameManager.instance.MainHero.TokenName.Equals("Dwarf"))
               {
                 SmallToken wineskin = Wineskin.Factory("Dwarf");
-              //dwarf.heroInventory.AddItem(wineskin);
-
               }
                 dwarfWineskins--;
             }
@@ -432,7 +421,6 @@ public class GameManager : Singleton<GameManager>
               if(GameManager.instance.MainHero.TokenName.Equals("Mage"))
               {
                 SmallToken wineskin = Wineskin.Factory("Mage");
-                //mage.heroInventory.AddItem(wineskin);
               }
               mageWineskins--;
             }

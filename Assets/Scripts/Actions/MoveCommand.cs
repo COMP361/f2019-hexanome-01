@@ -23,19 +23,21 @@ public class MoveCommand : MonoBehaviour, ICommand
         DetachFarmer,
         SetDestination
     }
+    private int totalFreeMoves;
 
     private Movable movable;
     private Cell goal;
     private MapPath path;
     private List<Cell> freeCells;
     private List<Cell> extCells;
+    private List<Token> freeMoves;
     private List<Pair<Farmer, Cell>> farmers;
     private int moveCost;
     private List<Cell> stops;
 
     MoveAction action;
     List<GameObject> farmerTargets;
-    
+
     public PhotonView photonView;
 
     public int initFreeHours;
@@ -51,18 +53,21 @@ public class MoveCommand : MonoBehaviour, ICommand
             return Math.Max(0, initExtHours + Math.Min(0, initFreeHours - path.Cells.Count + 1));
         }
     }
-    
+
     public void Init(Movable movable)
     {
+        totalFreeMoves = 0;
         farmers = new List<Pair<Farmer, Cell>>();
         action = MoveAction.SetDestination;
         farmerTargets = new List<GameObject>();
+        freeMoves = new List<Token>();
         this.movable = movable;
         initFreeHours = movable.MovePerHour * Timeline.GetFreeHours(GameManager.instance.CurrentPlayer.timeline.Index);
         initExtHours = movable.MovePerHour * Timeline.GetExtendedHours(
-            GameManager.instance.CurrentPlayer.timeline.Index, 
+            GameManager.instance.CurrentPlayer.timeline.Index,
             GameManager.instance.CurrentPlayer.Willpower
         );
+
 
         EventManager.CellClick += SetDestination;
         EventManager.CellClick += SetFarmerDestination;
@@ -72,12 +77,15 @@ public class MoveCommand : MonoBehaviour, ICommand
         EventManager.DropFarmer += DetachFarmer;
         EventManager.FarmerDestroyed += FarmerDestroyed;
         EventManager.ClearPath += ClearPath;
-        
+        EventManager.FreeMove += AddFreeMove;
+        EventManager.FreeMoveCount += AddFreeMoveCount;
+        EventManager.ClearFreeMove += ResetFreeMove;
+
         Reset();
         ShowMovableArea();
         EventManager.TriggerFarmersInventoriesUpdate(farmers.Count, GetDroppableFarmerCount(), GetDetachedFarmerCount());
     }
-    
+
     void AddFarmerTarget(Cell c)
     {
         GameObject go = new GameObject("farmerTarget");
@@ -93,7 +101,7 @@ public class MoveCommand : MonoBehaviour, ICommand
     {
         goal = movable.Cell;
         path = new MapPath(movable.Cell, Color.red);
-        
+
         foreach (Pair<Farmer, Cell> farmer in farmers)
         {
             farmer.First.Detach();
@@ -111,8 +119,8 @@ public class MoveCommand : MonoBehaviour, ICommand
         {
             cell.Reset();
         }
-
         farmerTargets = new List<GameObject>();
+        EventManager.TriggerClearFreeMove();
     }
 
     void ShowMovableArea()
@@ -282,7 +290,7 @@ public class MoveCommand : MonoBehaviour, ICommand
     void SetFarmerDestination(int cellID)
     {
         if (action == MoveAction.SetDestination) return;
-        
+
         if (!PhotonNetwork.OfflineMode)
         {
             photonView.RPC("SetFarmerDestinationRPC", RpcTarget.AllViaServer, cellID);
@@ -341,7 +349,7 @@ public class MoveCommand : MonoBehaviour, ICommand
 
     public void Dispose(int action)
     {
-        if(Action.FromValue<Action>(action) == Action.None) { 
+        if(Action.FromValue<Action>(action) == Action.None) {
             Dispose();
         }
     }
@@ -356,9 +364,11 @@ public class MoveCommand : MonoBehaviour, ICommand
         EventManager.FarmerDestroyed -= FarmerDestroyed;
         EventManager.ClearPath -= ClearPath;
         EventManager.EndDay -= Dispose;
+        EventManager.FreeMove -= AddFreeMove;
+        EventManager.FreeMoveCount -= AddFreeMoveCount;
 
         ClearPath();
-        Destroy(gameObject);
+        Destroy(this.gameObject);
 
     }
 
@@ -385,26 +395,63 @@ public class MoveCommand : MonoBehaviour, ICommand
     [PunRPC]
     void SetDestinationRPC(int cellID)
     {
-        if (action == MoveAction.DetachFarmer) return;
+      if (action == MoveAction.DetachFarmer) return;
 
-        goal = Cell.FromId(cellID);
-        path.Extend(goal);
-        ShowMovableArea();
+      goal = Cell.FromId(cellID);
+      path.Extend(goal);
+      ShowMovableArea();
 
-        EventManager.TriggerFarmersInventoriesUpdate(farmers.Count, GetDroppableFarmerCount(), GetDetachedFarmerCount());
-        EventManager.TriggerPathUpdate(path.Cells.Count);
+      EventManager.TriggerFarmersInventoriesUpdate(farmers.Count, GetDroppableFarmerCount(), GetDetachedFarmerCount());
+      EventManager.TriggerPathUpdate(path.Cells.Count);
+    }
+
+    public void CountFreeMove(){
+      freeMoves[0].HowManyFreeMoves(path.Cells.Count);
+    }
+
+    public void AddFreeMoveCount(int toAdd, Token item){
+      totalFreeMoves = totalFreeMoves + toAdd;
+      if(item is Wineskin){
+        if(toAdd == 2){
+          GameManager.instance.MainHero.heroInventory.RemoveSmallToken((SmallToken)item);
+        }
+        else if(toAdd == 1){
+          GameManager.instance.MainHero.heroInventory.RemoveSmallToken((SmallToken)item);
+          SmallToken halfWineskin = HalfWineskin.Factory(GameManager.instance.MainHero.TokenName);
+        }
+        else if (toAdd == 0){
+        }
+      }
+
+      else if (item is HalfWineskin){
+        if(toAdd == 1){
+          GameManager.instance.MainHero.heroInventory.RemoveSmallToken((SmallToken)item);
+        }
+        else if (toAdd == 0){
+        }
+      }
+
+      freeMoves.RemoveAt(0);
+      Execute();
     }
 
     public void Execute()
     {
-        if (!PhotonNetwork.OfflineMode)
-        {
-            photonView.RPC("ExecuteRPC", RpcTarget.AllViaServer);
-        }
-        else
-        {
-            ExecuteRPC();
-        }
+    //For each freeMove token determine how Many freeMoves you want
+      if(freeMoves.Count != 0){
+        CountFreeMove();
+        return;
+      }
+      EventManager.TriggerClearFreeMove();
+
+      if (!PhotonNetwork.OfflineMode)
+      {
+          photonView.RPC("ExecuteRPC", RpcTarget.AllViaServer);
+      }
+      else
+      {
+          ExecuteRPC();
+      }
     }
 
     [PunRPC]
@@ -474,9 +521,30 @@ public class MoveCommand : MonoBehaviour, ICommand
                 int stopIndex = path.Cells.IndexOf(stop);
                 if(stopIndex != -1) {
                     List<Cell> subpathHero = path.Cells.GetRange(startIndex, stopIndex - startIndex + 1);
-                    movable.Move(subpathHero);
+                    movable.Move(subpathHero, totalFreeMoves);
                 }
             }
         }
     }
+
+    void AddFreeMove(Token item){
+      freeMoves.Add(item);
+      if(item is Wineskin){
+        initFreeHours = initFreeHours + 2;
+        initExtHours = initExtHours + 2;
+      }
+      else if (item is HalfWineskin){
+        initFreeHours = initFreeHours + 1;
+        initExtHours = initExtHours + 1;
+      }
+      ShowMovableArea();
+    }
+
+    void ResetFreeMove(){
+      foreach(Token item in freeMoves){
+        item.InUse = false;
+      }
+      freeMoves.Clear();
+    }
+
 }

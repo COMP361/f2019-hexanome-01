@@ -651,4 +651,45 @@ public class EventManager : MonoBehaviour
             Load();
         }
     }
+
+    public delegate void FreeMoveHandler(Token item);
+    public static event FreeMoveHandler FreeMove;
+    public static void TriggerFreeMove(Token item)
+    {
+        if (FreeMove != null)
+        {
+            FreeMove(item);
+        }
+    }
+
+    public delegate void FreeMoveUIHandler(Token item, int pathSize);
+    public static event FreeMoveUIHandler FreeMoveUI;
+    public static void TriggerFreeMoveUI(Token item, int pathSize)
+    {
+        if (FreeMoveUI != null)
+        {
+            FreeMoveUI(item, pathSize);
+        }
+    }
+
+    public delegate void FreeMoveCountHandler(int count, Token item);
+    public static event FreeMoveCountHandler FreeMoveCount;
+    public static void TriggerFreeMoveCount(int count, Token item)
+    {
+        if (FreeMoveCount != null)
+        {
+            FreeMoveCount(count, item);
+        }
+    }
+
+    public delegate void ClearFreeMoveHandler();
+    public static event ClearFreeMoveHandler ClearFreeMove;
+    public static void TriggerClearFreeMove()
+    {
+        if (ClearFreeMove != null)
+        {
+            ClearFreeMove();
+        }
+    }
+
 }
