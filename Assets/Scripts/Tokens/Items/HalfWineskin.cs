@@ -8,6 +8,7 @@ public class HalfWineskin : SmallToken
 {
 
   public static string name = "Half-Wineskin";
+  public static string desc = "Each side of the wineskin can be used to advance 1 space without having to move the time marker.";
   public PhotonView photonView;
 
 
@@ -36,7 +37,13 @@ public class HalfWineskin : SmallToken
   }
 
   public override void UseEffect(){
-    EventManager.TriggerFreeMove(this);
+    if(!InUse){
+      InUse = true;
+      EventManager.TriggerFreeMove(this);
+    }
+    else{
+      EventManager.TriggerError(3);
+    }
   }
 
   public override void HowManyFreeMoves(int pathSize){

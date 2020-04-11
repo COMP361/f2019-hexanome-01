@@ -679,4 +679,14 @@ public class EventManager : MonoBehaviour
         }
     }
 
+    public delegate void LockMoveItemsHandler();
+    public static event LockMoveItemsHandler LockMoveItems;
+    public static void TriggerLockMoveItems()
+    {
+        if (LockMoveItems != null)
+        {
+            LockMoveItems();
+        }
+    }
+
 }

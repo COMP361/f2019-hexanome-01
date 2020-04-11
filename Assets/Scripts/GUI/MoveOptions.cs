@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class MoveOptions : MonoBehaviour {
-    
+
     GameObject panel;
 
     Button cancelBtn, confirmBtn, clearPathBtn, pickFarmerBtn, dropFarmerBtn;
@@ -13,10 +13,10 @@ public class MoveOptions : MonoBehaviour {
         EventManager.MoveThorald += DisableHeroOptions;
         EventManager.ActionUpdate += EnableHeroOptions;
         EventManager.MoveConfirm += EnableHeroOptions;
-        
+
         EventManager.ActionUpdate += Hide;
         EventManager.MoveConfirm += Hide;
-        
+
         EventManager.PathUpdate += LockConfirm;
         EventManager.PathUpdate += LockClearPath;
 
@@ -35,7 +35,7 @@ public class MoveOptions : MonoBehaviour {
         EventManager.MoveConfirm -= Hide;
         EventManager.PathUpdate -= LockConfirm;
         EventManager.PathUpdate -= LockClearPath;
-        
+
         EventManager.FarmersInventoriesUpdate -= LockPickFarmer;
         EventManager.FarmersInventoriesUpdate -= LockDropFarmer;
         EventManager.Move -= LockPickFarmer;
@@ -43,15 +43,15 @@ public class MoveOptions : MonoBehaviour {
 
     void Awake() {
         panel = transform.Find("Panel").gameObject;
-        
+
         cancelBtn = panel.transform.Find("Cancel Button").GetComponent<Button>();
-        cancelBtn.onClick.AddListener(delegate { EventManager.TriggerActionUpdate(Action.None.Value); });
+        cancelBtn.onClick.AddListener(delegate { EventManager.TriggerActionUpdate(Action.None.Value); EventManager.TriggerLockMoveItems();});
 
         clearPathBtn = panel.transform.Find("Clear Path Button").GetComponent<Button>();
         clearPathBtn.onClick.AddListener(delegate { EventManager.TriggerClearPath(); });
 
         confirmBtn = panel.transform.Find("Confirm Button").GetComponent<Button>();
-        confirmBtn.onClick.AddListener(delegate { EventManager.TriggerMoveConfirm(); });
+        confirmBtn.onClick.AddListener(delegate { EventManager.TriggerMoveConfirm(); EventManager.TriggerLockMoveItems();});
 
         pickFarmerBtn = panel.transform.Find("Pick Farmer Button").GetComponent<Button>();
         pickFarmerBtn.onClick.AddListener(delegate { EventManager.TriggerPickFarmer(); });
