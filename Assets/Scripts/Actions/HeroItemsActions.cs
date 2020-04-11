@@ -111,9 +111,9 @@ public class HeroItemsActions : MonoBehaviour
   public void DropItem() {
 
       if(token is SmallToken){
-      GameManager.instance.MainHero.heroInventory.RemoveSmallToken((SmallToken) this.token);
-      Cell cell = GameManager.instance.MainHero.Cell;
-      cell.Inventory.AddToken(this.token);
+        GameManager.instance.MainHero.heroInventory.RemoveSmallToken((SmallToken) this.token);
+        Cell cell = GameManager.instance.MainHero.Cell;
+        cell.Inventory.AddToken(this.token);
       }
       else if (token is BigToken){
         GameManager.instance.MainHero.heroInventory.RemoveBigToken((BigToken) this.token);

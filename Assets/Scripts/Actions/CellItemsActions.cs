@@ -99,8 +99,8 @@ public class CellItemsActions : MonoBehaviour
   }
 
   public void PickItem() {
-    if(this.token is Well){
-      EventManager.TriggerPickWellClick(GameManager.instance.MainHero, (Well) this.token);
+    if(token is Well){
+      ((Well)token).EmptyWell(GameManager.instance.MainHero);
     }
     else if(GameManager.instance.MainHero.heroInventory.AddItem(this.token)){
       Cell cell = GameManager.instance.MainHero.Cell;

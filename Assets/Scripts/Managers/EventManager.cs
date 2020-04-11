@@ -107,7 +107,6 @@ public class EventManager : MonoBehaviour
     public static event EndTurnHandler EndTurn;
     public static void TriggerEndTurn()
     {
-        Debug.Log("Trigger End Turn");
         if (!PhotonNetwork.OfflineMode)
         {
             GameManager.instance.photonView.RPC("TriggerEndTurnRPC", RpcTarget.AllViaServer);
@@ -509,18 +508,6 @@ public class EventManager : MonoBehaviour
             dropGoldClick();
         }
     }
-
-    // Happens when the well pick button is clicked on
-    public delegate void PickWellClickHandler(Hero hero, Well well);
-    public static event PickWellClickHandler pickWellClick;
-    public static void TriggerPickWellClick(Hero hero, Well well)
-    {
-        if (pickWellClick != null)
-        {
-            pickWellClick(hero, well);
-        }
-    }
-
 
     //Happens when trying to click on item of a cell which is not the mainHero cell
     public delegate void BlockOnInventoryClickHandler();

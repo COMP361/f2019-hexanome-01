@@ -9,15 +9,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System;
+using System.IO;
 
 public class GameManager : Singleton<GameManager>
 {
-    #region Fields
     private int playerCount;
     public List<Player> players;
     public Queue<Player> playerTurn;
     public List<Hero> heroes;
     public Narrator narrator;
+
     public List<Farmer> farmers;
     public List<Enemy> gors, skrals, trolls, wardraks, towerskrals;
     private int currentPlayerIndex = 0;
@@ -27,13 +28,9 @@ public class GameManager : Singleton<GameManager>
     public PhotonView photonView;
     public ActionOptions actionOptions;
     List<Enemy> monstersToMove;
-    List<WellCell> wells;
+    public List<Well> wells;
     public Thorald thorald;
-    //public GameState gameState;
-
-    #endregion
-
-    #region Functions [Unity]
+    
     void Awake()
     {
         PhotonNetwork.OfflineMode = false;
@@ -55,8 +52,9 @@ public class GameManager : Singleton<GameManager>
         EventManager.MoveComplete += UpdateMonsterToMove;
         EventManager.DistributeGold += DistributeGold;
         EventManager.DistributeWinekins += DistributeWineskins;
-        //EventManager.Save += Save;
+        EventManager.Save += Save;
     }
+
 
     void OnDisable()
     {
@@ -72,7 +70,7 @@ public class GameManager : Singleton<GameManager>
         EventManager.MoveComplete -= UpdateMonsterToMove;
         EventManager.DistributeGold -= DistributeGold;
         EventManager.DistributeWinekins -= DistributeWineskins;
-        //EventManager.Save -= Save;
+        EventManager.Save -= Save;
     }
 
     void RemoveEnemy(Enemy enemy)
@@ -115,15 +113,7 @@ public class GameManager : Singleton<GameManager>
         skrals = new List<Enemy>();
         wardraks = new List<Enemy>();
         towerskrals = new List<Enemy>();
-        wells = new List<WellCell>();
-        wells.Add(Cell.FromId(5) as WellCell);
-        wells.Add(Cell.FromId(35) as WellCell);
-        wells.Add(Cell.FromId(45) as WellCell);
-        wells.Add(Cell.FromId(55) as WellCell);
-        foreach (WellCell well in wells)
-        {
-            well.ResetWell();
-        }
+        wells = new List<Well>();
 
         // Add each player's respective hero
         foreach (Player p in players)
@@ -172,10 +162,6 @@ public class GameManager : Singleton<GameManager>
         GiveTurn();
     }
 
-    #endregion
-
-    #region Functions [GameManager]
-
     void NewGame()
     {
         GameObject canvas = GameObject.Find("Canvas");
@@ -198,12 +184,20 @@ public class GameManager : Singleton<GameManager>
         skrals.Add(Skral.Factory(19));
 
         Fog.Factory();
+
+        wells.Add(Well.Factory(5));
+        wells.Add(Well.Factory(35));
+        wells.Add(Well.Factory(45));
+        wells.Add(Well.Factory(55));
     }
 
     void LoadGame(string directory)
     {
         // Load from json here
         // Heroes
+        foreach (Hero hero in heroes) {
+            hero.Load(directory);
+        }
 
         // Cells
         CellStates Cells = FileManager.Load<CellStates>(directory + "/Cells.json");
@@ -240,6 +234,10 @@ public class GameManager : Singleton<GameManager>
                 else if (type == typeof(GoldCoin))
                 {
                     GoldCoin.Factory(cellstate.index);
+                } 
+                else if (type == typeof(Well))
+                {
+                    wells.Add(Well.Factory(cellstate.index));
                 }
                 else if (type.IsSubclassOf(typeof(SmallToken)))
                 {
@@ -251,6 +249,23 @@ public class GameManager : Singleton<GameManager>
         // Narrator
         NarratorState narratorState = FileManager.Load<NarratorState>(directory + "/Narrator.json");
         narrator.Load(narratorState);
+
+        // Wells
+        WellsState wellsState = FileManager.Load<WellsState>(directory + "/Wells.json");
+        foreach(int cellId in wellsState.wellsCellId) {
+            bool found = false;
+            foreach (Well well in wells) {
+                if(well.Cell.Index == cellId) {
+                    found = true;
+                    break;
+                }
+            }
+
+            // If not found, the well is empty
+            if(!found) {
+                wells.Add(Well.Factory(cellId, false));
+            }
+        }
     }
 
     void InitMonsterMove()
@@ -333,7 +348,11 @@ public class GameManager : Singleton<GameManager>
             {
                 if(GameManager.instance.MainHero.TokenName.Equals("Archer"))
                 {
+<<<<<<< HEAD
                 Token goldCoin = GoldCoin.Factory("Archer");
+=======
+                    Token goldCoin = GoldCoin.Factory("Archer");
+>>>>>>> master
                 }
                 archerGold--;
             }
@@ -345,7 +364,11 @@ public class GameManager : Singleton<GameManager>
             {
                 if(GameManager.instance.MainHero.TokenName.Equals("Dwarf"))
                 {
+<<<<<<< HEAD
                 Token goldCoin = GoldCoin.Factory("Dwarf");
+=======
+                    Token goldCoin = GoldCoin.Factory("Dwarf");
+>>>>>>> master
                 }
                 dwarfGold--;
             }
@@ -355,10 +378,17 @@ public class GameManager : Singleton<GameManager>
         {
             while (mageGold != 0)
             {
+<<<<<<< HEAD
               if(GameManager.instance.MainHero.TokenName.Equals("Mage"))
               {
                 Token goldCoin = GoldCoin.Factory("Mage");
               }
+=======
+                if(GameManager.instance.MainHero.TokenName.Equals("Mage"))
+                {
+                    Token goldCoin = GoldCoin.Factory("Mage");
+                }
+>>>>>>> master
                 mageGold--;
             }
         }
@@ -378,10 +408,17 @@ public class GameManager : Singleton<GameManager>
         {
             while (warriorWineskins != 0)
             {
+<<<<<<< HEAD
               if(GameManager.instance.MainHero.TokenName.Equals("Warrior"))
               {
                 SmallToken wineskin = Wineskin.Factory("Warrior");
               }
+=======
+                if(GameManager.instance.MainHero.TokenName.Equals("Warrior"))
+                {
+                    SmallToken wineskin = Wineskin.Factory("Warrior");
+                }
+>>>>>>> master
                 warriorWineskins--;
             }
 
@@ -446,7 +483,7 @@ public class GameManager : Singleton<GameManager>
             hero.timeline.EndDay();
         }
 
-        foreach (WellCell well in wells) {
+        foreach (Well well in wells) {
             well.ResetWell();
         }
 
@@ -509,11 +546,6 @@ public class GameManager : Singleton<GameManager>
             ((MoveCommand)command).Init(CurrentPlayer);
         }
     }
-
-    /*void Save(string saveId)
-    {
-        gameState.Save(saveId);
-    }*/
 
     [PunRPC]
     void InitMoveRPC(int viewId)
@@ -663,8 +695,6 @@ public class GameManager : Singleton<GameManager>
       else if(hero.Equals(CharChoice.choice.TokenName)){
           EventManager.TriggerInventoryUIHeroPeak(findHero(hero).heroInventory);
       }
-
-
     }
 
     public Hero findHero(string hero){
@@ -676,5 +706,22 @@ public class GameManager : Singleton<GameManager>
       return null;
     }
 
-    #endregion
+    public void Save(String saveId) {
+        String _gameDataId = "Wells.json";
+        FileManager.Save(Path.Combine(saveId, _gameDataId), new WellsState());
+    }
+}
+
+[Serializable]
+public class WellsState
+{
+    public List<int> wellsCellId;
+
+    public WellsState()
+    {
+        wellsCellId = new List<int>();
+        foreach (Well well in GameManager.instance.wells) {
+            wellsCellId.Add(well.Cell.Index);
+        }
+    }
 }

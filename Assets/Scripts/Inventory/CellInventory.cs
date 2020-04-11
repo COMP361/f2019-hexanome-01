@@ -12,12 +12,14 @@ public class CellInventory : ICloneable {
 
   protected string description;
   public int cellID;
+
   public PhotonView photonView;
   public List<Token> AllTokens { get; private set; }
   public List<Hero> Heroes { get; private set; }
   public List<Enemy> Enemies { get; private set; }
   public List<Farmer> Farmers { get; private set; }
   public List<Token> Golds { get; private set; }
+  public Well Well { get; private set; }
 
   public OrderedDictionary items { get; private set; }
 
@@ -80,27 +82,31 @@ public class CellInventory : ICloneable {
 
     if(token is Well){
       AllTokens.Add(token);
+      Well = (Well)token;
       return;
     }
+
     if(token is Witch){
       AllTokens.Add(token);
       return;
     }
+
     if (token is Thorald){
       AllTokens.Add(token);
       return;
     }
-      // if none of these options means its an item
-      addItem(token);
-    }
+    
+    // if none of these options means its an item
+    addItem(token);
+  }
 
     public void addItem(Token item){
       if(item != null){
-      int viewID = item.GetComponent<PhotonView>().ViewID;
-      GameManager.instance.photonView.RPC("AddItemCellRPC", RpcTarget.AllViaServer, new object[] {viewID, cellID});
+        int viewID = item.GetComponent<PhotonView>().ViewID;
+        GameManager.instance.photonView.RPC("AddItemCellRPC", RpcTarget.AllViaServer, new object[] {viewID, cellID});
+      }
     }
-      // else error
-    }
+
     public void AddItem2(Token item){
       string id = convertToKey(item.GetComponent<PhotonView>().ViewID);
       items.Add(id, item);
@@ -118,14 +124,13 @@ public class CellInventory : ICloneable {
       }
     }
 
-
     public void RemoveToken(int objectIndex){
       if(objectIndex > AllTokens.Count - 1 || objectIndex < 0) return;
 
       Token token = AllTokens[objectIndex];
-      Type listType;
       AllTokens.Remove(token);
-      listType = Heroes.GetListType();
+      
+      Type listType = Heroes.GetListType();
       if (listType.IsCompatibleWith(token.GetType())) {
         Heroes.Remove((Hero)token);
         InventoryUICell.instance.ForceUpdate(this, cellID);
@@ -145,16 +150,24 @@ public class CellInventory : ICloneable {
         InventoryUICell.instance.ForceUpdate(this, cellID);
         return;
       }
+
+      if(typeof(Well).IsCompatibleWith(token.GetType())) {
+        Well = null;
+        InventoryUICell.instance.ForceUpdate(this, cellID);
+        return;
+      }
+
       InventoryUICell.instance.ForceUpdate(this, cellID);
     }
 
     public void RemoveToken(Token token) {
     if(token != null){
       if(token is Hero || token is Fog || token is Well || token is Enemy || token is Farmer || token is Witch || token is Thorald){
-      GameManager.instance.RemoveTokenCell(token, this);
+        GameManager.instance.RemoveTokenCell(token, this);
       }
+
       // is an item
-      else{
+      else {
         int viewID = token.GetComponent<PhotonView>().ViewID;
         if(items.Contains(convertToKey(token.GetComponent<PhotonView>().ViewID))){
         GameManager.instance.photonView.RPC("RemoveItemCellRPC", RpcTarget.AllViaServer, new object[] {viewID, cellID});
@@ -178,5 +191,4 @@ public class CellInventory : ICloneable {
     string toReturn = "" + a;
     return toReturn;
   }
-
 }

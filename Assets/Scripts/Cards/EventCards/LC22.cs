@@ -11,6 +11,7 @@ public class LC22 : EventCard {
     }
 
     public override void ApplyEffect() {
-        ((WellCell)Cell.FromId(45)).DestroyWell();
+        Well w = Cell.FromId(45).Inventory.Well;
+        if(w != null) w.DestroyWell();
     }
 }
