@@ -30,7 +30,7 @@ public class GameManager : Singleton<GameManager>
     List<Enemy> monstersToMove;
     public List<Well> wells;
     public Thorald thorald;
-    
+
     void Awake()
     {
         PhotonNetwork.OfflineMode = false;
@@ -234,7 +234,7 @@ public class GameManager : Singleton<GameManager>
                 else if (type == typeof(GoldCoin))
                 {
                     GoldCoin.Factory(cellstate.index);
-                } 
+                }
                 else if (type == typeof(Well))
                 {
                     wells.Add(Well.Factory(cellstate.index));
@@ -348,11 +348,7 @@ public class GameManager : Singleton<GameManager>
             {
                 if(GameManager.instance.MainHero.TokenName.Equals("Archer"))
                 {
-<<<<<<< HEAD
                 Token goldCoin = GoldCoin.Factory("Archer");
-=======
-                    Token goldCoin = GoldCoin.Factory("Archer");
->>>>>>> master
                 }
                 archerGold--;
             }
@@ -364,11 +360,7 @@ public class GameManager : Singleton<GameManager>
             {
                 if(GameManager.instance.MainHero.TokenName.Equals("Dwarf"))
                 {
-<<<<<<< HEAD
                 Token goldCoin = GoldCoin.Factory("Dwarf");
-=======
-                    Token goldCoin = GoldCoin.Factory("Dwarf");
->>>>>>> master
                 }
                 dwarfGold--;
             }
@@ -378,17 +370,10 @@ public class GameManager : Singleton<GameManager>
         {
             while (mageGold != 0)
             {
-<<<<<<< HEAD
               if(GameManager.instance.MainHero.TokenName.Equals("Mage"))
               {
                 Token goldCoin = GoldCoin.Factory("Mage");
               }
-=======
-                if(GameManager.instance.MainHero.TokenName.Equals("Mage"))
-                {
-                    Token goldCoin = GoldCoin.Factory("Mage");
-                }
->>>>>>> master
                 mageGold--;
             }
         }
@@ -408,17 +393,10 @@ public class GameManager : Singleton<GameManager>
         {
             while (warriorWineskins != 0)
             {
-<<<<<<< HEAD
               if(GameManager.instance.MainHero.TokenName.Equals("Warrior"))
               {
                 SmallToken wineskin = Wineskin.Factory("Warrior");
               }
-=======
-                if(GameManager.instance.MainHero.TokenName.Equals("Warrior"))
-                {
-                    SmallToken wineskin = Wineskin.Factory("Warrior");
-                }
->>>>>>> master
                 warriorWineskins--;
             }
 

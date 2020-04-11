@@ -10,7 +10,7 @@ public class Timeline
     public static int extendedLimit = 10;
     GameObject token;
     Hero hero;
-    public int Index { 
+    public int Index {
         get {
             return _index;
         }
@@ -34,7 +34,7 @@ public class Timeline
         token.transform.parent = GameObject.Find("Tokens").transform;
         token.transform.position = GameObject.Find("Timeline/Sunrise/" + hero.name).transform.position;
         Index = 0;
-        
+
         EventManager.Move += OnMove;
     }
 
@@ -88,14 +88,7 @@ public class Timeline
         int extendedHours = GetExtendedHours();
 
         if (Index + cost > extendedLimit) {
-<<<<<<< HEAD
             Debug.Log("Invalid Change of Timeline");
-            Debug.Log("Index");
-            Debug.Log(cost);
-
-=======
-            Debug.Log("Invalid Change of Timeline");            
->>>>>>> master
             return;
         }
 
