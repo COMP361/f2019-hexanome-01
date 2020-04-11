@@ -17,7 +17,7 @@ public class HalfWineskin : SmallToken
   }
 
   public static HalfWineskin Factory() {
-    GameObject halfWineskinGO = PhotonNetwork.Instantiate("Prefabs/Tokens/HalfWineskin", Vector3.zero, Quaternion.identity, 0);
+    GameObject halfWineskinGO = PhotonNetwork.Instantiate("Prefabs/Tokens/WineskinHalf", Vector3.zero, Quaternion.identity, 0);
     return halfWineskinGO.GetComponent<HalfWineskin>();
   }
 

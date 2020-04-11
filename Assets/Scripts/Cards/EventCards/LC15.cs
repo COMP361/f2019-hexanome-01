@@ -14,8 +14,6 @@ public class LC15 : EventCard {
         Well w = Cell.FromId(35).Inventory.Well;
         if(w != null) {
             w.DestroyWell();
-        } else {
-            Debug.Log("Well is null");
         }
     }
 }
