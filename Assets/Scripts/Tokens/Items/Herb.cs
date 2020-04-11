@@ -9,8 +9,8 @@ public class Herb : SmallToken
     // Start is called before the first frame update
     public static string name = "Herb";
     public static string desc = "Herb allows you to move around";
-    public static Herbs herbType;
-
+    public  static Herbs herbType;
+    public Herbs myType;
 
     public static GameObject token;
     public PhotonView photonView;
@@ -30,6 +30,10 @@ public class Herb : SmallToken
       return herb;
     }
 
+    public void OnEnable(){
+      myType = herbType;
+    }
+
     public override void UseCell(){
       EventManager.TriggerCellItemClick(this);
     }
@@ -39,7 +43,13 @@ public class Herb : SmallToken
     }
 
     public override void UseEffect(){
-      Debug.Log("Use Herb Effect");
+      if(!InUse){
+        InUse = true;
+        EventManager.TriggerHerbUseUI(this);
+      }
+      else{
+        EventManager.TriggerError(3);
+      }
     }
 
 }

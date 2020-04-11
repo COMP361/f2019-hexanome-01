@@ -689,4 +689,14 @@ public class EventManager : MonoBehaviour
         }
     }
 
+    public delegate void HerbUseUIHandler(Herb herb);
+    public static event HerbUseUIHandler HerbUseUI;
+    public static void TriggerHerbUseUI(Herb herb)
+    {
+        if (HerbUseUI != null)
+        {
+            HerbUseUI(herb);
+        }
+    }
+
 }

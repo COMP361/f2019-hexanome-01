@@ -25,7 +25,7 @@ public class HeroItemsActions : MonoBehaviour
   void OnDisable() {
     EventManager.HeroItemClick -= ShowHeroActions;
     EventManager.MoveSelect -= UnlockMoveItems;
-    EventManager.LockMoveItems += LockMoveItems;
+    EventManager.LockMoveItems -= LockMoveItems;
   }
 
 
