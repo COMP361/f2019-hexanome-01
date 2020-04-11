@@ -13,7 +13,7 @@ public class HalfPotion : SmallToken
   }
 
   public static HalfPotion Factory() {
-    GameObject halfPotionGO = PhotonNetwork.Instantiate("Prefabs/Tokens/HalfPotion", Vector3.zero, Quaternion.identity, 0);
+    GameObject halfPotionGO = PhotonNetwork.Instantiate("Prefabs/Tokens/PotionHalf", Vector3.zero, Quaternion.identity, 0);
     return halfPotionGO.GetComponent<HalfPotion>();
   }
 

@@ -449,11 +449,11 @@ public class EventManager : MonoBehaviour
     {
         if (HeroItemClick != null)
         {
-          if(GameManager.instance.MainHero.timeline.Index == 0){
+          if(GameManager.instance.MainHero.timeline.Index == 0 && !item is Shield){
             EventManager.TriggerError(2);
           }
           else{
-          HeroItemClick(item);
+            HeroItemClick(item);
           }
         }
     }
@@ -465,16 +465,13 @@ public class EventManager : MonoBehaviour
     {
         if (CellItemClick != null)
         {
-          if(GameManager.instance.MainHero.timeline.Index == 0){
-            EventManager.TriggerError(2);
-          }
-          else{
-          CellItemClick(item);
-          }
+            if(GameManager.instance.MainHero.timeline.Index == 0){
+                EventManager.TriggerError(2);
+            } else{
+                CellItemClick(item);
+            }
         }
     }
-
-
 
     //Happens when a gold coin is clicked on the hero inventory
     public delegate void HeroGoldClickHandler(GoldCoin gold);

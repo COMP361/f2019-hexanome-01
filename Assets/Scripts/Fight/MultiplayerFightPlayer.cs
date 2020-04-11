@@ -661,7 +661,7 @@ public class MultiplayerFightPlayer : MonoBehaviour
 
     private void IsThoraldPresent()
     {
-        if (GameManager.instance.thorald.Cell.Equals(GameManager.instance.CurrentPlayer.Cell))
+        if (GameManager.instance.thorald != null && GameManager.instance.thorald.Cell.Equals(GameManager.instance.CurrentPlayer.Cell))
         {
             Thorald = true;
             ThoraldSprite.gameObject.SetActive(true);
