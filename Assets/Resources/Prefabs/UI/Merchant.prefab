@@ -709,7 +709,6 @@ GameObject:
   - component: {fileID: 2092461642986896176}
   - component: {fileID: 2092461642986896179}
   - component: {fileID: 2092461642986896178}
-  - component: {fileID: 6551015636533378409}
   m_Layer: 5
   m_Name: Cancel Button
   m_TagString: Untagged
@@ -816,35 +815,6 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
---- !u!60 &6551015636533378409
-PolygonCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2092461642986896180}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: 60, y: 15}
-      - {x: -60, y: 15}
-      - {x: -60, y: -15}
-      - {x: 60, y: -15}
 --- !u!1 &2092461643527623001
 GameObject:
   m_ObjectHideFlags: 0
@@ -860,7 +830,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4446926011305010397
 Transform:
   m_ObjectHideFlags: 0
@@ -993,8 +963,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.000038146973, y: 0.0000019073486}
-  m_SizeDelta: {x: 147.14, y: 29.429}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2092461643584071037
 CanvasRenderer:
@@ -1070,8 +1040,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.000015258789, y: -0.027957916}
-  m_SizeDelta: {x: 147.14, y: 28.55}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2092461643614046773
 CanvasRenderer:
@@ -1275,7 +1245,6 @@ GameObject:
   - component: {fileID: 2092461644302740363}
   - component: {fileID: 2092461644302740362}
   - component: {fileID: 2092461644302740365}
-  - component: {fileID: 7017885427084607704}
   m_Layer: 5
   m_Name: Buy Button
   m_TagString: Untagged
@@ -1382,35 +1351,6 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
---- !u!60 &7017885427084607704
-PolygonCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2092461644302740367}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: 60, y: 15}
-      - {x: -60, y: 15}
-      - {x: -60, y: -15}
-      - {x: 60, y: -15}
 --- !u!1 &2395752033090909569
 GameObject:
   m_ObjectHideFlags: 0
