@@ -7,7 +7,7 @@ public class EventCardUI : MonoBehaviour {
     GameObject panel;
     Text text;
     Text id;
-    Button shieldBtn, confirmBtn;
+    Button confirmBtn, shieldBtn;
     EventCard card;
 
     void OnEnable() {
@@ -27,6 +27,7 @@ public class EventCardUI : MonoBehaviour {
         confirmBtn = transform.Find("Panel/Confirm").GetComponent<Button>();
 
         confirmBtn.onClick.AddListener(delegate { Apply(); });
+        shieldBtn.onClick.AddListener(delegate { Skip(); });
     }
 
     public void Show(EventCard card) {
@@ -34,6 +35,13 @@ public class EventCardUI : MonoBehaviour {
         text.text = card.intro;
         text.text += "\n" + card.effect;
         id.text = "" + card.id;
+        
+        if(card.shield) {
+            shieldBtn.interactable = true;
+        } else {
+            shieldBtn.interactable = false;
+        }
+
         panel.SetActive(true);
     }
 
@@ -45,5 +53,11 @@ public class EventCardUI : MonoBehaviour {
 
     public void Hide() {
         panel.SetActive(false);
+    }
+
+    public void Skip() {
+        if(!card.shield) return;
+        Hide();
+        card = null;
     }
 }
