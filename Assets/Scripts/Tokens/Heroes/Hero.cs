@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using System.IO;
+using System.Reflection;
+using System.Linq;
 
 public enum Sex
 {
@@ -12,7 +14,6 @@ public enum Sex
 
 public class Hero : Movable
 {
-    protected Sex sex = Sex.Female;
     protected string[] names;
     protected int rank;
     public string Type { get; protected set; }
@@ -31,15 +32,11 @@ public class Hero : Movable
 
     public string HeroName {
         get {
-            return names[(int)sex];
+            return names[(int)Sex];
         }
     }
 
-    public Sex Sex {
-        get {
-            return sex;
-        }
-    }
+    public Sex Sex { get; set; } = Sex.Female;
 
     public string HeroDescription{
         get {
@@ -93,10 +90,8 @@ public class Hero : Movable
         MovePerHour = 1;
     }
     
-    public void Load() {
-        // Need a string
-        //SaveGame.Load();
-        //Cell = Cell.FromId(SaveGame.Instance.heroCellID);
+    public void Load(string saveId) {
+        HeroState.Load(this, saveId);
     }
 
     public void Save(String saveId) {
@@ -141,5 +136,20 @@ public class HeroState {
     public static void Load(Hero hero, String saveId) {
         String _gameDataId = hero.Type + ".json";
         _instance = FileManager.Load<HeroState>(Path.Combine(saveId, _gameDataId));
+
+        hero.Cell = Cell.FromId(HeroState.Instance.cellId);
+        hero.Willpower = HeroState.Instance.willpower;
+        hero.Strength = HeroState.Instance.strength;
+        hero.timeline.Index = HeroState.Instance.timelineIndex;
+        hero.Sex = HeroState.Instance.sex;
+        
+        foreach (string tokenStr in HeroState.Instance.inventory) {
+            Debug.Log(tokenStr);
+            Type type = Type.GetType(tokenStr);
+            MethodInfo mInfo = type.GetMethods().FirstOrDefault(method => method.Name == "Factory" && method.GetParameters().Count() == 0);
+            Token token = (Token)mInfo.Invoke(type, null);
+
+            hero.heroInventory.AddItem(token);
+        }
     }
 }

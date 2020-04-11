@@ -5,15 +5,24 @@ using System;
 
 public class Timeline
 {
-    public int Index { get; set; }
+    private int _index = 0;
     public static int freeLimit = 7;
     public static int extendedLimit = 10;
     GameObject token;
     Hero hero;
+    public int Index { 
+        get {
+            return _index;
+        }
+        set {
+            _index = value;
+            GameObject timeSlot = GameObject.Find("Timeline/" + _index + "/" + hero.GetType());
+            if(timeSlot != null) token.transform.position = timeSlot.transform.position;
+        }
+    }
 
     public Timeline(Hero hero)
     {
-        Index = 0;
         this.hero = hero;
         
         token = new GameObject("Timeline" + hero.GetType());
@@ -24,7 +33,8 @@ public class Timeline
         token.transform.localScale = new Vector3(10, 10, 10);
         token.transform.parent = GameObject.Find("Tokens").transform;
         token.transform.position = GameObject.Find("Timeline/Sunrise/" + hero.name).transform.position;
-
+        Index = 0;
+        
         EventManager.Move += OnMove;
     }
 
@@ -77,10 +87,7 @@ public class Timeline
         int extendedHours = GetExtendedHours();
         
         if (Index + cost > extendedLimit) {
-            Debug.Log("Invalid Change of Timeline");
-            Debug.Log("Index");
-            Debug.Log(cost);
-            
+            Debug.Log("Invalid Change of Timeline");            
             return;
         }
 
@@ -91,7 +98,6 @@ public class Timeline
         }
 
         Index += cost;
-        token.transform.position = GameObject.Find("Timeline/" + Index + "/" + hero.GetType()).transform.position;
     }
 
     void Update(Hero hero, int cost) {

@@ -16,7 +16,7 @@ public class Mage : Hero
         go.name = mage.Type.ToString();
 
         SpriteRenderer renderer = go.AddComponent<SpriteRenderer>();
-        Sprite sprite = Resources.Load<Sprite>("Sprites/Tokens/Heroes/" + mage.Type.ToString() + "-" + mage.sex.ToString());
+        Sprite sprite = Resources.Load<Sprite>("Sprites/Tokens/Heroes/" + mage.Type.ToString() + "-" + mage.Sex.ToString());
         renderer.sprite = sprite;
         renderer.sortingOrder = 2;
         go.transform.localScale = new Vector3(10, 10, 10);

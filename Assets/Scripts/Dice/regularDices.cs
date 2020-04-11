@@ -14,13 +14,10 @@ public class regularDices : MonoBehaviour
     // Use this for initialization
     private void Start()
     {
-
         // Assign Renderer component
         rend = GetComponent<SpriteRenderer>();
-
         // Load dice sides sprites to array from DiceSides subfolder of Resources folder
         diceSides = Resources.LoadAll<Sprite>("Dices/regularDices/");
-        Debug.Log(diceSides.Length);
     }
 
     // If you left click over the dice then RollTheDice coroutine is started

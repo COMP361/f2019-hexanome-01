@@ -48,7 +48,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &203864528
 Transform:
   m_ObjectHideFlags: 0
@@ -128,7 +128,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &377963401
 Transform:
   m_ObjectHideFlags: 0
@@ -624,7 +624,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2063959845
 Transform:
   m_ObjectHideFlags: 0
@@ -704,7 +704,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2066463707
 Transform:
   m_ObjectHideFlags: 0
@@ -2237,8 +2237,7 @@ GameObject:
   - component: {fileID: 5487272750980971010}
   - component: {fileID: 5487272750980971009}
   - component: {fileID: 5487272750980971008}
-  - component: {fileID: 2114420084}
-  - component: {fileID: 2114420095}
+  - component: {fileID: 9130796062910947111}
   m_Layer: 0
   m_Name: 35
   m_TagString: Untagged
@@ -2390,7 +2389,7 @@ PolygonCollider2D:
       - {x: -1.025, y: -1.8499999}
       - {x: -0.945, y: -1.8499999}
       - {x: -0.755, y: -1.75}
---- !u!114 &2114420084
+--- !u!114 &9130796062910947111
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2399,42 +2398,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 5487272750980971013}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 45751cbf87078774796189c8560baed6, type: 3}
+  m_Script: {fileID: 11500000, guid: d76f01ce9ced02bffb9b9aaa0002da73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   neighbours:
   - {fileID: 5487272750921465402}
-  - {fileID: 5487272752752930541}
-  - {fileID: 5487272752804145054}
-  - {fileID: 5487272752825382688}
   - {fileID: 5487272751818214604}
+  - {fileID: 5487272752825382688}
+  - {fileID: 5487272752804145054}
+  - {fileID: 5487272752752930541}
   enemyPath: {fileID: 5487272750921465400}
-  goFullWell: {fileID: 2063959844}
-  goEmptyWell: {fileID: 1484808323}
-  well: {fileID: 0}
-  photonView: {fileID: 2114420095}
---- !u!114 &2114420095
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5487272750980971013}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ObservedComponentsFoldoutOpen: 1
-  Group: 0
-  prefixField: -1
-  Synchronization: 0
-  OwnershipTransfer: 0
-  ObservedComponents:
-  - {fileID: 0}
-  viewIdField: 0
-  InstantiationId: 0
-  isRuntimeInstantiated: 0
 --- !u!1 &5487272750983400767
 GameObject:
   m_ObjectHideFlags: 0
@@ -12321,8 +12294,7 @@ GameObject:
   - component: {fileID: 5487272751649875119}
   - component: {fileID: 5487272751649875114}
   - component: {fileID: 5487272751649875117}
-  - component: {fileID: 2114420092}
-  - component: {fileID: 2114420093}
+  - component: {fileID: 3263367753238434695}
   m_Layer: 0
   m_Name: 55
   m_TagString: Untagged
@@ -12505,7 +12477,7 @@ PolygonCollider2D:
       - {x: -0.92499995, y: -2.8049998}
       - {x: -0.685, y: -2.735}
       - {x: -0.645, y: -2.705}
---- !u!114 &2114420092
+--- !u!114 &3263367753238434695
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -12514,42 +12486,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 5487272751649875118}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 45751cbf87078774796189c8560baed6, type: 3}
+  m_Script: {fileID: 11500000, guid: d76f01ce9ced02bffb9b9aaa0002da73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   neighbours:
-  - {fileID: 5487272751298293604}
   - {fileID: 5487272752080684062}
+  - {fileID: 5487272751298293604}
   - {fileID: 5487272752603776103}
   - {fileID: 5487272752527665422}
   - {fileID: 5487272751612185826}
+  - {fileID: 5487272752810927164}
   enemyPath: {fileID: 5487272752080684063}
-  goFullWell: {fileID: 377963400}
-  goEmptyWell: {fileID: 1095862393}
-  well: {fileID: 0}
-  photonView: {fileID: 2114420093}
---- !u!114 &2114420093
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5487272751649875118}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ObservedComponentsFoldoutOpen: 1
-  Group: 0
-  prefixField: -1
-  Synchronization: 0
-  OwnershipTransfer: 0
-  ObservedComponents:
-  - {fileID: 0}
-  viewIdField: 0
-  InstantiationId: 0
-  isRuntimeInstantiated: 0
 --- !u!1 &5487272751660980156
 GameObject:
   m_ObjectHideFlags: 0
@@ -25428,8 +25375,7 @@ GameObject:
   - component: {fileID: 5487272752574836827}
   - component: {fileID: 5487272752574836824}
   - component: {fileID: 5487272752574836825}
-  - component: {fileID: 2114420085}
-  - component: {fileID: 2114420096}
+  - component: {fileID: 1321597194026778230}
   m_Layer: 0
   m_Name: 5
   m_TagString: Untagged
@@ -25579,7 +25525,7 @@ PolygonCollider2D:
       - {x: -2.235, y: -1.55}
       - {x: -0.84499997, y: -1.55}
       - {x: -0.765, y: -1.53}
---- !u!114 &2114420085
+--- !u!114 &1321597194026778230
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -25588,7 +25534,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5487272752574836826}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 45751cbf87078774796189c8560baed6, type: 3}
+  m_Script: {fileID: 11500000, guid: d76f01ce9ced02bffb9b9aaa0002da73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   neighbours:
@@ -25596,32 +25542,6 @@ MonoBehaviour:
   - {fileID: 5487272752681184485}
   - {fileID: 5487272752559666406}
   enemyPath: {fileID: 3839874415460136474}
-  goFullWell: {fileID: 2066463706}
-  goEmptyWell: {fileID: 716285640}
-  well: {fileID: 0}
-  photonView: {fileID: 2114420096}
---- !u!114 &2114420096
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5487272752574836826}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ObservedComponentsFoldoutOpen: 1
-  Group: 0
-  prefixField: -1
-  Synchronization: 0
-  OwnershipTransfer: 0
-  ObservedComponents:
-  - {fileID: 0}
-  viewIdField: 0
-  InstantiationId: 0
-  isRuntimeInstantiated: 0
 --- !u!1 &5487272752577371065
 GameObject:
   m_ObjectHideFlags: 0
@@ -31969,8 +31889,7 @@ GameObject:
   - component: {fileID: 5487272752963489547}
   - component: {fileID: 5487272752963489542}
   - component: {fileID: 5487272752963489545}
-  - component: {fileID: 2114420083}
-  - component: {fileID: 2114420094}
+  - component: {fileID: 5631082976640862813}
   m_Layer: 0
   m_Name: 45
   m_TagString: Untagged
@@ -32153,7 +32072,7 @@ PolygonCollider2D:
       - {x: -0.935, y: -2.04}
       - {x: -0.695, y: -2.04}
       - {x: -0.545, y: -1.99}
---- !u!114 &2114420083
+--- !u!114 &5631082976640862813
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -32162,7 +32081,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5487272752963489546}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 45751cbf87078774796189c8560baed6, type: 3}
+  m_Script: {fileID: 11500000, guid: d76f01ce9ced02bffb9b9aaa0002da73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   neighbours:
@@ -32172,32 +32091,6 @@ MonoBehaviour:
   - {fileID: 5487272751852810856}
   - {fileID: 5487272752350603929}
   enemyPath: {fileID: 5487272752350603926}
-  goFullWell: {fileID: 203864527}
-  goEmptyWell: {fileID: 484111143}
-  well: {fileID: 0}
-  photonView: {fileID: 2114420094}
---- !u!114 &2114420094
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5487272752963489546}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ObservedComponentsFoldoutOpen: 1
-  Group: 0
-  prefixField: -1
-  Synchronization: 0
-  OwnershipTransfer: 0
-  ObservedComponents:
-  - {fileID: 0}
-  viewIdField: 0
-  InstantiationId: 0
-  isRuntimeInstantiated: 0
 --- !u!1 &5487272752967670578
 GameObject:
   m_ObjectHideFlags: 0

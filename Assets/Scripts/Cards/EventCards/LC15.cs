@@ -11,6 +11,11 @@ public class LC15 : EventCard {
     }
 
     public override void ApplyEffect() {
-        ((WellCell)Cell.FromId(35)).DestroyWell();
+        Well w = Cell.FromId(35).Inventory.Well;
+        if(w != null) {
+            w.DestroyWell();
+        } else {
+            Debug.Log("Well is null");
+        }
     }
 }
