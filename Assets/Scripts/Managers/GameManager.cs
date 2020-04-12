@@ -175,6 +175,7 @@ public class GameManager : Singleton<GameManager>
         farmers.Add(Farmer.Factory(36));
 
         // MONSTERS
+      
         gors.Add(Gor.Factory(8));
         gors.Add(Gor.Factory(20));
         gors.Add(Gor.Factory(21));
