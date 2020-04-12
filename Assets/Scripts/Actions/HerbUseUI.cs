@@ -84,10 +84,10 @@ public class HerbUseUI : MonoBehaviour
     currWP = currWP + amt;
     toAddTo.Willpower = currWP;
 
-    if(GameManager.instance.MainHero.TokenName.Equals(heroType)) {
+    if(GameManager.instance.MainHero.TokenName.Equals(heroName)) {
       EventManager.TriggerInventoryUIHeroPeak(GameManager.instance.MainHero.heroInventory);
-    } else if(heroType.Equals(CharChoice.choice.TokenName)){
-      EventManager.TriggerInventoryUIHeroPeak(GameManager.instance.findHero(heroType).heroInventory);
+    } else if(heroName.Equals(CharChoice.choice.TokenName)){
+      EventManager.TriggerInventoryUIHeroPeak(GameManager.instance.findHero(heroName).heroInventory);
     }
   }
 
