@@ -424,6 +424,13 @@ public class MoveCommand : MonoBehaviour, ICommand
         }
       }
 
+      else if (item is Herb){
+        if(toAdd == 0){}
+        else{
+        GameManager.instance.MainHero.heroInventory.RemoveSmallToken((SmallToken)item);
+        }
+      }
+
       freeMoves.RemoveAt(0);
       Execute();
     }
@@ -529,6 +536,16 @@ public class MoveCommand : MonoBehaviour, ICommand
       else if (item is HalfWineskin){
         initFreeHours = initFreeHours + 1;
         initExtHours = initExtHours + 1;
+      }
+      else if (item is Herb){
+        if(((Herb)item).myType.Equals(Herbs.Herb3)){
+          initFreeHours = initFreeHours + 3;
+          initExtHours = initExtHours + 3;
+        }
+        else{
+          initFreeHours = initFreeHours + 4;
+          initExtHours = initExtHours + 4;
+        }
       }
       ShowMovableArea();
     }

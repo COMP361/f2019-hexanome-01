@@ -43,7 +43,6 @@ public class InventoryUIHero : Singleton<InventoryUIHero>
     //updating smallSpots
 
     Hero hero = GameManager.instance.findHero(heroInv.parentHero);
-    //InventorySpotHero.parentHero = hero;
     for(int i = 0; i < smallSpots.Length; i++){
       if(i < heroInv.smallTokens.Count){
         smallSpots[i].AddItem((SmallToken)heroInv.smallTokens[i]);

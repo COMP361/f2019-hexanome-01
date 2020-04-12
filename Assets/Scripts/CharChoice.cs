@@ -48,7 +48,7 @@ public class CharChoice : MonoBehaviour
 
   public static void clickArcher(){
     Hero hero = GameManager.instance.findHero("Archer");
-     CharChoice.choice = hero;
+    CharChoice.choice = hero;
     EventManager.TriggerInventoryUIHeroPeak(hero.heroInventory);
   }
   public static void clickDwarf(){

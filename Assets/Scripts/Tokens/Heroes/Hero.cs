@@ -5,6 +5,7 @@ using System;
 using System.IO;
 using System.Reflection;
 using System.Linq;
+using Photon.Pun;
 
 public enum Sex
 {
@@ -138,18 +139,23 @@ public class HeroState {
         _instance = FileManager.Load<HeroState>(Path.Combine(saveId, _gameDataId));
 
         hero.Cell = Cell.FromId(HeroState.Instance.cellId);
+        Cell.FromId(HeroState.Instance.cellId).Inventory.AddToken(hero);
         hero.Willpower = HeroState.Instance.willpower;
         hero.Strength = HeroState.Instance.strength;
         hero.timeline.Index = HeroState.Instance.timelineIndex;
         hero.Sex = HeroState.Instance.sex;
-        
-        foreach (string tokenStr in HeroState.Instance.inventory) {
-            Debug.Log(tokenStr);
-            Type type = Type.GetType(tokenStr);
-            MethodInfo mInfo = type.GetMethods().FirstOrDefault(method => method.Name == "Factory" && method.GetParameters().Count() == 0);
-            Token token = (Token)mInfo.Invoke(type, null);
 
-            hero.heroInventory.AddItem(token);
+        if (PhotonNetwork.IsMasterClient)
+        {
+            foreach (string tokenStr in HeroState.Instance.inventory)
+            {
+                Debug.Log(tokenStr);
+                Type type = Type.GetType(tokenStr);
+                MethodInfo mInfo = type.GetMethods().FirstOrDefault(method => method.Name == "Factory" && method.GetParameters().Count() == 0);
+                Token token = (Token)mInfo.Invoke(type, null);
+
+                hero.heroInventory.AddItem(token);
+            }
         }
     }
 }

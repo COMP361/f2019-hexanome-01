@@ -22,7 +22,7 @@ public class Well : Token
     well.goFullWell = well.Cell.transform.Find("well/well-full").gameObject;
     well.goEmptyWell = well.Cell.transform.Find("well/well-empty").gameObject;
     if(well.goFullWell == null || well.goEmptyWell == null) return null;
-    
+
     if(full) {
       well.goFullWell.SetActive(true);
       well.goEmptyWell.SetActive(false);
@@ -69,11 +69,10 @@ public class Well : Token
         } else {
           currWP = currWP + 3;
         }
-
         hero.Willpower = currWP;
       }
     }
-    
+
     if(GameManager.instance.MainHero.TokenName.Equals(heroType)) {
       EventManager.TriggerInventoryUIHeroPeak(GameManager.instance.MainHero.heroInventory);
     } else if(heroType.Equals(CharChoice.choice.TokenName)){

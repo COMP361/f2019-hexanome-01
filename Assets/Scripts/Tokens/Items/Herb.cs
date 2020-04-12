@@ -8,10 +8,9 @@ public class Herb : SmallToken
 {
     // Start is called before the first frame update
     public static string itemName = "Herb";
-    public static string desc = "Herb allows you to move around";
+    public static string desc = "Medicinal herb can help you do three things. Gain WillPower, get free moves, or add to your strength in battle";
     public static Herbs herbType;
-
-
+    public Herbs myType;
     public static GameObject token;
     public PhotonView photonView;
 
@@ -32,6 +31,10 @@ public class Herb : SmallToken
       return herb;
     }
 
+    public void OnEnable(){
+      myType = herbType;
+    }
+
     public override void UseCell(){
       EventManager.TriggerCellItemClick(this);
     }
@@ -41,7 +44,13 @@ public class Herb : SmallToken
     }
 
     public override void UseEffect(){
-      Debug.Log("Use Herb Effect");
+      if(!InUse){
+        InUse = true;
+        EventManager.TriggerHerbUseUI(this);
+      }
+      else{
+        EventManager.TriggerError(3);
+      }
     }
 
 }
