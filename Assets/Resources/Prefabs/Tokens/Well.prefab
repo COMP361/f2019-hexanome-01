@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4769502194040244887}
   - component: {fileID: 4076222018000169825}
   - component: {fileID: 7464325971465879867}
-  - component: {fileID: 8592806584172578836}
+  - component: {fileID: -6178553644682504098}
   m_Layer: 0
   m_Name: Well
   m_TagString: Untagged
@@ -47,7 +47,6 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -99,8 +98,8 @@ MonoBehaviour:
   InUse: 0
   goFullWell: {fileID: 0}
   goEmptyWell: {fileID: 0}
-  photonView: {fileID: 8592806584172578836}
---- !u!114 &8592806584172578836
+  photonView: {fileID: -6178553644682504098}
+--- !u!114 &-6178553644682504098
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

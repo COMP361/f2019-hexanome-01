@@ -4,17 +4,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Shield: BigToken {
-  public static string name = "Shield";
+public class Shield : BigToken {
+  public static string itemName = "Shield";
   public static string desc = "Each side of the shield can be used once to help avoiding losing willpower points after a battle round, or against an event card.";
-
   public PhotonView photonView;
-
 
   public static Shield Factory()
   {
     GameObject shieldGO = PhotonNetwork.Instantiate("Prefabs/Tokens/Shield", Vector3.zero, Quaternion.identity, 0);
-    return shieldGO.GetComponent<Shield>();
+    Shield shield = shieldGO.GetComponent<Shield>();
+    shield.Cell = null;
+    return shield;
   }
 
   public static Shield Factory(int cellID)
@@ -33,7 +33,11 @@ public class Shield: BigToken {
   }
 
   public override void UseEffect(){
-    Debug.Log("Use Shield Effect");
+    BigToken bigToken = GameManager.instance.MainHero.heroInventory.bigToken;
+    if(!bigToken is Shield || bigToken.GetComponent<PhotonView>().ViewID != GetComponent<PhotonView>().ViewID) return;
+
+    HalfShield shield = HalfShield.Factory();
+    GameManager.instance.MainHero.heroInventory.ReplaceBigToken((BigToken)this, shield, true);
   }
 
   public static void Buy() {

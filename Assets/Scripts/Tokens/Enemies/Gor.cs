@@ -13,7 +13,7 @@ public class Gor : Enemy
         GameObject go = new GameObject("Gor");
         SpriteRenderer renderer = go.AddComponent<SpriteRenderer>();
         renderer.sprite = sprite;
-        renderer.sortingOrder = 2;
+        renderer.sortingOrder = 3;
         go.transform.localScale = new Vector3(10, 10, 10);
 
         Gor gor = go.AddComponent<Gor>();

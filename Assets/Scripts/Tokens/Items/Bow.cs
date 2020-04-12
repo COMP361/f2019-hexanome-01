@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Bow : BigToken {
-    public static string name = "Bow";
+    public static string itemName = "Bow";
     public static string desc = "A hero with a bow may attack a creature in an adjacent space.";
 
     public PhotonView photonView;

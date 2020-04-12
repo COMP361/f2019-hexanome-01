@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class Telescope : SmallToken
 {
-  public static string name = "Telescope";
+  public static string itemName = "Telescope";
   public static string desc = "The telescope can be used to d reveal all hidden tokens on adjacent spaces.";
 
   public PhotonView photonView;
@@ -14,7 +14,9 @@ public class Telescope : SmallToken
   public static Telescope Factory()
   {
     GameObject telescopeGO = PhotonNetwork.Instantiate("Prefabs/Tokens/Telescope", Vector3.zero, Quaternion.identity, 0);
-    return telescopeGO.GetComponent<Telescope>();
+    Telescope telescope = telescopeGO.GetComponent<Telescope>();
+    telescope.Cell = null;
+    return telescope;
   }
 
   public static Telescope Factory(int cellID)

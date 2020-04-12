@@ -47,47 +47,47 @@ public class CellItemsActions : MonoBehaviour
       token = item;
 
       if(token is Wineskin){
-      cellItemsPanelTitle.text = Wineskin.name;
+      cellItemsPanelTitle.text = Wineskin.itemName;
       cellItemsPanelDesc.text = Wineskin.desc;
       }
       else if(token is Potion){
-      cellItemsPanelTitle.text = Potion.name;
+      cellItemsPanelTitle.text = Potion.itemName;
       cellItemsPanelDesc.text = Potion.desc;
       }
       else if(token is Bow){
-      cellItemsPanelTitle.text = Bow.name;
+      cellItemsPanelTitle.text = Bow.itemName;
       cellItemsPanelDesc.text = Bow.desc;
       }
       else if(token is Falcon){
-      cellItemsPanelTitle.text = Falcon.name;
+      cellItemsPanelTitle.text = Falcon.itemName;
       cellItemsPanelDesc.text = Falcon.desc;
       }
       else if(token is Helm){
-      cellItemsPanelTitle.text = Helm.name;
+      cellItemsPanelTitle.text = Helm.itemName;
       cellItemsPanelDesc.text = Helm.desc;
       }
       else if(token is Herb){
-      cellItemsPanelTitle.text = Herb.name;
+      cellItemsPanelTitle.text = Herb.itemName;
       cellItemsPanelDesc.text = Herb.desc;
       }
       else if(token is Runestone){
-      cellItemsPanelTitle.text = Runestone.name;
+      cellItemsPanelTitle.text = Runestone.itemName;
       cellItemsPanelDesc.text = Runestone.desc;
       }
       else if(token is Shield){
-      cellItemsPanelTitle.text = Shield.name;
+      cellItemsPanelTitle.text = Shield.itemName;
       cellItemsPanelDesc.text = Shield.desc;
       }
       else if(token is Telescope){
-      cellItemsPanelTitle.text = Telescope.name;
+      cellItemsPanelTitle.text = Telescope.itemName;
       cellItemsPanelDesc.text = Telescope.desc;
       }
       else if(token is GoldCoin){
-      cellItemsPanelTitle.text = GoldCoin.name;
+      cellItemsPanelTitle.text = GoldCoin.itemName;
       cellItemsPanelDesc.text = GoldCoin.desc;
       }
       else if (token is Well){
-      cellItemsPanelTitle.text = Well.name;
+      cellItemsPanelTitle.text = Well.itemName;
       cellItemsPanelDesc.text = Well.desc;
       }
       cellItemsPanel.SetActive(true);

@@ -56,19 +56,20 @@ public class FreeMoveUI : MonoBehaviour
   public void ShowFreeMoves(Token item, int PathSize) {
       token = item;
       if(token is Wineskin){
-      FreeMovePanelTitle.text = Wineskin.name;
-      FreeMovePanelDesc.text = "How many free moves do you want to use from your" + Wineskin.name;
-      disableButtons(PathSize);
-      Btn3.interactable = false;
-      Btn4.interactable = false;
+        FreeMovePanelTitle.text = Wineskin.itemName;
+        FreeMovePanelDesc.text = "How many free moves do you want to use from your" + Wineskin.itemName;
+        disableButtons(PathSize);
+        Btn3.interactable = false;
+        Btn4.interactable = false;
       }
+      
       if(token is HalfWineskin){
-      FreeMovePanelTitle.text = HalfWineskin.name;
-      FreeMovePanelDesc.text = "How many free moves do you want to use from your" + HalfWineskin.name;
-      disableButtons(PathSize);
-      Btn2.interactable = false;
-      Btn3.interactable = false;
-      Btn4.interactable = false;
+        FreeMovePanelTitle.text = HalfWineskin.itemName;
+        FreeMovePanelDesc.text = "How many free moves do you want to use from your" + HalfWineskin.itemName;
+        disableButtons(PathSize);
+        Btn2.interactable = false;
+        Btn3.interactable = false;
+        Btn4.interactable = false;
       }
       FreeMovePanel.SetActive(true);
   }

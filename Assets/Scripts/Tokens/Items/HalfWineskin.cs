@@ -7,10 +7,9 @@ using UnityEngine;
 public class HalfWineskin : SmallToken
 {
 
-  public static string name = "Half-Wineskin";
+  public static string itemName = "Half-Wineskin";
   public static string desc = "Each side of the wineskin can be used to advance 1 space without having to move the time marker.";
   public PhotonView photonView;
-
 
   public void Awake() {
     TokenName = Type;
@@ -18,7 +17,16 @@ public class HalfWineskin : SmallToken
 
   public static HalfWineskin Factory() {
     GameObject halfWineskinGO = PhotonNetwork.Instantiate("Prefabs/Tokens/WineskinHalf", Vector3.zero, Quaternion.identity, 0);
-    return halfWineskinGO.GetComponent<HalfWineskin>();
+    HalfWineskin halfWineskin = halfWineskinGO.GetComponent<HalfWineskin>();
+    halfWineskin.Cell = null;
+    return halfWineskin;
+  }
+
+  public static HalfWineskin Factory(int cellID)
+  {
+    HalfWineskin halfWineskin = HalfWineskin.Factory();
+    halfWineskin.Cell = Cell.FromId(cellID);
+    return halfWineskin;
   }
 
   public static HalfWineskin Factory(string hero)
@@ -40,15 +48,14 @@ public class HalfWineskin : SmallToken
     if(!InUse){
       InUse = true;
       EventManager.TriggerFreeMove(this);
-    }
-    else{
+    } else{
       EventManager.TriggerError(3);
     }
   }
 
   public override void HowManyFreeMoves(int pathSize){
-  EventManager.TriggerFreeMoveUI(this, pathSize);
+    EventManager.TriggerFreeMoveUI(this, pathSize);
   }
-
+  
   public static string Type { get => typeof(HalfWineskin).ToString(); }
 }

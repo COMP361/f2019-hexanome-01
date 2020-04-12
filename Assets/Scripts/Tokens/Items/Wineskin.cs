@@ -6,14 +6,16 @@ using UnityEngine;
 
 public class Wineskin : SmallToken
 {
-  public static string name = "Wineskin";
+  public static string itemName = "Wineskin";
   public static string desc = "Each side of the wineskin can be used to advance 1 space without having to move the time marker.";
   public PhotonView photonView;
 
   public static Wineskin Factory()
   {
     GameObject wineSkinGO = PhotonNetwork.Instantiate("Prefabs/Tokens/Wineskin", Vector3.zero, Quaternion.identity, 0);
-    return wineSkinGO.GetComponent<Wineskin>();
+    Wineskin wineskin = wineSkinGO.GetComponent<Wineskin>();
+    wineskin.Cell = null;
+    return wineskin;
   }
 
   public static Wineskin Factory(int cellID)
@@ -49,8 +51,9 @@ public class Wineskin : SmallToken
   }
 
   public override void HowManyFreeMoves(int pathSize){
-  EventManager.TriggerFreeMoveUI(this, pathSize);
+    EventManager.TriggerFreeMoveUI(this, pathSize);
   }
+  
 
   public static string Type { get => typeof(Wineskin).ToString(); }
 

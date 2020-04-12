@@ -4,9 +4,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HalfPotion : SmallToken
+public class HalfPotion : Potion
 {
-  public PhotonView photonView;
 
   public void Awake() {
     TokenName = Type;
@@ -14,7 +13,9 @@ public class HalfPotion : SmallToken
 
   public static HalfPotion Factory() {
     GameObject halfPotionGO = PhotonNetwork.Instantiate("Prefabs/Tokens/PotionHalf", Vector3.zero, Quaternion.identity, 0);
-    return halfPotionGO.GetComponent<HalfPotion>();
+    HalfPotion halfPotion = halfPotionGO.GetComponent<HalfPotion>();
+    halfPotion.Cell = null;
+    return halfPotion;
   }
 
   public static HalfPotion Factory(string hero)

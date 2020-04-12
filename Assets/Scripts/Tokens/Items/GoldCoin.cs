@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class GoldCoin : Token
 {
-  public static string name = "GoldCoin";
+  public static string itemName = "GoldCoin";
   public static string desc = "This is a Gold Coin! You can use it to buy things.";
   public PhotonView photonView;
 
@@ -16,7 +16,9 @@ public class GoldCoin : Token
 
   public static GoldCoin Factory() {
     GameObject goldCoinGO = PhotonNetwork.Instantiate("Prefabs/Tokens/GoldCoin", Vector3.zero, Quaternion.identity, 0);
-    return goldCoinGO.GetComponent<GoldCoin>();
+    GoldCoin gold = goldCoinGO.GetComponent<GoldCoin>();
+    gold.Cell = null;
+    return gold;
   }
 
   public static GoldCoin Factory(int cellID)

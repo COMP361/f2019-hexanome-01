@@ -88,6 +88,8 @@ public class ChooseManager : MonoBehaviour
         PhotonNetwork.LocalPlayer.SetCustomProperties(classTable);
             
         if(!PhotonNetwork.OfflineMode) {
+            Button btn = GameObject.Find(currentSelection).GetComponent<Button>();
+            btn.enabled = false;
             photonView.RPC("ReceiveOnClickedConfirmButton", RpcTarget.All, currentSelection);
         } else {
             ReceiveOnClickedConfirmButton(currentSelection);
@@ -97,8 +99,6 @@ public class ChooseManager : MonoBehaviour
     [PunRPC]
     public void ReceiveOnClickedConfirmButton(string selection)
     {
-        Button btn = GameObject.Find(selection).GetComponent<Button>();
-        btn.enabled = false;
         buttons.RemoveAll(x => x.name == selection);
         foreach (Button b in buttons)
         {

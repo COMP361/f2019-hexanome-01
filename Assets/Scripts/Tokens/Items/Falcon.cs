@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class Falcon : BigToken{
 
-  public static string name = "Falcon";
+  public static string itemName = "Falcon";
   public static string desc = "Two heroes can exchange as many small articles, gold, or gemstones at one time as they like even if they are not standing on the same space.";
   public PhotonView photonView;
 

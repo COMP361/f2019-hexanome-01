@@ -10,10 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 5767409079190280909}
   - component: {fileID: 1678957614960945358}
-  - component: {fileID: 7580209643718826853}
+  - component: {fileID: 2285970457016927610}
   - component: {fileID: 4767728333536492034}
   m_Layer: 0
-  m_Name: Shield 1
+  m_Name: ShieldBack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -82,7 +82,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &7580209643718826853
+--- !u!114 &2285970457016927610
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -91,10 +91,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 7846937657403041520}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2a8d544a3689343e4b6207c0f6e4052a, type: 3}
+  m_Script: {fileID: 11500000, guid: 8925314edc34ab761b0615a04514c744, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   desc: 
+  InUse: 0
   photonView: {fileID: 4767728333536492034}
 --- !u!114 &4767728333536492034
 MonoBehaviour:

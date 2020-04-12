@@ -7,7 +7,7 @@ using UnityEngine;
 public class Herb : SmallToken
 {
     // Start is called before the first frame update
-    public static string name = "Herb";
+    public static string itemName = "Herb";
     public static string desc = "Herb allows you to move around";
     public static Herbs herbType;
 
@@ -20,7 +20,9 @@ public class Herb : SmallToken
       herbType = type;
       GameObject herbGo = PhotonNetwork.Instantiate("Prefabs/Tokens/" + herbType, Vector3.zero, Quaternion.identity, 0);
       token = herbGo;
-      return herbGo.GetComponent<Herb>();
+      Herb herb = herbGo.GetComponent<Herb>();
+      herb.Cell = null;
+      return herb;
     }
 
     public static Herb Factory(int cellID, Herbs type)

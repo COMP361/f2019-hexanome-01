@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class Helm : Token
 {
-  public static string name = "Helm";
+  public static string itemName = "Helm";
   public static string desc = "A helm allows you to total up all identical dice values in a battle.";
   public PhotonView photonView;
 

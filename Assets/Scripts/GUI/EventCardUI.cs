@@ -36,7 +36,9 @@ public class EventCardUI : MonoBehaviour {
         text.text += "\n" + card.effect;
         id.text = "" + card.id;
         
-        if(card.shield) {
+        BigToken bigToken = GameManager.instance.MainHero.heroInventory.bigToken;
+
+        if(card.shield && bigToken is Shield) {
             shieldBtn.interactable = true;
         } else {
             shieldBtn.interactable = false;
@@ -57,7 +59,13 @@ public class EventCardUI : MonoBehaviour {
 
     public void Skip() {
         if(!card.shield) return;
-        Hide();
-        card = null;
+
+        BigToken bigToken = GameManager.instance.MainHero.heroInventory.bigToken;
+
+        if(bigToken is Shield) {
+            bigToken.UseEffect();
+            Hide();
+            card = null;
+        }
     }
 }

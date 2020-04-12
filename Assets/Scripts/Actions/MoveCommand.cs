@@ -411,23 +411,16 @@ public class MoveCommand : MonoBehaviour, ICommand
 
     public void AddFreeMoveCount(int toAdd, Token item){
       totalFreeMoves = totalFreeMoves + toAdd;
-      if(item is Wineskin){
-        if(toAdd == 2){
-          GameManager.instance.MainHero.heroInventory.RemoveSmallToken((SmallToken)item);
-        }
-        else if(toAdd == 1){
-          GameManager.instance.MainHero.heroInventory.RemoveSmallToken((SmallToken)item);
-          SmallToken halfWineskin = HalfWineskin.Factory(GameManager.instance.MainHero.TokenName);
-        }
-        else if (toAdd == 0){
-        }
-      }
-
-      else if (item is HalfWineskin){
+      if (item is HalfWineskin){
         if(toAdd == 1){
           GameManager.instance.MainHero.heroInventory.RemoveSmallToken((SmallToken)item);
         }
-        else if (toAdd == 0){
+      } else if(item is Wineskin){
+        if(toAdd == 2){
+          GameManager.instance.MainHero.heroInventory.RemoveSmallToken((SmallToken)item);
+        } else if(toAdd == 1){
+          SmallToken halfWineskin = HalfWineskin.Factory();
+          GameManager.instance.MainHero.heroInventory.ReplaceSmallToken((SmallToken)item, halfWineskin, true);
         }
       }
 

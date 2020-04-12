@@ -47,49 +47,49 @@ public class MerchantCellUI : Singleton<MerchantCellUI>
 
       if(btn.transform.parent.name == "Strength") {
         btn.onClick.AddListener(() => {
-          ShowPanel(Strength.name, Strength.desc);
+          ShowPanel(Strength.itemName, Strength.desc);
           buyBtn.onClick.RemoveAllListeners() ;
           buyBtn.onClick.AddListener(() => { Strength.Buy(); HidePanel(); });
         });
       } else if(btn.transform.parent.name == "Helm") {
         btn.onClick.AddListener(() => {
-          ShowPanel(Helm.name, Helm.desc);
+          ShowPanel(Helm.itemName, Helm.desc);
           buyBtn.onClick.RemoveAllListeners() ;
           buyBtn.onClick.AddListener(() => { Helm.Buy(); HidePanel(); });
         });
       } else if(btn.transform.parent.name == "Telescope") {
         btn.onClick.AddListener(() => {
-          ShowPanel(Telescope.name, Telescope.desc);
+          ShowPanel(Telescope.itemName, Telescope.desc);
           buyBtn.onClick.RemoveAllListeners() ;
           buyBtn.onClick.AddListener(() => { Telescope.Buy(); HidePanel(); });
         });
       } else if(btn.transform.parent.name == "Wineskin") {
         btn.onClick.AddListener(() => {
-          ShowPanel(Wineskin.name, Wineskin.desc);
+          ShowPanel(Wineskin.itemName, Wineskin.desc);
           buyBtn.onClick.RemoveAllListeners() ;
           buyBtn.onClick.AddListener(() => { Wineskin.Buy(); HidePanel(); });
         });
       } else if(btn.transform.parent.name == "Shield") {
         btn.onClick.AddListener(() => {
-          ShowPanel(Shield.name, Shield.desc);
+          ShowPanel(Shield.itemName, Shield.desc);
           buyBtn.onClick.RemoveAllListeners() ;
           buyBtn.onClick.AddListener(() => { Shield.Buy(); HidePanel(); });
         });
       } else if(btn.transform.parent.name == "Bow") {
         btn.onClick.AddListener(() => {
-          ShowPanel(Bow.name, Bow.desc);
+          ShowPanel(Bow.itemName, Bow.desc);
           buyBtn.onClick.RemoveAllListeners() ;
           buyBtn.onClick.AddListener(() => { Bow.Buy(); HidePanel(); });
         });
       } else if(btn.transform.parent.name == "Falcon") {
         btn.onClick.AddListener(() => {
-          ShowPanel(Falcon.name, Falcon.desc);
+          ShowPanel(Falcon.itemName, Falcon.desc);
           buyBtn.onClick.RemoveAllListeners() ;
           buyBtn.onClick.AddListener(() => { Falcon.Buy(); HidePanel(); });
         });
       } else if(btn.transform.parent.name == "Potion") {
         btn.onClick.AddListener(() => {
-          ShowPanel(Potion.name, Potion.desc);
+          ShowPanel(Potion.itemName, Potion.desc);
           buyBtn.onClick.RemoveAllListeners() ;
           buyBtn.onClick.AddListener(() => { Potion.Buy(); HidePanel(); });
         });

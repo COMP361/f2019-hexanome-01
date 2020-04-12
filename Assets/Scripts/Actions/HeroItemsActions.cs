@@ -57,7 +57,7 @@ public class HeroItemsActions : MonoBehaviour
       token = item;
 
       if(token is Wineskin){
-        heroItemsPanelTitle.text = Wineskin.name;
+        heroItemsPanelTitle.text = Wineskin.itemName;
         heroItemsPanelDesc.text = Wineskin.desc;
         if(!canUseMoveItems){
           useBtn.interactable = false;
@@ -65,7 +65,7 @@ public class HeroItemsActions : MonoBehaviour
         else{}
       }
       if(token is HalfWineskin){
-        heroItemsPanelTitle.text = HalfWineskin.name;
+        heroItemsPanelTitle.text = HalfWineskin.itemName;
         heroItemsPanelDesc.text = HalfWineskin.desc;
         if(!canUseMoveItems){
           useBtn.interactable = false;
@@ -73,45 +73,45 @@ public class HeroItemsActions : MonoBehaviour
         else{}
       }
       else if(token is Potion){
-        heroItemsPanelTitle.text = Potion.name;
+        heroItemsPanelTitle.text = Potion.itemName;
         heroItemsPanelDesc.text = Potion.desc;
         useBtn.interactable = false;
       }
       else if(token is Bow){
-        heroItemsPanelTitle.text = Bow.name;
+        heroItemsPanelTitle.text = Bow.itemName;
         heroItemsPanelDesc.text = Bow.desc;
         useBtn.interactable = false;
       }
       else if(token is Falcon){
-        heroItemsPanelTitle.text = Falcon.name;
+        heroItemsPanelTitle.text = Falcon.itemName;
         heroItemsPanelDesc.text = Falcon.desc;
       }
       else if(token is Helm){
-        heroItemsPanelTitle.text = Helm.name;
+        heroItemsPanelTitle.text = Helm.itemName;
         heroItemsPanelDesc.text = Helm.desc;
         useBtn.interactable = false;
       }
       else if(token is Herb){
-        heroItemsPanelTitle.text = Herb.name;
+        heroItemsPanelTitle.text = Herb.itemName;
         heroItemsPanelDesc.text = Herb.desc;
       }
       else if(token is Runestone){
-        heroItemsPanelTitle.text = Runestone.name;
+        heroItemsPanelTitle.text = Runestone.itemName;
         heroItemsPanelDesc.text = Runestone.desc;
         useBtn.interactable = false;
       }
       else if(token is Shield){
-        heroItemsPanelTitle.text = Shield.name;
+        heroItemsPanelTitle.text = Shield.itemName;
         heroItemsPanelDesc.text = Shield.desc;
         useBtn.interactable = false;
       }
       else if(token is Telescope){
-        heroItemsPanelTitle.text = Telescope.name;
+        heroItemsPanelTitle.text = Telescope.itemName;
         heroItemsPanelDesc.text = Telescope.desc;
       }
 
       else if(token is GoldCoin){
-        heroItemsPanelTitle.text = GoldCoin.name;
+        heroItemsPanelTitle.text = GoldCoin.itemName;
         heroItemsPanelDesc.text = GoldCoin.desc;
         useBtn.interactable = false;
       }

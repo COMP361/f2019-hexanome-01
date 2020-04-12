@@ -652,9 +652,21 @@ public class GameManager : Singleton<GameManager>
     }
 
     [PunRPC]
+    public void ReplaceSmallTokenRPC(int originalViewID, int newViewID, bool destroy, string hero){
+      Hero toReplaceFrom = findHero(hero);
+      toReplaceFrom.heroInventory.ReplaceSmallToken2(originalViewID, newViewID, destroy);
+    }
+
+    [PunRPC]
     public void RemoveBigTokenRPC(int viewID, string hero){
       Hero toRemoveFrom = findHero(hero);
       toRemoveFrom.heroInventory.RemoveBigToken2(viewID);
+    }
+
+    [PunRPC]
+    public void ReplaceBigTokenRPC(int originalViewID, int newViewID, bool destroy, string hero){
+      Hero toReplaceFrom = findHero(hero);
+      toReplaceFrom.heroInventory.ReplaceBigToken2(originalViewID, newViewID, destroy);
     }
 
     [PunRPC]

@@ -66,17 +66,15 @@ public class HeroInventory
     }
 
     public void RemoveGold2(int viewID){
-        numOfGold--;
-        AllTokens.Remove(convertToKey(viewID));
-        golds.Remove(convertToKey(viewID));
-        if(GameManager.instance.MainHero.TokenName.Equals(parentHero)){
-          EventManager.TriggerInventoryUIHeroUpdate(this);
-        }
-        else if(parentHero.Equals(CharChoice.choice.TokenName)){
-          EventManager.TriggerInventoryUIHeroPeak(this);
-        }
+      numOfGold--;
+      AllTokens.Remove(convertToKey(viewID));
+      golds.Remove(convertToKey(viewID));
+      if(GameManager.instance.MainHero.TokenName.Equals(parentHero)){
+        EventManager.TriggerInventoryUIHeroUpdate(this);
+      } else if(parentHero.Equals(CharChoice.choice.TokenName)){
+        EventManager.TriggerInventoryUIHeroPeak(this);
+      }
     }
-
 
     //what to do with errors
     public bool AddSmallToken(SmallToken smallToken){
@@ -105,8 +103,8 @@ public class HeroInventory
 
     public void RemoveSmallToken(SmallToken smallToken){
       if(smallTokens.Contains(convertToKey(smallToken.GetComponent<PhotonView>().ViewID))){
-      int viewID = smallToken.GetComponent<PhotonView>().ViewID;
-      GameManager.instance.photonView.RPC("RemoveSmallTokenRPC", RpcTarget.AllViaServer, new object[] {viewID, parentHero});
+        int viewID = smallToken.GetComponent<PhotonView>().ViewID;
+        GameManager.instance.photonView.RPC("RemoveSmallTokenRPC", RpcTarget.AllViaServer, new object[] {viewID, parentHero});
       }
       else {
         Debug.Log("Error hero inventory remove smallToken");
@@ -125,13 +123,48 @@ public class HeroInventory
       }
     }
 
+    public void ReplaceSmallToken(SmallToken original, SmallToken newItem, bool destroy = false){
+      int originalViewID = original.GetComponent<PhotonView>().ViewID;
+      int newViewID = newItem.GetComponent<PhotonView>().ViewID;
+
+      if(smallTokens.Contains(convertToKey(originalViewID))){
+        GameManager.instance.photonView.RPC("ReplaceSmallTokenRPC", RpcTarget.AllViaServer, new object[] {originalViewID, newViewID, destroy, parentHero});
+      } else {
+        Debug.Log("Error hero inventory remove BigToken");
+      }
+    }
+    
+    public void ReplaceSmallToken2(int originalViewID, int newViewID, bool destroy){
+      if(smallTokens.Contains(convertToKey(originalViewID))){
+        SmallToken token = (SmallToken)PhotonView.Find(newViewID).GetComponent<Token>();
+        string id = convertToKey(newViewID);
+        
+        AllTokens.Remove(convertToKey(originalViewID));
+        smallTokens.Remove(convertToKey(originalViewID));
+
+        smallTokens.Add(id, token);
+        AllTokens.Add(id, token);
+
+        if(destroy) {
+          Token tkn = PhotonView.Find(originalViewID).GetComponent<Token>();
+          if(tkn != null) GameObject.Destroy(tkn.gameObject);
+        }
+      }
+      
+      if(GameManager.instance.MainHero.TokenName.Equals(parentHero)){
+        EventManager.TriggerInventoryUIHeroUpdate(this);
+      } else if(parentHero.Equals(CharChoice.choice.TokenName)){
+        EventManager.TriggerInventoryUIHeroPeak(this);
+      }
+    }
+
     public bool AddBigToken(BigToken item){
       if(bigToken == null){
         int viewID = item.GetComponent<PhotonView>().ViewID;
         GameManager.instance.photonView.RPC("AddBigTokenRPC", RpcTarget.AllViaServer, new object[] {viewID, parentHero});
         return true;
-      }
-      else{
+      } else {
+        Debug.Log("bigToken not null");
         EventManager.TriggerError(1);
         return false;
       }
@@ -153,8 +186,7 @@ public class HeroInventory
       if(bigToken.GetComponent<PhotonView>().ViewID == item.GetComponent<PhotonView>().ViewID){
         int viewID = item.GetComponent<PhotonView>().ViewID;
         GameManager.instance.photonView.RPC("RemoveBigTokenRPC", RpcTarget.AllViaServer, new object[] {viewID, parentHero});
-      }
-      else {
+      } else {
         Debug.Log("Error hero inventory remove BigToken");
       }
     }
@@ -164,10 +196,39 @@ public class HeroInventory
         bigToken = null;
         AllTokens.Remove(convertToKey(viewID));
       }
+      
       if(GameManager.instance.MainHero.TokenName.Equals(parentHero)){
         EventManager.TriggerInventoryUIHeroUpdate(this);
+      } else if(parentHero.Equals(CharChoice.choice.TokenName)){
+        EventManager.TriggerInventoryUIHeroPeak(this);
       }
-      else if(parentHero.Equals(CharChoice.choice.TokenName)){
+    }
+
+    public void ReplaceBigToken(BigToken original, BigToken newItem, bool destroy = false){
+      int originalViewID = original.GetComponent<PhotonView>().ViewID;
+      int newViewID = newItem.GetComponent<PhotonView>().ViewID;
+
+      if(bigToken.GetComponent<PhotonView>().ViewID == originalViewID){  
+        GameManager.instance.photonView.RPC("ReplaceBigTokenRPC", RpcTarget.AllViaServer, new object[] {originalViewID, newViewID, destroy, parentHero});
+      } else {
+        Debug.Log("Error hero inventory remove BigToken");
+      }
+    }
+    
+    public void ReplaceBigToken2(int originalViewID, int newViewID, bool destroy){
+      if(bigToken.GetComponent<PhotonView>().ViewID == originalViewID){
+        BigToken token = (BigToken)PhotonView.Find(newViewID).GetComponentInParent<Token>();
+        string id = convertToKey(newViewID);
+        AllTokens.Add(id, token);
+
+        AllTokens.Remove(convertToKey(originalViewID));
+        if(destroy) GameObject.Destroy(bigToken.gameObject);
+        bigToken = token;
+      }
+      
+      if(GameManager.instance.MainHero.TokenName.Equals(parentHero)){
+        EventManager.TriggerInventoryUIHeroUpdate(this);
+      } else if(parentHero.Equals(CharChoice.choice.TokenName)){
         EventManager.TriggerInventoryUIHeroPeak(this);
       }
     }

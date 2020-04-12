@@ -21,11 +21,12 @@ public class Token : MonoBehaviour {
             return _cell;
         }
         set {
-            if(value == null) {
-                gameObject.SetActive(false);
+            SpriteRenderer sr = GetComponent<SpriteRenderer>();
 
+            if(value == null) {    
+                if(sr != null) sr.enabled = false;
             } else {
-                gameObject.SetActive(true);
+                if(sr != null) sr.enabled = true;
             }
 
             if(_cell != null && _cell.Inventory != null) {
@@ -65,11 +66,9 @@ public class Token : MonoBehaviour {
     }
 
     public Sprite getSprite(){
-        if(gameObject.GetComponent<SpriteRenderer>() != null){
-          return gameObject.GetComponent<SpriteRenderer>().sprite;
-        }
-        else{
-
+        if(gameObject != null && gameObject.GetComponent<SpriteRenderer>() != null){
+            return gameObject.GetComponent<SpriteRenderer>().sprite;
+        } else {
             return Resources.Load<Sprite>("Sprites/dot");
         }
     }
@@ -94,13 +93,4 @@ public class Token : MonoBehaviour {
 
     public virtual void HowManyFreeMoves(int PathSize){
     }
-
-/*
-    public virtual string Type{
-      get{
-        return "Token";
-      }
-    }
-    */
-
 }

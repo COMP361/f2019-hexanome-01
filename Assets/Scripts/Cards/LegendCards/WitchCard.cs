@@ -37,7 +37,7 @@ public class WitchCard : LegendCard
             herbCell = 61;
         }
         Debug.Log("Herb is at cell " + herbCell);
-        Herb.Factory(herbCell);
+        Herb.Factory(herbCell, Herbs.Herb4);
         Gor.Factory(herbCell);
     }
 }

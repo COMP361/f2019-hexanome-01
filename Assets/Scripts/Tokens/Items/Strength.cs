@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Strength : Token {
-  public static string name = "Strength";
+  public static string itemName = "Strength";
   public static string desc = "A strength point helps you battle monsters by making you stronger.";
 
   public PhotonView photonView;

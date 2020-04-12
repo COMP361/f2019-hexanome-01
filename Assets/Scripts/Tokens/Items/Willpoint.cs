@@ -6,10 +6,9 @@ using UnityEngine;
 
 public class Willpoint : SmallToken
 {
-  public static string name = "Willpoint";
+  public static string itemName = "Willpoint";
   public static string desc = "Willpoints are useful to increase your hero";
   public static Willpoints willpointType;
-
   public static GameObject token;
   public PhotonView photonView;
 
@@ -18,7 +17,9 @@ public class Willpoint : SmallToken
     willpointType = type;
     GameObject willpointGo = PhotonNetwork.Instantiate("Prefabs/Tokens/" + willpointType, Vector3.zero, Quaternion.identity, 0);
     token = willpointGo;
-    return willpointGo.GetComponent<Willpoint>();
+    Willpoint wp = willpointGo.GetComponent<Willpoint>();
+    wp.Cell = null;
+    return wp;
   }
 
   public static Willpoint Factory(int cellID, Willpoints type)

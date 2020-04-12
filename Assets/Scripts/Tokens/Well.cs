@@ -11,7 +11,7 @@ public class Well : Token
   public GameObject goEmptyWell;
 
   public PhotonView photonView;
-  public static string name = "Well";
+  public static string itemName = "Well";
   public static string desc = "This is a Well! Pick it up to get willpower points.";
 
   public static Well Factory(int cellID, bool full = true) {

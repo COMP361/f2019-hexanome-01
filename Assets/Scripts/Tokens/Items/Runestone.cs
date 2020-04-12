@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class Runestone : SmallToken
 {
-    public static string name = "Runestone";
+    public static string itemName = "Runestone";
     public static string desc = "Collect three of different colors to unlock an awesome power.";
     public static RunestoneColor color;
     public static bool isCovered;
@@ -32,7 +32,9 @@ public class Runestone : SmallToken
         GameObject runestoneGo = PhotonNetwork.Instantiate("Prefabs/Tokens/Runestone", Vector3.zero, Quaternion.identity, 0);
         token = runestoneGo;
         runestoneCount++;
-        return runestoneGo.GetComponent<Runestone>();
+        Runestone rs = runestoneGo.GetComponent<Runestone>();
+        rs.Cell = null;
+        return rs;
     }
 
     public static Runestone Factory(int cellID)

@@ -6,21 +6,21 @@ public class EventCardDeck {
     static List<EventCard> cards = new List<EventCard>();
 
     private EventCardDeck() {
-        cards.Add(new LC2());
+        /*cards.Add(new LC2());
         cards.Add(new LC4());
         cards.Add(new LC5());
         cards.Add(new LC12());
         cards.Add(new LC13());
-        cards.Add(new LC14());
+        cards.Add(new LC14());*/
         cards.Add(new LC15());
-        cards.Add(new LC17());
+        /*cards.Add(new LC17());
         cards.Add(new LC22());
         cards.Add(new LC25());
         cards.Add(new LC28());
         //cards.Add(new LC29());
         //cards.Add(new LC30());
         cards.Add(new LC31());
-        cards.Add(new LC32());
+        cards.Add(new LC32());*/
 
         cards.Shuffle();
     }

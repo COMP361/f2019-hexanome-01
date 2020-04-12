@@ -6,14 +6,16 @@ using UnityEngine;
 
 public class Potion : SmallToken
 {
-  public static string name = "Potion";
+  public static string itemName = "Potion";
   public static string desc = "Each side of the potion token can be used to double a hero’s dice value during a battle.";
   public PhotonView photonView;
 
   public static Potion Factory()
   {
     GameObject potionGO = PhotonNetwork.Instantiate("Prefabs/Tokens/Potion", Vector3.zero, Quaternion.identity, 0);
-    return potionGO.GetComponent<Potion>();
+    Potion potion = potionGO.GetComponent<Potion>();
+    potion.Cell = null;
+    return potion;
   }
 
   public static Potion Factory(int cellID)

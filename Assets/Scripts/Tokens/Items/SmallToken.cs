@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SmallToken : Token
 {
-  public static SmallToken Factory() {
+  /*public static SmallToken Factory() {
 
     Sprite sprite = Resources.Load<Sprite>("Sprites/Tokens/Fog/Gold");
     GameObject go = new GameObject("SmallToken");
@@ -23,7 +23,7 @@ public class SmallToken : Token
     smallToken.Cell = Cell.FromId(cellID);
 
     return smallToken;
-  }
+  }*/
 
   public static string Type { get => typeof(SmallToken).ToString(); }
 

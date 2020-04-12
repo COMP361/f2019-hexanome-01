@@ -449,7 +449,7 @@ public class EventManager : MonoBehaviour
     {
         if (HeroItemClick != null)
         {
-          if(GameManager.instance.MainHero.timeline.Index == 0 && !item is Shield){
+          if(GameManager.instance.MainHero.timeline.Index == 0){
             EventManager.TriggerError(2);
           }
           else{
@@ -685,5 +685,4 @@ public class EventManager : MonoBehaviour
             LockMoveItems();
         }
     }
-
 }
