@@ -10,7 +10,8 @@ public class FileManager
     /// <param name="filename">File Name</param>
     /// <returns>Instance</returns>
     public static T Load<T>(string filename) where T : new() {
-        string filePath = Path.Combine(Application.persistentDataPath + "/Games/", filename);
+        string directoryPath = Application.dataPath.Replace("/Assets", "");
+        string filePath = Path.Combine(directoryPath + "/Saves/", filename);
         T output;
         Debug.Log(filePath);
         if (File.Exists(filePath)) {
@@ -31,7 +32,8 @@ public class FileManager
     /// <param name="filename">File Name</param>
     /// <param name="content">Model Content</param>
     public static void Save<T>(string filename, T content) {
-        string filePath = Path.Combine(Application.persistentDataPath, filename);
+        string directoryPath = Application.dataPath.Replace("/Assets", "");
+        string filePath = Path.Combine(directoryPath, filename);
 
         string dataAsJson = JsonUtility.ToJson(content);
         File.WriteAllText(filePath, dataAsJson);

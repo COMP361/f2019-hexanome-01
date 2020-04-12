@@ -620,8 +620,9 @@ public class EventManager : MonoBehaviour
         if (Save != null)
         {
             DateTime dt = DateTime.Now;
-            String folderName = "Games/save_" + dt.ToString("yyyy-MM-dd-HH-mm-ss");
-            Directory.CreateDirectory(Path.Combine(Application.persistentDataPath, folderName));
+            String folderName = "Saves/save_" + dt.ToString("yyyy-MM-dd-HH-mm-ss");
+            string directoryPath = Application.dataPath.Replace("Assets", "");
+            Directory.CreateDirectory(Path.Combine(directoryPath, folderName));
             Save(folderName);
         }
     }

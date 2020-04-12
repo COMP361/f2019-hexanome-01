@@ -5,6 +5,7 @@ using Photon.Pun;
 using UnityEngine.UI;
 using TMPro;
 using System.IO;
+using System.Collections.Generic;
 
 public class Narrator {
     public int index; // 0 -> A
@@ -35,8 +36,9 @@ public class Narrator {
         runestoneRoll = (int)PhotonNetwork.CurrentRoom.CustomProperties["RunestoneCardPosition"];
         runestoneCells = PhotonNetwork.CurrentRoom.CustomProperties["RunestoneCells"] as int[];
         SetRunestonePosition();
-        
+
         TasksListText = GameObject.Find("TasksListText").GetComponent<TMP_Text>();
+        TasksListText.text = "- Find the Witch hidden in the fog \n";
 
         narratorToken = new GameObject("Narrator");
         Sprite sprite = Resources.Load<Sprite>("Sprites/Tokens/Narrator");
@@ -100,7 +102,7 @@ public class Narrator {
             LegendCard c2 = legendCardDeck.getCard("C2");
             c1.ApplyEffect();
             c2.ApplyEffect();
-            TasksListText.text = "- Kill the Tower Skral";
+            TasksListText.text += "- Kill the Tower Skral \n";
         }
 
         if (index == 6) // G
@@ -121,6 +123,7 @@ public class Narrator {
         witchFound = true;
         LegendCard witchCard = legendCardDeck.getCard("WitchCard");
         witchCard.ApplyEffect();
+        TasksListText.text += "- Bring the Herb to the Castle \n";
     }
     
     // Decide when the runestone card will be triggered
