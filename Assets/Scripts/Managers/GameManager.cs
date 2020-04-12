@@ -181,8 +181,6 @@ public class GameManager : Singleton<GameManager>
         gors.Add(Gor.Factory(26));
         gors.Add(Gor.Factory(48));
 
-        Herb.Factory(20, Herbs.Herb4);
-
         skrals.Add(Skral.Factory(19));
 
         Fog.Factory();
