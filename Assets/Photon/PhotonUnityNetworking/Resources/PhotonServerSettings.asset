@@ -11,15 +11,15 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9f3758f8f58fdef43803eb9be1df0608, type: 3}
   m_Name: PhotonServerSettings
-  m_EditorClassIdentifier:
+  m_EditorClassIdentifier: 
   AppSettings:
     AppIdRealtime: 9b223d93-49fa-401b-bc57-78d41fd33d24
     AppIdChat: 290f9ddb-d388-4d45-807b-908a81aa204b
-    AppIdVoice:
-    AppVersion:
+    AppIdVoice: 
+    AppVersion: 
     UseNameServer: 1
     FixedRegion: cae
-    Server:
+    Server: 
     Port: 0
     Protocol: 0
     EnableLobbyStatistics: 0
@@ -28,6 +28,40 @@ MonoBehaviour:
   EnableSupportLogger: 0
   RunInBackground: 1
   StartInOfflineMode: 0
-  RpcList: []
-  DisableAutoOpenWizard: 0
+  RpcList:
+  - AddBigTokenRPC
+  - AddGoldHeroRPC
+  - AddHelmRPC
+  - AddItemCellRPC
+  - AddSmallTokenRPC
+  - AddStrengthRPC
+  - AttachFarmerRPC
+  - ClickRpc
+  - DestroyRpc
+  - DetachFarmerRPC
+  - DistributeGoldRPC
+  - DistributeWineskinsRPC
+  - EmptyWellRPC
+  - ExecuteRPC
+  - IncreaseWillPowerRPC
+  - InitMoveRPC
+  - InitThoraldMoveRPC
+  - killMonsterRPC
+  - ReceiveOnClickedConfirmButton
+  - receiveUpdateHero
+  - RemoveBigTokenRPC
+  - RemoveGoldHeroRPC
+  - RemoveHelmRPC
+  - RemoveItemCellRPC
+  - RemoveSmallTokenRPC
+  - RemoveTokenCellRPC
+  - ReplaceBigTokenRPC
+  - ReplaceSmallTokenRPC
+  - SetDestinationRPC
+  - SetFarmerDestinationRPC
+  - TriggerActionUpdateRPC
+  - TriggerEndDayRPC
+  - TriggerEndTurnRPC
+  - TriggerSkipRPC
+  DisableAutoOpenWizard: 1
   ShowSettings: 0

@@ -17,8 +17,8 @@ public class GameManager : Singleton<GameManager>
     public List<Player> players;
     public Queue<Player> playerTurn;
     public List<Hero> heroes;
-    public Narrator narrator;
 
+    public Narrator narrator;
     public List<Farmer> farmers;
     public List<Enemy> gors, skrals, trolls, wardraks, towerskrals;
     private int currentPlayerIndex = 0;
@@ -699,6 +699,12 @@ public class GameManager : Singleton<GameManager>
     public void Save(String saveId) {
         String _gameDataId = "Wells.json";
         FileManager.Save(Path.Combine(saveId, _gameDataId), new WellsState());
+    }
+
+    [PunRPC]
+    public void EmptyWellRPC(int CellId, string heroType) {
+        Well well = Cell.FromId(CellId).Inventory.Well;
+        if(well != null) well.EmptyWell(heroType);
     }
 }
 
