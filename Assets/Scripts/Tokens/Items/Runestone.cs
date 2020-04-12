@@ -8,29 +8,16 @@ public class Runestone : SmallToken
 {
     public static string itemName = "Runestone";
     public static string desc = "Collect three of different colors to unlock an awesome power.";
-    public static RunestoneColor color;
-    public static bool isCovered;
+    public RunestoneColor color;
+    public bool isCovered;
     public static int runestoneCount = 0;
-    public static GameObject token;
+    public  GameObject token;
     public PhotonView photonView;
 
     public static Runestone Factory()
     {
-        if(runestoneCount == 0 || runestoneCount == 1)
-        {
-            color = RunestoneColor.Blue;
-        }
-        if (runestoneCount == 2 || runestoneCount == 3)
-        {
-            color = RunestoneColor.Green;
-        }
-        if (runestoneCount == 4)
-        {
-            color = RunestoneColor.Yellow;
-        }
-        isCovered = true;
         GameObject runestoneGo = PhotonNetwork.Instantiate("Prefabs/Tokens/Runestone", Vector3.zero, Quaternion.identity, 0);
-        token = runestoneGo;
+      //  token = runestoneGo;
         runestoneCount++;
         Runestone rs = runestoneGo.GetComponent<Runestone>();
         rs.Cell = null;
@@ -39,14 +26,32 @@ public class Runestone : SmallToken
 
     public static Runestone Factory(int cellID)
     {
-        Runestone runestone = Runestone.Factory();
-        runestone.Cell = Cell.FromId(cellID);
-        return runestone;
+      Runestone runestone = Runestone.Factory();
+      runestone.Cell = Cell.FromId(cellID);
+      return runestone;
+    }
+
+    public void OnEnable(){
+      isCovered = true;
+      if(runestoneCount == 0 || runestoneCount == 1)
+      {
+          color = RunestoneColor.Blue;
+      }
+      if (runestoneCount == 2 || runestoneCount == 3)
+      {
+          color = RunestoneColor.Green;
+      }
+      if (runestoneCount == 4)
+      {
+          color = RunestoneColor.Yellow;
+      }
+      int viewID = this.GetComponent<PhotonView>().ViewID;
+      token = PhotonView.Find(viewID).gameObject;
     }
 
     public RunestoneColor GetColor()
     {
-        return color;
+      return color;
     }
 
     public override void UseCell(){
@@ -61,14 +66,18 @@ public class Runestone : SmallToken
 
     public override void UseEffect(){
       Debug.Log("Use Runestone Effect");
+      uncoverRunestone();
     }
 
 
     public void uncoverRunestone()
     {
-        string runestoneColor = color.ToString();
-        Sprite uncoveredSprite = Resources.Load<Sprite>("Sprites/Tokens/Stone/Stone-" + runestoneColor);
-        token.GetComponent<SpriteRenderer>().sprite = uncoveredSprite;
+      isCovered = false;
+      string runestoneColor = color.ToString();
+      Sprite uncoveredSprite = Resources.Load<Sprite>("Sprites/Tokens/Stone/Stone-" + runestoneColor);
+      token.GetComponent<SpriteRenderer>().sprite = uncoveredSprite;
+
+      InventoryUICell.instance.ForceUpdate(GameManager.instance.MainHero.Cell.Inventory, GameManager.instance.MainHero.Cell.Index );
     }
 
     public static string Type { get => typeof(Runestone).ToString(); }
