@@ -62,7 +62,7 @@ public class FreeMoveUI : MonoBehaviour
         Btn3.interactable = false;
         Btn4.interactable = false;
       }
-      
+
       if(token is HalfWineskin){
         FreeMovePanelTitle.text = HalfWineskin.itemName;
         FreeMovePanelDesc.text = "How many free moves do you want to use from your" + HalfWineskin.itemName;
@@ -73,14 +73,14 @@ public class FreeMoveUI : MonoBehaviour
       }
       if(token is Herb){
         if(((Herb)item).myType.Equals(Herbs.Herb3)){
-          FreeMovePanelTitle.text = Herb.name + "3";
-          FreeMovePanelDesc.text = "How many free moves do you want to use from your" + Herb.name + "3";
+          FreeMovePanelTitle.text = Herb.itemName + "3";
+          FreeMovePanelDesc.text = "How many free moves do you want to use from your" + Herb.itemName + "3";
           disableButtons(PathSize);
           Btn4.interactable = false;
         }
         else{
-          FreeMovePanelTitle.text = Herb.name + "4";
-          FreeMovePanelDesc.text = "How many free moves do you want to use from your" + Herb.name + "4";
+          FreeMovePanelTitle.text = Herb.itemName + "4";
+          FreeMovePanelDesc.text = "How many free moves do you want to use from your" + Herb.itemName + "4";
           disableButtons(PathSize);
         }
       }

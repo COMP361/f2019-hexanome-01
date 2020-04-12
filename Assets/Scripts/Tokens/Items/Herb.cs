@@ -53,4 +53,8 @@ public class Herb : SmallToken
       }
     }
 
+    public override void HowManyFreeMoves(int pathSize){
+      EventManager.TriggerFreeMoveUI(this, pathSize);
+    }
+
 }

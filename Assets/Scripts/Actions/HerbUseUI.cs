@@ -41,13 +41,13 @@ public class HerbUseUI : MonoBehaviour
       herb = null;
 
       cancelBtn= HerbUsePanel.transform.Find("Cancel Button").GetComponent<Button>();
-      cancelBtn.onClick.AddListener(delegate { HideHerbUse(); });
+      cancelBtn.onClick.AddListener(delegate { changeHerbUsage();HideHerbUse(); });
 
       willpowerBtn = HerbUsePanel.transform.Find("WillPower Button").GetComponent<Button>();
       willpowerBtn.onClick.AddListener(delegate { clickWillpower(); });
 
       freeMoveBtn = HerbUsePanel.transform.Find("Free Move Button").GetComponent<Button>();
-      freeMoveBtn.onClick.AddListener(delegate { EventManager.TriggerFreeMove(this.herb);});
+      freeMoveBtn.onClick.AddListener(delegate { EventManager.TriggerFreeMove(this.herb); HideHerbUse();});
   }
 
 
@@ -62,7 +62,13 @@ public class HerbUseUI : MonoBehaviour
 
   public void HideHerbUse() {
       this.herb = null;
+      freeMoveBtn.interactable = true;
       HerbUsePanel.SetActive(false);
+  }
+
+  public void changeHerbUsage() {
+      this.herb.InUse = false;
+
   }
 
   public void clickWillpower(){
@@ -92,6 +98,7 @@ public class HerbUseUI : MonoBehaviour
   }
 
   public void UnlockMoveItems(){
+    Debug.Log("TCHUIPS UNLOCK HERB");
     canUseMoveItems = true;
   }
   public void LockMoveItems(){
