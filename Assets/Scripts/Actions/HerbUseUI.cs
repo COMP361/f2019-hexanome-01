@@ -47,7 +47,7 @@ public class HerbUseUI : MonoBehaviour
       willpowerBtn.onClick.AddListener(delegate { clickWillpower(); });
 
       freeMoveBtn = HerbUsePanel.transform.Find("Free Move Button").GetComponent<Button>();
-      freeMoveBtn.onClick.AddListener(delegate { EventManager.TriggerFreeMove(this.herb); });
+      freeMoveBtn.onClick.AddListener(delegate { EventManager.TriggerFreeMove(this.herb);});
   }
 
 
@@ -71,8 +71,10 @@ public class HerbUseUI : MonoBehaviour
     }
     else
     {
-    photonView.RPC("IncreaseWillPowerRPC", RpcTarget.AllViaServer, new object[] {GameManager.instance.MainHero.TokenName, 4});
+      photonView.RPC("IncreaseWillPowerRPC", RpcTarget.AllViaServer, new object[] {GameManager.instance.MainHero.TokenName, 4});
     }
+    GameManager.instance.MainHero.heroInventory.RemoveSmallToken(this.herb);
+    HideHerbUse();
   }
 
   [PunRPC]
@@ -89,10 +91,4 @@ public class HerbUseUI : MonoBehaviour
   public void LockMoveItems(){
     canUseMoveItems = false;
   }
-
-
-
-
-
-
 }

@@ -8,7 +8,7 @@ public class Herb : SmallToken
 {
     // Start is called before the first frame update
     public static string name = "Herb";
-    public static string desc = "Herb allows you to move around";
+    public static string desc = "Medicinal herb can help you do three things. Gain WillPower, get free moves, or add to your strength in battle";
     public  static Herbs herbType;
     public Herbs myType;
 

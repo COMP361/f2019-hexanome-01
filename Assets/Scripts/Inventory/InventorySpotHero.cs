@@ -11,7 +11,7 @@ public class InventorySpotHero : MonoBehaviour
     void Awake() {
       icon = GetComponent<Image>();
     }
-    
+
     public void AddItem(Token newToken)
     {
       token = newToken;
@@ -29,8 +29,13 @@ public class InventorySpotHero : MonoBehaviour
     public void UseItem(){
       if(token != null){
         if(CharChoice.choice.TokenName.Equals(GameManager.instance.MainHero.TokenName)){
-        token.UseHero();
-      }
+          if(GameManager.instance.MainHero.timeline.Index != 0){
+            token.UseHero();
+          }
+          else{
+            EventManager.TriggerError(2);
+          }
+        }
       }
     }
 }

@@ -56,19 +56,32 @@ public class FreeMoveUI : MonoBehaviour
   public void ShowFreeMoves(Token item, int PathSize) {
       token = item;
       if(token is Wineskin){
-      FreeMovePanelTitle.text = Wineskin.name;
-      FreeMovePanelDesc.text = "How many free moves do you want to use from your" + Wineskin.name;
-      disableButtons(PathSize);
-      Btn3.interactable = false;
-      Btn4.interactable = false;
+        FreeMovePanelTitle.text = Wineskin.name;
+        FreeMovePanelDesc.text = "How many free moves do you want to use from your" + Wineskin.name;
+        disableButtons(PathSize);
+        Btn3.interactable = false;
+        Btn4.interactable = false;
       }
       if(token is HalfWineskin){
-      FreeMovePanelTitle.text = HalfWineskin.name;
-      FreeMovePanelDesc.text = "How many free moves do you want to use from your" + HalfWineskin.name;
-      disableButtons(PathSize);
-      Btn2.interactable = false;
-      Btn3.interactable = false;
-      Btn4.interactable = false;
+        FreeMovePanelTitle.text = HalfWineskin.name;
+        FreeMovePanelDesc.text = "How many free moves do you want to use from your" + HalfWineskin.name;
+        disableButtons(PathSize);
+        Btn2.interactable = false;
+        Btn3.interactable = false;
+        Btn4.interactable = false;
+      }
+      if(token is Herb){
+        if(((Herb)item).myType.Equals(Herbs.Herb3)){
+          FreeMovePanelTitle.text = Herb.name + "3";
+          FreeMovePanelDesc.text = "How many free moves do you want to use from your" + Herb.name + "3";
+          disableButtons(PathSize);
+          Btn4.interactable = false;
+        }
+        else{
+          FreeMovePanelTitle.text = Herb.name + "4";
+          FreeMovePanelDesc.text = "How many free moves do you want to use from your" + Herb.name + "4";
+          disableButtons(PathSize);
+        }
       }
       FreeMovePanel.SetActive(true);
   }
