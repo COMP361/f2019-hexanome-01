@@ -287,9 +287,9 @@ public class MoveCommand : MonoBehaviour, ICommand
     }
 
 
-    void SetFarmerDestination(int cellID)
+    void SetFarmerDestination(int cellID, Hero hero)
     {
-        if (action == MoveAction.SetDestination) return;
+        if (action == MoveAction.SetDestination || hero != GameManager.instance.CurrentPlayer) return;
 
         if (!PhotonNetwork.OfflineMode)
         {
@@ -380,8 +380,10 @@ public class MoveCommand : MonoBehaviour, ICommand
         EventManager.TriggerFarmersInventoriesUpdate(farmers.Count, GetDroppableFarmerCount(), GetDetachedFarmerCount());
     }
 
-    void SetDestination(int cellID)
+    void SetDestination(int cellID, Hero hero)
     {
+        if(hero != GameManager.instance.CurrentPlayer) return;
+        
         if (!PhotonNetwork.OfflineMode)
         {
             photonView.RPC("SetDestinationRPC", RpcTarget.AllViaServer, cellID);

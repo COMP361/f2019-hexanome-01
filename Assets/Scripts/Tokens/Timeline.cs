@@ -32,7 +32,7 @@ public class Timeline
         sr.sortingOrder = 3;
         token.transform.localScale = new Vector3(10, 10, 10);
         token.transform.parent = GameObject.Find("Tokens").transform;
-        token.transform.position = GameObject.Find("Timeline/Sunrise/" + hero.name).transform.position;
+        token.transform.position = GameObject.Find("Timeline/0/" + hero.name).transform.position;
         Index = 0;
 
         EventManager.Move += OnMove;
@@ -109,25 +109,5 @@ public class Timeline
     public void Reset()
     {
         Index = 0;
-        token.transform.position = GameObject.Find("Timeline/Sunrise/" + hero.GetType()).transform.position;
     }
-
-    public void EndDay()
-    {
-        Index = 0;
-        token.transform.position = GameObject.Find("Timeline/Sunrise/" + hero.GetType()).transform.position;
-    }
-
-    /*void OnDrawGizmos()
-    {
-        Gizmos.color = Color.blue;
-
-        foreach (Transform child in transform)
-        {
-            Gizmos.DrawSphere(child.Find("Mage").transform.position, 3f);
-            Gizmos.DrawSphere(child.Find("Warrior").transform.position, 3f);
-            Gizmos.DrawSphere(child.Find("Dwarf").transform.position, 3f);
-            Gizmos.DrawSphere(child.Find("Archer").transform.position, 3f);
-        }
-    }*/
 }

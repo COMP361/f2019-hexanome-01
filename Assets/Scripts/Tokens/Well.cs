@@ -7,28 +7,28 @@ using Photon.Pun;
 
 public class Well : Token
 {
-  public GameObject goFullWell;
-  public GameObject goEmptyWell;
-
-  public PhotonView photonView;
+  private GameObject goFullWell;
+  private GameObject goEmptyWell;
   public static string itemName = "Well";
   public static string desc = "This is a Well! Pick it up to get willpower points.";
 
   public static Well Factory(int cellID, bool full = true) {
-    GameObject wellGO = PhotonNetwork.Instantiate("Prefabs/Tokens/Well", Vector3.zero, Quaternion.identity, 0);
+    GameObject wellGO = GameObject.Instantiate((GameObject)Resources.Load("Prefabs/Tokens/Well")) as GameObject;
     Well well = wellGO.GetComponent<Well>();
-
+    
     well.Cell = Cell.FromId(cellID);
+    SpriteRenderer sr = well.GetComponent<SpriteRenderer>();
+    if(sr != null) sr.enabled = false;
+
+    if(well.Cell == null) return well;
+
     well.goFullWell = well.Cell.transform.Find("well/well-full").gameObject;
-    well.goEmptyWell = well.Cell.transform.Find("well/well-empty").gameObject;
-    if(well.goFullWell == null || well.goEmptyWell == null) return null;
+    well.goEmptyWell = well.Cell.transform.Find("well/well-empty").gameObject;  
 
     if(full) {
-      well.goFullWell.SetActive(true);
-      well.goEmptyWell.SetActive(false);
+      well.DisplayWell();
     } else {
-      well.goFullWell.SetActive(false);
-      well.goEmptyWell.SetActive(true);
+      well.DisplayWell(true);
       well.Cell.Inventory.RemoveToken(well);
     }
 
@@ -44,22 +44,18 @@ public class Well : Token
   public void DestroyWell() {
     Cell.Inventory.RemoveToken(this);
     GameManager.instance.wells.Remove(this);
-    goFullWell.SetActive(false);
-    goEmptyWell.SetActive(false);
+    HideWell();
     Destroy(gameObject);
   }
 
   public void EmptyWell(Hero hero) {
     if(Cell.Index == hero.Cell.Index){
-      Cell.Inventory.RemoveToken(this);
-      photonView.RPC("EmptyWellRPC", RpcTarget.AllViaServer, new object[] {Cell.Index, GameManager.instance.MainHero.TokenName});
+      GameManager.instance.photonView.RPC("EmptyWellRPC", RpcTarget.AllViaServer, new object[] {Cell.Index, hero.TokenName});
     }
   }
 
-  [PunRPC]
-  public void EmptyWellRPC(int cellIndex, string heroType) {
-    goFullWell.SetActive(false);
-    goEmptyWell.SetActive(true);
+  public void EmptyWell(string heroType) {
+    DisplayWell(true);
 
     foreach(Hero hero in GameManager.instance.heroes) {
       if(hero.TokenName.Equals(heroType)){
@@ -73,6 +69,8 @@ public class Well : Token
       }
     }
 
+    Cell.Inventory.RemoveToken(this);
+
     if(GameManager.instance.MainHero.TokenName.Equals(heroType)) {
       EventManager.TriggerInventoryUIHeroPeak(GameManager.instance.MainHero.heroInventory);
     } else if(heroType.Equals(CharChoice.choice.TokenName)){
@@ -80,10 +78,28 @@ public class Well : Token
     }
   }
 
-  public void ResetWell() {
-    if(Cell.Inventory.Well == null) {
+  void DisplayWell(bool empty = false) {
+    if(goFullWell == null || goEmptyWell == null) return;
+
+    if(empty) {
+      goFullWell.SetActive(false);
+      goEmptyWell.SetActive(true);
+    } else {
       goFullWell.SetActive(true);
       goEmptyWell.SetActive(false);
+    }
+  }
+
+  void HideWell() {
+    if(goFullWell == null || goEmptyWell == null) return;
+
+    goFullWell.SetActive(false);
+    goEmptyWell.SetActive(false);
+  }
+
+  public void ResetWell() {
+    if(Cell.Inventory.Well == null) {
+      DisplayWell();
       Cell.Inventory.AddToken(this);
     }
   }

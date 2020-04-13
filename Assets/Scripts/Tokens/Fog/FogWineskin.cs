@@ -7,10 +7,8 @@ public class FogWineSkin : Fog {
         Init("WineSkin", 1, typeof(FogWineSkin));
     }
 
-    public override void ApplyEffect() {
-        Token wineskin = Wineskin.Factory(Cell.Index);
-      //  GameManager.instance.CurrentPlayer.heroInventory.AddItem(wineskin);
-        Cell = null;
-        Destroy(gameObject);
+    public override void ApplyEffect(Hero hero) {
+        if(hero != GameManager.instance.MainHero) return;
+        Wineskin.Factory(Cell.Index);
     }
 }

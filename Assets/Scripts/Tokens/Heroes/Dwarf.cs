@@ -18,7 +18,7 @@ public class Dwarf : Hero
         SpriteRenderer renderer = go.AddComponent<SpriteRenderer>();
         Sprite sprite = Resources.Load<Sprite>("Sprites/Tokens/Heroes/" + dwarf.Type.ToString() + "-" + dwarf.Sex.ToString());
         renderer.sprite = sprite;
-        renderer.sortingOrder = 2;
+        renderer.sortingOrder = 3;
         go.transform.localScale = new Vector3(10, 10, 10);
 
         dwarf.Color = color;

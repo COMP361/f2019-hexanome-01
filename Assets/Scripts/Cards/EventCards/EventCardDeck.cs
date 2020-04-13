@@ -1,37 +1,57 @@
 using UnityEngine;
 using System.Collections.Generic;
+using Photon.Pun;
 
 public class EventCardDeck {
     static EventCardDeck _instance = null;
-    static List<EventCard> cards = new List<EventCard>();
+    static List<EventCard> cards;
+    
+    static List<EventCard> deck = new List<EventCard>() { 
+        new LC2(),
+        new LC4(),
+        new LC5(),
+        new LC12(),
+        new LC13(),
+        new LC14(),
+        new LC15(),
+        new LC17(),
+        new LC22(),
+        new LC25(),
+        new LC28(),
+        //new LC29(),
+        //new LC30(),
+        new LC31(),
+        new LC32()
+    };
 
     private EventCardDeck() {
-        /*cards.Add(new LC2());
-        cards.Add(new LC4());
-        cards.Add(new LC5());
-        cards.Add(new LC12());
-        cards.Add(new LC13());
-        cards.Add(new LC14());*/
-        cards.Add(new LC15());
-        /*cards.Add(new LC17());
-        cards.Add(new LC22());
-        cards.Add(new LC25());
-        cards.Add(new LC28());
-        //cards.Add(new LC29());
-        //cards.Add(new LC30());
-        cards.Add(new LC31());
-        cards.Add(new LC32());*/
+        int[] shuffledCardIndex = PhotonNetwork.CurrentRoom.CustomProperties["EventCardsIndex"] as int[];
+        if(shuffledCardIndex == null) return;
+        
+        cards = new List<EventCard>( new EventCard[deck.Count] );
 
-        cards.Shuffle();
+        for(int i = 0; i < deck.Count; i++) {
+            if(i < shuffledCardIndex.Length) {
+                int index = shuffledCardIndex[i];
+                if(index < cards.Count && i < deck.Count) cards[index] = deck[i];
+            }
+        }
     }
 
     public void GetCard() {
+        if(cards == null || cards.Count == 0) return;
+
         // Card is shifted to the end of the deck
         EventCard card = cards[0];
+        
         cards.RemoveAt(0);
         cards.Add(card);
         
         EventManager.TriggerEventCard(cards[0]);
+    }
+
+    public static int NumCards() {
+        return deck.Count;
     }
 
     public static EventCardDeck Instance

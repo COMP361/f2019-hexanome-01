@@ -96,7 +96,6 @@ LightmapSettings:
     m_PVRFilteringAtrousPositionSigmaAO: 1
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
-    m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
   m_UseShadowmask: 1
 --- !u!196 &4
@@ -1376,15 +1375,10 @@ PrefabInstance:
       propertyPath: viewIdField
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 2017276773998847852, guid: b0a0a5a87b872b41094d1281e501a9ee,
-        type: 3}
-      propertyPath: viewIdField
-      value: 5
-      objectReference: {fileID: 0}
     - target: {fileID: 2017276773998847855, guid: b0a0a5a87b872b41094d1281e501a9ee,
         type: 3}
       propertyPath: viewIdField
-      value: 4
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 2017276774204788398, guid: b0a0a5a87b872b41094d1281e501a9ee,
         type: 3}
@@ -1449,12 +1443,12 @@ PrefabInstance:
     - target: {fileID: 2017276774774855998, guid: b0a0a5a87b872b41094d1281e501a9ee,
         type: 3}
       propertyPath: viewIdField
-      value: 6
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 2017276774840551710, guid: b0a0a5a87b872b41094d1281e501a9ee,
         type: 3}
       propertyPath: viewIdField
-      value: 7
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b0a0a5a87b872b41094d1281e501a9ee, type: 3}

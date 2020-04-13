@@ -47,7 +47,6 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -71,7 +70,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: -1
   m_Sprite: {fileID: 21300000, guid: 750b090384f365abcaa9c8d7298619c6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -95,6 +94,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5cea3cb66aecf5f1b8ccdb8b238d8c9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  desc: 
+  InUse: 0
   photonView: {fileID: 5174899256748833785}
 --- !u!114 &5174899256748833785
 MonoBehaviour:

@@ -99,8 +99,7 @@ public class Cell : MonoBehaviour, IComparable<Cell>
 
     void OnMouseDown() {
         if (!Active) return;
-        
-        EventManager.TriggerCellClick(Index);
+        EventManager.TriggerCellClick(Index, GameManager.instance.MainHero);
     }
 
     void OnDrawGizmos() {

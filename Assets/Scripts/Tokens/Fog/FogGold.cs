@@ -9,10 +9,8 @@ public class FogGold : Fog {
         FogGold.Init("Gold", 3, typeof(FogGold));
     }
 
-    public override void ApplyEffect() {
-        Token goldCoin = GoldCoin.Factory(Cell.Index);
-      //  GameManager.instance.CurrentPlayer.heroInventory.AddItem(goldCoin);
-        Cell = null;
-        Destroy(gameObject);
+    public override void ApplyEffect(Hero hero) {
+        if(hero != GameManager.instance.MainHero) return;
+        GoldCoin.Factory(Cell.Index);
     }
 }
