@@ -168,8 +168,6 @@ public class GameManager : Singleton<GameManager>
         canvas.transform.Find("DistributeGold").gameObject.SetActive(true);
         canvas.transform.Find("DistributeWineskins").gameObject.SetActive(true);
 
-        //gameState = GameState.Instance;
-
         // FARMERS
         farmers.Add(Farmer.Factory(24));
         farmers.Add(Farmer.Factory(36));
@@ -334,11 +332,11 @@ public class GameManager : Singleton<GameManager>
         {
             while (warriorGold != 0)
             {
-              if( GameManager.instance.MainHero.TokenName.Equals("Warrior"))
-              {
-                Token goldCoin = GoldCoin.Factory("Warrior");
-              }
-              warriorGold--;
+                if( GameManager.instance.MainHero.TokenName.Equals("Warrior"))
+                {
+                    Token goldCoin = GoldCoin.Factory("Warrior");
+                }
+                warriorGold--;
             }
 
         }
@@ -349,7 +347,7 @@ public class GameManager : Singleton<GameManager>
             {
                 if(GameManager.instance.MainHero.TokenName.Equals("Archer"))
                 {
-                Token goldCoin = GoldCoin.Factory("Archer");
+                    Token goldCoin = GoldCoin.Factory("Archer");
                 }
                 archerGold--;
             }
@@ -361,7 +359,7 @@ public class GameManager : Singleton<GameManager>
             {
                 if(GameManager.instance.MainHero.TokenName.Equals("Dwarf"))
                 {
-                Token goldCoin = GoldCoin.Factory("Dwarf");
+                    Token goldCoin = GoldCoin.Factory("Dwarf");
                 }
                 dwarfGold--;
             }
@@ -371,10 +369,10 @@ public class GameManager : Singleton<GameManager>
         {
             while (mageGold != 0)
             {
-              if(GameManager.instance.MainHero.TokenName.Equals("Mage"))
-              {
-                Token goldCoin = GoldCoin.Factory("Mage");
-              }
+                if(GameManager.instance.MainHero.TokenName.Equals("Mage"))
+                {
+                    Token goldCoin = GoldCoin.Factory("Mage");
+                }
                 mageGold--;
             }
         }

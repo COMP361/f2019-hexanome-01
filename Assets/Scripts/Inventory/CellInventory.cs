@@ -47,7 +47,8 @@ public class CellInventory : ICloneable {
 
   void FarmerDestroyed(Farmer farmer) {
     if(Farmers.Contains(farmer)) {
-        Farmers.Remove(farmer);
+      Farmers.Remove(farmer);
+      AllTokens.Remove(farmer);
     }
   }
 

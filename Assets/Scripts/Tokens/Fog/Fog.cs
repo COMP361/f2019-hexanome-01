@@ -6,7 +6,7 @@ using Photon.Pun;
 using System.Linq;
 
 public class Fog : Token {
-    static List<int> cellsID = new List<int>(){ 8, 11, 12, 13, 16, 32, 42, 44, 46, 64, 63, 56, 47, 48, 49 };
+    public static List<int> cellsID = new List<int>(){ 8, 11, 12, 13, 16, 32, 42, 44, 46, 64, 63, 56, 47, 48, 49 };
     static List<Token> tokens = new List<Token>();
 
     public void OnEnable() {
@@ -28,17 +28,16 @@ public class Fog : Token {
         FogGold.Factory();
         FogEvent.Factory();
 
-        int[] cellArray = PhotonNetwork.CurrentRoom.CustomProperties["FogCells"] as int[];
-        cellsID = cellArray.ToList();
+        int[] shuffledCellsID = PhotonNetwork.CurrentRoom.CustomProperties["FogCells"] as int[];
 
-        if (tokens.Count > cellsID.Count) {
+        if (tokens.Count > shuffledCellsID.Length) {
             Debug.Log("Wrong number of Fog tokens initialized. Abort.");
             Fog.Destroy();
             return;
         }
 
         for(int i = 0; i < tokens.Count; i++) {
-            tokens[i].Cell = Cell.FromId(cellsID[i]);
+            tokens[i].Cell = Cell.FromId(shuffledCellsID[i]);
         }
     }
 
