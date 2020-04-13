@@ -12,7 +12,7 @@ public class Pair<T1, T2>
     public Pair(T1 first, T2 second)
     {
         First = first;
-        Second = Second;
+        Second = second;
     }
 }
 

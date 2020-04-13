@@ -696,4 +696,14 @@ public class EventManager : MonoBehaviour
             HerbUseUI(herb);
         }
     }
+
+    public delegate void TelescopeUseUIHandler(Token item, Pair<Token, int> pair);
+    public static event TelescopeUseUIHandler TelescopeUseUI;
+    public static void TriggerTelescopeUseUI(Token item, Pair<Token, int> pair)
+    {
+        if (TelescopeUseUI != null)
+        {
+          TelescopeUseUI(item, pair);
+        }
+    }
 }

@@ -11,6 +11,9 @@ public class Telescope : SmallToken
 
   public PhotonView photonView;
 
+  public List<Pair<Token, int>> itemsToCheck;
+
+
   public static Telescope Factory()
   {
     GameObject telescopeGO = PhotonNetwork.Instantiate("Prefabs/Tokens/Telescope", Vector3.zero, Quaternion.identity, 0);
@@ -33,6 +36,10 @@ public class Telescope : SmallToken
     return telescope;
   }
 
+  public void OnEnable(){
+    itemsToCheck = new List<Pair<Token, int>>();
+  }
+
   public override void UseCell(){
     EventManager.TriggerCellItemClick(this);
   }
@@ -42,7 +49,35 @@ public class Telescope : SmallToken
   }
 
   public override void UseEffect(){
-    Debug.Log("Use Telescope Effect");
+    Hero hero = GameManager.instance.MainHero;
+    List<Transform> cellsToCheck = hero.Cell.neighbours;
+    foreach(Transform toCheck in cellsToCheck){
+      foreach(Token item in toCheck.GetComponent<Cell>().Inventory.AllTokens){
+        if(item is Fog){
+           itemsToCheck.Add(new Pair<Token, int>(item, toCheck.GetComponent<Cell>().Index));
+          }
+        }
+        foreach(Token item in toCheck.GetComponent<Cell>().Inventory.items){
+          if(item is Runestone){
+            if(((Runestone)item).isCovered){
+              itemsToCheck.Add(new Pair<Token,int>(item, toCheck.GetComponent<Cell>().Index));
+            }
+          }
+        }
+      }
+    instantiateUsePanels();
+  }
+
+  public void instantiateUsePanels(){
+    if(itemsToCheck.Count != 0){
+      EventManager.TriggerTelescopeUseUI(this, itemsToCheck[0]);
+      itemsToCheck.RemoveAt(0);
+    }
+    else{
+      GameManager.instance.MainHero.heroInventory.RemoveSmallToken(this);
+    }
+
+
   }
 
   public static void Buy() {

@@ -1,6 +1,9 @@
 using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
+using System;
+using System.Collections;
+using System.Collections.Generic;
 
 public class HeroItemsActions : MonoBehaviour
 {
@@ -108,6 +111,9 @@ public class HeroItemsActions : MonoBehaviour
       else if(token is Telescope){
         heroItemsPanelTitle.text = Telescope.itemName;
         heroItemsPanelDesc.text = Telescope.desc;
+        if(!canUseTelescope()){
+         useBtn.interactable = false;
+        }
       }
 
       else if(token is GoldCoin){
@@ -165,6 +171,26 @@ public class HeroItemsActions : MonoBehaviour
   }
   public void LockMoveItems(){
     canUseMoveItems = false;
+  }
+
+  public bool canUseTelescope(){
+    Hero hero = GameManager.instance.MainHero;
+    List<Transform> cellsToCheck = hero.Cell.neighbours;
+    foreach(Transform toCheck in cellsToCheck){
+      foreach(Token item in toCheck.GetComponent<Cell>().Inventory.AllTokens){
+        if(item is Fog){
+           return true;
+          }
+        }
+        foreach(Token item in toCheck.GetComponent<Cell>().Inventory.items){
+          if(item is Runestone){
+            if(((Runestone)item).isCovered){
+              return true;
+            }
+          }
+        }
+      }
+    return false;
   }
 
 

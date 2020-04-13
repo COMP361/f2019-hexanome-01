@@ -14,6 +14,7 @@ public class Token : MonoBehaviour {
     protected string description;
     private Cell _cell;
     public string desc;
+    public string itemName;
     public bool InUse = false;
 
     public Cell Cell {
@@ -23,7 +24,7 @@ public class Token : MonoBehaviour {
         set {
             SpriteRenderer sr = GetComponent<SpriteRenderer>();
 
-            if(value == null) {    
+            if(value == null) {
                 if(sr != null) sr.enabled = false;
             } else {
                 if(sr != null) sr.enabled = true;
