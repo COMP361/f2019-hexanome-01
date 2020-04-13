@@ -7,9 +7,8 @@ public class FogStrength : Fog {
         Init("Strength", 1, typeof(FogStrength));
     }
 
-    public override void ApplyEffect() {
+    public override void ApplyEffect(Hero hero) {
+        if(hero != GameManager.instance.MainHero) return;
         GameManager.instance.CurrentPlayer.Strength += 1;     
-        Cell = null;   
-        Destroy(gameObject);
     }
 }

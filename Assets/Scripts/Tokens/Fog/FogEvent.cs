@@ -7,9 +7,7 @@ public class FogEvent : Fog {
         FogEvent.Init("Event", 5, typeof(FogEvent));
     }
 
-    public override void ApplyEffect() {
+    public override void ApplyEffect(Hero hero) {
         EventCardDeck.Instance.GetCard();
-        Cell = null;
-        Destroy(gameObject);
     }
 }

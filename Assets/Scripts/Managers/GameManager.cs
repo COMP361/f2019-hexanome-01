@@ -457,7 +457,7 @@ public class GameManager : Singleton<GameManager>
         InitMonsterMove();
 
         foreach (Hero hero in heroes) {
-            hero.timeline.EndDay();
+            hero.timeline.Reset();
         }
 
         foreach (Well well in wells) {

@@ -96,14 +96,16 @@ public class Fog : Token {
     void OnMoveComplete(Token token) {
         if(Cell != null && (!typeof(Hero).IsCompatibleWith(token.GetType()) || token.Cell.Index != Cell.Index)) return;
         Reveal();
-        StartCoroutine(timer());
+        StartCoroutine(timer((Hero)token));
     }
 
-    IEnumerator timer() {
+    IEnumerator timer(Hero hero) {
         yield return new WaitForSeconds(2.0f);
-        ApplyEffect();
+        ApplyEffect(hero);
+        Cell = null;
+        Destroy(gameObject);
     }
     
-    public virtual void ApplyEffect() {
+    public virtual void ApplyEffect(Hero hero) {
     }
 }

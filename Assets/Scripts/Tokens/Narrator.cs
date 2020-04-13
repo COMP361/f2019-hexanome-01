@@ -12,6 +12,7 @@ public class Narrator {
     public int runestoneIndex;
     public char runestoneLetter;
     public int herbRoll;
+    public int herbCellId;
     public int towerSkralCell;
     public int runestoneRoll;
     public int[] runestoneCells;
@@ -19,7 +20,6 @@ public class Narrator {
     public bool medicineDelivered;
     public bool towerSkralDefeated;
     public LegendCardDeck legendCardDeck;
-
     public TMP_Text TasksListText;
     GameObject narratorToken;
     GameObject runestoneToken;
@@ -32,6 +32,15 @@ public class Narrator {
         witchFound = false;
         legendCardDeck = new LegendCardDeck(false);
         herbRoll = (int)PhotonNetwork.CurrentRoom.CustomProperties["HerbRoll"];
+        
+        if(herbRoll == 1 || herbRoll == 2) {
+            herbCellId = 37;
+        } else if (herbRoll == 3 || herbRoll == 4) {
+            herbCellId = 67;
+        } else {
+            herbCellId = 61;
+        }
+
         towerSkralCell = (int)PhotonNetwork.CurrentRoom.CustomProperties["TowerSkralCell"];
         runestoneRoll = (int)PhotonNetwork.CurrentRoom.CustomProperties["RunestoneCardPosition"];
         runestoneCells = PhotonNetwork.CurrentRoom.CustomProperties["RunestoneCells"] as int[];
@@ -123,7 +132,7 @@ public class Narrator {
         witchFound = true;
         LegendCard witchCard = legendCardDeck.getCard("WitchCard");
         witchCard.ApplyEffect();
-        TasksListText.text += "- Bring the Herb to the Castle \n";
+        TasksListText.text += "- Bring the Herb (Cell " + herbCellId + ") to the Castle \n";
     }
     
     // Decide when the runestone card will be triggered

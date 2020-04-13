@@ -7,9 +7,7 @@ public class FogGor : Fog {
         Init("Gor", 2, typeof(FogGor));
     }
 
-    public override void ApplyEffect() {
+    public override void ApplyEffect(Hero hero) {
         GameManager.instance.gors.Add(Gor.Factory(Cell.Index));
-        Cell = null;
-        Destroy(gameObject);
     }
 }

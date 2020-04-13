@@ -12,14 +12,14 @@ public class EventManager : MonoBehaviour
     // this class helps to register the events that are happening and trigger all the functions that are linked to this event.
 
     // Fired when a cell is clicked
-    public delegate void CellClickHandler(int cellID);
+    public delegate void CellClickHandler(int cellID, Hero hero);
     public static event CellClickHandler CellClick;
 
-    public static void TriggerCellClick(int cellID)
+    public static void TriggerCellClick(int cellID, Hero hero)
     {
         if (CellClick != null)
         {
-            CellClick(cellID);
+            CellClick(cellID, hero);
         }
     }
 

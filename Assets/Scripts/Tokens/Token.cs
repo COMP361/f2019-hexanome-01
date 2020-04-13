@@ -32,6 +32,7 @@ public class Token : MonoBehaviour {
             if(_cell != null && _cell.Inventory != null) {
               _cell.Inventory.RemoveToken(this);
             }
+            
             _cell = value;
 
             if(_cell != null && _cell.Inventory != null) {

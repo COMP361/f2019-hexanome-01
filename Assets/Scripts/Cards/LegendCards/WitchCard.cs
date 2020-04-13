@@ -23,21 +23,7 @@ public class WitchCard : LegendCard
 
     public override void ApplyEffect()
     {
-        int herbRoll = GameManager.instance.narrator.herbRoll;
-        if(herbRoll == 1 || herbRoll == 2)
-        {
-            herbCell = 37;
-        }
-        if (herbRoll == 1 || herbRoll == 2)
-        {
-            herbCell = 67;
-        }
-        if (herbRoll == 1 || herbRoll == 2)
-        {
-            herbCell = 61;
-        }
-        Debug.Log("Herb is at cell " + herbCell);
-        Herb.Factory(herbCell, Herbs.Herb4);
-        Gor.Factory(herbCell);
+        Herb.Factory(GameManager.instance.narrator.herbCellId, Herbs.Herb4);
+        Gor.Factory(GameManager.instance.narrator.herbCellId);
     }
 }
