@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7616807304031187802}
   - component: {fileID: 9026807427318416230}
   m_Layer: 0
-  m_Name: HalfPotion
+  m_Name: PotionHalf
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -47,7 +47,6 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -71,7 +70,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: -1
   m_Sprite: {fileID: 21300000, guid: dfdd718990bcf8e22bea8b526332e8ca, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -95,6 +94,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f7782ede4cb84a6a8957b8c9120da70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  desc: 
+  InUse: 0
   photonView: {fileID: 9026807427318416230}
 --- !u!114 &9026807427318416230
 MonoBehaviour:

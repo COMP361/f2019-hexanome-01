@@ -24,9 +24,9 @@ public class Token : MonoBehaviour {
             SpriteRenderer sr = GetComponent<SpriteRenderer>();
 
             if(value == null) {    
-                if(sr != null) sr.enabled = false;
+                if(sr != null) sr.sortingOrder = -1;
             } else {
-                if(sr != null) sr.enabled = true;
+                if(sr != null) sr.sortingOrder = 2;
             }
 
             if(_cell != null && _cell.Inventory != null) {
