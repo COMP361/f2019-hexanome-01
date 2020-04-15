@@ -49,22 +49,67 @@ public class FalconUseUI : MonoBehaviour
     CancelBtn = FalconUsePanel.transform.Find("Cancel Button").GetComponent<Button>();
     CancelBtn.onClick.AddListener(delegate {HideFalconUse(); });
 
+
+    ArcherBtn.interactable = false;
+    DwarfBtn.interactable = false;
+    MageBtn.interactable = false;
+    WarriorBtn.interactable = false;
+    
   }
 
   public void ShowFalconUse(Falcon item) {
     token = item;
     FalconUsePanelTitle.text = "Falcon Action";
     FalconUsePanelDesc.text = "With the Falcon, you can make trades with heroes who are not on the same cell as you. Choose a hero with who you want to make a trade.";
+
+    if(canMakeTrade("Archer")){
+      ArcherBtn.interactable = true;
+    }
+    if(canMakeTrade("Dwarf")){
+      DwarfBtn.interactable = true;
+    }
+    if(canMakeTrade("Mage")){
+      MageBtn.interactable = true;
+    }
+    if(canMakeTrade("Warrior")){
+      WarriorBtn.interactable = true;
+    }
+
     FalconUsePanel.SetActive(true);
   }
 
   public void HideFalconUse() {
     this.token = null;
+    ArcherBtn.interactable = false;
+    DwarfBtn.interactable = false;
+    MageBtn.interactable = false;
+    WarriorBtn.interactable = false;
     FalconUsePanel.SetActive(false);
   }
 
 
   public void clearToken(){
     this.token = null;
+  }
+
+
+  public bool canMakeTrade(string heroName){
+    //can not trade to yourself
+    if(heroName.Equals(GameManager.instance.MainHero.TokenName)){
+      return false;
+    }
+    Hero mainHero = GameManager.instance.MainHero;
+    Hero toCheck = GameManager.instance.findHero(heroName);
+
+    //if hero not in game
+    if(toCheck == null){
+      return false;
+    }
+
+    // Return true only if both mainHero AND hero to trade to do not have empty inventories
+    if((toCheck.heroInventory.helm != null || toCheck.heroInventory.golds.Count != 0 || mainHero.heroInventory.smallTokens.Count != 0) && (toCheck.heroInventory.helm != null || mainHero.heroInventory.golds.Count != 0 || mainHero.heroInventory.smallTokens.Count != 0) ){
+      return true;
+    }
+    return false;
   }
 }
