@@ -35,16 +35,16 @@ public class FalconUseUI : MonoBehaviour
 
 
     ArcherBtn = FalconUsePanel.transform.Find("Archer Button").GetComponent<Button>();
-    ArcherBtn.onClick.AddListener(delegate { });
+    ArcherBtn.onClick.AddListener(delegate { EventManager.TriggerFalconTrade(GameManager.instance.MainHero, GameManager.instance.findHero("Archer")); HideFalconUse(); });
 
     DwarfBtn = FalconUsePanel.transform.Find("Dwarf Button").GetComponent<Button>();
-    DwarfBtn.onClick.AddListener(delegate { });
+    DwarfBtn.onClick.AddListener(delegate { EventManager.TriggerFalconTrade(GameManager.instance.MainHero, GameManager.instance.findHero("Dwarf")); HideFalconUse(); });
 
     MageBtn = FalconUsePanel.transform.Find("Mage Button").GetComponent<Button>();
-    MageBtn.onClick.AddListener(delegate { });
+    MageBtn.onClick.AddListener(delegate { EventManager.TriggerFalconTrade(GameManager.instance.MainHero, GameManager.instance.findHero("Mage")); HideFalconUse(); });
 
     WarriorBtn = FalconUsePanel.transform.Find("Warrior Button").GetComponent<Button>();
-    WarriorBtn.onClick.AddListener(delegate { });
+    WarriorBtn.onClick.AddListener(delegate { EventManager.TriggerFalconTrade(GameManager.instance.MainHero, GameManager.instance.findHero("Warrior")); HideFalconUse(); });
 
     CancelBtn = FalconUsePanel.transform.Find("Cancel Button").GetComponent<Button>();
     CancelBtn.onClick.AddListener(delegate {HideFalconUse(); });
@@ -54,7 +54,7 @@ public class FalconUseUI : MonoBehaviour
     DwarfBtn.interactable = false;
     MageBtn.interactable = false;
     WarriorBtn.interactable = false;
-    
+
   }
 
   public void ShowFalconUse(Falcon item) {
@@ -68,9 +68,9 @@ public class FalconUseUI : MonoBehaviour
     if(canMakeTrade("Dwarf")){
       DwarfBtn.interactable = true;
     }
-    if(canMakeTrade("Mage")){
+  //  if(canMakeTrade("Mage")){
       MageBtn.interactable = true;
-    }
+  //  }
     if(canMakeTrade("Warrior")){
       WarriorBtn.interactable = true;
     }

@@ -716,4 +716,14 @@ public class EventManager : MonoBehaviour
             FalconUseUI(item);
         }
     }
+
+    public delegate void FalconTradeHandler(Hero hero1, Hero hero2);
+    public static event FalconTradeHandler FalconTrade;
+    public static void TriggerFalconTrade(Hero hero1, Hero hero2)
+    {
+        if (FalconTrade != null)
+        {
+          FalconTrade(hero1, hero2);
+        }
+    }
 }
