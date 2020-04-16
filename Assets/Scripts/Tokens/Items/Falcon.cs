@@ -29,11 +29,11 @@ public class Falcon : BigToken{
   }
 
   public override void UseHero(){
-  EventManager.TriggerHeroItemClick(this);
+    EventManager.TriggerHeroItemClick(this);
   }
 
   public override void UseEffect(){
-      Debug.Log("Use Falcon Effect");
+    EventManager.TriggerFalconUseUI(this);
   }
 
   public static void Buy() {

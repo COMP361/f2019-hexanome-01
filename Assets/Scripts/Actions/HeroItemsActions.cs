@@ -88,6 +88,9 @@ public class HeroItemsActions : MonoBehaviour
       else if(token is Falcon){
         heroItemsPanelTitle.text = Falcon.itemName;
         heroItemsPanelDesc.text = Falcon.desc;
+        if(!canUseFalcon()){
+          useBtn.interactable = false;
+        }
       }
       else if(token is Helm){
         heroItemsPanelTitle.text = Helm.itemName;
@@ -190,6 +193,16 @@ public class HeroItemsActions : MonoBehaviour
           }
         }
       }
+    return false;
+  }
+
+  public bool canUseFalcon(){
+    List<Hero> Heroes = GameManager.instance.heroes;
+    foreach (Hero hero in Heroes){
+      if(hero.heroInventory.helm != null || hero.heroInventory.golds.Count != 0 || hero.heroInventory.smallTokens.Count != 0){
+        return true;
+      }
+    }
     return false;
   }
 

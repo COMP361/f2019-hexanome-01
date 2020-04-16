@@ -706,4 +706,14 @@ public class EventManager : MonoBehaviour
           TelescopeUseUI(item, pair);
         }
     }
+
+    public delegate void FalconUseUIHandler(Falcon item);
+    public static event FalconUseUIHandler FalconUseUI;
+    public static void TriggerFalconUseUI(Falcon item)
+    {
+        if (FalconUseUI != null)
+        {
+            FalconUseUI(item);
+        }
+    }
 }
