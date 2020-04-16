@@ -46,6 +46,9 @@ public class MultiplayerFightPlayer : MonoBehaviour
     private bool Thorald = false;
     public GameObject ThoraldSprite;
 
+
+    // Methods
+
     public void MageSuperpower()
     {
         if (!fighters.Contains(mage))
@@ -76,7 +79,7 @@ public class MultiplayerFightPlayer : MonoBehaviour
         }
         dieToFlip.OnflipDie();
 
-        if (lastHeroToRoll.name.Equals(archer.name))
+        if (archer != null && lastHeroToRoll.name.text.Equals(archer.name.text))
         {
             lastHeroToRoll.hasRolled = true;
             lastHeroToRoll.lastRoll = dieToFlip.finalSide;
@@ -101,13 +104,13 @@ public class MultiplayerFightPlayer : MonoBehaviour
         lastHeroToRoll.lastRoll = maxDie;
     }
 
-    public void activateMage()
+    public void ActivateMage()
     {
-        if(mage == null)
+        if (mage == null)
         {
             mage = new HeroFighter("Mage");
         }
-        
+
         mage.isPresent = !mage.isPresent;
 
         Image img = mage_button.GetComponent<Image>();
@@ -118,11 +121,12 @@ public class MultiplayerFightPlayer : MonoBehaviour
         else
         {
             DisableFighter(mage);
+            mage = null;
             img.color = Color.white;
         }
     }
 
-    public void activateArcher()
+    public void ActivateArcher()
     {
         if (archer == null)
         {
@@ -138,11 +142,12 @@ public class MultiplayerFightPlayer : MonoBehaviour
         else
         {
             DisableFighter(archer);
+            archer = null;
             img.color = Color.white;
         }
     }
 
-    public void activateWarrior()
+    public void ActivateWarrior()
     {
         if (warrior == null)
         {
@@ -158,13 +163,14 @@ public class MultiplayerFightPlayer : MonoBehaviour
         else
         {
             DisableFighter(warrior);
+            warrior = null;
             img.color = Color.white;
         }
     }
 
-    public void activateDwarf()
+    public void ActivateDwarf()
     {
-        if(dwarf == null)
+        if (dwarf == null)
         {
             dwarf = new HeroFighter("Dwarf");
         }
@@ -178,7 +184,43 @@ public class MultiplayerFightPlayer : MonoBehaviour
         else
         {
             DisableFighter(dwarf);
+            dwarf = null;
             img.color = Color.white;
+        }
+    }
+
+    private void ReinitializeButtons()
+    {
+        Image img = dwarf_button.GetComponent<Image>();
+        DisableFighter(dwarf);
+        img.color = Color.white;
+        if (dwarf != null)
+        {
+            dwarf.isPresent = false;
+        }
+
+        img = archer_button.GetComponent<Image>();
+        DisableFighter(archer);
+        img.color = Color.white;
+        if (archer != null)
+        {
+            archer.isPresent = false;
+        }
+
+        img = warrior_button.GetComponent<Image>();
+        DisableFighter(warrior);
+        img.color = Color.white;
+        if (warrior != null)
+        {
+            warrior.isPresent = false;
+        }
+
+        img = mage_button.GetComponent<Image>();
+        DisableFighter(mage);
+        img.color = Color.white;
+        if (mage != null)
+        {
+            mage.isPresent = false;
         }
     }
 
@@ -227,14 +269,48 @@ public class MultiplayerFightPlayer : MonoBehaviour
         }
     }
 
-    public void ClickedColor(string hero)
+    private void ActivateHero(String hero)
     {
-
+        if (hero.Equals("Mage"))
+        {
+            if (mage == null)
+            {
+                mage = new HeroFighter("Mage");
+            }
+            mage.isPresent = false;
+            ActivateMage();
+        }
+        else if (hero.Equals("Warrior"))
+        {
+            if (warrior == null)
+            {
+                warrior = new HeroFighter("Warrior");
+            }
+            warrior.isPresent = false;
+            ActivateWarrior();
+        }
+        else if (hero.Equals("Dwarf"))
+        {
+            if (dwarf == null)
+            {
+                dwarf = new HeroFighter("Dwarf");
+            }
+            dwarf.isPresent = false;
+            ActivateDwarf();
+        }
+        else if (hero.Equals("Archer"))
+        {
+            if (archer == null)
+            {
+                archer = new HeroFighter("Archer");
+            }
+            archer.isPresent = false;
+            ActivateArcher();
+        }
     }
 
     public void InitializeHeroes()
     {
-        List<Hero> heroes = GameManager.instance.heroes;
         fighters = new List<HeroFighter>();
         List<HeroFighter> notFighters = new List<HeroFighter> { warrior, archer, mage, dwarf };
 
@@ -313,9 +389,10 @@ public class MultiplayerFightPlayer : MonoBehaviour
 
         return maxDie;
     }
+
     private int ArcherRollDice()
     {
-        if(archer_roll < 4)
+        if (archer_roll < 4)
         {
             foreach (regularDices rd in archer.rd)
             {
@@ -330,24 +407,28 @@ public class MultiplayerFightPlayer : MonoBehaviour
         }
         return archer.lastRoll;
     }
-    public void rollMage()
+
+    public void RollMage()
     {
         RollDice(mage);
     }
-    public void rollArcher()
+
+    public void RollArcher()
     {
         ArcherRollDice();
     }
-    public void rollWarrior()
+
+    public void RollWarrior()
     {
         RollDice(warrior);
     }
-    public void rollDwarf()
+
+    public void RollDwarf()
     {
         RollDice(dwarf);
     }
 
-    public int monsterRoll()
+    public int MonsterRoll()
     {
         int die1;
         int die2;
@@ -366,7 +447,7 @@ public class MultiplayerFightPlayer : MonoBehaviour
             die2 = GST_dice[1].finalSide;
         }
 
-        
+
         if (die1 == die2)
         {
             return (die1 + die2);
@@ -381,7 +462,7 @@ public class MultiplayerFightPlayer : MonoBehaviour
         }
     }
 
-    private bool isReadyToAttack()
+    private bool IsReadyToAttack()
     {
         foreach (HeroFighter hf in fighters)
         {
@@ -396,14 +477,14 @@ public class MultiplayerFightPlayer : MonoBehaviour
 
     public void Attack()
     {
-        if (!isReadyToAttack())
+        if (!IsReadyToAttack())
         {
             AttackMessage.text = "Everyone has to roll his dice!";
             return;
         }
         AttackMessage.text = "";
         int total_hero_strength = 0;
-        int total_monster_strength = int.Parse(MonsterStrength.text) + monsterRoll();
+        int total_monster_strength = int.Parse(MonsterStrength.text) + MonsterRoll();
 
         foreach (HeroFighter h in fighters)
         {
@@ -483,13 +564,21 @@ public class MultiplayerFightPlayer : MonoBehaviour
             DisableFighter(warrior);
             DisableFighter(dwarf);
             DisableMonsterUI();
-            panel.SetActive(false);
+            ReinitializeButtons();
+            disablePanel();
+            //panel.SetActive(false);
         }
 
         //restore the flipped thingy
         flipMessage.text = "";
         lastHeroToRoll = null;
         hasflippedDie = false;
+    }
+
+    private IEnumerator disablePanel()
+    {
+        yield return new WaitForSeconds(5f);
+        panel.SetActive(false);
     }
 
     public void AbandonFightMage()
@@ -506,6 +595,7 @@ public class MultiplayerFightPlayer : MonoBehaviour
             panel.gameObject.SetActive(false);
         }
     }
+
     public void AbandonFightWarrior()
     {
         HeroFighter hf = fighters.Find(x => x.name.text.ToLower().Equals("warrior"));
@@ -520,6 +610,7 @@ public class MultiplayerFightPlayer : MonoBehaviour
             panel.gameObject.SetActive(false);
         }
     }
+
     public void AbandonFightDwarf()
     {
         HeroFighter hf = fighters.Find(x => x.name.text.ToLower().Equals("dwarf"));
@@ -534,6 +625,7 @@ public class MultiplayerFightPlayer : MonoBehaviour
             panel.gameObject.SetActive(false);
         }
     }
+
     public void AbandonFightArcher()
     {
         HeroFighter hf = fighters.Find(x => x.name.text.ToLower().Equals("archer"));
@@ -578,12 +670,12 @@ public class MultiplayerFightPlayer : MonoBehaviour
     private void killMonsterRPC()
     {
         kill();
+        GameManager.instance.RemoveTokenCell(monster, monster.Cell.Inventory);
     }
 
     private void killMonster()
     {
         pv.RPC("killMonsterRPC", RpcTarget.AllViaServer);
-        GameManager.instance.RemoveTokenCell(monster, monster.Cell.Inventory);
     }
 
     private void kill()
@@ -613,6 +705,7 @@ public class MultiplayerFightPlayer : MonoBehaviour
         {
             fighters.Remove(h);
         }
+
     }
 
     private void DisableMonsterUI()
@@ -637,12 +730,12 @@ public class MultiplayerFightPlayer : MonoBehaviour
 
     public void ActivateMultiplayerFightPanel()
     {
-        List<Button> buttons = new List<Button> {archer_button, warrior_button, dwarf_button, mage_button};
+        List<Button> buttons = new List<Button> { archer_button, warrior_button, dwarf_button, mage_button };
         bool isAllWhite = true;
         foreach (Button b in buttons)
         {
             Image img = b.GetComponent<Image>();
-            if(img.color != Color.white)
+            if (img.color != Color.white)
             {
                 isAllWhite = false;
             }
@@ -687,6 +780,8 @@ public class HeroFighter
     public bool isPresent = false;
     public bool hasRolled = false;
     public int lastRoll = -1;
+    public int witchBrew = 0;
+    public int gems = 0;
 
     public HeroFighter(string type)
     {
@@ -704,5 +799,7 @@ public class HeroFighter
         this.hero = GameManager.instance.heroes.Find(x => x.Type.Equals(type));
         this.spriteRenderer = GameObject.Find("Canvas/Fight/Multiplayer-Fight/Heroes/" + type + "/Sprite").GetComponent<SpriteRenderer>();
         this.spriteRenderer.sprite = Resources.Load<Sprite>("Sprites/Tokens/Heroes/" + hero.Sex.ToString().ToLower() + "_" + hero.Type.ToLower());
+        //this.witchBrew = hero.heroInventory.
+        //    this.gems = hero.heroInventory.
     }
 }
