@@ -26,10 +26,16 @@ public class InventorySpotTrade : MonoBehaviour
     icon.enabled = false;
   }
 
-  public void UseItem(){
+  public void AddToTrade(){
     if(token != null){
       //  token.UseHero();
       Debug.Log("TRIGGGGGGGGER");
+    }
+  }
+  public void RemoveFromTrade(){
+    if(token != null){
+      //  token.UseHero();
+      Debug.Log("TRIGGGGGGGGER2");
     }
   }
 
