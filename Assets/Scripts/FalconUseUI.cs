@@ -68,9 +68,9 @@ public class FalconUseUI : MonoBehaviour
     if(canMakeTrade("Dwarf")){
       DwarfBtn.interactable = true;
     }
-  //  if(canMakeTrade("Mage")){
+    if(canMakeTrade("Mage")){
       MageBtn.interactable = true;
-  //  }
+    }
     if(canMakeTrade("Warrior")){
       WarriorBtn.interactable = true;
     }

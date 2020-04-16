@@ -736,4 +736,46 @@ public class EventManager : MonoBehaviour
           InventoriesTrade(hero1, hero2);
         }
     }
+
+    public delegate void TradeChangeHandler(Token item);
+    public static event TradeChangeHandler TradeChange;
+    public static void TriggerTradeChange(Token item)
+    {
+        if (TradeChange != null)
+        {
+            TradeChange(item);
+        }
+    }
+
+    public delegate void QuitTradeHandler();
+    public static event QuitTradeHandler QuitTrade;
+    public static void TriggerQuitTrade()
+    {
+        if (QuitTrade != null)
+        {
+            QuitTrade();
+        }
+    }
+
+    public delegate void TradeVerifyHandler();
+    public static event TradeVerifyHandler TradeVerify;
+    public static void TriggerTradeVerify()
+    {
+        if (TradeVerify != null)
+        {
+            TradeVerify();
+        }
+    }
+
+    public delegate void EndTradeHandler();
+    public static event EndTradeHandler EndTrade;
+    public static void TriggerEndTrade()
+    {
+        if (EndTrade != null)
+        {
+            EndTrade();
+        }
+    }
+
+
 }

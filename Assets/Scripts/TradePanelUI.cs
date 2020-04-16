@@ -26,10 +26,12 @@ public class TradePanelUI : MonoBehaviour
 
   void OnEnable() {
     EventManager.FalconTrade += ShowFalconTrade;
+    EventManager.EndTrade += HideFalconTrade;
   }
 
   void OnDisable() {
     EventManager.FalconTrade -= ShowFalconTrade;
+    EventManager.EndTrade -= HideFalconTrade;
   }
 
   void Awake(){
@@ -45,7 +47,7 @@ public class TradePanelUI : MonoBehaviour
     CancelBtn.onClick.AddListener(delegate { HideFalconTrade(); });
 
     TradeBtn = FalconTradePanel.transform.Find("Trade Button").GetComponent<Button>();
-    TradeBtn.onClick.AddListener(delegate { });
+    TradeBtn.onClick.AddListener(delegate { Trade(); });
 
     PlayerBoardTrade1 = FalconTradePanel.transform.Find("PlayerBoardTrade1").gameObject;
     PlayerBoardTrade2 = FalconTradePanel.transform.Find("PlayerBoardTrade2").gameObject;
@@ -61,9 +63,6 @@ public class TradePanelUI : MonoBehaviour
 
     PlayerBoardTrade1.GetComponent<PlayerBoardTrade>().updateCompleteBoard(hero1);
     PlayerBoardTrade2.GetComponent<PlayerBoardTrade>().updateCompleteBoard(hero2);
-//    c = t.Item2.neighbours[j].GetComponent<Cell>();
-
-
 
     FalconTradePanel.SetActive(true);
 
@@ -71,6 +70,17 @@ public class TradePanelUI : MonoBehaviour
   }
 
   public void HideFalconTrade(){
+    this.hero1 = null;
+    this.hero2 = null;
 
+    heroOneTitle.text = "";
+    heroTwoTitle.text = "";
+
+    EventManager.TriggerQuitTrade();
+    FalconTradePanel.SetActive(false);
+  }
+
+  public void Trade(){
+    EventManager.TriggerTradeVerify();
   }
 }
