@@ -8685,6 +8685,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2768507553007534162}
     m_Modifications:
+    - target: {fileID: 2017276773162375136, guid: b0a0a5a87b872b41094d1281e501a9ee,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: RollArcher
+      objectReference: {fileID: 0}
+    - target: {fileID: 2017276773301293912, guid: b0a0a5a87b872b41094d1281e501a9ee,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: RollWarrior
+      objectReference: {fileID: 0}
     - target: {fileID: 2017276773447732830, guid: b0a0a5a87b872b41094d1281e501a9ee,
         type: 3}
       propertyPath: viewIdField
@@ -8775,6 +8785,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2017276774296528496, guid: b0a0a5a87b872b41094d1281e501a9ee,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: RollDwarf
+      objectReference: {fileID: 0}
     - target: {fileID: 2017276774774855998, guid: b0a0a5a87b872b41094d1281e501a9ee,
         type: 3}
       propertyPath: viewIdField
@@ -8784,6 +8799,11 @@ PrefabInstance:
         type: 3}
       propertyPath: viewIdField
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2017276775111857403, guid: b0a0a5a87b872b41094d1281e501a9ee,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: RollMage
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b0a0a5a87b872b41094d1281e501a9ee, type: 3}

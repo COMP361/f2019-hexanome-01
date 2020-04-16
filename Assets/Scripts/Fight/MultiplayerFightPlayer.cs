@@ -780,6 +780,8 @@ public class HeroFighter
     public bool isPresent = false;
     public bool hasRolled = false;
     public int lastRoll = -1;
+    public int witchBrew = 0;
+    public int gems = 0;
 
     public HeroFighter(string type)
     {
@@ -797,5 +799,7 @@ public class HeroFighter
         this.hero = GameManager.instance.heroes.Find(x => x.Type.Equals(type));
         this.spriteRenderer = GameObject.Find("Canvas/Fight/Multiplayer-Fight/Heroes/" + type + "/Sprite").GetComponent<SpriteRenderer>();
         this.spriteRenderer.sprite = Resources.Load<Sprite>("Sprites/Tokens/Heroes/" + hero.Sex.ToString().ToLower() + "_" + hero.Type.ToLower());
+        //this.witchBrew = hero.heroInventory.
+        //    this.gems = hero.heroInventory.
     }
 }
