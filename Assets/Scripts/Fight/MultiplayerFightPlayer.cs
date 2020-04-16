@@ -182,6 +182,25 @@ public class MultiplayerFightPlayer : MonoBehaviour
         }
     }
 
+    private void ReinitializeButtons()
+    {
+        Image img = dwarf_button.GetComponent<Image>();
+        DisableFighter(dwarf);
+        img.color = Color.white;
+
+        img = archer_button.GetComponent<Image>();
+        DisableFighter(archer);
+        img.color = Color.white;
+
+        img = warrior_button.GetComponent<Image>();
+        DisableFighter(warrior);
+        img.color = Color.white;
+
+        img = mage_button.GetComponent<Image>();
+        DisableFighter(mage);
+        img.color = Color.white;
+    }
+
     public void InTheCellHeroes()
     {
         Cell currentCell = GameManager.instance.CurrentPlayer.Cell;
@@ -225,11 +244,6 @@ public class MultiplayerFightPlayer : MonoBehaviour
         {
             dwarf_button.enabled = false;
         }
-    }
-
-    public void ClickedColor(string hero)
-    {
-
     }
 
     public void InitializeHeroes()
@@ -483,6 +497,7 @@ public class MultiplayerFightPlayer : MonoBehaviour
             DisableFighter(warrior);
             DisableFighter(dwarf);
             DisableMonsterUI();
+            ReinitializeButtons();
             panel.SetActive(false);
         }
 
@@ -578,12 +593,12 @@ public class MultiplayerFightPlayer : MonoBehaviour
     private void killMonsterRPC()
     {
         kill();
+        GameManager.instance.RemoveTokenCell(monster, monster.Cell.Inventory);
     }
 
     private void killMonster()
     {
         pv.RPC("killMonsterRPC", RpcTarget.AllViaServer);
-        GameManager.instance.RemoveTokenCell(monster, monster.Cell.Inventory);
     }
 
     private void kill()
