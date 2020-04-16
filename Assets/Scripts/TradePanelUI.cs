@@ -29,7 +29,7 @@ public class TradePanelUI : MonoBehaviour
   }
 
   void OnDisable() {
-
+    EventManager.FalconTrade -= ShowFalconTrade;
   }
 
   void Awake(){
@@ -66,6 +66,8 @@ public class TradePanelUI : MonoBehaviour
 
 
     FalconTradePanel.SetActive(true);
+
+    EventManager.TriggerInventoriesTrade(this.hero1, this.hero2);
   }
 
   public void HideFalconTrade(){

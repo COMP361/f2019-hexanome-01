@@ -29,15 +29,12 @@ public class PlayerBoardTrade : MonoBehaviour
   void Awake() {
     farmerCount = transform.Find("Farmer/Count").GetComponent<Text>();
     strength = transform.Find("Strength/Count").GetComponent<Text>();
-    strength.text = "avocado";
-    Debug.Log(strength.text);
     willPower = transform.Find("Willpower/Count").GetComponent<Text>();
     numOfDice = transform.Find("Dice/Count").GetComponent<Text>();
   }
 
   private void UpdatePlayerStats(Hero hero) {
   // if(hero.TokenName.Equals(GameManager.instance.MainHero.TokenName)){
-      Debug.Log("Tchuips " + hero.TokenName);
       strength.text = hero.Strength.ToString();
       willPower.text = hero.Willpower.ToString();
       updateNumOfDice(hero);
