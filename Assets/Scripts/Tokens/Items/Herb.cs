@@ -4,6 +4,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum Herbs {
+    Herb3,
+    Herb4
+}
+
 public class Herb : SmallToken
 {
     // Start is called before the first frame update
@@ -21,6 +26,11 @@ public class Herb : SmallToken
       token = herbGo;
       Herb herb = herbGo.GetComponent<Herb>();
       herb.Cell = null;
+      if(type == Herbs.Herb3) {
+        herb.maxUse = 3;
+      } else {
+        herb.maxUse = 4;
+      }
       return herb;
     }
 
@@ -44,17 +54,6 @@ public class Herb : SmallToken
     }
 
     public override void UseEffect(){
-      if(!InUse){
-        InUse = true;
-        EventManager.TriggerHerbUseUI(this);
-      }
-      else{
-        EventManager.TriggerError(3);
-      }
+      EventManager.TriggerHerbUseUI(this);
     }
-
-    public override void HowManyFreeMoves(int pathSize){
-      EventManager.TriggerFreeMoveUI(this, pathSize);
-    }
-
 }

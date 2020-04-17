@@ -32,12 +32,6 @@ public enum RunestoneColor
     Yellow
 }
 
-public enum Herbs
-{
-    Herb3,
-    Herb4
-}
-
 public enum Willpoints
 {
     Willpoint2,

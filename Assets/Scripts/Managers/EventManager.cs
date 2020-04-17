@@ -658,16 +658,6 @@ public class EventManager : MonoBehaviour
         }
     }
 
-    public delegate void FreeMoveUIHandler(Token item, int pathSize);
-    public static event FreeMoveUIHandler FreeMoveUI;
-    public static void TriggerFreeMoveUI(Token item, int pathSize)
-    {
-        if (FreeMoveUI != null)
-        {
-            FreeMoveUI(item, pathSize);
-        }
-    }
-
     public delegate void FreeMoveCountHandler(int count, Token item);
     public static event FreeMoveCountHandler FreeMoveCount;
     public static void TriggerFreeMoveCount(int count, Token item)

@@ -28,15 +28,14 @@ public class MoveCommand : MonoBehaviour, ICommand
     private Cell goal;
     private MapPath path;
     private List<Cell> freeCells;
+
     private List<Cell> extCells;
-    private List<Token> freeMoves;
     private List<Pair<Farmer, Cell>> farmers;
     private int moveCost;
     private List<Cell> stops;
-
     MoveAction action;
     List<GameObject> farmerTargets;
-
+    private List<Token> freeMoves;
     public PhotonView photonView;
 
     public int initFreeHours;
@@ -75,7 +74,6 @@ public class MoveCommand : MonoBehaviour, ICommand
         EventManager.DropFarmer += DetachFarmer;
         EventManager.FarmerDestroyed += FarmerDestroyed;
         EventManager.ClearPath += ClearPath;
-        EventManager.FreeMove += AddFreeMove;
         EventManager.FreeMoveCount += AddFreeMoveCount;
         EventManager.ClearFreeMove += ResetFreeMove;
 
@@ -117,6 +115,7 @@ public class MoveCommand : MonoBehaviour, ICommand
         {
             cell.Reset();
         }
+        
         farmerTargets = new List<GameObject>();
         EventManager.TriggerClearFreeMove();
     }
@@ -362,7 +361,6 @@ public class MoveCommand : MonoBehaviour, ICommand
         EventManager.FarmerDestroyed -= FarmerDestroyed;
         EventManager.ClearPath -= ClearPath;
         EventManager.EndDay -= Dispose;
-        EventManager.FreeMove -= AddFreeMove;
         EventManager.FreeMoveCount -= AddFreeMoveCount;
 
         ClearPath();
@@ -405,13 +403,14 @@ public class MoveCommand : MonoBehaviour, ICommand
       EventManager.TriggerPathUpdate(path.Cells.Count);
     }
 
-    public void CountFreeMove(){
-      freeMoves[0].HowManyFreeMoves(path.Cells.Count);
-    }
-
     public void AddFreeMoveCount(int toAdd, Token item){
+      if(toAdd == 0) return; 
       totalFreeMoves = totalFreeMoves + toAdd;
-      if (item is HalfWineskin){
+      initFreeHours = initFreeHours + toAdd;
+      ShowMovableArea();
+
+
+      /*if (item is HalfWineskin){
         if(toAdd == 1){
           GameManager.instance.MainHero.heroInventory.RemoveSmallToken((SmallToken)item);
         }
@@ -422,26 +421,18 @@ public class MoveCommand : MonoBehaviour, ICommand
           SmallToken halfWineskin = HalfWineskin.Factory();
           GameManager.instance.MainHero.heroInventory.ReplaceSmallToken((SmallToken)item, halfWineskin, true);
         }
-      }
-
-      else if (item is Herb){
-        if(toAdd == 0){}
-        else{
-        GameManager.instance.MainHero.heroInventory.RemoveSmallToken((SmallToken)item);
+      } else if (item is Herb){
+        if(toAdd != 0){
+            GameManager.instance.MainHero.heroInventory.RemoveSmallToken((SmallToken)item);
         }
       }
 
       freeMoves.RemoveAt(0);
-      Execute();
+      Execute();*/
     }
 
     public void Execute()
     {
-    //For each freeMove token determine how Many freeMoves you want
-      if(freeMoves.Count != 0){
-        CountFreeMove();
-        return;
-      }
       EventManager.TriggerClearFreeMove();
 
       if (!PhotonNetwork.OfflineMode)
@@ -527,33 +518,11 @@ public class MoveCommand : MonoBehaviour, ICommand
         }
     }
 
-    void AddFreeMove(Token item){
-      Debug.Log("FreeMove");
-
-      freeMoves.Add(item);
-      if(item is Wineskin){
-        initFreeHours = initFreeHours + 2;
-        //initExtHours = initExtHours + 2;
-      } else if (item is HalfWineskin){
-        initFreeHours = initFreeHours + 1;
-        //initExtHours = initExtHours + 1;
-      } else if (item is Herb){
-        if(((Herb)item).myType.Equals(Herbs.Herb3)){
-          initFreeHours = initFreeHours + 3;
-          //initExtHours = initExtHours + 3;
-        }
-        else{
-          initFreeHours = initFreeHours + 4;
-          //initExtHours = initExtHours + 4;
-        }
-      }
-      ShowMovableArea();
-    }
-
     void ResetFreeMove(){
-      foreach(Token item in freeMoves){
-        item.InUse = false;
+      foreach(KeyValuePair<Token, int> entry in freeMoves) {  
+        entry.Key.reserved = 0;
       }
+
       freeMoves.Clear();
     }
 

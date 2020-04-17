@@ -67,7 +67,7 @@ public class HerbUseUI : MonoBehaviour
   }
 
   public void changeHerbUsage() {
-      this.herb.InUse = false;
+      this.herb.reserved = 0;
 
   }
 
