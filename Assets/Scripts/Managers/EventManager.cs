@@ -400,6 +400,17 @@ public class EventManager : MonoBehaviour
         }
     }
 
+    public delegate void GameWinHandler();
+    public static event GameWinHandler GameWin;
+
+    public static void TriggerGameWin()
+    {
+        if (GameWin != null)
+        {
+            GameWin();
+        }
+    }
+
     //Triggered when the inventory of a cell is changed
     public delegate void CellUpdateHandler(Token token);
     public static event CellUpdateHandler CellUpdate;
