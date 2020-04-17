@@ -30,13 +30,8 @@ public class Fog : Token {
 
         int[] shuffledCellsID = PhotonNetwork.CurrentRoom.CustomProperties["FogCells"] as int[];
 
-        if (tokens.Count > shuffledCellsID.Length) {
-            Debug.Log("Wrong number of Fog tokens initialized. Abort.");
-            Fog.Destroy();
-            return;
-        }
-
-        for(int i = 0; i < tokens.Count; i++) {
+        int n = Math.Min(tokens.Count, shuffledCellsID.Length);
+        for(int i = 0; i < n; i++) {
             tokens[i].Cell = Cell.FromId(shuffledCellsID[i]);
         }
     }
@@ -45,7 +40,6 @@ public class Fog : Token {
         Sprite sprite = Resources.Load<Sprite>("Sprites/Tokens/Fog/" + id);
         if(sprite == null) {
             Debug.Log("Error creating the Fog Token");
-            return;
         }
 
         for(int i = 0; i < qty; i++) {
@@ -65,7 +59,6 @@ public class Fog : Token {
         if (sprite == null)
         {
             Debug.Log("Error creating the Fog Token");
-            return;
         }
 
         GameObject fog = GameObject.Instantiate((GameObject)Resources.Load("Prefabs/Tokens/Fog")) as GameObject;
