@@ -15,7 +15,6 @@ public class Witch : Token {
         GameObject go = new GameObject( typeof(Witch).ToString());
         SpriteRenderer renderer = go.AddComponent<SpriteRenderer>();
         renderer.sprite = sprite;
-        renderer.sortingOrder = 2;
         go.transform.localScale = new Vector3(10, 10, 10);
 
         Witch witch = go.AddComponent<Witch>();

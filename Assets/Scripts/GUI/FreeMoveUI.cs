@@ -20,6 +20,7 @@ public class FreeMoveUI : MonoBehaviour
   }
 
   void OnDisable() {
+    EventManager.FreeMoveUI -= ShowFreeMoves;
     EventManager.ClearFreeMove -= clearToken;
   }
 

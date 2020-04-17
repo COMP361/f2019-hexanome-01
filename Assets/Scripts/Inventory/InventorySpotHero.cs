@@ -29,7 +29,7 @@ public class InventorySpotHero : MonoBehaviour
     public void UseItem(){
       if(token != null){
         if(CharChoice.choice.TokenName.Equals(GameManager.instance.MainHero.TokenName)){
-          if(GameManager.instance.MainHero.timeline.Index != 0){
+          if(GameManager.instance.MainHero.timeline.Index != 0 || token is Wineskin){
             token.UseHero();
           }
           else{

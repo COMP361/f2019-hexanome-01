@@ -100,7 +100,7 @@ public class Cell : MonoBehaviour, IComparable<Cell>
     }
 
     void OnMouseDown() {
-        if (!Active) return;
+        if (!Active || EventSystem.current.IsPointerOverGameObject()) return;
         EventManager.TriggerCellClick(Index, GameManager.instance.MainHero);
     }
 

@@ -15,7 +15,6 @@ public class Thorald : Movable
         GameObject go = new GameObject(typeof(Thorald).ToString());
         SpriteRenderer renderer = go.AddComponent<SpriteRenderer>();
         renderer.sprite = sprite;
-        renderer.sortingOrder = 2;
         go.transform.localScale = new Vector3(10, 10, 10);
 
         Thorald thorald = go.AddComponent<Thorald>();

@@ -9,6 +9,7 @@ public class Fog : Token {
     public static List<int> cellsID = new List<int>(){ 8, 11, 12, 13, 16, 32, 42, 44, 46, 64, 63, 56, 47, 48, 49 };
     static List<Token> tokens = new List<Token>();
     public static string itemName = "Fog";
+    private static int[] shuffledCellsID;
 
     public void OnEnable() {
         EventManager.MoveComplete += OnMoveComplete;
@@ -20,6 +21,8 @@ public class Fog : Token {
     }
 
     public static void Factory() {
+        Fog.shuffledCellsID = PhotonNetwork.CurrentRoom.CustomProperties["FogCells"] as int[];
+
         Fog2Will.Factory();
         Fog3Will.Factory();
         FogStrength.Factory();
@@ -28,25 +31,12 @@ public class Fog : Token {
         FogGor.Factory();
         FogGold.Factory();
         FogEvent.Factory();
-
-        int[] shuffledCellsID = PhotonNetwork.CurrentRoom.CustomProperties["FogCells"] as int[];
-
-        if (tokens.Count > shuffledCellsID.Length) {
-            Debug.Log("Wrong number of Fog tokens initialized. Abort.");
-            Fog.Destroy();
-            return;
-        }
-
-        for(int i = 0; i < tokens.Count; i++) {
-            tokens[i].Cell = Cell.FromId(shuffledCellsID[i]);
-        }
     }
 
     public static void Init(string id, int qty, Type type) {
         Sprite sprite = Resources.Load<Sprite>("Sprites/Tokens/Fog/" + id);
         if(sprite == null) {
             Debug.Log("Error creating the Fog Token");
-            return;
         }
 
         for(int i = 0; i < qty; i++) {
@@ -56,6 +46,9 @@ public class Fog : Token {
 
             Fog fogToken = (Fog)fog.AddComponent(type);
             fogToken.TokenName = sprite.name + "Fog";
+            fogToken.Cell = Cell.FromId(Fog.shuffledCellsID[Fog.tokens.Count % Fog.shuffledCellsID.Length]);
+            SpriteRenderer sr = fogToken.GetComponent<SpriteRenderer>();
+            if(sr != null) sr.sortingOrder = 2;
             tokens.Add(fogToken);
         }
     }
@@ -66,7 +59,6 @@ public class Fog : Token {
         if (sprite == null)
         {
             Debug.Log("Error creating the Fog Token");
-            return;
         }
 
         GameObject fog = GameObject.Instantiate((GameObject)Resources.Load("Prefabs/Tokens/Fog")) as GameObject;
@@ -77,6 +69,8 @@ public class Fog : Token {
         fogToken.TokenName = sprite.name + "Fog";
         tokens.Add(fogToken);
         fogToken.Cell = Cell.FromId(cell);
+        SpriteRenderer sr = fogToken.GetComponent<SpriteRenderer>();
+        if(sr != null) sr.sortingOrder = 2;
     }
 
     public static void Destroy() {
