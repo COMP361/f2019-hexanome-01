@@ -12,12 +12,10 @@ public class Wineskin : SmallToken
 
   public void OnEnable() {
     EventManager.ActionUpdate += FreeReservation;
-    EventManager.FreeMoveCount += UpdateReservation;
   }
 
 	public void OnDisable() {
     EventManager.ActionUpdate -= FreeReservation;
-    EventManager.FreeMoveCount -= UpdateReservation;
   }
 
   public static Wineskin Factory()
@@ -85,10 +83,5 @@ public class Wineskin : SmallToken
     if(Action.FromValue<Action>(action) == Action.None) {
       reserved = 0;
     }
-  }
-
-  void UpdateReservation(int count, Token token) {
-    if(token != this) return;
-    reserved += count;
   }
 }

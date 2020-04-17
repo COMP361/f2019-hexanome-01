@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
 using System.Collections.Generic;
+using UnityEngine.EventSystems;
 
 public class FreeMoveUI : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class FreeMoveUI : MonoBehaviour
   Token token;
   Text FreeMovePanelTitle;
   Text FreeMovePanelDesc;
+  public EventSystem EventSystem;
 
   void OnEnable() {
     EventManager.FreeMove += ShowFreeMoves;
@@ -36,39 +38,23 @@ public class FreeMoveUI : MonoBehaviour
     Button btn;
     
     btn = FreeMovePanel.transform.Find("Btn0").GetComponent<Button>();
-    btn.onClick.AddListener(delegate { 
-      this.token.reserved = 0; 
-      EventManager.TriggerFreeMoveCount(this.token); 
-      HideFreeMove(); 
-    });
+    btn.onClick.AddListener(delegate { OnClick(0); });
     Buttons.Add(btn);
 
     btn = FreeMovePanel.transform.Find("Btn1").GetComponent<Button>();
-    btn.onClick.AddListener(delegate { 
-      his.token.reserved = 1; 
-      EventManager.TriggerFreeMoveCount(this.token); 
-      HideFreeMove();
-    });
+    btn.onClick.AddListener(delegate { OnClick(1); });
     Buttons.Add(btn);
 
     btn = FreeMovePanel.transform.Find("Btn2").GetComponent<Button>();
-    btn.onClick.AddListener(delegate {
-      his.token.reserved = 0; 
-      EventManager.TriggerFreeMoveCount(this.token); 
-      HideFreeMove();
-    });
+    btn.onClick.AddListener(delegate { OnClick(2); });
     Buttons.Add(btn);
 
     btn = FreeMovePanel.transform.Find("Btn3").GetComponent<Button>();
-    btn.onClick.AddListener(delegate { 
-      his.token.reserved = 3; 
-      EventManager.TriggerFreeMoveCount(this.token); 
-      HideFreeMove();
-    });
+    btn.onClick.AddListener(delegate { OnClick(3); });
     Buttons.Add(btn);
 
     btn = FreeMovePanel.transform.Find("Btn4").GetComponent<Button>();
-    btn.onClick.AddListener(delegate { HideFreeMove(); EventManager.TriggerFreeMoveCount(4, this.token); });
+    btn.onClick.AddListener(delegate { OnClick(4); });
     Buttons.Add(btn);
   }
 
@@ -104,15 +90,16 @@ public class FreeMoveUI : MonoBehaviour
       Buttons[i].interactable = false;
     }
 
-    Buttons[token.reserved].Select();
-
     FreeMovePanel.SetActive(true);
+    EventSystem.SetSelectedGameObject(Buttons[token.reserved].gameObject);
   }
 
   public void HideFreeMove(){
     for(int i = 0; i < Buttons.Count; i++) {
       Buttons[i].interactable = true;
     }
+
+    EventSystem.SetSelectedGameObject(null);
 
     FreeMovePanel.SetActive(false);
   }

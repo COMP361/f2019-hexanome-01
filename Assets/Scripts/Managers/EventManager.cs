@@ -460,7 +460,7 @@ public class EventManager : MonoBehaviour
     {
         if (HeroItemClick != null)
         {
-          if(GameManager.instance.MainHero.timeline.Index == 0 && !(item is Wineskin)){
+          if(GameManager.instance.MainHero.timeline.Index == 0){
             EventManager.TriggerError(2);
           }
           else{
@@ -658,13 +658,13 @@ public class EventManager : MonoBehaviour
         }
     }
 
-    public delegate void FreeMoveCountHandler(int count, Token item);
+    public delegate void FreeMoveCountHandler(Token item);
     public static event FreeMoveCountHandler FreeMoveCount;
-    public static void TriggerFreeMoveCount(int count, Token item)
+    public static void TriggerFreeMoveCount(Token item)
     {
         if (FreeMoveCount != null)
         {
-            FreeMoveCount(count, item);
+            FreeMoveCount(item);
         }
     }
 
