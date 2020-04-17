@@ -53,12 +53,14 @@ public class Cell : MonoBehaviour, IComparable<Cell>
     protected void OnEnable()
     {
         EventManager.GameOver += Deactivate;
+        EventManager.GameWin += Deactivate;
         EventManager.Save += Save;
     }
 
     protected void OnDisable()
     {
         EventManager.GameOver -= Deactivate;
+        EventManager.GameWin -= Deactivate;
         EventManager.Save -= Save;
     }
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using System.IO;
+using System.Linq;
 
 public class Castle : Cell
 {
@@ -62,6 +63,28 @@ public class Castle : Cell
          
         if ( ShieldsCount < 1) EventManager.TriggerGameOver();
         EventManager.TriggerShieldsUpdate(ShieldsCount);
+    }
+
+    // Call this when the tower skrall is defeated
+    public void CheckWin()
+    {
+        Boolean hasHerb = false;
+        foreach(object item in Inventory.items.Values)
+        {
+            if (item.ToString() == "Herb")
+            {
+                hasHerb = true;
+            }
+        }
+
+        if (hasHerb)
+        {
+            EventManager.TriggerGameWin();
+        }
+        else
+        {
+            EventManager.TriggerGameOver();
+        }
     }
 
     public void Save(String saveId) {
