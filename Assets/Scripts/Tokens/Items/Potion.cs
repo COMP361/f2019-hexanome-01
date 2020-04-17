@@ -15,6 +15,7 @@ public class Potion : SmallToken
     GameObject potionGO = PhotonNetwork.Instantiate("Prefabs/Tokens/Potion", Vector3.zero, Quaternion.identity, 0);
     Potion potion = potionGO.GetComponent<Potion>();
     potion.Cell = null;
+    potion.maxUse = 2;
     return potion;
   }
 

@@ -24,7 +24,6 @@ public abstract class Movable : Token
         if(AtCell(path[0])) path.RemoveAt(0);
 
         this.path = path;
-        Debug.Log("Total FreeMoves " + freeMoves);
         EventManager.TriggerMove(this, path.Count - freeMoves);
     }
 

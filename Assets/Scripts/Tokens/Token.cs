@@ -15,7 +15,8 @@ public class Token : MonoBehaviour {
     private Cell _cell;
     public string desc;
     public string itemName;
-    public bool InUse = false;
+    public int reserved = 0;
+    public int maxUse = 1;
 
     public Cell Cell {
         get {
@@ -90,9 +91,7 @@ public class Token : MonoBehaviour {
 
     public virtual void UseHero(){
     }
-    public virtual void UseEffect(){
-    }
 
-    public virtual void HowManyFreeMoves(int PathSize){
+    public virtual void UseEffect(){
     }
 }

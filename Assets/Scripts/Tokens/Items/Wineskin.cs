@@ -10,11 +10,20 @@ public class Wineskin : SmallToken
   public static string desc = "Each side of the wineskin can be used to advance 1 space without having to move the time marker.";
   public PhotonView photonView;
 
+  public void OnEnable() {
+    EventManager.ActionUpdate += FreeReservation;
+  }
+
+	public void OnDisable() {
+    EventManager.ActionUpdate -= FreeReservation;
+  }
+
   public static Wineskin Factory()
   {
     GameObject wineSkinGO = PhotonNetwork.Instantiate("Prefabs/Tokens/Wineskin", Vector3.zero, Quaternion.identity, 0);
     Wineskin wineskin = wineSkinGO.GetComponent<Wineskin>();
     wineskin.Cell = null;
+    wineskin.maxUse = 2;
     return wineskin;
   }
 
@@ -41,19 +50,8 @@ public class Wineskin : SmallToken
   }
 
   public override void UseEffect(){
-    if(!InUse){
-      InUse = true;
-      EventManager.TriggerFreeMove(this);
-    }
-    else{
-      EventManager.TriggerError(3);
-    }
+    EventManager.TriggerFreeMove(this);
   }
-
-  public override void HowManyFreeMoves(int pathSize){
-    EventManager.TriggerFreeMoveUI(this, pathSize);
-  }
-  
 
   public static string Type { get => typeof(Wineskin).ToString(); }
 
@@ -65,8 +63,7 @@ public class Wineskin : SmallToken
         Wineskin toAdd = Wineskin.Factory();
         if(hero.heroInventory.AddSmallToken(toAdd)){
           hero.heroInventory.RemoveGold(cost);
-        }
-        else{
+        } else{
           return;
         }
 
@@ -79,6 +76,12 @@ public class Wineskin : SmallToken
     else{
       EventManager.TriggerError(2);
       return;
+    }
+  }
+
+  void FreeReservation(int action) {
+    if(Action.FromValue<Action>(action) == Action.None) {
+      reserved = 0;
     }
   }
 }

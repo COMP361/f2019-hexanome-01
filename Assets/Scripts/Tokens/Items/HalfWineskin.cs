@@ -45,16 +45,7 @@ public class HalfWineskin : SmallToken
   }
 
   public override void UseEffect(){
-    if(!InUse){
-      InUse = true;
-      EventManager.TriggerFreeMove(this);
-    } else{
-      EventManager.TriggerError(3);
-    }
-  }
-
-  public override void HowManyFreeMoves(int pathSize){
-    EventManager.TriggerFreeMoveUI(this, pathSize);
+    EventManager.TriggerFreeMove(this);
   }
   
   public static string Type { get => typeof(HalfWineskin).ToString(); }
