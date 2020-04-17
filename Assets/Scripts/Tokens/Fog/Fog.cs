@@ -9,6 +9,7 @@ public class Fog : Token {
     public static List<int> cellsID = new List<int>(){ 8, 11, 12, 13, 16, 32, 42, 44, 46, 64, 63, 56, 47, 48, 49 };
     static List<Token> tokens = new List<Token>();
     public static string itemName = "Fog";
+    private static int[] shuffledCellsID;
 
     public void OnEnable() {
         EventManager.MoveComplete += OnMoveComplete;
@@ -20,6 +21,8 @@ public class Fog : Token {
     }
 
     public static void Factory() {
+        Fog.shuffledCellsID = PhotonNetwork.CurrentRoom.CustomProperties["FogCells"] as int[];
+
         Fog2Will.Factory();
         Fog3Will.Factory();
         FogStrength.Factory();
@@ -28,13 +31,6 @@ public class Fog : Token {
         FogGor.Factory();
         FogGold.Factory();
         FogEvent.Factory();
-
-        int[] shuffledCellsID = PhotonNetwork.CurrentRoom.CustomProperties["FogCells"] as int[];
-
-        int n = Math.Min(tokens.Count, shuffledCellsID.Length);
-        for(int i = 0; i < n; i++) {
-            tokens[i].Cell = Cell.FromId(shuffledCellsID[i]);
-        }
     }
 
     public static void Init(string id, int qty, Type type) {
@@ -50,6 +46,9 @@ public class Fog : Token {
 
             Fog fogToken = (Fog)fog.AddComponent(type);
             fogToken.TokenName = sprite.name + "Fog";
+            fogToken.Cell = Cell.FromId(Fog.shuffledCellsID[Fog.tokens.Count % Fog.shuffledCellsID.Length]);
+            SpriteRenderer sr = fogToken.GetComponent<SpriteRenderer>();
+            if(sr != null) sr.sortingOrder = 2;
             tokens.Add(fogToken);
         }
     }
@@ -70,6 +69,8 @@ public class Fog : Token {
         fogToken.TokenName = sprite.name + "Fog";
         tokens.Add(fogToken);
         fogToken.Cell = Cell.FromId(cell);
+        SpriteRenderer sr = fogToken.GetComponent<SpriteRenderer>();
+        if(sr != null) sr.sortingOrder = 2;
     }
 
     public static void Destroy() {

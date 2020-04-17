@@ -27,7 +27,7 @@ public class Token : MonoBehaviour {
             if(value == null) {
                 if(sr != null) sr.sortingOrder = -1;
             } else {
-                if(sr != null) sr.sortingOrder = 2;
+                if(sr != null) sr.sortingOrder = 3;
             }
 
             if(_cell != null && _cell.Inventory != null) {

@@ -11,7 +11,6 @@ public class Troll : Enemy {
         GameObject go = new GameObject("Troll");
         SpriteRenderer renderer = go.AddComponent<SpriteRenderer>();
         renderer.sprite = sprite;
-        renderer.sortingOrder = 2;
         go.transform.localScale = new Vector3(10, 10, 10);
 
         Troll troll = go.AddComponent<Troll>();

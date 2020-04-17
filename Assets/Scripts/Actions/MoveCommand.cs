@@ -24,7 +24,6 @@ public class MoveCommand : MonoBehaviour, ICommand
         SetDestination
     }
     private int totalFreeMoves;
-
     private Movable movable;
     private Cell goal;
     private MapPath path;
@@ -67,7 +66,6 @@ public class MoveCommand : MonoBehaviour, ICommand
             GameManager.instance.CurrentPlayer.timeline.Index,
             GameManager.instance.CurrentPlayer.Willpower
         );
-
 
         EventManager.CellClick += SetDestination;
         EventManager.CellClick += SetFarmerDestination;
@@ -530,23 +528,23 @@ public class MoveCommand : MonoBehaviour, ICommand
     }
 
     void AddFreeMove(Token item){
+      Debug.Log("FreeMove");
+
       freeMoves.Add(item);
       if(item is Wineskin){
         initFreeHours = initFreeHours + 2;
-        initExtHours = initExtHours + 2;
-      }
-      else if (item is HalfWineskin){
+        //initExtHours = initExtHours + 2;
+      } else if (item is HalfWineskin){
         initFreeHours = initFreeHours + 1;
-        initExtHours = initExtHours + 1;
-      }
-      else if (item is Herb){
+        //initExtHours = initExtHours + 1;
+      } else if (item is Herb){
         if(((Herb)item).myType.Equals(Herbs.Herb3)){
           initFreeHours = initFreeHours + 3;
-          initExtHours = initExtHours + 3;
+          //initExtHours = initExtHours + 3;
         }
         else{
           initFreeHours = initFreeHours + 4;
-          initExtHours = initExtHours + 4;
+          //initExtHours = initExtHours + 4;
         }
       }
       ShowMovableArea();

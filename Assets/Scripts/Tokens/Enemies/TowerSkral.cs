@@ -10,7 +10,6 @@ public class TowerSkral : Enemy
         GameObject go = new GameObject("TowerSkral");
         SpriteRenderer renderer = go.AddComponent<SpriteRenderer>();
         renderer.sprite = sprite;
-        renderer.sortingOrder = 2;
         go.transform.localScale = new Vector3(10, 10, 10);
 
         TowerSkral skral = go.AddComponent<TowerSkral>();

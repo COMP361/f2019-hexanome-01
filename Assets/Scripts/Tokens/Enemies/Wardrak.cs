@@ -9,7 +9,6 @@ public class Wardrak : Enemy {
         GameObject go = new GameObject("Wardrak");
         SpriteRenderer renderer = go.AddComponent<SpriteRenderer>();
         renderer.sprite = sprite;
-        renderer.sortingOrder = 2;
         go.transform.localScale = new Vector3(10, 10, 10);
         
         Wardrak wardrak = go.AddComponent<Wardrak>();

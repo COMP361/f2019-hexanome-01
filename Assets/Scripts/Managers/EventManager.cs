@@ -460,7 +460,7 @@ public class EventManager : MonoBehaviour
     {
         if (HeroItemClick != null)
         {
-          if(GameManager.instance.MainHero.timeline.Index == 0){
+          if(GameManager.instance.MainHero.timeline.Index == 0 && !(item is Wineskin)){
             EventManager.TriggerError(2);
           }
           else{
