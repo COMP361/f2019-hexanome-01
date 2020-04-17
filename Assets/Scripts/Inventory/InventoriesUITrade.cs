@@ -11,6 +11,8 @@ public class InventoriesUITrade : MonoBehaviour
   Hero hero1;
   Hero hero2;
 
+
+
   protected Token[] hero1Items;
   protected Token[] hero2Items;
 
@@ -55,6 +57,7 @@ public class InventoriesUITrade : MonoBehaviour
 
   void Awake()
   {
+
     hero1Items = new Token[25];
     hero2Items = new Token[25];
     hero1ItemsToTrade = new Token[25];
@@ -134,7 +137,118 @@ public class InventoriesUITrade : MonoBehaviour
     // Either both toTradeList Empty --> Trigger error
     // Either trade can not happen has it would create illegal inventories --> Trigger error
     // Either trade is valid, --> Procceed to trade, close
+    if(ArrayIsAllNull(hero1ItemsToTrade) && ArrayIsAllNull(hero2ItemsToTrade)){
+      EventManager.TriggerError(4);
+      return;
+    }
+    else if(IsTradeGood()){
+      Falcon toChange = (Falcon)hero1.heroInventory.bigToken;
+      toChange.TurnFalcon();
+      ProceedTrade();
+      EventManager.TriggerEndTrade();
+      return;
+    }
+    else{
+      EventManager.TriggerError(5);
+      return;
+    }
     EventManager.TriggerEndTrade();
+  }
+
+  bool IsTradeGood(){
+    List<Token> verifyHero1 = new List<Token>();
+    List<Token> verifyHero2 = new List<Token>();
+
+    for(int i = 0; i < hero1.heroInventory.AllTokens.Count; i++){
+      verifyHero1.Add((Token)hero1.heroInventory.AllTokens[i]);
+    }
+
+    for(int i = 0; i < hero2.heroInventory.AllTokens.Count; i++){
+      verifyHero2.Add((Token)hero2.heroInventory.AllTokens[i]);
+    }
+
+    for(int i = 0; i < hero1ItemsToTrade.Length; i++ ){
+      if(hero1ItemsToTrade[i] != null){
+        verifyHero1.Remove(hero1ItemsToTrade[i]);
+        verifyHero2.Add(hero1ItemsToTrade[i]);
+      }
+    }
+
+    for(int i = 0; i < hero2ItemsToTrade.Length; i++ ){
+      if(hero2ItemsToTrade[i] != null){
+        verifyHero2.Remove(hero2ItemsToTrade[i]);
+        verifyHero1.Add(hero2ItemsToTrade[i]);
+      }
+    }
+
+    return(IsListValid(verifyHero1) && IsListValid(verifyHero2));
+
+  }
+
+  void ProceedTrade(){
+    List<Token> verifyHero1 = new List<Token>();
+    List<Token> verifyHero2 = new List<Token>();
+
+    // Add all Items of heroInventory
+    for(int i = 0; i < hero1.heroInventory.AllTokens.Count; i++){
+      verifyHero1.Add((Token)hero1.heroInventory.AllTokens[i]);
+    }
+
+    // Add all Items of heroInventory
+    for(int i = 0; i < hero2.heroInventory.AllTokens.Count; i++){
+      verifyHero2.Add((Token)hero2.heroInventory.AllTokens[i]);
+    }
+
+    hero1.heroInventory.Clear();
+    hero2.heroInventory.Clear();
+
+
+    // Remove Items that we want to give away, Add to hero2
+
+
+
+
+    for(int i = 0; i < hero1ItemsToTrade.Length; i++ ){
+      if(hero1ItemsToTrade[i] != null){
+        verifyHero1.Remove(hero1ItemsToTrade[i]);
+        verifyHero2.Add(hero1ItemsToTrade[i]);
+      }
+    }
+
+    // Remove Items that we want to give away, Add to hero1
+    for(int i = 0; i < hero2ItemsToTrade.Length; i++ ){
+      if(hero2ItemsToTrade[i] != null){
+        verifyHero2.Remove(hero2ItemsToTrade[i]);
+        verifyHero1.Add(hero2ItemsToTrade[i]);
+      }
+    }
+
+    // add all verify Items to hero inventory
+    for(int i = 0; i < verifyHero1.Count; i++){
+      hero1.heroInventory.AddItem(verifyHero1[i]);
+    }
+    // add all verify Items to hero inventory
+    for(int i = 0; i < verifyHero2.Count; i++){
+      hero2.heroInventory.AddItem(verifyHero2[i]);
+    }
+
+  }
+
+  bool IsListValid(List<Token> a){
+    int helmCount = 0;
+    int smallTokenCount = 0;
+    foreach(Token b in a){
+      if(b is Helm){
+        helmCount++;
+      }
+      else if(b is SmallToken){
+        smallTokenCount++;
+      }
+    }
+    if(helmCount > 1 || smallTokenCount > 3){
+      return false;
+    }
+    return true;
   }
 
   void setLists(){
@@ -438,5 +552,14 @@ public class InventoriesUITrade : MonoBehaviour
       }
     }
     return -1;
+  }
+
+  bool ArrayIsAllNull(Token[] a){
+    for(int i = 0; i< a.Length; i++){
+      if(a[i] != null){
+        return false;
+      }
+    }
+    return true;
   }
 }

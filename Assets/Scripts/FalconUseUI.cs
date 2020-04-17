@@ -107,7 +107,7 @@ public class FalconUseUI : MonoBehaviour
     }
 
     // Return true only if both mainHero AND hero to trade to do not have empty inventories
-    if((toCheck.heroInventory.helm != null || toCheck.heroInventory.golds.Count != 0 || mainHero.heroInventory.smallTokens.Count != 0) && (toCheck.heroInventory.helm != null || mainHero.heroInventory.golds.Count != 0 || mainHero.heroInventory.smallTokens.Count != 0) ){
+    if((toCheck.heroInventory.helm != null || toCheck.heroInventory.golds.Count != 0 || toCheck.heroInventory.smallTokens.Count != 0) || (mainHero.heroInventory.helm != null || mainHero.heroInventory.golds.Count != 0 || mainHero.heroInventory.smallTokens.Count != 0) ){
       return true;
     }
     return false;

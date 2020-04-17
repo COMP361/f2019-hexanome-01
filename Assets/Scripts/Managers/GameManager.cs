@@ -173,7 +173,7 @@ public class GameManager : Singleton<GameManager>
         farmers.Add(Farmer.Factory(36));
 
         // MONSTERS
-      
+
         gors.Add(Gor.Factory(8));
         gors.Add(Gor.Factory(20));
         gors.Add(Gor.Factory(21));
@@ -673,6 +673,13 @@ public class GameManager : Singleton<GameManager>
       Hero toRemoveFrom = findHero(hero);
       toRemoveFrom.heroInventory.RemoveHelm2(viewID);
     }
+
+    [PunRPC]
+    public void ClearRPC(string hero){
+      Hero toRemoveFrom = findHero(hero);
+      toRemoveFrom.heroInventory.Clear2();
+    }
+
 
     [PunRPC]
     public void AddStrengthRPC(int amt, string hero){

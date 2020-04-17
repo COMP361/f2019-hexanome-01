@@ -53,7 +53,15 @@ public class ErrorPopups : Singleton<ErrorPopups>
       }
       if(type == 3){
         errorPanelTitle.text = "Error!";
-        errorPanelDesc.text = "You are already using this item. Please select another item or continue";
+        errorPanelDesc.text = "You are already using this item. Please select another item or continue.";
+      }
+      if(type == 4){
+        errorPanelTitle.text = "Error!";
+        errorPanelDesc.text = "You want to make a trade involving no item. Please make another trade or cancel.";
+      }
+      if(type == 5){
+        errorPanelTitle.text = "Error!";
+        errorPanelDesc.text = "You can not make that trade as one of the hero would have to much items. Please make another trade or cancel.";
       }
       errorPanel.SetActive(true);
     }

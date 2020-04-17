@@ -29,6 +29,7 @@ MonoBehaviour:
   RunInBackground: 1
   StartInOfflineMode: 0
   RpcList:
+  - ClearRPC
   - AddBigTokenRPC
   - AddGoldHeroRPC
   - AddHelmRPC
@@ -63,5 +64,6 @@ MonoBehaviour:
   - TriggerEndDayRPC
   - TriggerEndTurnRPC
   - TriggerSkipRPC
+  - TurnFalconRPC
   DisableAutoOpenWizard: 1
   ShowSettings: 0
