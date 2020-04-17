@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
+using System.Collections.Specialized;
 using Random = UnityEngine.Random;
 using System;
 
@@ -565,8 +566,8 @@ public class MultiplayerFightPlayer : MonoBehaviour
             DisableFighter(dwarf);
             DisableMonsterUI();
             ReinitializeButtons();
-            disablePanel();
-            //panel.SetActive(false);
+            //disablePanel();
+            panel.SetActive(false);
         }
 
         //restore the flipped thingy
@@ -765,6 +766,69 @@ public class MultiplayerFightPlayer : MonoBehaviour
             ThoraldSprite.gameObject.SetActive(false);
         }
     }
+
+    private void HasHelm(HeroFighter h)
+    {
+        if(h.nb_helm > 0)
+        {
+            h.helm.GetComponent<Button>().gameObject.SetActive(true);
+        }
+    }
+
+    private void HasPotion(HeroFighter h)
+    {
+        if (h.nb_potion > 0)
+        {
+            h.potion.GetComponent<Button>().enabled = true; 
+            //h.potion.GetComponent<SpriteRenderer>().GetComponent<Sprite>().
+        }
+        else
+        {
+            //h.potion.get
+        }
+    }
+
+    private void UsePotion(HeroFighter h)
+    {
+        if (h.nb_potion > 0 && h.lastRoll != null)
+        {
+            h.potion.GetComponent<Image>().color = h.potion.GetComponent<Button>().colors.pressedColor;
+            h.lastRoll = mage.lastRoll * 2;
+            h.nb_potion -= 0.5;
+            h.potionText.text = h.nb_potion.ToString();
+            AttackMessage.text = "";
+        }
+        else if (h.nb_potion > 0 && h.lastRoll == -1)
+        {
+            AttackMessage.text = "Roll before using the potion!";
+        }
+        else
+        {
+            h.potion.GetComponent<Image>().color = h.potion.GetComponent<Button>().colors.normalColor;
+            h.potion.enabled = false;
+            AttackMessage.text = "";
+        }
+    }
+
+    public void OnClickPotionMage()
+    {
+        UsePotion(mage);
+    }
+
+    public void OnClickPotionArcher()
+    {
+        UsePotion(archer);
+    }
+
+    public void OnClickPotionDwarf()
+    {
+        UsePotion(dwarf);
+    }
+
+    public void OnClickPotionWarrior()
+    {
+        UsePotion(warrior);
+    }
 }
 
 public class HeroFighter
@@ -775,12 +839,22 @@ public class HeroFighter
     public Text strengthText;
     public Text wp;
     public Text wpText;
+
     public SpriteRenderer spriteRenderer;
+
     public regularDices[] rd; //= new regularDices[4];
+    public specialDices sd;
     public bool isPresent = false;
     public bool hasRolled = false;
     public int lastRoll = -1;
-    public int witchBrew = 0;
+
+    public Button potion;
+    public double nb_potion = 1; // SET TO ZERO IF NOT TESTING
+    public Text potionText;
+
+    public GameObject helm;
+    public int nb_helm = 0;
+
     public int gems = 0;
 
     public HeroFighter(string type)
@@ -796,10 +870,26 @@ public class HeroFighter
                 GameObject.Find("Canvas/Fight/Multiplayer-Fight/Heroes/" + type + "/regular dice/rd3").GetComponent<regularDices>(),
                 GameObject.Find("Canvas/Fight/Multiplayer-Fight/Heroes/" + type + "/regular dice/rd4").GetComponent<regularDices>()
             };
+        this.sd = GameObject.Find("Canvas/Fight/Multiplayer-Fight/Heroes/" + type + "/special dice/sd1").GetComponent<specialDices>();
         this.hero = GameManager.instance.heroes.Find(x => x.Type.Equals(type));
         this.spriteRenderer = GameObject.Find("Canvas/Fight/Multiplayer-Fight/Heroes/" + type + "/Sprite").GetComponent<SpriteRenderer>();
         this.spriteRenderer.sprite = Resources.Load<Sprite>("Sprites/Tokens/Heroes/" + hero.Sex.ToString().ToLower() + "_" + hero.Type.ToLower());
-        //this.witchBrew = hero.heroInventory.
-        //    this.gems = hero.heroInventory.
+
+        foreach(var t in hero.heroInventory.smallTokens)
+        {
+            if (t is Potion)
+            {
+                this.nb_potion++;
+            }
+            if(t is Runestone)
+            {
+                this.gems++;
+            }
+        }
+       
+        this.potion = GameObject.Find("Canvas/Fight/Multiplayer-Fight/Heroes/" + type + "/potion").GetComponent<Button>();
+        this.potionText = GameObject.Find("Canvas/Fight/Multiplayer-Fight/Heroes/" + type + "/potion amount").GetComponent<Text>();
+
+        this.helm = GameObject.Find("Canvas/Fight/Multiplayer-Fight/Heroes/" + type + "/helm").GetComponent<GameObject>();
     }
 }
