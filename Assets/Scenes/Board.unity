@@ -96,6 +96,7 @@ LightmapSettings:
     m_PVRFilteringAtrousPositionSigmaAO: 1
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
+    m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
   m_UseShadowmask: 1
 --- !u!196 &4
@@ -3154,7 +3155,7 @@ PrefabInstance:
     - target: {fileID: 4134565129043352398, guid: aa705635ece8ec545af247e8f0c4d769,
         type: 3}
       propertyPath: m_RootOrder
-      value: 22
+      value: 23
       objectReference: {fileID: 0}
     - target: {fileID: 4134565129043352398, guid: aa705635ece8ec545af247e8f0c4d769,
         type: 3}
@@ -3349,7 +3350,7 @@ PrefabInstance:
     - target: {fileID: 1641703239608148130, guid: 5a4231eb804d9464aa3c7a7e37b66fb5,
         type: 3}
       propertyPath: m_RootOrder
-      value: 21
+      value: 22
       objectReference: {fileID: 0}
     - target: {fileID: 1641703239608148130, guid: 5a4231eb804d9464aa3c7a7e37b66fb5,
         type: 3}
@@ -3742,7 +3743,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1131370588
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3756,7 +3757,7 @@ RectTransform:
   m_Children:
   - {fileID: 1335168093}
   m_Father: {fileID: 2768507553007534162}
-  m_RootOrder: 23
+  m_RootOrder: 20
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -4739,7 +4740,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1335168093
 RectTransform:
   m_ObjectHideFlags: 0
@@ -9233,6 +9234,7 @@ RectTransform:
   - {fileID: 6125114463804938866}
   - {fileID: 3877356999768113471}
   - {fileID: 1409990105}
+  - {fileID: 1131370588}
   - {fileID: 48452852}
   - {fileID: 1394831455}
   - {fileID: 606564096}
@@ -11565,7 +11567,7 @@ PrefabInstance:
     - target: {fileID: 8195158449132990065, guid: 76a85235cce554ba696697195de7779b,
         type: 3}
       propertyPath: m_RootOrder
-      value: 20
+      value: 21
       objectReference: {fileID: 0}
     - target: {fileID: 8195158449132990065, guid: 76a85235cce554ba696697195de7779b,
         type: 3}
@@ -11637,10 +11639,50 @@ PrefabInstance:
       propertyPath: m_Name
       value: Errors
       objectReference: {fileID: 0}
+    - target: {fileID: 8195158449132990070, guid: 76a85235cce554ba696697195de7779b,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 8195158449415420018, guid: 76a85235cce554ba696697195de7779b,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     - target: {fileID: 8195158449485203544, guid: 76a85235cce554ba696697195de7779b,
         type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8195158449485203544, guid: 76a85235cce554ba696697195de7779b,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 8195158449885053997, guid: 76a85235cce554ba696697195de7779b,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 8195158450817160948, guid: 76a85235cce554ba696697195de7779b,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 8195158450921070982, guid: 76a85235cce554ba696697195de7779b,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 8195158450999036883, guid: 76a85235cce554ba696697195de7779b,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 8195158451031108636, guid: 76a85235cce554ba696697195de7779b,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 76a85235cce554ba696697195de7779b, type: 3}

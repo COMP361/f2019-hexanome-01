@@ -767,14 +767,6 @@ public class MultiplayerFightPlayer : MonoBehaviour
         }
     }
 
-    private void HasHelm(HeroFighter h)
-    {
-        if(h.nb_helm > 0)
-        {
-            h.helm.GetComponent<Button>().gameObject.SetActive(true);
-        }
-    }
-
     private void HasPotion(HeroFighter h)
     {
         if (h.nb_potion > 0)
@@ -829,6 +821,33 @@ public class MultiplayerFightPlayer : MonoBehaviour
     {
         UsePotion(warrior);
     }
+
+    private void HasHelm(HeroFighter h)
+    {
+        if (h.nb_helm > 0 && h.lastRoll != null)
+        {
+            h.potion.GetComponent<Image>().color = h.potion.GetComponent<Button>().colors.pressedColor;
+            h.lastRoll = mage.lastRoll * 2;
+            h.nb_potion -= 1;
+            h.potionText.text = h.helm.ToString();
+            AttackMessage.text = "";
+        }
+        else if (h.nb_helm > 0 && h.lastRoll == -1)
+        {
+            AttackMessage.text = "Roll before using the helm!";
+        }
+        else
+        {
+            h.helm.GetComponent<Image>().color = h.helm.GetComponent<Button>().colors.normalColor;
+            h.helm.enabled = false;
+            AttackMessage.text = "";
+        }
+    }
+
+    public void OnClickHelmMage() { }
+    public void OnClickHelmArcher() { }
+    public void OnClickHelmWarrior() { }
+    public void OnClickHelmDwarf() { }
 }
 
 public class HeroFighter
@@ -852,8 +871,9 @@ public class HeroFighter
     public double nb_potion = 1; // SET TO ZERO IF NOT TESTING
     public Text potionText;
 
-    public GameObject helm;
-    public int nb_helm = 0;
+    public Button helm;
+    public int nb_helm = 1; // SET TO ZERO IF NOT TESTING
+    public Text helmText;
 
     public int gems = 0;
 
@@ -886,10 +906,16 @@ public class HeroFighter
                 this.gems++;
             }
         }
+
+        if(this.gems > 2)
+        {
+            this.sd.gameObject.SetActive(true);
+        }
        
         this.potion = GameObject.Find("Canvas/Fight/Multiplayer-Fight/Heroes/" + type + "/potion").GetComponent<Button>();
         this.potionText = GameObject.Find("Canvas/Fight/Multiplayer-Fight/Heroes/" + type + "/potion amount").GetComponent<Text>();
 
-        this.helm = GameObject.Find("Canvas/Fight/Multiplayer-Fight/Heroes/" + type + "/helm").GetComponent<GameObject>();
+        this.helm = GameObject.Find("Canvas/Fight/Multiplayer-Fight/Heroes/" + type + "/helm").GetComponent<Button>();
+        this.helmText = GameObject.Find("Canvas/Fight/Multiplayer-Fight/Heroes/" + type + "/helm amount").GetComponent<Text>();
     }
 }
