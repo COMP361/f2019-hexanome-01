@@ -1,6 +1,9 @@
 using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
+using System;
+using System.Collections;
+using System.Collections.Generic;
 
 public class HeroItemsActions : MonoBehaviour
 {
@@ -85,6 +88,9 @@ public class HeroItemsActions : MonoBehaviour
       else if(token is Falcon){
         heroItemsPanelTitle.text = Falcon.itemName;
         heroItemsPanelDesc.text = Falcon.desc;
+        if(!canUseFalcon()){
+          useBtn.interactable = false;
+        }
       }
       else if(token is Helm){
         heroItemsPanelTitle.text = Helm.itemName;
@@ -108,6 +114,9 @@ public class HeroItemsActions : MonoBehaviour
       else if(token is Telescope){
         heroItemsPanelTitle.text = Telescope.itemName;
         heroItemsPanelDesc.text = Telescope.desc;
+        if(!canUseTelescope()){
+         useBtn.interactable = false;
+        }
       }
 
       else if(token is GoldCoin){
@@ -165,6 +174,36 @@ public class HeroItemsActions : MonoBehaviour
   }
   public void LockMoveItems(){
     canUseMoveItems = false;
+  }
+
+  public bool canUseTelescope(){
+    Hero hero = GameManager.instance.MainHero;
+    List<Transform> cellsToCheck = hero.Cell.neighbours;
+    foreach(Transform toCheck in cellsToCheck){
+      foreach(Token item in toCheck.GetComponent<Cell>().Inventory.AllTokens){
+        if(item is Fog){
+           return true;
+          }
+        }
+        foreach(Token item in toCheck.GetComponent<Cell>().Inventory.items){
+          if(item is Runestone){
+            if(((Runestone)item).isCovered){
+              return true;
+            }
+          }
+        }
+      }
+    return false;
+  }
+
+  public bool canUseFalcon(){
+    List<Hero> Heroes = GameManager.instance.heroes;
+    foreach (Hero hero in Heroes){
+      if(hero.heroInventory.helm != null || hero.heroInventory.golds.Count != 0 || hero.heroInventory.smallTokens.Count != 0){
+        return true;
+      }
+    }
+    return false;
   }
 
 

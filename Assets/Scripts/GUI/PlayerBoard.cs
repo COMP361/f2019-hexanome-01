@@ -36,7 +36,7 @@ public class PlayerBoard : MonoBehaviour
   }
 
   private void UpdatePlayerStats(Hero hero) {
-   if(hero.TokenName.Equals(GameManager.instance.MainHero.TokenName)){     
+   if(hero.TokenName.Equals(GameManager.instance.MainHero.TokenName)){
       strength.text = hero.Strength.ToString();
       willPower.text = hero.Willpower.ToString();
       updateNumOfDice(hero);
@@ -64,7 +64,7 @@ public class PlayerBoard : MonoBehaviour
   }
 
   //NEED SOMETHING FOR FARMERCOUNT
-  void updateCompleteBoard(Hero hero){
+  public void updateCompleteBoard(Hero hero){
     InitHero(hero);
     strength.text = hero.Strength.ToString();
     willPower.text = hero.Willpower.ToString();

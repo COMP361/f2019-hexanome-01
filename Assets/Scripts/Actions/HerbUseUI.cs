@@ -98,7 +98,6 @@ public class HerbUseUI : MonoBehaviour
   }
 
   public void UnlockMoveItems(){
-    Debug.Log("TCHUIPS UNLOCK HERB");
     canUseMoveItems = true;
   }
   public void LockMoveItems(){

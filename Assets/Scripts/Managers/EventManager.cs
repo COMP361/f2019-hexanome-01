@@ -400,6 +400,17 @@ public class EventManager : MonoBehaviour
         }
     }
 
+    public delegate void GameWinHandler();
+    public static event GameWinHandler GameWin;
+
+    public static void TriggerGameWin()
+    {
+        if (GameWin != null)
+        {
+            GameWin();
+        }
+    }
+
     //Triggered when the inventory of a cell is changed
     public delegate void CellUpdateHandler(Token token);
     public static event CellUpdateHandler CellUpdate;
@@ -696,4 +707,86 @@ public class EventManager : MonoBehaviour
             HerbUseUI(herb);
         }
     }
+
+    public delegate void TelescopeUseUIHandler(Token item, Pair<Token, int> pair);
+    public static event TelescopeUseUIHandler TelescopeUseUI;
+    public static void TriggerTelescopeUseUI(Token item, Pair<Token, int> pair)
+    {
+        if (TelescopeUseUI != null)
+        {
+          TelescopeUseUI(item, pair);
+        }
+    }
+
+    public delegate void FalconUseUIHandler(Falcon item);
+    public static event FalconUseUIHandler FalconUseUI;
+    public static void TriggerFalconUseUI(Falcon item)
+    {
+        if (FalconUseUI != null)
+        {
+            FalconUseUI(item);
+        }
+    }
+
+    public delegate void FalconTradeHandler(Hero hero1, Hero hero2);
+    public static event FalconTradeHandler FalconTrade;
+    public static void TriggerFalconTrade(Hero hero1, Hero hero2)
+    {
+        if (FalconTrade != null)
+        {
+          FalconTrade(hero1, hero2);
+        }
+    }
+
+    public delegate void InventoriesTradeHandler(Hero hero1, Hero hero2);
+    public static event InventoriesTradeHandler InventoriesTrade;
+    public static void TriggerInventoriesTrade(Hero hero1, Hero hero2)
+    {
+        if (InventoriesTrade != null)
+        {
+          InventoriesTrade(hero1, hero2);
+        }
+    }
+
+    public delegate void TradeChangeHandler(Token item);
+    public static event TradeChangeHandler TradeChange;
+    public static void TriggerTradeChange(Token item)
+    {
+        if (TradeChange != null)
+        {
+            TradeChange(item);
+        }
+    }
+
+    public delegate void QuitTradeHandler();
+    public static event QuitTradeHandler QuitTrade;
+    public static void TriggerQuitTrade()
+    {
+        if (QuitTrade != null)
+        {
+            QuitTrade();
+        }
+    }
+
+    public delegate void TradeVerifyHandler();
+    public static event TradeVerifyHandler TradeVerify;
+    public static void TriggerTradeVerify()
+    {
+        if (TradeVerify != null)
+        {
+            TradeVerify();
+        }
+    }
+
+    public delegate void EndTradeHandler();
+    public static event EndTradeHandler EndTrade;
+    public static void TriggerEndTrade()
+    {
+        if (EndTrade != null)
+        {
+            EndTrade();
+        }
+    }
+
+
 }

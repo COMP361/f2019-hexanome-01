@@ -96,7 +96,7 @@ public class CellInventory : ICloneable {
       AllTokens.Add(token);
       return;
     }
-    
+
     // if none of these options means its an item
     addItem(token);
   }
@@ -116,8 +116,8 @@ public class CellInventory : ICloneable {
 
     public void RemoveItem(int viewID){
       if(items.Contains(convertToKey(viewID))){
-      items.Remove(convertToKey(viewID));
-      InventoryUICell.instance.ForceUpdate(this, cellID);
+        items.Remove(convertToKey(viewID));
+        InventoryUICell.instance.ForceUpdate(this, cellID);
       }
       else{
         //error
@@ -130,7 +130,7 @@ public class CellInventory : ICloneable {
 
       Token token = AllTokens[objectIndex];
       AllTokens.Remove(token);
-      
+
       Type listType = Heroes.GetListType();
       if (listType.IsCompatibleWith(token.GetType())) {
         Heroes.Remove((Hero)token);

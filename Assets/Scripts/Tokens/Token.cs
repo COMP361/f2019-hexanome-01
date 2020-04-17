@@ -14,6 +14,7 @@ public class Token : MonoBehaviour {
     protected string description;
     private Cell _cell;
     public string desc;
+    public string itemName;
     public bool InUse = false;
 
     public Cell Cell {
@@ -23,7 +24,7 @@ public class Token : MonoBehaviour {
         set {
             SpriteRenderer sr = GetComponent<SpriteRenderer>();
 
-            if(value == null) {    
+            if(value == null) {
                 if(sr != null) sr.sortingOrder = -1;
             } else {
                 if(sr != null) sr.sortingOrder = 2;
@@ -32,7 +33,7 @@ public class Token : MonoBehaviour {
             if(_cell != null && _cell.Inventory != null) {
               _cell.Inventory.RemoveToken(this);
             }
-            
+
             _cell = value;
 
             if(_cell != null && _cell.Inventory != null) {
