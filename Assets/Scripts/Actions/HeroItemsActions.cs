@@ -198,6 +198,9 @@ public class HeroItemsActions : MonoBehaviour
 
   public bool canUseFalcon(){
     List<Hero> Heroes = GameManager.instance.heroes;
+    if(((Falcon)token).isTurned){
+      return false;
+    }
     foreach (Hero hero in Heroes){
       if(hero.heroInventory.helm != null || hero.heroInventory.golds.Count != 0 || hero.heroInventory.smallTokens.Count != 0){
         return true;

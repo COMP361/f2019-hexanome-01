@@ -35,6 +35,7 @@ public class PlayerBoardTrade : MonoBehaviour
 
   private void UpdatePlayerStats(Hero hero) {
   // if(hero.TokenName.Equals(GameManager.instance.MainHero.TokenName)){
+      Awake();
       strength.text = hero.Strength.ToString();
       willPower.text = hero.Willpower.ToString();
       updateNumOfDice(hero);
