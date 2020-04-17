@@ -672,6 +672,14 @@ public class MultiplayerFightPlayer : MonoBehaviour
     {
         kill();
         GameManager.instance.RemoveTokenCell(monster, monster.Cell.Inventory);
+        GameManager.instance.narrator.MoveNarrator();
+        GameManager.instance.narrator.CheckLegendCards();
+        // Check if game is won on tower skral defeated
+        if (monster.GetType().ToString() == "TowerSkral")
+        {
+            GameManager.instance.narrator.MoveNarratorToIndex(13);
+            GameManager.instance.castle.CheckWin();
+        }
     }
 
     private void killMonster()
