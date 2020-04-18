@@ -37,7 +37,9 @@ public class Mage : Hero
             "Liphardus"
         };
 
-        mage.heroDescription = "EARA \n Wizard of the north - Rand 34 \n Ability: Immediatately after rolling her die during battle, Eara may flip her die to its opposite side. During a team battle. Eara may flip another's hero die instead of her own.";
+        mage.heroDescription = mage.HeroName + " \n Wizard of the north - Rand " + mage.rank + " \n\n";
+        mage.heroDescription += "Ability: Immediatately after rolling " + ((mage.Sex == Sex.Female)?"her":"his") + " die during battle, " + mage.HeroName + " may flip " + ((mage.Sex == Sex.Female)?"her":"his") + " die to its opposite side. ";
+        mage.heroDescription += "During a team battle, " + mage.HeroName + " may flip another's hero die instead of " + ((mage.Sex == Sex.Female)?"her":"his") + " own.";
 
         mage.Init();
     }

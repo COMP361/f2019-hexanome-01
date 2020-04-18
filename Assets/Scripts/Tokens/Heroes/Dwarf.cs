@@ -37,7 +37,8 @@ public class Dwarf : Hero
             "Kram"
         };
 
-        dwarf.heroDescription = "KRAM \n Dwarf of the deep Mines - Rank 7 \n Ability: When Kran buys strength points in space 71 (the mine), he may buy each strength point for 1 gold.";
+        dwarf.heroDescription = dwarf.HeroName + " \n Dwarf of the deep Mines - Rank " + dwarf.rank + " \n\n";
+        dwarf.heroDescription += "Ability: When " + dwarf.HeroName + " buys strength points in space 71 (the mine), " + ((dwarf.Sex == Sex.Female)?"she":"he") + " may buy each strength point for 1 gold.";
 
         dwarf.Init();
     }

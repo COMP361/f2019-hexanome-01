@@ -8,13 +8,15 @@ using System.Linq;
 public class Castle : Cell
 {
     void OnEnable() {
-        EventManager.MoveComplete += updateShields;
+        EventManager.MoveComplete += UpdateShields;
+        EventManager.CellItemUpdate += HasHerb;
         EventManager.Save += Save;
         base.OnEnable();
     }
 
     void OnDisable() {
-        EventManager.MoveComplete -= updateShields;
+        EventManager.MoveComplete -= UpdateShields;
+        EventManager.CellItemUpdate -= HasHerb;
         EventManager.Save -= Save;
         base.OnDisable();
     }
@@ -44,7 +46,7 @@ public class Castle : Cell
 
     public int ShieldsCount { get; private set; }
 
-    public void updateShields(Movable movable) {
+    public void UpdateShields(Movable movable) {
         if(movable.Cell.Index != Index) return;
 
         if (typeof(Enemy).IsCompatibleWith(movable.GetType())) {
@@ -63,6 +65,19 @@ public class Castle : Cell
          
         if ( ShieldsCount < 1) EventManager.TriggerGameOver();
         EventManager.TriggerShieldsUpdate(ShieldsCount);
+    }
+
+    void HasHerb(int cellID) {
+        if(Index == cellID) {
+            foreach(DictionaryEntry entry in Inventory.items) {
+                Token token = (Token)entry.Value;
+                Debug.Log(token.TokenName);
+                if(token is Herb) {
+                    Inventory.RemoveToken(token);
+                    EventManager.TriggerHerbInCastle();
+                }
+            }
+        } 
     }
 
     // Call this when the tower skrall is defeated

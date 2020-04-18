@@ -37,8 +37,10 @@ public class Archer : Hero
             "Pasco"
         };
 
-        archer.heroDescription = "Pasco \n Archer of the Watchful Forest - Rank 14 \n Ability: During battle, Pasco must roll his dice 1 at a time. He must choose when to stop rolling and he may only use his most recent result. \n He may fight a monster who is in a adjacent space.";
-
+        archer.heroDescription = archer.HeroName + " \nArcher of the Watchful Forest - Rank " + archer.rank + " \n\n";
+        archer.heroDescription += "Ability: During battle, " + archer.HeroName + " must roll " + ((archer.Sex == Sex.Female)?"her":"his") + " dice 1 at a time. ";
+        archer.heroDescription += ((archer.Sex == Sex.Female)?"She":"He") + " must choose when to stop rolling and " + ((archer.Sex == Sex.Female)?"she":"he") + " may only use " + ((archer.Sex == Sex.Female)?"her":"his") + " most recent result. ";
+        archer.heroDescription += ((archer.Sex == Sex.Female)?"She":"He") + " may fight a monster who is in a adjacent space.";
 
         archer.Init();
     }

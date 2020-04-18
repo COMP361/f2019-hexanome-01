@@ -23,7 +23,8 @@ public class WitchCard : LegendCard
 
     public override void ApplyEffect()
     {
-        Herb.Factory(GameManager.instance.narrator.herbCellId, Herbs.Herb4);
         Gor.Factory(GameManager.instance.narrator.herbCellId);
+        if(GameManager.instance.CurrentPlayer != GameManager.instance.MainHero) return;
+        Herb.Factory(GameManager.instance.narrator.herbCellId, Herbs.Herb4);
     }
 }

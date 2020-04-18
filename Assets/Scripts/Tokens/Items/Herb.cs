@@ -19,6 +19,16 @@ public class Herb : SmallToken
     public static GameObject token;
     public PhotonView photonView;
 
+    public static Herb Factory()
+    {
+      return Herb.Factory(Herbs.Herb3);
+    }
+
+    public static Herb Factory(int cellID)
+    {
+      return Herb.Factory(cellID, Herbs.Herb3);
+    }
+
     public static Herb Factory(Herbs type)
     {
       herbType = type;

@@ -5212,14 +5212,14 @@ RectTransform:
   m_GameObject: {fileID: 1485481160}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.0010219, y: 1.0010219, z: 1.0010219}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.000017166138}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1485481162
@@ -8869,22 +8869,22 @@ PrefabInstance:
     - target: {fileID: 1762302824751916504, guid: b8606b8506f8ba848a63dd0e14615cf0,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 714.9
+      value: 680
       objectReference: {fileID: 0}
     - target: {fileID: 1762302824751916504, guid: b8606b8506f8ba848a63dd0e14615cf0,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 189.8
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1762302824751916504, guid: b8606b8506f8ba848a63dd0e14615cf0,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 243.8
+      value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 1762302824751916504, guid: b8606b8506f8ba848a63dd0e14615cf0,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 251.6
+      value: 250
       objectReference: {fileID: 0}
     - target: {fileID: 1762302824751916504, guid: b8606b8506f8ba848a63dd0e14615cf0,
         type: 3}
@@ -9602,61 +9602,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2768507553007534162}
     m_Modifications:
-    - target: {fileID: 1732736070786909314, guid: 479e4626a9654528fbd33e86a08a59c9,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 456
-      objectReference: {fileID: 0}
-    - target: {fileID: 1732736070786909314, guid: 479e4626a9654528fbd33e86a08a59c9,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 85
-      objectReference: {fileID: 0}
-    - target: {fileID: 2408156262250282676, guid: 479e4626a9654528fbd33e86a08a59c9,
-        type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 320
-      objectReference: {fileID: 0}
-    - target: {fileID: 2408156262250282676, guid: 479e4626a9654528fbd33e86a08a59c9,
-        type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 215
-      objectReference: {fileID: 0}
-    - target: {fileID: 2408156262250282676, guid: 479e4626a9654528fbd33e86a08a59c9,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -85
-      objectReference: {fileID: 0}
-    - target: {fileID: 2408156262250282676, guid: 479e4626a9654528fbd33e86a08a59c9,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 80
-      objectReference: {fileID: 0}
-    - target: {fileID: 2479990797214991398, guid: 479e4626a9654528fbd33e86a08a59c9,
-        type: 3}
-      propertyPath: m_LocalScale.x
-      value: 75
-      objectReference: {fileID: 0}
-    - target: {fileID: 2479990797214991398, guid: 479e4626a9654528fbd33e86a08a59c9,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 52
-      objectReference: {fileID: 0}
-    - target: {fileID: 2479990797214991398, guid: 479e4626a9654528fbd33e86a08a59c9,
-        type: 3}
-      propertyPath: m_LocalScale.z
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2479990797214991398, guid: 479e4626a9654528fbd33e86a08a59c9,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -85
-      objectReference: {fileID: 0}
-    - target: {fileID: 2479990797214991398, guid: 479e4626a9654528fbd33e86a08a59c9,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 78
-      objectReference: {fileID: 0}
     - target: {fileID: 3364062444211642038, guid: 479e4626a9654528fbd33e86a08a59c9,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -9717,17 +9662,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerBoard
       objectReference: {fileID: 0}
-    - target: {fileID: 5287615858143972566, guid: 479e4626a9654528fbd33e86a08a59c9,
+    - target: {fileID: 3364062444211642039, guid: 479e4626a9654528fbd33e86a08a59c9,
         type: 3}
       propertyPath: m_IsActive
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5622013289078409958, guid: 479e4626a9654528fbd33e86a08a59c9,
-        type: 3}
-      propertyPath: m_Text
-      value: "EARA \nWizard of the north - Rank 34 \n\nAbility: Immediatately after
-        rolling her die during battle, Eara may flip her die to its opposite side.
-        During a team battle. Eara may flip another's hero die instead of her own."
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 479e4626a9654528fbd33e86a08a59c9, type: 3}
@@ -11665,6 +11603,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Narrator
       objectReference: {fileID: 0}
+    - target: {fileID: 8581160591668258594, guid: f8f5a2fafc00c01629153b84596aeeca,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8581160591668258595, guid: f8f5a2fafc00c01629153b84596aeeca,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -11903,6 +11846,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Timeline
+      objectReference: {fileID: 0}
+    - target: {fileID: 7315463051926606356, guid: 328e4f1a2e80ea909af27dbaeaf8b6e1,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7315463051926606357, guid: 328e4f1a2e80ea909af27dbaeaf8b6e1,
         type: 3}

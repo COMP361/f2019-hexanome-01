@@ -7,8 +7,8 @@ public class Fog3Will : Fog {
         Init("3Will", 1, typeof(Fog3Will));
     }
 
-    public override void ApplyEffect(Hero hero) {
-        if(hero != GameManager.instance.MainHero) return;
+    public override void ApplyEffect() {
+        if(GameManager.instance.CurrentPlayer != GameManager.instance.MainHero) return;
         GameManager.instance.CurrentPlayer.Willpower += 3;
     }
 }

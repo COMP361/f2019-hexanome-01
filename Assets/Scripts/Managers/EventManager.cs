@@ -778,5 +778,23 @@ public class EventManager : MonoBehaviour
         }
     }
 
+    public delegate void HerbInCastleHandler();
+    public static event HerbInCastleHandler HerbInCastle;
+    public static void TriggerHerbInCastle()
+    {
+        if (HerbInCastle != null)
+        {
+            HerbInCastle();
+        }
+    }
 
+    public delegate void CellItemUpdateHandler(int cellID);
+    public static event CellItemUpdateHandler CellItemUpdate;
+    public static void TriggerCellItemUpdate(int cellID)
+    {
+        if (CellItemUpdate != null)
+        {
+            CellItemUpdate(cellID);
+        }
+    }
 }

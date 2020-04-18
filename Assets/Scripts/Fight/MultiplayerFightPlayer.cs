@@ -678,6 +678,7 @@ public class MultiplayerFightPlayer : MonoBehaviour
         if (monster.GetType().ToString() == "TowerSkral")
         {
             GameManager.instance.narrator.MoveNarratorToIndex(13);
+            GameManager.instance.narrator.TowerSkralDefeated();
             GameManager.instance.castle.CheckWin();
         }
     }

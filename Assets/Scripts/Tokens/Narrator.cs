@@ -5,7 +5,9 @@ using Photon.Pun;
 using UnityEngine.UI;
 using TMPro;
 using System.IO;
+using System.Collections;
 using System.Collections.Generic;
+
 
 public class Narrator {
     public int index; // 0 -> A
@@ -23,10 +25,12 @@ public class Narrator {
     public TMP_Text TasksListText;
     GameObject narratorToken;
     GameObject runestoneToken;
+    Dictionary<String, String> tasks;
 
     public Narrator()
     {
         EventManager.Save += Save;
+        EventManager.HerbInCastle += HerbFound;
 
         index = 0;
         witchFound = false;
@@ -47,8 +51,10 @@ public class Narrator {
         SetRunestonePosition();
 
         TasksListText = GameObject.Find("TasksListText").GetComponent<TMP_Text>();
-        TasksListText.text = "- Find the Witch hidden in the fog \n";
-
+        tasks = new Dictionary<String, String>();
+        tasks.Add("Witch", "- Find the Witch hidden in the fog \n");
+        UpdateTasks();
+        
         narratorToken = new GameObject("Narrator");
         Sprite sprite = Resources.Load<Sprite>("Sprites/Tokens/Narrator");
         SpriteRenderer sr = narratorToken.AddComponent<SpriteRenderer>();
@@ -66,6 +72,12 @@ public class Narrator {
         runestoneToken.transform.localScale = new Vector3(15, 15, 15);
         runestoneToken.transform.parent = GameObject.Find("Tokens").transform;
         runestoneToken.transform.position = GameObject.Find("Narrator/" + runestoneLetter + "/Runestone").transform.position;
+    }
+
+    ~Narrator()
+    {
+        EventManager.Save -= Save;
+        EventManager.HerbInCastle -= HerbFound;
     }
 
     public void MoveNarrator()
@@ -111,7 +123,8 @@ public class Narrator {
             LegendCard c2 = legendCardDeck.getCard("C2");
             c1.ApplyEffect();
             c2.ApplyEffect();
-            TasksListText.text += "- Kill the Tower Skral \n";
+            tasks.Add("Tower Skrall", "- Kill the Tower Skral \n");
+            UpdateTasks();
         }
 
         if (index == 6) // G
@@ -127,12 +140,31 @@ public class Narrator {
         }
     }
 
+    void UpdateTasks() {
+        TasksListText.text = "";
+        foreach (KeyValuePair<string, string> entry in tasks) {
+            TasksListText.text += entry.Value;
+        }
+    }
+
+    void HerbFound() {
+        tasks.Remove("Herb");
+        UpdateTasks();
+    }
+
+    public void TowerSkralDefeated() {
+        tasks.Remove("Tower Skrall");
+        UpdateTasks();
+    }
+
     public void TriggerWitchCard()
     {
         witchFound = true;
         LegendCard witchCard = legendCardDeck.getCard("WitchCard");
         witchCard.ApplyEffect();
-        TasksListText.text += "- Bring the Herb (Cell " + herbCellId + ") to the Castle \n";
+        tasks.Remove("Witch");
+        tasks.Add("Herb", "- Bring the Herb (Cell " + herbCellId + ") to the Castle \n");
+        UpdateTasks();
     }
     
     // Decide when the runestone card will be triggered
@@ -185,11 +217,19 @@ public class Narrator {
         this.witchFound = narratorState.witchFound;
         this.medicineDelivered = narratorState.medicineDelivered;
         this.towerSkralDefeated = narratorState.towerSkralDefeated;
-        Debug.Log(index);
-        Debug.Log(runestoneIndex);
-        Debug.Log(narratorToken);
         MoveNarratorToIndex(this.index);
         SetRunestonePosition();
+
+        tasks = new Dictionary<String, String>();
+        if(!witchFound) {
+            tasks.Add("Witch", "- Find the Witch hidden in the fog \n");
+        } else if(!medicineDelivered) {
+            tasks.Add("Herb", "- Bring the Herb (Cell " + herbCellId + ") to the Castle \n");
+        }
+
+        if(!towerSkralDefeated && index >= 2) tasks.Add("Tower Skrall", "- Kill the Tower Skral \n");
+       
+        UpdateTasks();
     }
 }
 
@@ -206,7 +246,7 @@ public class NarratorState
     public bool witchFound;
     public bool medicineDelivered;
     public bool towerSkralDefeated;
-
+    
     public NarratorState()
     {
         Narrator narrator = GameManager.instance.narrator;
@@ -221,5 +261,4 @@ public class NarratorState
         medicineDelivered = narrator.medicineDelivered;
         towerSkralDefeated = narrator.towerSkralDefeated;
     }
-
 }

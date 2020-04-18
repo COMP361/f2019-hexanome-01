@@ -7,12 +7,12 @@ public class FogWitchBrew : Fog {
         Init("WitchBrew", 1, typeof(FogWitchBrew));
     }
 
-    public override void ApplyEffect(Hero hero) {
+    public override void ApplyEffect() {
         Witch.Instance.Cell = Cell.FromId(Cell.Index);
-        
-        if(hero != GameManager.instance.MainHero) return;
+        GameManager.instance.narrator.TriggerWitchCard();
+
+        if(GameManager.instance.CurrentPlayer != GameManager.instance.MainHero) return;
         Token potion = Potion.Factory();
         GameManager.instance.CurrentPlayer.heroInventory.AddItem(potion);
-        GameManager.instance.narrator.TriggerWitchCard();
     }
 }

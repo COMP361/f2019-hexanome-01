@@ -7,8 +7,8 @@ public class FogWineSkin : Fog {
         Init("WineSkin", 1, typeof(FogWineSkin));
     }
 
-    public override void ApplyEffect(Hero hero) {
-        if(hero != GameManager.instance.MainHero) return;
+    public override void ApplyEffect() {
+        if(GameManager.instance.CurrentPlayer != GameManager.instance.MainHero) return;
         Wineskin.Factory(Cell.Index);
     }
 }

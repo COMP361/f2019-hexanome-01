@@ -9,8 +9,8 @@ public class FogGold : Fog {
         FogGold.Init("Gold", 3, typeof(FogGold));
     }
 
-    public override void ApplyEffect(Hero hero) {
-        if(hero != GameManager.instance.MainHero) return;
+    public override void ApplyEffect() {
+        if(GameManager.instance.CurrentPlayer != GameManager.instance.MainHero) return;
         GoldCoin.Factory(Cell.Index);
     }
 }

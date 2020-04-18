@@ -37,7 +37,8 @@ public class Warrior : Hero
             "Thorn"
         };
 
-        warrior.heroDescription = "THORN \n Warrior of the Reeded Lands - Rank 14 \n Ability: Each time Thorn empties a well, he gains 5 willpower points (instead of 3)";
+        warrior.heroDescription = warrior.HeroName + " \n Warrior of the Reeded Lands - Rank " + warrior.rank + " \n\n";
+        warrior.heroDescription += "Ability: Each time " + warrior.HeroName + " empties a well, " + ((warrior.Sex == Sex.Female)?"she":"he") + " gains 5 willpower points (instead of 3). ";
 
         warrior.Init();
     }
