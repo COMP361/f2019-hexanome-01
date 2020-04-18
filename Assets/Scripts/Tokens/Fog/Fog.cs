@@ -97,7 +97,7 @@ public class Fog : Token {
     IEnumerator timer() {
         yield return new WaitForSeconds(2.0f);
         ApplyEffect();
-        //if(hero == GameManager.instance.MainHero) Cell = null;
+        Cell = null;
         Destroy(gameObject);
     }
 
