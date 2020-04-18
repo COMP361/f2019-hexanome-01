@@ -1,10 +1,11 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
 using Photon.Realtime;
-using  System.Collections.Specialized;
+using System.Collections.Specialized;
 public class HeroInventory
 {
     public BigToken bigToken { get; private set; }
@@ -20,7 +21,7 @@ public class HeroInventory
     public OrderedDictionary smallTokens { get; private set; }
 
     public HeroInventory(string parentHero){
-      bigToken =null;
+      bigToken = null;
       helm = null;
       spaceSmall = 3;
       numOfGold = 0;
@@ -32,6 +33,13 @@ public class HeroInventory
 
 
 #region AddTokens
+
+    public bool HasSmallToken(Type type) {
+      foreach (DictionaryEntry entry in smallTokens) {
+        if(type.IsCompatibleWith(entry.Value.GetType())) return true;
+      }
+      return false;
+    }
 
     public void Clear(){
       bigToken = null;

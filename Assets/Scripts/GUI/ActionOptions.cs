@@ -34,7 +34,12 @@ public class ActionOptions : MonoBehaviour
 
     void LockActions(int action) {
         if(!GameManager.instance.MainHero.timeline.HasHoursLeft()) {
-            Buttons.Lock(moveBtn);
+            if(!GameManager.instance.MainHero.heroInventory.HasSmallToken(typeof(Wineskin))) {
+                Buttons.Lock(moveBtn);
+            } else {
+                Buttons.Unlock(moveBtn);
+            }
+            
             Buttons.Lock(fightBtn);
             Buttons.Lock(skipBtn);
             Buttons.Lock(moveThoraldBtn);

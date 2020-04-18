@@ -172,9 +172,8 @@ public class CellInventory {
       else {
         int viewID = token.GetComponent<PhotonView>().ViewID;
         if(items.Contains(convertToKey(token.GetComponent<PhotonView>().ViewID))){
-        GameManager.instance.photonView.RPC("RemoveItemCellRPC", RpcTarget.AllViaServer, new object[] {viewID, cellID});
-        }
-        else{
+          GameManager.instance.photonView.RPC("RemoveItemCellRPC", RpcTarget.AllViaServer, new object[] {viewID, cellID});
+        } else {
           Debug.Log("Error Cell RemoveToken1");
         }
       }

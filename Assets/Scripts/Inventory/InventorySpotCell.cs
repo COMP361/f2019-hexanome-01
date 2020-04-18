@@ -14,6 +14,8 @@ public class InventorySpotCell : MonoBehaviour
 
   public void AddItem(Token newToken)
   {
+    if(newToken == null) return;
+    
     token = newToken;
     icon.sprite = token.getSprite();
     icon.enabled = true;

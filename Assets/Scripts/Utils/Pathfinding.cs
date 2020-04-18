@@ -28,12 +28,11 @@ public class Pathfinding
         openList.Clear();
         closedList.Clear(); 
 
-        start.Heuristic = (goal.Position - start.Position).magnitude;
-        openList.Enqueue(start, start.f);
+        openList.Enqueue(start, start.Cost);
 
         while (openList.Count > 0) {
             var bestCell = openList.Dequeue();
-            
+
             if (bestCell == goal) {
                 return ConstructPath(bestCell);
             }
@@ -42,23 +41,18 @@ public class Pathfinding
             for (int i = 0; i < neighbours.Count; i++) {
                 var curCell = neighbours[i].GetComponent<Cell>();
 
-                if (curCell == null)
-                    continue;
+                if (curCell == null) continue;
  
                 var g = bestCell.Cost + 1;
-                var h = (goal.Position - curCell.Position).magnitude;
-
-                if (openList.Contains(curCell) && curCell.f < (g + h))
-                    continue;
-                if (closedList.Contains(curCell) && curCell.f < (g + h))
-                    continue;
+                
+                if (openList.Contains(curCell) && curCell.Cost < g) continue;
+                if (closedList.Contains(curCell) && curCell.Cost < g) continue;
 
                 curCell.Cost = g;
-                curCell.Heuristic = h;
                 curCell.Parent = bestCell;
 
                 if (!openList.Contains(curCell))
-                    openList.Enqueue(curCell, curCell.f);
+                    openList.Enqueue(curCell, curCell.Cost);
             }
 
             if (!closedList.Contains(bestCell))
@@ -68,7 +62,7 @@ public class Pathfinding
         return null;
     }
 
-    private List<Cell> ConstructPath (Cell destination) {
+    private List<Cell> ConstructPath(Cell destination) {
         var path = new List<Cell>() { destination };
 
         var current = destination;

@@ -106,7 +106,7 @@ public class HeroState {
     public int strength;
     public int timelineIndex;
     public Sex sex;
-    public List<string> inventory = new List<string>();
+    public List<string> inventory;
     
     public HeroState() {}
 
@@ -127,6 +127,7 @@ public class HeroState {
         HeroState.Instance.timelineIndex = hero.timeline.Index;
         HeroState.Instance.sex = hero.Sex;
         
+        HeroState.Instance.inventory = new List<string>();
         foreach(DictionaryEntry entry in hero.heroInventory.AllTokens){
             HeroState.Instance.inventory.Add(entry.Value.GetType().ToString());
         }
@@ -139,7 +140,6 @@ public class HeroState {
         _instance = FileManager.Load<HeroState>(Path.Combine(saveId, _gameDataId));
 
         hero.Cell = Cell.FromId(HeroState.Instance.cellId);
-        Cell.FromId(HeroState.Instance.cellId).Inventory.AddToken(hero);
         hero.Willpower = HeroState.Instance.willpower;
         hero.Strength = HeroState.Instance.strength;
         hero.timeline.Index = HeroState.Instance.timelineIndex;
@@ -149,7 +149,6 @@ public class HeroState {
         {
             foreach (string tokenStr in HeroState.Instance.inventory)
             {
-                Debug.Log(tokenStr);
                 Type type = Type.GetType(tokenStr);
                 MethodInfo mInfo = type.GetMethods().FirstOrDefault(method => method.Name == "Factory" && method.GetParameters().Count() == 0);
                 Token token = (Token)mInfo.Invoke(type, null);

@@ -17,7 +17,6 @@ public class GameManager : Singleton<GameManager>
     public List<Player> players;
     public Queue<Player> playerTurn;
     public List<Hero> heroes;
-
     public Narrator narrator;
     public List<Farmer> farmers;
     public List<Enemy> gors, skrals, trolls, wardraks, towerskrals;
@@ -54,7 +53,6 @@ public class GameManager : Singleton<GameManager>
         EventManager.DistributeWinekins += DistributeWineskins;
         EventManager.Save += Save;
     }
-
 
     void OnDisable()
     {

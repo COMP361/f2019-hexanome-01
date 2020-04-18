@@ -34,13 +34,8 @@ public class Cell : MonoBehaviour, IComparable<Cell>
     ///</summary>
 
     public bool Extension { get; set; }
-    public float Heuristic { get; set; }
     public float Cost { get; set; }
     public Cell Parent { get; set; }
-
-    public float f {
-        get { return Cost + Heuristic; }
-    }
 
     public CellInventory Inventory { get; private set; }
 
