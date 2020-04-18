@@ -6,31 +6,31 @@ using Photon.Pun;
 using System.Linq;
 
 public class Fog : Token {
-    public static List<int> cellsID = new List<int>(){ 8, 11, 12, 13, 16, 32, 42, 44, 46, 64, 63, 56, 47, 48, 49 };
-    static List<Token> tokens = new List<Token>();
-    public static string itemName = "Fog";
-    private static int[] shuffledCellsID;
+  public static List<int> cellsID = new List<int>(){ 8, 11, 12, 13, 16, 32, 42, 44, 46, 64, 63, 56, 47, 48, 49 };
+  static List<Token> tokens = new List<Token>();
+  public static string itemName = "Fog";
+  private static int[] shuffledCellsID;
 
-    public void OnEnable() {
-        EventManager.MoveComplete += OnMoveComplete;
-        base.OnEnable();
-	}
+  public void OnEnable() {
+    EventManager.MoveComplete += OnMoveComplete;
+    base.OnEnable();
+  }
 
 	public void OnDisable() {
 		EventManager.MoveComplete -= OnMoveComplete;
-    }
+  }
 
     public static void Factory() {
-        Fog.shuffledCellsID = PhotonNetwork.CurrentRoom.CustomProperties["FogCells"] as int[];
+      Fog.shuffledCellsID = PhotonNetwork.CurrentRoom.CustomProperties["FogCells"] as int[];
 
-        Fog2Will.Factory();
-        Fog3Will.Factory();
-        FogStrength.Factory();
-        FogWineSkin.Factory();
-        FogWitchBrew.Factory();
-        FogGor.Factory();
-        FogGold.Factory();
-        FogEvent.Factory();
+      Fog2Will.Factory();
+      Fog3Will.Factory();
+      FogStrength.Factory();
+      FogWineSkin.Factory();
+      FogWitchBrew.Factory();
+      FogGor.Factory();
+      FogGold.Factory();
+      FogEvent.Factory();
     }
 
     public static void Init(string id, int qty, Type type) {
@@ -97,7 +97,10 @@ public class Fog : Token {
     IEnumerator timer(Hero hero) {
         yield return new WaitForSeconds(2.0f);
         ApplyEffect(hero);
+        if(hero != GameManager.instance.MainHero){}
+        else{
         Cell = null;
+        } 
         Destroy(gameObject);
     }
 
