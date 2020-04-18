@@ -14,10 +14,10 @@ public class Fog : Token {
     public void OnEnable() {
         EventManager.MoveComplete += OnMoveComplete;
         base.OnEnable();
-	}
+    }
 
-	public void OnDisable() {
-		EventManager.MoveComplete -= OnMoveComplete;
+    public void OnDisable() {
+        EventManager.MoveComplete -= OnMoveComplete;
     }
 
     public static void Factory() {
@@ -97,7 +97,7 @@ public class Fog : Token {
     IEnumerator timer() {
         yield return new WaitForSeconds(2.0f);
         ApplyEffect();
-        Cell = null;
+        //if(hero == GameManager.instance.MainHero) Cell = null;
         Destroy(gameObject);
     }
 
