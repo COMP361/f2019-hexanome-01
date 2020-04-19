@@ -9,21 +9,14 @@ public class TradePanelUI : MonoBehaviour
 {
   GameObject FalconTradePanel;
   GameObject BlockPanel;
-
   Button TradeBtn, CancelBtn;
   public PhotonView photonView;
-
   Hero hero1;
   Hero hero2;
-
   Text heroOneTitle;
   Text heroTwoTitle;
-
   GameObject PlayerBoardTrade1;
   GameObject PlayerBoardTrade2;
-
-
-
 
   void OnEnable() {
     EventManager.FalconTrade += ShowFalconTrade;
