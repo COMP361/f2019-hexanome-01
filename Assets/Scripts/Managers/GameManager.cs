@@ -486,6 +486,7 @@ public class GameManager : Singleton<GameManager>
     void EndTurn()
     {
         CurrentPlayer.Action = Action.None;
+        EventManager.TriggerActionUpdate(Action.None.Value);
         playerTurn.Enqueue(playerTurn.Dequeue());
         GiveTurn();
     }
@@ -493,15 +494,14 @@ public class GameManager : Singleton<GameManager>
     void EndDay()
     {
         CurrentPlayer.Action = Action.None;
+        EventManager.TriggerActionUpdate(Action.None.Value);
         CurrentPlayer.timeline.Reset();
         playerTurn.Dequeue();
 
         if (playerTurn.Count() == 0)
         {
             EventManager.TriggerStartDay();
-        }
-        else
-        {
+        } else {
             GiveTurn();
         }
     }

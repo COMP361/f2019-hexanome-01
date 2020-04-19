@@ -29,16 +29,12 @@ public class InventorySpotTrade : MonoBehaviour
   public void AddToTrade(){
     if(token != null){
       EventManager.TriggerTradeChange(token);
-      Debug.Log("TRIGGGGGGGGER");
     }
   }
 
   public void RemoveFromTrade(){
     if(token != null){
-      //  token.UseHero();
       EventManager.TriggerTradeChange(token);
-      Debug.Log("TRIGGGGGGGGER2");
     }
   }
-
 }

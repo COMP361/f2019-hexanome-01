@@ -52,11 +52,12 @@ public class InventoryUICell : Singleton<InventoryUICell>
 
       for(int i = 0; i < spots.Length; i++){
         if(i < cellInv.AllTokens.Count){
+          if(cellInv.AllTokens[i] == null) continue;
           spots[i].AddItem(cellInv.AllTokens[i]);
         } else if(i < cellInv.items.Count + cellInv.AllTokens.Count){
+          if(cellInv.items[i - cellInv.AllTokens.Count] == null) continue;
           spots[i].AddItem((Token) cellInv.items[i - cellInv.AllTokens.Count]);
-        }
-        else{
+        } else {
           spots[i].ClearSpot();
         }
       }

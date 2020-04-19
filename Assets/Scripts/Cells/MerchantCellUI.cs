@@ -34,7 +34,7 @@ public class MerchantCellUI : Singleton<MerchantCellUI>
     panelTitle = buyPanel.transform.Find("Title").GetComponent<Text>();
     panelDesc = buyPanel.transform.Find("Description").GetComponent<Text>();
 
-    btns = transform.Find("MerchantUI/Items/").GetComponentsInChildren(typeof(Button));
+    btns = transform.Find("MerchantUI/").GetComponentsInChildren(typeof(Button));
     buyBtn = buyPanel.transform.Find("Buy Button").GetComponent<Button>();
 
     cancelBtn = buyPanel.transform.Find("Cancel Button").GetComponent<Button>();
@@ -44,7 +44,7 @@ public class MerchantCellUI : Singleton<MerchantCellUI>
 
     for(int i = 0; i < btns.Length; i++) {
       Button btn = (Button)btns[i];
-
+      
       if(btn.transform.parent.name == "Strength") {
         btn.onClick.AddListener(() => {
           ShowPanel(Strength.itemName, Strength.desc);
@@ -98,11 +98,20 @@ public class MerchantCellUI : Singleton<MerchantCellUI>
   }
 
   void LockItems(Token token) {
-    if(btns == null || GameManager.instance.MainHero == null || !GameManager.instance.MainHero.GetType().IsCompatibleWith(token.GetType())) return;
-
-    Hero hero = (Hero)token;
-
-    if(hero.heroInventory.numOfGold < 2 || !cellsID.Contains(hero.Cell.Index)) {
+    if(btns == null || GameManager.instance.MainHero == null) return;
+    
+    
+    Hero hero = null;
+    Witch witch = null;
+    if(GameManager.instance.MainHero.GetType().IsCompatibleWith(token.GetType())) {
+      hero = (Hero)token;
+    } else if(typeof(Witch).IsCompatibleWith(token.GetType())) {
+      hero = GameManager.instance.MainHero;
+    } else {
+      return;
+    }
+    
+    if(hero == null || hero.heroInventory.numOfGold < 2 || !cellsID.Contains(hero.Cell.Index)) {
       for(int i = 0; i < btns.Length; i++) {
         Buttons.Lock((Button)btns[i]);
       }
@@ -113,7 +122,7 @@ public class MerchantCellUI : Singleton<MerchantCellUI>
     }
 
     Button potionBtn = transform.Find("MerchantUI/Potion/Button").GetComponent<Button>();
-    if(hero.heroInventory.numOfGold < Witch.Instance.PotionPrice || Witch.Instance.Cell == null || hero.Cell.Index != Witch.Instance.Cell.Index) {
+    if(hero == null || hero.heroInventory.numOfGold < Witch.Instance.PotionPrice || Witch.Instance.Cell == null || hero.Cell.Index != Witch.Instance.Cell.Index) {
       Buttons.Lock(potionBtn);
     } else {
       Buttons.Unlock(potionBtn);

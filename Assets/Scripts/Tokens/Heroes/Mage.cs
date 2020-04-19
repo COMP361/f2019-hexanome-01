@@ -19,7 +19,7 @@ public class Mage : Hero
         Sprite sprite = Resources.Load<Sprite>("Sprites/Tokens/Heroes/" + mage.Type.ToString() + "-" + mage.Sex.ToString());
         renderer.sprite = sprite;
         go.transform.localScale = new Vector3(10, 10, 10);
-
+        
         mage.Color = color;
         mage.TokenName = mage.Type;
 

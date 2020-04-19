@@ -25,6 +25,7 @@ public class Hero : Movable
     
     void OnEnable() {
         EventManager.Save += Save;
+        base.OnEnable();
     }
 
     void OnDisable() {

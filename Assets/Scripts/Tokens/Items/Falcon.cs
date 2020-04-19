@@ -4,20 +4,32 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Falcon : BigToken{
+public class Falcon : BigToken {
 
   public static string itemName = "Falcon";
   public static string desc = "Two heroes can exchange as many small articles, gold, or gemstones at one time as they like even if they are not standing on the same space.";
   public PhotonView photonView;
-
-  public  GameObject token;
   public bool isTurned;
+  Sprite spriteFront, spriteBack;
 
+  void OnEnable() {
+    EventManager.StartDay += TurnFalconNoRPC;
+    base.OnEnable();
+  }
+
+  void OnDisable() {
+    EventManager.StartDay -= TurnFalconNoRPC;
+  }
 
   public static Falcon Factory()
   {
     GameObject falconGO = PhotonNetwork.Instantiate("Prefabs/Tokens/Falcon", Vector3.zero, Quaternion.identity, 0);
-    return falconGO.GetComponent<Falcon>();
+    Falcon falcon = falconGO.GetComponent<Falcon>();
+    falcon.isTurned = false;
+    falcon.spriteBack = Resources.Load<Sprite>("Sprites/Tokens/FalconBack");
+    falcon.spriteFront = Resources.Load<Sprite>("Sprites/Tokens/Falcon");        
+
+    return  falcon;
   }
 
   public static Falcon Factory(int cellID)
@@ -25,12 +37,6 @@ public class Falcon : BigToken{
     object[] myCustomInitData = {cellID};
     GameObject falconGO = PhotonNetwork.Instantiate("Prefabs/Tokens/Falcon", Vector3.zero, Quaternion.identity, 0, myCustomInitData);
     return falconGO.GetComponent<Falcon>();
-  }
-
-  public void OnEnable(){
-    isTurned = false;
-    int viewID = this.GetComponent<PhotonView>().ViewID;
-    token = PhotonView.Find(viewID).gameObject;
   }
 
   public override void UseCell(){
@@ -47,22 +53,30 @@ public class Falcon : BigToken{
 
   [PunRPC]
   public void TurnFalconRPC(int viewID){
-    if(token.GetComponent<PhotonView>().ViewID  == viewID){
-      if(!isTurned){
-        isTurned = true;
-        Sprite uncoveredSprite = Resources.Load<Sprite>("Sprites/Tokens/FalconBack" );
-        token.GetComponent<SpriteRenderer>().sprite = uncoveredSprite;
-      }
-      else if(isTurned){
-        isTurned = false;
-        Sprite coveredSprite = Resources.Load<Sprite>("Sprites/Tokens/Falcon" );
-        token.GetComponent<SpriteRenderer>().sprite = coveredSprite;
+    if(!isTurned){
+      isTurned = true;
+      gameObject.GetComponent<SpriteRenderer>().sprite = spriteBack;
+    } else {
+      isTurned = false;
+      gameObject.GetComponent<SpriteRenderer>().sprite = spriteFront;
+    }
+  }
+
+  public void TurnFalconNoRPC(){
+    if(!isTurned) return;
+    int viewID = GetComponent<PhotonView>().ViewID;
+    TurnFalconRPC(viewID);
+    
+    foreach (Hero hero in GameManager.instance.heroes) {
+      if(hero.heroInventory.bigToken == this) {
+        EventManager.TriggerInventoryUIHeroUpdate(hero.heroInventory);
+        break;
       }
     }
   }
 
   public void TurnFalcon(){
-    int viewID = token.GetComponent<PhotonView>().ViewID;
+    int viewID = GetComponent<PhotonView>().ViewID;
     photonView.RPC("TurnFalconRPC", RpcTarget.AllViaServer, new object[] {viewID});
   }
 

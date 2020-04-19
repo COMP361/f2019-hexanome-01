@@ -71,7 +71,6 @@ public class Castle : Cell
         if(Index == cellID) {
             foreach(DictionaryEntry entry in Inventory.items) {
                 Token token = (Token)entry.Value;
-                Debug.Log(token.TokenName);
                 if(token is Herb) {
                     Inventory.RemoveToken(token);
                     EventManager.TriggerHerbInCastle();

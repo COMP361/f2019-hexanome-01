@@ -22,12 +22,14 @@ public class HeroItemsActions : MonoBehaviour
   void OnEnable() {
     EventManager.HeroItemClick += ShowHeroActions;
     EventManager.MoveSelect += UnlockMoveItems;
+    EventManager.MoveThorald += UnlockMoveItems;
     EventManager.LockMoveItems += LockMoveItems;
     }
 
   void OnDisable() {
     EventManager.HeroItemClick -= ShowHeroActions;
     EventManager.MoveSelect -= UnlockMoveItems;
+    EventManager.MoveThorald -= UnlockMoveItems;
     EventManager.LockMoveItems -= LockMoveItems;
   }
 
@@ -65,7 +67,6 @@ public class HeroItemsActions : MonoBehaviour
         if(!canUseMoveItems){
           useBtn.interactable = false;
         }
-        else{}
       }
       if(token is HalfWineskin){
         heroItemsPanelTitle.text = HalfWineskin.itemName;
@@ -73,7 +74,6 @@ public class HeroItemsActions : MonoBehaviour
         if(!canUseMoveItems){
           useBtn.interactable = false;
         }
-        else{}
       }
       else if(token is Potion){
         heroItemsPanelTitle.text = Potion.itemName;

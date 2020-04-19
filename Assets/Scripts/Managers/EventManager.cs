@@ -295,12 +295,9 @@ public class EventManager : MonoBehaviour
     public static event EndDayHandler EndDay;
     public static void TriggerEndDay()
     {
-        if (!PhotonNetwork.OfflineMode)
-        {
+        if (!PhotonNetwork.OfflineMode) {
             GameManager.instance.photonView.RPC("TriggerEndDayRPC", RpcTarget.AllViaServer);
-        }
-        else
-        {
+        } else {
             if (EndDay != null) EndDay();
         }
     }

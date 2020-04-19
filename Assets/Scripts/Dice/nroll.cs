@@ -34,6 +34,7 @@ public class nroll : MonoBehaviour
         //StartCoroutine("activatedAllDices");
         fp.hasRolled = true;
         activatedAllDices(numRegularDices, numSpecialDices);
+        GameManager.instance.CurrentPlayer.timeline.Update(Action.Fight.GetCost());
     }
 
     public int activatedAllDices(int numRegularDices, int numSpecialDices)

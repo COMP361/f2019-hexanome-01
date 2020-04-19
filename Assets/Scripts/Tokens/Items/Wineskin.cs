@@ -12,6 +12,7 @@ public class Wineskin : SmallToken
 
   public void OnEnable() {
     EventManager.ActionUpdate += FreeReservation;
+    base.OnEnable();
   }
 
 	public void OnDisable() {

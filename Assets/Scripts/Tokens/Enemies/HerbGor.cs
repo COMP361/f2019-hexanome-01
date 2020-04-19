@@ -2,20 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Gor : Enemy
+[ExecuteInEditMode]
+public class HerbGor : Gor
 {
-    static Color color = Color.black;
-
-    public static Gor Factory(int cellID)
+    public static HerbGor Factory(int cellID)
     {
-
         Sprite sprite = Resources.Load<Sprite>("Sprites/Tokens/Enemies/Gor");
         GameObject go = new GameObject("Gor");
         SpriteRenderer renderer = go.AddComponent<SpriteRenderer>();
         renderer.sprite = sprite;
         go.transform.localScale = new Vector3(10, 10, 10);
 
-        Gor gor = go.AddComponent<Gor>();
+        HerbGor gor = go.AddComponent<HerbGor>();
         gor.TokenName = Type;
         gor.Cell = Cell.FromId(cellID);
 
@@ -25,6 +23,8 @@ public class Gor : Enemy
 
         return gor;
     }
-
-    public static string Type { get => typeof(Gor).ToString(); }
+    
+    void OnDestroy() {
+        Herb.Factory(Cell.Index, Herbs.Herb4);
+    }
 }
