@@ -9,7 +9,7 @@ public class Fog : Token {
     public static List<int> cellsID = new List<int>(){ 8, 11, 12, 13, 16, 32, 42, 44, 46, 64, 63, 56, 47, 48, 49 };
     static List<Token> tokens = new List<Token>();
     public static string itemName = "Fog";
-    private static int[] shuffledCellsID;
+    private static int[] shuffledCellsID = new int [] { 8, 11, 12, 13, 16, 32, 42, 44, 46, 64, 63, 56, 47, 48, 49 };
 
     public void OnEnable() {
         EventManager.MoveComplete += OnMoveComplete;
@@ -21,7 +21,7 @@ public class Fog : Token {
     }
 
     public static void Factory() {
-        Fog.shuffledCellsID = PhotonNetwork.CurrentRoom.CustomProperties["FogCells"] as int[];
+        if(!PhotonNetwork.OfflineMode) Fog.shuffledCellsID = PhotonNetwork.CurrentRoom.CustomProperties["FogCells"] as int[];
 
         Fog2Will.Factory();
         Fog3Will.Factory();

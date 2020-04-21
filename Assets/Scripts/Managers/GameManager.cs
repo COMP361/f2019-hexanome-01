@@ -97,8 +97,10 @@ public class GameManager : Singleton<GameManager>
     }
 
     void Start()
-    {
-        string saveDirectory = (string)PhotonNetwork.CurrentRoom.CustomProperties["Save"];
+    {     
+        string saveDirectory = null;
+        if(!PhotonNetwork.OfflineMode)
+            saveDirectory = (string)PhotonNetwork.CurrentRoom.CustomProperties["Save"];
 
         playerTurn = new Queue<Player>(players);
         castle = Castle.Instance;
@@ -112,6 +114,20 @@ public class GameManager : Singleton<GameManager>
         wardraks = new List<Enemy>();
         towerskrals = new List<Enemy>();
         wells = new List<Well>();
+
+        /*heroes.Add(Warrior.Instance);
+        heroes.Add(Archer.Instance);
+        heroes.Add(Mage.Instance);
+        heroes.Add(Dwarf.Instance);
+        Warrior.Instance.Cell = Cell.FromId(25);
+        Archer.Instance.Cell = Cell.FromId(25);
+        Mage.Instance.Cell = Cell.FromId(25);
+        Dwarf.Instance.Cell = Cell.FromId(25);
+        thorald = Thorald.Instance;
+        Thorald.Instance.Cell = Cell.FromId(25);
+        Skral.Factory(25);
+        mainHeroIndex = 0;*/
+        
 
         // Add each player's respective hero
         foreach (Player p in players)
@@ -566,9 +582,7 @@ public class GameManager : Singleton<GameManager>
                 Player currentPlayer = playerTurn.Peek();
                 string playerHero = (string)currentPlayer.CustomProperties["Class"];
                 return heroes.Where(x => x.Type.ToString() == playerHero).FirstOrDefault();
-            }
-            else
-            {
+            } else {
                 return heroes[0];
             }
         }

@@ -29,6 +29,8 @@ public class Fighter : MonoBehaviour {
     public static Fighter lastHeroToRoll;
     public Button rollBtn, abandonBtn;
     public MultiplayerFightPlayer fight;
+    public int rollCount = 0;
+    public int maxRollCount = 0;
     
 
     protected void Awake() {
@@ -41,10 +43,6 @@ public class Fighter : MonoBehaviour {
         strength.text = hero.Strength.ToString();
         wp.text = hero.Willpower.ToString();
         
-        Debug.Log(hero.TokenName);
-        Debug.Log(hero.Dices[hero.Willpower]);
-
-
         for (int i = 0; i < hero.Dices[hero.Willpower]; i++) {
             rd[i].gameObject.SetActive(true);
         }
@@ -72,12 +70,18 @@ public class Fighter : MonoBehaviour {
         }
     }
 
+    public void EndofRound() {
+        lastHeroToRoll = null;
+        // Need to re-initialize the count of rolls.
+        rollCount = 0;
+    }
+
     public int RollDice() {
         if (hasRolled) {
             return lastRoll;
         }
 
-        Fighter.lastHeroToRoll = this;
+        lastHeroToRoll = this;
 
         regularDices[] activeDice = new regularDices[hero.Dices[hero.Willpower]];
         int maxDie;
@@ -100,6 +104,21 @@ public class Fighter : MonoBehaviour {
         return maxDie;
     }
 
+    public int RollDiceWithBow() {
+        if (rollCount < 4) {
+            foreach (regularDices rd in rd)
+            {
+                gameObject.SetActive(false);
+            }
+            rd[rollCount].gameObject.SetActive(true);
+            rd[rollCount].OnMouseDown();
+            lastRoll = rd[rollCount].getFinalSide();
+            hasRolled = true;
+            rollCount++;
+            lastHeroToRoll = this;
+        }
+        return lastRoll;
+    }
     public static int getMaxValue(regularDices[] rdList) {
         int max = 0;
         foreach (regularDices dice in rdList)
