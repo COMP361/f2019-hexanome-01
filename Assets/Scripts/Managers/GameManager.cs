@@ -257,6 +257,10 @@ public class GameManager : Singleton<GameManager>
                 {
                     type.GetMethod("Factory", new[] { typeof(int) }).Invoke(type, new object[] { cellstate.index });
                 }
+                else if (type.IsSubclassOf(typeof(BigToken)))
+                {
+                    type.GetMethod("Factory", new[] { typeof(int) }).Invoke(type, new object[] { cellstate.index });
+                }
             }
         }
 
