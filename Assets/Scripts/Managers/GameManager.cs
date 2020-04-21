@@ -459,7 +459,11 @@ public class GameManager : Singleton<GameManager>
         }
 
         foreach (Well well in wells) {
+          Cell a = Cell.FromId(well.Cell.Index);
+          bool canReset = true;
+          if(a.Inventory.Heroes.Count == 0){
             well.ResetWell();
+          }
         }
 
         narrator.MoveNarrator();

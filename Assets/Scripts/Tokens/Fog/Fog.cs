@@ -97,7 +97,10 @@ public class Fog : Token {
     IEnumerator timer() {
         yield return new WaitForSeconds(2.0f);
         ApplyEffect();
-        Cell = null;
+      //  if(GameManager.instance.MainHero.TokenName.Equals(GameManager.instance){
+      if(PhotonNetwork.IsMasterClient){
+          Cell = null;
+        }
         Destroy(gameObject);
     }
 
