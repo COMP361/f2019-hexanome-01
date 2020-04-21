@@ -5,8 +5,8 @@ using Photon.Pun;
 public class EventCardDeck {
     static EventCardDeck _instance = null;
     static List<EventCard> cards;
-    
-    static List<EventCard> deck = new List<EventCard>() { 
+
+    static List<EventCard> deck = new List<EventCard>() {
         new LC2(),
         new LC4(),
         new LC5(),
@@ -18,8 +18,8 @@ public class EventCardDeck {
         new LC22(),
         new LC25(),
         new LC28(),
-        //new LC29(),
-        //new LC30(),
+        new LC29(),
+        new LC30(),
         new LC31(),
         new LC32()
     };
@@ -27,7 +27,7 @@ public class EventCardDeck {
     private EventCardDeck() {
         int[] shuffledCardIndex = PhotonNetwork.CurrentRoom.CustomProperties["EventCardsIndex"] as int[];
         if(shuffledCardIndex == null) return;
-        
+
         cards = new List<EventCard>( new EventCard[deck.Count] );
 
         for(int i = 0; i < deck.Count; i++) {
@@ -43,10 +43,10 @@ public class EventCardDeck {
 
         // Card is shifted to the end of the deck
         EventCard card = cards[0];
-        
+
         cards.RemoveAt(0);
         cards.Add(card);
-        
+
         EventManager.TriggerEventCard(cards[0]);
     }
 

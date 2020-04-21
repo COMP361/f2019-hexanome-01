@@ -88,6 +88,10 @@ public class Fog : Token {
         GetComponent<SpriteRenderer>().enabled = false;
     }
 
+    public virtual void Reveal2(){
+        GameManager.instance.photonView.RPC("Reveal2RPC", RpcTarget.AllViaServer, new object[] {Cell.Index});
+    }
+
     void OnMoveComplete(Token token) {
         if(Cell != null && (!typeof(Hero).IsCompatibleWith(token.GetType()) || token.Cell.Index != Cell.Index)) return;
         Reveal();
@@ -97,7 +101,10 @@ public class Fog : Token {
     IEnumerator timer() {
         yield return new WaitForSeconds(2.0f);
         ApplyEffect();
-        Cell = null;
+      //  if(GameManager.instance.MainHero.TokenName.Equals(GameManager.instance){
+      if(PhotonNetwork.IsMasterClient){
+          Cell = null;
+        }
         Destroy(gameObject);
     }
 

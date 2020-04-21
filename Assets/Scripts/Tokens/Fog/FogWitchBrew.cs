@@ -13,6 +13,7 @@ public class FogWitchBrew : Fog {
 
         if(GameManager.instance.CurrentPlayer != GameManager.instance.MainHero) return;
         Token potion = Potion.Factory();
-        GameManager.instance.CurrentPlayer.heroInventory.AddItem(potion);
+        GameManager.instance.CurrentPlayer.Cell.Inventory.AddItem(potion);
+        //GameManager.instance.CurrentPlayer.heroInventory.AddItem(potion);
     }
 }
