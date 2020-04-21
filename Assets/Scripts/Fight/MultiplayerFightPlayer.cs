@@ -190,8 +190,10 @@ public class MultiplayerFightPlayer : MonoBehaviour
             }
         }
 
-        // Need to re-initialize the count of rolls.
-        ArcherFighter.rollCount = 0;
+        foreach (Fighter hf in fighters)
+        {
+            hf.EndofRound();
+        }
 
         if (fighters.Count == 0)
         {
@@ -216,11 +218,6 @@ public class MultiplayerFightPlayer : MonoBehaviour
             DisableMonsterUI();
             panel.SetActive(false);
         }
-
-        //restore the flipped thingy
-        MageFighter.flipMessage.text = "";
-        Fighter.lastHeroToRoll = null;
-        MageFighter.hasflippedDie = false;
     }
 
     private IEnumerator disablePanel()

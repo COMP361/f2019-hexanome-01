@@ -40,7 +40,7 @@ public class Fight : MonoBehaviour
     }
 
     void Start() {
-        SetupFight();
+        //SetupFight();
     }
 
     void ToggleHeroSelect(string heroName, Button btn) {
@@ -65,7 +65,7 @@ public class Fight : MonoBehaviour
     }
 
     void SetupFight() {
-        selectedHeroes = new List<Hero>();
+        selectedHeroes = new List<Hero>();  
         selectedHeroes.Add(GameManager.instance.CurrentPlayer);
         
         closeHeroes = new List<Hero>();

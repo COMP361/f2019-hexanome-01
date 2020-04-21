@@ -8,9 +8,10 @@ using Random = UnityEngine.Random;
 using System;
 
 public class ArcherFighter : Fighter {
-    public static int rollCount = 0;
     
     public int RollDice() {
+        Debug.Log("Archer roll");
+        
         if (rollCount < 4) {
             foreach (regularDices rd in rd)
             {
