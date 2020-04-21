@@ -245,21 +245,25 @@ public class GameManager : Singleton<GameManager>
                     string id = type.ToString().Replace("Fog", "");
                     Fog.Load(id, type, cellstate.index);
                 }
-                else if (type == typeof(GoldCoin))
-                {
-                    GoldCoin.Factory(cellstate.index);
-                }
                 else if (type == typeof(Well))
                 {
                     wells.Add(Well.Factory(cellstate.index));
                 }
-                else if (type.IsSubclassOf(typeof(SmallToken)))
+                // Items in cells
+                if (PhotonNetwork.IsMasterClient)
                 {
-                    type.GetMethod("Factory", new[] { typeof(int) }).Invoke(type, new object[] { cellstate.index });
-                }
-                else if (type.IsSubclassOf(typeof(BigToken)))
-                {
-                    type.GetMethod("Factory", new[] { typeof(int) }).Invoke(type, new object[] { cellstate.index });
+                    if (type == typeof(GoldCoin))
+                    {
+                        GoldCoin.Factory(cellstate.index);
+                    }
+                    else if (type.IsSubclassOf(typeof(SmallToken)))
+                    {
+                        type.GetMethod("Factory", new[] { typeof(int) }).Invoke(type, new object[] { cellstate.index });
+                    }
+                    else if (type.IsSubclassOf(typeof(BigToken)))
+                    {
+                        type.GetMethod("Factory", new[] { typeof(int) }).Invoke(type, new object[] { cellstate.index });
+                    }
                 }
             }
         }
