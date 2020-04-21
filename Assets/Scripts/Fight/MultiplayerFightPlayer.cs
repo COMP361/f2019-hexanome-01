@@ -359,7 +359,7 @@ public class MultiplayerFightPlayer : MonoBehaviour
             GST_dice[1].gameObject.SetActive(true);
         }
 
-        //MonsterSprite.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprites/Tokens/Enemies/" + MonsterName.text.ToLower());
+        MonsterSprite.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprites/Tokens/Enemies/" + MonsterName.text.ToLower());
     }
 
     private int RollDice(HeroFighter hero)

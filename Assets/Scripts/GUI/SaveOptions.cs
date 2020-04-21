@@ -11,6 +11,7 @@ public class SaveOptions : MonoBehaviour
     void OnDisable() {
         EventManager.ActionUpdate -= LockActions;
     }
+    
     void Awake()
     {
         saveBtn = transform.Find("Save Button").GetComponent<Button>();
@@ -24,9 +25,11 @@ public class SaveOptions : MonoBehaviour
             Buttons.Unlock(saveBtn);
         }
     }
+
     public void Show() {
         gameObject.SetActive(true);
     }
+    
     public void Hide() {
         gameObject.SetActive(false);
     }
