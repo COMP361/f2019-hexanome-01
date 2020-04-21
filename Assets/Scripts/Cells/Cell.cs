@@ -73,7 +73,7 @@ public class Cell : MonoBehaviour, IComparable<Cell>
 
     protected virtual void Start() {
         sprite = GetComponent<SpriteRenderer>();
-        sprite.color = color;
+        if(sprite != null) sprite.color = color;
     }
 
     protected virtual void OnMouseEnter() {
@@ -81,7 +81,7 @@ public class Cell : MonoBehaviour, IComparable<Cell>
 
         var color = GameManager.instance.MainHero.Color;
         color.a = .4f;
-        sprite.color = color;
+        if(sprite != null) sprite.color = color;
         EventManager.TriggerCellMouseEnter(Index);
         EventManager.TriggerInventoryUICellEnter(Inventory, Index);
     }
@@ -89,7 +89,7 @@ public class Cell : MonoBehaviour, IComparable<Cell>
     protected virtual void OnMouseExit() {
         if (!Active) return;
         
-        sprite.color = color;
+        if(sprite != null) sprite.color = color;
         EventManager.TriggerCellMouseLeave(Index);
         EventManager.TriggerInventoryUICellExit();
     }
@@ -112,7 +112,7 @@ public class Cell : MonoBehaviour, IComparable<Cell>
         Active = true;
         Extension = false;
         color = new Color(1f, 1f, 1f, 0f);
-        sprite.color = color;
+        if(sprite != null) sprite.color = color;
     }
 
     #endregion
@@ -127,7 +127,7 @@ public class Cell : MonoBehaviour, IComparable<Cell>
         Active = false;
         Extension = false;
         color = new Color(0f, 0f, 0f, 0.7f);
-        sprite.color = color;
+        if(sprite != null) sprite.color = color;
     }
 
     ///<summary>
@@ -138,7 +138,7 @@ public class Cell : MonoBehaviour, IComparable<Cell>
         Extension = true;
         Active = true;
         color = new Color(1f, 0f, 0f, 0.3f);
-        sprite.color = color;
+        if(sprite != null) sprite.color = color;
     }
 
     /// <summary>

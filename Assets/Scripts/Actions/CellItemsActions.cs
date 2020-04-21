@@ -29,10 +29,7 @@ public class CellItemsActions : MonoBehaviour
     cellItemsPanelTitle = cellItemsPanel.transform.Find("Panel Title").GetComponent<Text>();
     cellItemsPanelDesc = cellItemsPanel.transform.Find("Panel Description").GetComponent<Text>();
 
-
     token = null;
-
-
 
     cancelBtn= cellItemsPanel.transform.Find("Cancel Button").GetComponent<Button>();
     cancelBtn.onClick.AddListener(delegate { HideCellActions(); });
