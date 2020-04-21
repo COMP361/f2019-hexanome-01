@@ -521,6 +521,16 @@ public class MultiplayerFightPlayer : MonoBehaviour
             difference = total_monster_strength - total_hero_strength;
             foreach (HeroFighter h in fighters)
             {
+                if (h.useShield)
+                {
+                    h.shield.enabled = true;
+                    Image img = h.shield.GetComponent<Image>();
+                    img.color = Color.white;
+                    h.useShield = false;
+
+                    continue;
+                }
+
                 h.hero.Willpower -= difference;
                 h.wp.text = h.hero.Willpower.ToString();
                 foreach (regularDices rd in h.rd)
@@ -784,7 +794,7 @@ public class MultiplayerFightPlayer : MonoBehaviour
 
     private void UsePotion(HeroFighter h)
     {
-        if (h.nb_potion > 0 && h.lastRoll != null)
+        if (h.nb_potion > 0 && h.lastRoll != -1)
         {
             h.potion.GetComponent<Image>().color = h.potion.GetComponent<Button>().colors.pressedColor;
             h.lastRoll = h.lastRoll * 2;
@@ -808,30 +818,27 @@ public class MultiplayerFightPlayer : MonoBehaviour
     {
         UsePotion(mage);
     }
-
     public void OnClickPotionArcher()
     {
         UsePotion(archer);
     }
-
     public void OnClickPotionDwarf()
     {
         UsePotion(dwarf);
     }
-
     public void OnClickPotionWarrior()
     {
         UsePotion(warrior);
     }
 
-    private void HasHelm(HeroFighter h)
+    private void UseHelm(HeroFighter h)
     {
-        if (h.nb_helm > 0 && h.lastRoll != null)
+        if (h.nb_helm > 0 && h.lastRoll != -1)
         {
             h.potion.GetComponent<Image>().color = h.potion.GetComponent<Button>().colors.pressedColor;
             h.lastRoll = mage.lastRoll * 2;
-            h.nb_potion -= 1;
-            h.potionText.text = h.helm.ToString();
+            h.nb_helm -= 1;
+            h.potionText.text = h.nb_helm.ToString();
             AttackMessage.text = "";
         }
         else if (h.nb_helm > 0 && h.lastRoll == -1)
@@ -846,10 +853,62 @@ public class MultiplayerFightPlayer : MonoBehaviour
         }
     }
 
-    public void OnClickHelmMage() { }
-    public void OnClickHelmArcher() { }
-    public void OnClickHelmWarrior() { }
-    public void OnClickHelmDwarf() { }
+    public void OnClickHelmMage()
+    {
+        UseHelm(mage);
+    }
+    public void OnClickHelmArcher()
+    {
+        UseHelm(archer);
+    }
+    public void OnClickHelmWarrior()
+    {
+        UseHelm(warrior);
+    }
+    public void OnClickHelmDwarf()
+    {
+        UseHelm(dwarf);
+    }
+
+    private void UseShield(HeroFighter h)
+    {
+        if(h.nb_shield > 0 && !h.useShield)
+        {
+            h.nb_shield -= 0.5;
+            h.shieldText.text = h.nb_shield.ToString();
+            h.useShield = true;
+
+            Image img = mage_button.GetComponent<Image>();
+            img.color = Color.green;
+
+            h.shield.enabled = false;
+            AttackMessage.text = "";
+            return;
+        }
+        else if(h.useShield)
+        {
+
+        }
+
+        AttackMessage.text = "No Shield Left!";
+    }
+
+    public void OnClickShieldMage()
+    {
+        UseShield(mage);
+    }
+    public void OnClickShieldArcher()
+    {
+        UseShield(archer);
+    }
+    public void OnClickShieldWarrior()
+    {
+        UseShield(warrior);
+    }
+    public void OnClickShieldDwarf()
+    {
+        UseShield(dwarf);
+    }
 }
 
 public class HeroFighter
@@ -876,6 +935,11 @@ public class HeroFighter
     public Button helm;
     public int nb_helm = 1; // SET TO ZERO IF NOT TESTING
     public Text helmText;
+
+    public Button shield;
+    public double nb_shield = 1; // SET TO ZERO IF NOT TESTING
+    public Text shieldText;
+    public bool useShield = false;
 
     public int gems = 0;
 
@@ -904,6 +968,8 @@ public class HeroFighter
         this.helm = GameObject.Find("Canvas/Fight/Multiplayer-Fight/Grid/" + type + "/Accessories/Helm").GetComponent<Button>();
         this.helmText = GameObject.Find("Canvas/Fight/Multiplayer-Fight/Grid/" + type + "/Accessories/Helm/Text").GetComponent<Text>();
 
+        this.shield = GameObject.Find("Canvas/Fight/Multiplayer-Fight/Grid/" + type + "/Accessories2/Shield").GetComponent<Button>();
+        this.shieldText = GameObject.Find("Canvas/Fight/Multiplayer-Fight/Grid/" + type + "/Accessories2/Shield/Text").GetComponent<Text>();
 
         foreach (var t in hero.heroInventory.smallTokens)
         {
@@ -921,12 +987,17 @@ public class HeroFighter
         {
             if(t is Helm)
             {
-                this.nb_helm = +1;
+                this.nb_helm += 1;
+            }
+            if(t is Shield)
+            {
+                this.nb_shield += 1;
             }
         }
 
         this.potionText.text = this.nb_potion.ToString();
         this.helmText.text = this.nb_helm.ToString();
+        this.shieldText.text = this.nb_shield.ToString();
 
         if(this.gems > 2)
         {
