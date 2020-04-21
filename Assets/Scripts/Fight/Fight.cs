@@ -8,11 +8,14 @@ public class Fight : MonoBehaviour
 {
     GameObject heroSelectPanel;
     GameObject fightPanel;
-
     List<Hero> closeHeroes;
     List<Hero> selectedHeroes;
+
     Component[] heroSelectbtns;
     Button heroSelectConfirm;
+    public MultiplayerFightPlayer multiplayerFight;
+
+    public GameManager2 GameManager2;
     
     void OnEnable() {
         EventManager.Fight += SetupFight;    
@@ -38,6 +41,10 @@ public class Fight : MonoBehaviour
         heroSelectConfirm.onClick.AddListener(delegate { HideHeroSelectPanel(); ShowFightPanel(); });
     }
 
+    void Start() {
+        SetupFight();
+    }
+
     void ToggleHeroSelect(string heroName, Button btn) {
         Image btnImage = btn.GetComponent<Image>();
         ButtonMultiSelect sprites = btn.GetComponent<ButtonMultiSelect>();
@@ -50,7 +57,7 @@ public class Fight : MonoBehaviour
             }
         }
 
-        foreach(Hero hero in GameManager.instance.heroes) {
+        foreach(Hero hero in GameManager2.heroes) {
             if(hero.TokenName == heroName) {
                 selectedHeroes.Add(hero);
                 btnImage.sprite = sprites.on;
@@ -61,12 +68,12 @@ public class Fight : MonoBehaviour
 
     void SetupFight() {
         selectedHeroes = new List<Hero>();
-        selectedHeroes.Add(GameManager.instance.CurrentPlayer);
+        selectedHeroes.Add(GameManager2.CurrentPlayer);
         
         closeHeroes = new List<Hero>();
-        foreach(Hero hero in GameManager.instance.heroes) {
+        foreach(Hero hero in GameManager2.heroes) {
             // Missing Archer case
-            if(hero.Cell.Index == GameManager.instance.CurrentPlayer.Cell.Index) closeHeroes.Add(hero);
+            if(hero.Cell.Index == GameManager2.CurrentPlayer.Cell.Index) closeHeroes.Add(hero);
         }
 
         if(closeHeroes.Count > 1) {
@@ -80,7 +87,7 @@ public class Fight : MonoBehaviour
         heroSelectPanel.SetActive(true);
 
         foreach (Button btn in heroSelectbtns) {
-            if(btn.gameObject.name == GameManager.instance.CurrentPlayer.TokenName) {
+            if(btn.gameObject.name == GameManager2.CurrentPlayer.TokenName) {
                 btn.gameObject.SetActive(false);
                 continue;
             }
@@ -115,5 +122,8 @@ public class Fight : MonoBehaviour
                 }
             }
         }
+
+        multiplayerFight.InitializeMonster();
+        multiplayerFight.InitializeHeroes();
     }
 }

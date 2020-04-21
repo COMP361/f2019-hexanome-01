@@ -14,15 +14,14 @@ public class MultiplayerFightPlayer : MonoBehaviour
     public Text AttackMessage;
     // Heroes 
     private HeroFighter mage;
-    public Button mage_button;
+    //public Button mage_button;
     private HeroFighter archer;
-    public Button archer_button;
+    //public Button archer_button;
     private int archer_roll = 0;
     private HeroFighter warrior;
-    public Button warrior_button;
+    //public Button warrior_button;
     private HeroFighter dwarf;
-    public Button dwarf_button;
-
+    //public Button dwarf_button;
     List<HeroFighter> fighters;
     public Text HeroesTotalStrength;
 
@@ -47,7 +46,8 @@ public class MultiplayerFightPlayer : MonoBehaviour
     private bool Thorald = false;
     public GameObject ThoraldSprite;
 
-
+    public GameManager2 GameManager2;
+    
     // Methods
 
     public void MageSuperpower()
@@ -105,211 +105,7 @@ public class MultiplayerFightPlayer : MonoBehaviour
         lastHeroToRoll.lastRoll = maxDie;
     }
 
-    public void ActivateMage()
-    {
-        if (mage == null)
-        {
-            mage = new HeroFighter("Mage");
-        }
-
-        mage.isPresent = !mage.isPresent;
-
-        Image img = mage_button.GetComponent<Image>();
-        if (mage.isPresent)
-        {
-            img.color = new Color(121f / 255f, 7f / 255f, 242f / 255f, 1);
-        }
-        else
-        {
-            DisableFighter(mage);
-            mage = null;
-            img.color = Color.white;
-        }
-    }
-
-    public void ActivateArcher()
-    {
-        if (archer == null)
-        {
-            archer = new HeroFighter("Archer");
-        }
-        archer.isPresent = !archer.isPresent;
-
-        Image img = archer_button.GetComponent<Image>();
-        if (archer.isPresent)
-        {
-            img.color = Color.green;
-        }
-        else
-        {
-            DisableFighter(archer);
-            archer = null;
-            img.color = Color.white;
-        }
-    }
-
-    public void ActivateWarrior()
-    {
-        if (warrior == null)
-        {
-            warrior = new HeroFighter("Warrior");
-        }
-        warrior.isPresent = !warrior.isPresent;
-
-        Image img = warrior_button.GetComponent<Image>();
-        if (warrior.isPresent)
-        {
-            img.color = Color.blue;
-        }
-        else
-        {
-            DisableFighter(warrior);
-            warrior = null;
-            img.color = Color.white;
-        }
-    }
-
-    public void ActivateDwarf()
-    {
-        if (dwarf == null)
-        {
-            dwarf = new HeroFighter("Dwarf");
-        }
-        dwarf.isPresent = !dwarf.isPresent;
-
-        Image img = dwarf_button.GetComponent<Image>();
-        if (dwarf.isPresent)
-        {
-            img.color = Color.yellow;
-        }
-        else
-        {
-            DisableFighter(dwarf);
-            dwarf = null;
-            img.color = Color.white;
-        }
-    }
-
-    private void ReinitializeButtons()
-    {
-        Image img = dwarf_button.GetComponent<Image>();
-        DisableFighter(dwarf);
-        img.color = Color.white;
-        if (dwarf != null)
-        {
-            dwarf.isPresent = false;
-        }
-
-        img = archer_button.GetComponent<Image>();
-        DisableFighter(archer);
-        img.color = Color.white;
-        if (archer != null)
-        {
-            archer.isPresent = false;
-        }
-
-        img = warrior_button.GetComponent<Image>();
-        DisableFighter(warrior);
-        img.color = Color.white;
-        if (warrior != null)
-        {
-            warrior.isPresent = false;
-        }
-
-        img = mage_button.GetComponent<Image>();
-        DisableFighter(mage);
-        img.color = Color.white;
-        if (mage != null)
-        {
-            mage.isPresent = false;
-        }
-    }
-
-    public void InTheCellHeroes()
-    {
-        Cell currentCell = GameManager.instance.CurrentPlayer.Cell;
-        List<string> hero_types = new List<string>();
-        List<Button> buttons = new List<Button> { warrior_button, mage_button, archer_button, dwarf_button };
-
-        foreach (Hero h in currentCell.Inventory.Heroes)
-        {
-            hero_types.Add(h.Type.ToLower());
-        }
-
-        if (hero_types.Contains("archer"))
-        {
-            archer_button.enabled = true;
-        }
-        else
-        {
-            archer_button.enabled = false;
-        }
-        if (hero_types.Contains("warrior"))
-        {
-            warrior_button.enabled = true;
-        }
-        else
-        {
-            warrior_button.enabled = false;
-        }
-        if (hero_types.Contains("mage"))
-        {
-            mage_button.enabled = true;
-        }
-        else
-        {
-            mage_button.enabled = false;
-        }
-        if (hero_types.Contains("dwarf"))
-        {
-            dwarf_button.enabled = true;
-        }
-        else
-        {
-            dwarf_button.enabled = false;
-        }
-    }
-
-    private void ActivateHero(String hero)
-    {
-        if (hero.Equals("Mage"))
-        {
-            if (mage == null)
-            {
-                mage = new HeroFighter("Mage");
-            }
-            mage.isPresent = false;
-            ActivateMage();
-        }
-        else if (hero.Equals("Warrior"))
-        {
-            if (warrior == null)
-            {
-                warrior = new HeroFighter("Warrior");
-            }
-            warrior.isPresent = false;
-            ActivateWarrior();
-        }
-        else if (hero.Equals("Dwarf"))
-        {
-            if (dwarf == null)
-            {
-                dwarf = new HeroFighter("Dwarf");
-            }
-            dwarf.isPresent = false;
-            ActivateDwarf();
-        }
-        else if (hero.Equals("Archer"))
-        {
-            if (archer == null)
-            {
-                archer = new HeroFighter("Archer");
-            }
-            archer.isPresent = false;
-            ActivateArcher();
-        }
-    }
-
+    
     public void InitializeHeroes()
     {
         fighters = new List<HeroFighter>();
@@ -341,7 +137,8 @@ public class MultiplayerFightPlayer : MonoBehaviour
 
     public void InitializeMonster()
     {
-        monster = GameManager.instance.CurrentPlayer.Cell.Inventory.Enemies[0];
+        //monster = GameManager.instance.CurrentPlayer.Cell.Inventory.Enemies[0];
+        monster = GameManager2.monster;
         MonsterName.text = monster.TokenName;
         MonsterStrength.text = monster.Strength.ToString();
         og_MonsterStrength = monster.Strength;
@@ -359,7 +156,7 @@ public class MultiplayerFightPlayer : MonoBehaviour
             GST_dice[1].gameObject.SetActive(true);
         }
 
-        MonsterSprite.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprites/Tokens/Enemies/" + MonsterName.text.ToLower());
+        MonsterSprite.GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Tokens/Enemies/" + MonsterName.text.ToLower());
     }
 
     private int RollDice(HeroFighter hero)
@@ -409,24 +206,9 @@ public class MultiplayerFightPlayer : MonoBehaviour
         return archer.lastRoll;
     }
 
-    public void RollMage()
+    public void Roll(HeroFighter hf)
     {
-        RollDice(mage);
-    }
-
-    public void RollArcher()
-    {
-        ArcherRollDice();
-    }
-
-    public void RollWarrior()
-    {
-        RollDice(warrior);
-    }
-
-    public void RollDwarf()
-    {
-        RollDice(dwarf);
+        RollDice(hf);
     }
 
     public int MonsterRoll()
@@ -565,7 +347,7 @@ public class MultiplayerFightPlayer : MonoBehaviour
             DisableFighter(warrior);
             DisableFighter(dwarf);
             DisableMonsterUI();
-            ReinitializeButtons();
+            //ReinitializeButtons();
             //disablePanel();
             panel.SetActive(false);
         }
@@ -582,66 +364,18 @@ public class MultiplayerFightPlayer : MonoBehaviour
         panel.SetActive(false);
     }
 
-    public void AbandonFightMage()
+    public void AbandonFight(string heroName)
     {
-        HeroFighter hf = fighters.Find(x => x.name.text.ToLower().Equals("mage"));
-        if (fighters.Count > 1)
-        {
+        HeroFighter hf = fighters.Find(x => x.name.text.ToLower().Equals(heroName));
+        if (fighters.Count > 1) {
             DisableFighter(hf);
-        }
-        else
-        {
+        } else {
             DisableFighter(hf);
             RestoreMonster();
             panel.gameObject.SetActive(false);
         }
     }
-
-    public void AbandonFightWarrior()
-    {
-        HeroFighter hf = fighters.Find(x => x.name.text.ToLower().Equals("warrior"));
-        if (fighters.Count > 1)
-        {
-            DisableFighter(hf);
-        }
-        else
-        {
-            DisableFighter(hf);
-            RestoreMonster();
-            panel.gameObject.SetActive(false);
-        }
-    }
-
-    public void AbandonFightDwarf()
-    {
-        HeroFighter hf = fighters.Find(x => x.name.text.ToLower().Equals("dwarf"));
-        if (fighters.Count > 1)
-        {
-            DisableFighter(hf);
-        }
-        else
-        {
-            DisableFighter(hf);
-            RestoreMonster();
-            panel.gameObject.SetActive(false);
-        }
-    }
-
-    public void AbandonFightArcher()
-    {
-        HeroFighter hf = fighters.Find(x => x.name.text.ToLower().Equals("archer"));
-        if (fighters.Count > 1)
-        {
-            DisableFighter(hf);
-        }
-        else
-        {
-            DisableFighter(hf);
-            RestoreMonster();
-            panel.gameObject.SetActive(false);
-        }
-    }
-
+    
     private void RestoreMonster()
     {
         monster = null;
@@ -696,14 +430,10 @@ public class MultiplayerFightPlayer : MonoBehaviour
         Destroy(m.gameObject);
     }
 
-    private void DisableFighter(HeroFighter h)
-    {
-        if (h == null)
-        {
-            return;
-        }
-        foreach (regularDices rd in h.rd)
-        {
+    private void DisableFighter(HeroFighter h) {
+        if (h == null) return;
+
+        foreach (regularDices rd in h.rd) {
             rd.gameObject.SetActive(false);
         }
 
@@ -711,17 +441,15 @@ public class MultiplayerFightPlayer : MonoBehaviour
         h.spriteRenderer.sprite = null;
         h.strength.text = "";
         h.wp.text = "";
-        if (fighters != null && fighters.Contains(h))
-        {
+        if (fighters != null && fighters.Contains(h)) {
             fighters.Remove(h);
         }
-
     }
 
     private void DisableMonsterUI()
     {
         MonsterName.text = "No Monsters";
-        MonsterSprite.GetComponent<SpriteRenderer>().sprite = null;
+        MonsterSprite.GetComponent<Image>().sprite = null;
         MonsterStrength.text = "";
         MonsterWP.text = "";
         MonsterTotalStrength.text = "";
@@ -738,33 +466,9 @@ public class MultiplayerFightPlayer : MonoBehaviour
         }
     }
 
-    public void ActivateMultiplayerFightPanel()
-    {
-        List<Button> buttons = new List<Button> { archer_button, warrior_button, dwarf_button, mage_button };
-        bool isAllWhite = true;
-        foreach (Button b in buttons)
-        {
-            Image img = b.GetComponent<Image>();
-            if (img.color != Color.white)
-            {
-                isAllWhite = false;
-            }
-        }
-
-        if (isAllWhite)
-        {
-            EventManager.TriggerActionUpdate(Action.None.Value);
-            return;
-        }
-        else
-        {
-            panel.gameObject.SetActive(true);
-        }
-    }
-
     private void IsThoraldPresent()
     {
-        if (GameManager.instance.thorald != null && GameManager.instance.thorald.Cell.Equals(GameManager.instance.CurrentPlayer.Cell))
+        if (GameManager2.thorald != null && GameManager2.thorald.Cell.Equals(GameManager2.CurrentPlayer.Cell))
         {
             Thorald = true;
             ThoraldSprite.gameObject.SetActive(true);
@@ -811,24 +515,9 @@ public class MultiplayerFightPlayer : MonoBehaviour
         }
     }
 
-    public void OnClickPotionMage()
+    public void OnClickPotionWarrior(HeroFighter hf)
     {
-        UsePotion(mage);
-    }
-
-    public void OnClickPotionArcher()
-    {
-        UsePotion(archer);
-    }
-
-    public void OnClickPotionDwarf()
-    {
-        UsePotion(dwarf);
-    }
-
-    public void OnClickPotionWarrior()
-    {
-        UsePotion(warrior);
+        UsePotion(hf);
     }
 
     private void HasHelm(HeroFighter h)
@@ -840,23 +529,16 @@ public class MultiplayerFightPlayer : MonoBehaviour
             h.nb_potion -= 1;
             h.potionText.text = h.helm.ToString();
             AttackMessage.text = "";
-        }
-        else if (h.nb_helm > 0 && h.lastRoll == -1)
-        {
+        } else if (h.nb_helm > 0 && h.lastRoll == -1) {
             AttackMessage.text = "Roll before using the helm!";
-        }
-        else
-        {
+        } else {
             h.helm.GetComponent<Image>().color = h.helm.GetComponent<Button>().colors.normalColor;
             h.helm.enabled = false;
             AttackMessage.text = "";
         }
     }
 
-    public void OnClickHelmMage() { }
-    public void OnClickHelmArcher() { }
-    public void OnClickHelmWarrior() { }
-    public void OnClickHelmDwarf() { }
+    public void OnClickHelm() { }
 }
 
 public class HeroFighter

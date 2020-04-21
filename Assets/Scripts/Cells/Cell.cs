@@ -77,8 +77,8 @@ public class Cell : MonoBehaviour, IComparable<Cell>
     }
 
     protected virtual void OnMouseEnter() {
-        if (!Active) return;
-
+        //if (!Active) return;
+        return;
         var color = GameManager.instance.MainHero.Color;
         color.a = .4f;
         if(sprite != null) sprite.color = color;
