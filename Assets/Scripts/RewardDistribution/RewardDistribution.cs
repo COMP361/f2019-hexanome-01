@@ -243,79 +243,79 @@ public class RewardDistribution : MonoBehaviour
         }
     }
 
-    public void OnWarriorDecrementGoldClick()
+    public void OnWarriorDecrementWPClick()
     {
-        if (warriorGold > 0)
+        if (warriorWP > 0)
         {
-            warriorGold--;
+            warriorWP--;
             remainingReward++;
-            warriorGoldText.text = warriorGold.ToString();
+            warriorWPText.text = warriorWP.ToString();
             SetRemainingRewardText();
         }
     }
 
-    public void OnArcherIncrementGoldClick()
+    public void OnArcherIncrementWPClick()
     {
         if (remainingReward > 0)
         {
-            archerGold++;
+            archerWP++;
             remainingReward--;
-            archerGoldText.text = archerGold.ToString();
+            archerWPText.text = archerWP.ToString();
             SetRemainingRewardText();
         }
     }
 
-    public void OnArcherDecrementGoldClick()
+    public void OnArcherDecrementWPClick()
     {
-        if (archerGold > 0)
+        if (archerWP > 0)
         {
-            archerGold--;
+            archerWP--;
             remainingReward++;
-            archerGoldText.text = archerGold.ToString();
+            archerWPText.text = archerWP.ToString();
             SetRemainingRewardText();
         }
     }
 
-    public void OnDwarfIncrementGoldClick()
+    public void OnDwarfIncrementWPClick()
     {
         if (remainingReward > 0)
         {
-            dwarfGold++;
+            dwarfWP++;
             remainingReward--;
-            dwarfGoldText.text = dwarfGold.ToString();
+            dwarfWPText.text = dwarfWP.ToString();
             SetRemainingRewardText();
         }
     }
 
-    public void OnDwarfDecrementGoldClick()
+    public void OnDwarfDecrementWPClick()
     {
-        if (dwarfGold > 0)
+        if (dwarfWP > 0)
         {
-            dwarfGold--;
+            dwarfWP--;
             remainingReward++;
-            dwarfGoldText.text = dwarfGold.ToString();
+            dwarfWPText.text = dwarfWP.ToString();
             SetRemainingRewardText();
         }
     }
 
-    public void OnMageIncrementGoldClick()
+    public void OnMageIncrementWPClick()
     {
         if (remainingReward > 0)
         {
-            mageGold++;
+            mageWP++;
             remainingReward--;
-            mageGoldText.text = mageGold.ToString();
+            mageWPText.text = mageWP.ToString();
             SetRemainingRewardText();
         }
     }
 
-    public void OnMageDecrementGoldClick()
+    public void OnMageDecrementWPClick()
     {
-        if (mageGold > 0)
+        if (mageWP > 0)
         {
-            mageGold--;
+            mageWP--;
             remainingReward++;
-            mageGoldText.text = mageGold.ToString();
+            mageWPText.text = mageWP.ToString();
             SetRemainingRewardText();
         }
     }
@@ -324,11 +324,10 @@ public class RewardDistribution : MonoBehaviour
 
     #region
     public void OnDefaultClick() {
-        OnWarriorIncrementClick();
-        OnArcherIncrementClick();
-        OnMageIncrementClick();
-        OnDwarfIncrementClick();
-        OnDwarfIncrementClick();
+        OnWarriorIncrementGoldClick();
+        OnArcherIncrementGoldClick();
+        OnMageIncrementGoldClick();
+        OnDwarfIncrementGoldClick();
         //window.SetActive(false);
     }
     #endregion
