@@ -539,9 +539,9 @@ public class MultiplayerFightPlayer : MonoBehaviour
             AttackMessage.text = "";
         }
     }
-}
 
-public void OnClickHelm() { }
+    public void OnClickHelm() { }
+}
 
 public class HeroFighter
 {
