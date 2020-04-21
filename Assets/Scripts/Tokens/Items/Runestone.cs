@@ -17,8 +17,7 @@ public class Runestone : SmallToken
     public static Runestone Factory()
     {
         GameObject runestoneGo = PhotonNetwork.Instantiate("Prefabs/Tokens/Runestone", Vector3.zero, Quaternion.identity, 0);
-      //  token = runestoneGo;
-        runestoneCount++;
+        //  token = runestoneGo;
         Runestone rs = runestoneGo.GetComponent<Runestone>();
         rs.Cell = null;
         return rs;
@@ -45,6 +44,7 @@ public class Runestone : SmallToken
       {
           color = RunestoneColor.Yellow;
       }
+      runestoneCount++;
       int viewID = this.GetComponent<PhotonView>().ViewID;
       token = PhotonView.Find(viewID).gameObject;
     }
@@ -69,15 +69,21 @@ public class Runestone : SmallToken
       uncoverRunestone();
     }
 
-
-    public void uncoverRunestone()
+    [PunRPC]
+    public void uncoverRunestoneRPC(int ViewID)
     {
-      isCovered = false;
-      string runestoneColor = color.ToString();
-      Sprite uncoveredSprite = Resources.Load<Sprite>("Sprites/Tokens/Stone/Stone-" + runestoneColor);
-      token.GetComponent<SpriteRenderer>().sprite = uncoveredSprite;
+        if(photonView.ViewID == ViewID){
+        isCovered = false;
+        string runestoneColor = color.ToString();
+        Sprite uncoveredSprite = Resources.Load<Sprite>("Sprites/Tokens/Stone/Stone-" + runestoneColor);
+        token.GetComponent<SpriteRenderer>().sprite = uncoveredSprite;
 
-      InventoryUICell.instance.ForceUpdate(GameManager.instance.MainHero.Cell.Inventory, GameManager.instance.MainHero.Cell.Index );
+        InventoryUICell.instance.ForceUpdate(GameManager.instance.MainHero.Cell.Inventory, GameManager.instance.MainHero.Cell.Index );
+      }
+    }
+
+    public void uncoverRunestone(){
+      photonView.RPC("uncoverRunestoneRPC", RpcTarget.AllViaServer, new object[] {photonView.ViewID});
     }
 
     public static string Type { get => typeof(Runestone).ToString(); }

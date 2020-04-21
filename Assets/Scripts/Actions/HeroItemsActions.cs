@@ -185,9 +185,9 @@ public class HeroItemsActions : MonoBehaviour
            return true;
           }
         }
-        foreach(Token item in toCheck.GetComponent<Cell>().Inventory.items){
-          if(item is Runestone){
-            if(((Runestone)item).isCovered){
+        foreach(DictionaryEntry item in toCheck.GetComponent<Cell>().Inventory.items){
+          if( item.Value is Runestone){
+            if(((Runestone)item.Value).isCovered){
               return true;
             }
           }

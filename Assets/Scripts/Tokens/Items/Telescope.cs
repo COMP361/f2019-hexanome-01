@@ -57,10 +57,10 @@ public class Telescope : SmallToken
            itemsToCheck.Add(new Pair<Token, int>(item, toCheck.GetComponent<Cell>().Index));
           }
         }
-        foreach(Token item in toCheck.GetComponent<Cell>().Inventory.items){
-          if(item is Runestone){
-            if(((Runestone)item).isCovered){
-              itemsToCheck.Add(new Pair<Token,int>(item, toCheck.GetComponent<Cell>().Index));
+        foreach(DictionaryEntry item in toCheck.GetComponent<Cell>().Inventory.items){
+          if( item.Value is Runestone){
+            if(((Runestone)item.Value).isCovered){
+              itemsToCheck.Add(new Pair<Token,int>(((Runestone)item.Value), toCheck.GetComponent<Cell>().Index));
             }
           }
         }

@@ -186,6 +186,7 @@ public class GameManager : Singleton<GameManager>
         wells.Add(Well.Factory(35));
         wells.Add(Well.Factory(45));
         wells.Add(Well.Factory(55));
+
     }
 
     void LoadGame(string directory)
@@ -713,6 +714,16 @@ public class GameManager : Singleton<GameManager>
     public void EmptyWellRPC(int CellId, string heroType) {
         Well well = Cell.FromId(CellId).Inventory.Well;
         if(well != null) well.EmptyWell(heroType);
+    }
+
+    [PunRPC]
+    public virtual void Reveal2RPC(int cellID) {
+      Cell a = Cell.FromId(cellID);
+      foreach(Token b in a.Inventory.AllTokens){
+        if(b is Fog){
+          ((Fog)b).Reveal();
+        }
+      }
     }
 }
 

@@ -88,6 +88,10 @@ public class Fog : Token {
         GetComponent<SpriteRenderer>().enabled = false;
     }
 
+    public virtual void Reveal2(){
+        GameManager.instance.photonView.RPC("Reveal2RPC", RpcTarget.AllViaServer, new object[] {Cell.Index});
+    }
+
     void OnMoveComplete(Token token) {
         if(Cell != null && (!typeof(Hero).IsCompatibleWith(token.GetType()) || token.Cell.Index != Cell.Index)) return;
         Reveal();

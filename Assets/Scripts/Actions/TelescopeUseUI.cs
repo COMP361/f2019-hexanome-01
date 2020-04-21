@@ -47,7 +47,12 @@ public class TelescopeUseUI : MonoBehaviour
   public void ShowTelescopeUse(Token item, Pair<Token, int> pair) {
     token = item;
     toUnveil = pair.First;
-    TelescopePanelTitle.text  = "" + toUnveil.itemName + " on cell " + pair.Second;
+    if(toUnveil is Fog){
+    TelescopePanelTitle.text  = "" + Fog.itemName + " on cell " + pair.Second;
+    }
+    if(toUnveil is Runestone){
+    TelescopePanelTitle.text  = "" + Runestone.itemName + " on cell " + pair.Second;
+    }
     TelescopePanelDesc.text = "Do you want to unveil this item?";
     TelescopePanel.SetActive(true);
   }
@@ -61,7 +66,7 @@ public class TelescopeUseUI : MonoBehaviour
       ((Runestone)toUnveil).uncoverRunestone();
     }
     else if (toUnveil is Fog){
-      ((Fog)toUnveil).Reveal();
+      ((Fog)toUnveil).Reveal2();
     }
     HideTelescopeUse();
   }
