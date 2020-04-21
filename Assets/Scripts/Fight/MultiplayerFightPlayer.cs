@@ -359,7 +359,7 @@ public class MultiplayerFightPlayer : MonoBehaviour
             GST_dice[1].gameObject.SetActive(true);
         }
 
-        MonsterSprite.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprites/Tokens/Enemies/" + MonsterName.text.ToLower());
+        //MonsterSprite.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprites/Tokens/Enemies/" + MonsterName.text.ToLower());
     }
 
     private int RollDice(HeroFighter hero)
@@ -672,15 +672,6 @@ public class MultiplayerFightPlayer : MonoBehaviour
     {
         kill();
         GameManager.instance.RemoveTokenCell(monster, monster.Cell.Inventory);
-        GameManager.instance.narrator.MoveNarrator();
-        GameManager.instance.narrator.CheckLegendCards();
-        // Check if game is won on tower skral defeated
-        if (monster.GetType().ToString() == "TowerSkral")
-        {
-            GameManager.instance.narrator.MoveNarratorToIndex(13);
-            GameManager.instance.narrator.TowerSkralDefeated();
-            GameManager.instance.castle.CheckWin();
-        }
     }
 
     private void killMonster()
@@ -759,6 +750,8 @@ public class MultiplayerFightPlayer : MonoBehaviour
         else
         {
             panel.gameObject.SetActive(true);
+            InitializeHeroes();
+            InitializeMonster();
         }
     }
 
@@ -888,23 +881,31 @@ public class HeroFighter
 
     public HeroFighter(string type)
     {
-        this.name = GameObject.Find("Canvas/Fight/Multiplayer-Fight/Heroes/" + type + "/Name").GetComponent<Text>();
-        this.strength = GameObject.Find("Canvas/Fight/Multiplayer-Fight/Heroes/" + type + "/Strength").GetComponent<Text>();
-        this.strengthText = GameObject.Find("Canvas/Fight/Multiplayer-Fight/Heroes/" + type + "/Strength Text").GetComponent<Text>();
-        this.wp = GameObject.Find("Canvas/Fight/Multiplayer-Fight/Heroes/" + type + "/WP").GetComponent<Text>();
-        this.wpText = GameObject.Find("Canvas/Fight/Multiplayer-Fight/Heroes/" + type + "/Will Power Text").GetComponent<Text>();
+        this.name = GameObject.Find("Canvas/Fight/Multiplayer-Fight/Grid/" + type + "/Name").GetComponent<Text>();
+        this.strength = GameObject.Find("Canvas/Fight/Multiplayer-Fight/Grid/" + type + "/Strength/Strength").GetComponent<Text>();
+        this.strengthText = GameObject.Find("Canvas/Fight/Multiplayer-Fight/Grid/" + type + "/Strength/Strength Text").GetComponent<Text>();
+        this.wp = GameObject.Find("Canvas/Fight/Multiplayer-Fight/Grid/" + type + "/Willpower/WP").GetComponent<Text>();
+        this.wpText = GameObject.Find("Canvas/Fight/Multiplayer-Fight/Grid/" + type + "/Willpower/Willpower Text").GetComponent<Text>();
         this.rd = new regularDices[] {
-                GameObject.Find("Canvas/Fight/Multiplayer-Fight/Heroes/" + type + "/regular dice/rd1").GetComponent<regularDices>(),
-                GameObject.Find("Canvas/Fight/Multiplayer-Fight/Heroes/" + type + "/regular dice/rd2").GetComponent<regularDices>(),
-                GameObject.Find("Canvas/Fight/Multiplayer-Fight/Heroes/" + type + "/regular dice/rd3").GetComponent<regularDices>(),
-                GameObject.Find("Canvas/Fight/Multiplayer-Fight/Heroes/" + type + "/regular dice/rd4").GetComponent<regularDices>()
+                GameObject.Find("Canvas/Fight/Multiplayer-Fight/Grid/" + type + "/Regular dice/rd1").GetComponent<regularDices>(),
+                GameObject.Find("Canvas/Fight/Multiplayer-Fight/Grid/" + type + "/Regular dice/rd2").GetComponent<regularDices>(),
+                GameObject.Find("Canvas/Fight/Multiplayer-Fight/Grid/" + type + "/Regular dice/rd3").GetComponent<regularDices>(),
+                GameObject.Find("Canvas/Fight/Multiplayer-Fight/Grid/" + type + "/Regular dice/rd4").GetComponent<regularDices>()
             };
-        this.sd = GameObject.Find("Canvas/Fight/Multiplayer-Fight/Heroes/" + type + "/special dice/sd1").GetComponent<specialDices>();
+        this.sd = GameObject.Find("Canvas/Fight/Multiplayer-Fight/Grid/" + type + "/Special dice/sd1").GetComponent<specialDices>();
         this.hero = GameManager.instance.heroes.Find(x => x.Type.Equals(type));
-        this.spriteRenderer = GameObject.Find("Canvas/Fight/Multiplayer-Fight/Heroes/" + type + "/Sprite").GetComponent<SpriteRenderer>();
-        this.spriteRenderer.sprite = Resources.Load<Sprite>("Sprites/Tokens/Heroes/" + hero.Sex.ToString().ToLower() + "_" + hero.Type.ToLower());
+        //this.spriteRenderer = GameObject.Find("Canvas/Fight/Multiplayer-Fight/Grid/" + type + "/Sprite").GetComponent<SpriteRenderer>();
+        //this.spriteRenderer.sprite = Resources.Load<Sprite>("Sprites/Tokens/Grid/" + hero.Sex.ToString().ToLower() + "_" + hero.Type.ToLower());
 
-        foreach(var t in hero.heroInventory.smallTokens)
+
+        this.potion = GameObject.Find("Canvas/Fight/Multiplayer-Fight/Grid/" + type + "/Potion").GetComponent<Button>();
+        this.potionText = this.potion.GetComponent<Text>();
+
+        this.helm = GameObject.Find("Canvas/Fight/Multiplayer-Fight/Grid/" + type + "/Helm").GetComponent<Button>();
+        this.helmText = this.helm.GetComponent<Text>();
+
+
+        foreach (var t in hero.heroInventory.smallTokens)
         {
             if (t is Potion)
             {
@@ -920,11 +921,5 @@ public class HeroFighter
         {
             this.sd.gameObject.SetActive(true);
         }
-       
-        this.potion = GameObject.Find("Canvas/Fight/Multiplayer-Fight/Heroes/" + type + "/potion").GetComponent<Button>();
-        this.potionText = GameObject.Find("Canvas/Fight/Multiplayer-Fight/Heroes/" + type + "/potion amount").GetComponent<Text>();
-
-        this.helm = GameObject.Find("Canvas/Fight/Multiplayer-Fight/Heroes/" + type + "/helm").GetComponent<Button>();
-        this.helmText = GameObject.Find("Canvas/Fight/Multiplayer-Fight/Heroes/" + type + "/helm amount").GetComponent<Text>();
     }
 }
