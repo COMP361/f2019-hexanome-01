@@ -71,4 +71,12 @@ public class MageFighter : Fighter {
         Fighter.lastHeroToRoll.hasRolled = true;
         Fighter.lastHeroToRoll.lastRoll = maxDie;
     }
+
+    public void EndofRound() {
+        //restore the flipped thingy
+        flipMessage.text = "";
+        hasflippedDie = false;
+
+        base.EndofRound();
+    }
 }

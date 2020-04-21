@@ -35,7 +35,8 @@ public class Narrator {
         index = 0;
         witchFound = false;
         legendCardDeck = new LegendCardDeck(false);
-        herbRoll = (int)PhotonNetwork.CurrentRoom.CustomProperties["HerbRoll"];
+        herbRoll = 1;
+        if(!PhotonNetwork.OfflineMode) herbRoll = (int)PhotonNetwork.CurrentRoom.CustomProperties["HerbRoll"];
         
         if(herbRoll == 1 || herbRoll == 2) {
             herbCellId = 37;
@@ -45,9 +46,12 @@ public class Narrator {
             herbCellId = 61;
         }
 
-        towerSkralCell = (int)PhotonNetwork.CurrentRoom.CustomProperties["TowerSkralCell"];
-        runestoneRoll = (int)PhotonNetwork.CurrentRoom.CustomProperties["RunestoneCardPosition"];
-        runestoneCells = PhotonNetwork.CurrentRoom.CustomProperties["RunestoneCells"] as int[];
+        towerSkralCell = 51;
+        if(!PhotonNetwork.OfflineMode) towerSkralCell = (int)PhotonNetwork.CurrentRoom.CustomProperties["TowerSkralCell"];
+        runestoneRoll = 4;
+        if(!PhotonNetwork.OfflineMode) runestoneRoll = (int)PhotonNetwork.CurrentRoom.CustomProperties["RunestoneCardPosition"];
+        runestoneCells = new int[] { 23, 45, 64, 73, 49 };
+        if(!PhotonNetwork.OfflineMode) runestoneCells = PhotonNetwork.CurrentRoom.CustomProperties["RunestoneCells"] as int[];
         SetRunestonePosition();
 
         TasksListText = GameObject.Find("TasksListText").GetComponent<TMP_Text>();
