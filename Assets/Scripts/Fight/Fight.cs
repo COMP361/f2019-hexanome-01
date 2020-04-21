@@ -8,11 +8,12 @@ public class Fight : MonoBehaviour
 {
     GameObject heroSelectPanel;
     GameObject fightPanel;
-
     List<Hero> closeHeroes;
     List<Hero> selectedHeroes;
+
     Component[] heroSelectbtns;
     Button heroSelectConfirm;
+    public MultiplayerFightPlayer multiplayerFight;
     
     void OnEnable() {
         EventManager.Fight += SetupFight;    
@@ -36,6 +37,10 @@ public class Fight : MonoBehaviour
 
         heroSelectConfirm = heroSelectPanel.transform.Find("Confirm button").GetComponent<Button>();
         heroSelectConfirm.onClick.AddListener(delegate { HideHeroSelectPanel(); ShowFightPanel(); });
+    }
+
+    void Start() {
+        SetupFight();
     }
 
     void ToggleHeroSelect(string heroName, Button btn) {
@@ -115,5 +120,8 @@ public class Fight : MonoBehaviour
                 }
             }
         }
+
+        multiplayerFight.InitializeMonster();
+        multiplayerFight.InitializeHeroes(selectedHeroes);
     }
 }
