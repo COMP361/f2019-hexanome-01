@@ -25,8 +25,8 @@ public class Fight : MonoBehaviour
     void Awake() {
         closeHeroes = new List<Hero>();
         selectedHeroes = new List<Hero>();
-        heroSelectPanel = transform.Find("Multi-fight Choice").gameObject;
-        fightPanel = transform.Find("Multiplayer-Fight").gameObject;
+        heroSelectPanel = transform.Find("Hero Select").gameObject;
+        fightPanel = transform.Find("Fight Rounds").gameObject;
 
         heroSelectbtns = heroSelectPanel.transform.Find("Grid/").GetComponentsInChildren(typeof(Button));
         for(int i = 0; i < heroSelectbtns.Length; i++) {
