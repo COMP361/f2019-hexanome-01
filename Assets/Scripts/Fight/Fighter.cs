@@ -13,6 +13,7 @@ public class Fighter : MonoBehaviour {
     public Text wp;
     public regularDices[] rd; 
     public specialDices sd;
+    public bool hasSpecialDie = false;
     public bool hasRolled = false;
     public int lastRoll = -1;
     public Button potion;
@@ -67,6 +68,7 @@ public class Fighter : MonoBehaviour {
         }
 
         if(this.gems > 2) {
+            this.hasSpecialDie = true;
             this.sd.gameObject.SetActive(true);
         }
 
@@ -117,6 +119,17 @@ public class Fighter : MonoBehaviour {
         hasRolled = true;
         lastRoll = maxDie;
 
+
+        if (this.hasSpecialDie)
+        {
+            sd.OnMouseDown();
+            if(sd.finalSide >= maxDie)
+            {
+                lastRoll = sd.finalSide;
+                maxDie = sd.finalSide;
+            }
+        }
+
         return maxDie;
     }
 
@@ -138,7 +151,8 @@ public class Fighter : MonoBehaviour {
         return lastRoll;
     }
 
-    public static int getMaxValue(regularDices[] rdList) {
+    public static int getMaxValue(regularDices[] rdList) 
+{
         int max = 0;
         foreach (regularDices dice in rdList)
         {
@@ -180,7 +194,8 @@ public class Fighter : MonoBehaviour {
         }
     }
 
-    private void UseHelm() {
+    private void UseHelm()
+    {
         if (nb_helm > 0 && lastRoll != -1)
         {
             potion.GetComponent<Image>().color = potion.GetComponent<Button>().colors.pressedColor;
@@ -197,7 +212,8 @@ public class Fighter : MonoBehaviour {
         }
     }
 
-    public void DisableFighter() {
+    public void DisableFighter()
+    {
         rollBtn.interactable = false;
     }
 
