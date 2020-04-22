@@ -105,11 +105,11 @@ public class Fighter : MonoBehaviour {
         
         for(int i = 0; i < rd.Length; i++) {
             if(i < maxDices) {
-                rd.gameObject.SetActive(true);
-                rd.OnMouseDown();
-                activeDice[i] = rd;
+                rd[i].gameObject.SetActive(true);
+                rd[i].OnMouseDown();
+                activeDice[i] = rd[i];
             } else {
-                rd.gameObject.SetActive(false);
+                rd[i].gameObject.SetActive(false);
             }
         }
 

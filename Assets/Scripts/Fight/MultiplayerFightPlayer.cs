@@ -157,9 +157,9 @@ public class MultiplayerFightPlayer : MonoBehaviour
         {
             difference = total_monster_strength - total_hero_strength;
             
-            for(int i = fighters.Length-1; i >= 0; i--) {
+            for(int i = fighters.Count-1; i >= 0; i--) {
                 Fighter h = fighters[i];
-                
+
                 if (h.useShield)
                 {
                     h.shield.enabled = true;
@@ -185,9 +185,9 @@ public class MultiplayerFightPlayer : MonoBehaviour
                     fighters.Remove(h);
                     continue;
                 }
-                for (int i = 0; i < h.hero.Dices[h.hero.Willpower]; i++)
+                for (int j = 0; j < h.hero.Dices[h.hero.Willpower]; j++)
                 {
-                    h.rd[i].gameObject.SetActive(true);
+                    h.rd[j].gameObject.SetActive(true);
                 }
 
             }
