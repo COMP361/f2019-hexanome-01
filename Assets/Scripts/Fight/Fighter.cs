@@ -58,16 +58,23 @@ public class Fighter : MonoBehaviour {
             }
         }
 
-        foreach (var t in hero.heroInventory.smallTokens) {
-            if (t is Potion) {
+        List<Runestone> gms = new List<Runestone>();
+
+        foreach (var t in hero.heroInventory.smallTokens)
+        {
+            if (t is Potion)
+            {
                 this.nb_potion++;
             }
-            if(t is Runestone) {
+            if (t is Runestone)
+            {
+                gms.Add((Runestone) t);
                 this.gems++;
             }
         }
+        
 
-        if(this.gems > 2) {
+        if(IsFullSetGem(gms)) {
             this.hasSpecialDie = true;
             this.sd.gameObject.SetActive(true);
         }
@@ -222,5 +229,35 @@ public class Fighter : MonoBehaviour {
     {
         DisableFighter();
         fight.RemoveFromFight(this);
+    }
+
+    private bool IsFullSetGem(List<Runestone> gms) 
+    {
+        bool blue = false, green = false, yellow = false;
+
+        foreach(Runestone g in gms)
+        {
+            if(g.color == RunestoneColor.Blue)
+            {
+                blue = true;
+            }
+            if(g.color == RunestoneColor.Green)
+            {
+                green = true;
+            }
+            if(g.color == RunestoneColor.Yellow)
+            {
+                yellow = true;
+            }
+        }
+
+        if(blue && yellow && green)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 }
