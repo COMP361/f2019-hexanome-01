@@ -32,7 +32,16 @@ public class MultiplayerFightPlayer : MonoBehaviour
     private bool Thorald = false;
     public GameObject ThoraldSprite;
 
-    
+    public bool IsHeroFighting(Hero h)
+    {
+        if(fighters != null && fighters.Find(x => x.hero.Type.Equals(h.Type)) != null)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
     public void InitializeHeroes(List<Hero> selectedHeroes)
     {
         fighters = new List<Fighter>();
