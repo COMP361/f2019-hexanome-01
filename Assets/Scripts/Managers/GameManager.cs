@@ -179,8 +179,8 @@ public class GameManager : Singleton<GameManager>
     void NewGame()
     {
         GameObject canvas = GameObject.Find("Canvas");
-        //canvas.transform.Find("DistributeGold").gameObject.SetActive(true);
-        //canvas.transform.Find("DistributeWineskins").gameObject.SetActive(true);
+        canvas.transform.Find("DistributeGold").gameObject.SetActive(true);
+        canvas.transform.Find("DistributeWineskins").gameObject.SetActive(true);
 
         // FARMERS
         farmers.Add(Farmer.Factory(24));
@@ -203,7 +203,7 @@ public class GameManager : Singleton<GameManager>
         wells.Add(Well.Factory(45));
         wells.Add(Well.Factory(55));
 
-        
+
     }
 
     void LoadGame(string directory)
@@ -486,7 +486,6 @@ public class GameManager : Singleton<GameManager>
 
         foreach (Well well in wells) {
           Cell a = Cell.FromId(well.Cell.Index);
-          bool canReset = true;
           if(a.Inventory.Heroes.Count == 0){
             well.ResetWell();
           }
