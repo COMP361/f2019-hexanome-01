@@ -9,7 +9,7 @@ using System;
 
 public class MageFighter : Fighter {
     public static bool hasflippedDie = false;
-    public static Text flipMessage;
+    public Text flipMessage;
     public Button flipBtn;
 
     void Awake() {
@@ -40,13 +40,17 @@ public class MageFighter : Fighter {
         regularDices dieToFlip = Fighter.lastHeroToRoll.rd[0];
         foreach (regularDices rd in Fighter.lastHeroToRoll.rd)
         {
+            //Debug.Log("the smallest die is : " + smallestdie + " and the actual one rn is : "+ rd.finalSide);
             if ((rd.finalSide <= smallestdie) && rd.gameObject.activeSelf)
             {
+                //Debug.Log("switched!");
+                smallestdie = rd.finalSide;
                 dieToFlip = rd;
             }
         }
+        //Debug.Log("the side to flip is : " + dieToFlip.finalSide);
         dieToFlip.OnflipDie();
-
+        //Debug.Log("Flipped.");
         if (Fighter.lastHeroToRoll.gameObject.name.Equals("Archer"))
         {
             Fighter.lastHeroToRoll.hasRolled = true;
