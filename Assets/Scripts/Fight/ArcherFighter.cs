@@ -9,21 +9,13 @@ using System;
 
 public class ArcherFighter : Fighter {
     
-    public int RollDice() {
+    public override void Init(Hero hero) {
+        maxRollCount = 4;
+        base.Init(hero);
+    }
+
+    public override int RollDice() {
         Debug.Log("Archer roll");
-        
-        if (rollCount < 4) {
-            foreach (regularDices rd in rd)
-            {
-                gameObject.SetActive(false);
-            }
-            rd[rollCount].gameObject.SetActive(true);
-            rd[rollCount].OnMouseDown();
-            lastRoll = rd[rollCount].getFinalSide();
-            hasRolled = true;
-            rollCount++;
-            lastHeroToRoll = this;
-        }
-        return lastRoll;
+        return RollDiceWithBow();
     }
 }

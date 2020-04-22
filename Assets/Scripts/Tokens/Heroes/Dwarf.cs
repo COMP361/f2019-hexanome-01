@@ -13,7 +13,7 @@ public class Dwarf : Hero
         GameObject go = new GameObject();
         Dwarf dwarf = go.AddComponent<Dwarf>();
         dwarf.Type = typeof(Dwarf).ToString();
-        go.name = dwarf.Type.ToString();
+        go.name = dwarf.Type;
 
         SpriteRenderer renderer = go.AddComponent<SpriteRenderer>();
         Sprite sprite = Resources.Load<Sprite>("Sprites/Tokens/Heroes/" + dwarf.Type.ToString() + "-" + dwarf.Sex.ToString());

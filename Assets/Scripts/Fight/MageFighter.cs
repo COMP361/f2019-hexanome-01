@@ -47,7 +47,7 @@ public class MageFighter : Fighter {
         }
         dieToFlip.OnflipDie();
 
-        if (Fighter.lastHeroToRoll.name.text.Equals("Archer"))
+        if (Fighter.lastHeroToRoll.gameObject.name.Equals("Archer"))
         {
             Fighter.lastHeroToRoll.hasRolled = true;
             Fighter.lastHeroToRoll.lastRoll = dieToFlip.finalSide;

@@ -25,7 +25,7 @@ public class MultiplayerFightPlayer : MonoBehaviour
     private int og_MonsterWP;
 
     public Text MonsterTotalStrength;
-    public regularDices[] GST_dice = new regularDices[2]; // GorsSkralTroll_dice
+    public regularDices[] GST_dice = new regularDices[3]; // GorsSkralTroll_dice
     public specialDices[] wardrack_dice = new specialDices[2];
 
     // Thorald
@@ -37,6 +37,7 @@ public class MultiplayerFightPlayer : MonoBehaviour
     {
         fighters = new List<Fighter>();
         foreach (Hero hero in selectedHeroes) {
+            Debug.Log(hero.TokenName);
             Fighter h = transform.Find("Grid/" + hero.TokenName).GetComponent<Fighter>();
             h.Init(hero);
             fighters.Add(h);
@@ -123,6 +124,7 @@ public class MultiplayerFightPlayer : MonoBehaviour
             AttackMessage.text = "Everyone has to roll his dice!";
             return;
         }
+
         AttackMessage.text = "";
         int total_hero_strength = 0;
         int total_monster_strength = int.Parse(MonsterStrength.text) + MonsterRoll();
@@ -140,10 +142,9 @@ public class MultiplayerFightPlayer : MonoBehaviour
         HeroesTotalStrength.text = total_hero_strength.ToString();
         MonsterTotalStrength.text = total_monster_strength.ToString();
 
-        if (Thorald)
-        {
-            HeroesTotalStrength.text += " + 4";
+        if (Thorald) {
             total_hero_strength += 4;
+            HeroesTotalStrength.text = total_hero_strength.ToString();
         }
 
         // Actors fighting.
@@ -156,6 +157,8 @@ public class MultiplayerFightPlayer : MonoBehaviour
         else if (total_hero_strength < total_monster_strength)
         {
             difference = total_monster_strength - total_hero_strength;
+            
+            // Tofix Reverse loop !
             foreach (Fighter h in fighters)
             {
                 if (h.useShield)
@@ -177,7 +180,7 @@ public class MultiplayerFightPlayer : MonoBehaviour
                 if (h.hero.Willpower <= 0) // Remove the hero from the fight
                 {
                     h.DisableFighter();
-                    h.hero.Strength -= 1;
+                    h.hero.Strength = Math.Min(1, h.hero.Strength-1) ;
                     h.hero.Willpower = 3;
                     fighters.Remove(h);
                     continue;
@@ -197,7 +200,6 @@ public class MultiplayerFightPlayer : MonoBehaviour
 
         if (fighters.Count == 0)
         {
-            RestoreMonster();
             panel.SetActive(false);
         }
 
@@ -210,32 +212,12 @@ public class MultiplayerFightPlayer : MonoBehaviour
         if (int.Parse(MonsterWP.text) <= 0)
         {
             killMonster();
-
-            foreach (Fighter f in fighters) {
-                f.DisableFighter();
-            }
-            
-            DisableMonsterUI();
-            panel.SetActive(false);
         }
     }
 
-    private IEnumerator disablePanel()
+    private void disablePanel()
     {
-        yield return new WaitForSeconds(5f);
         panel.SetActive(false);
-    }
-
-    
-    private void RestoreMonster()
-    {
-        monster = null;
-        MonsterName.text = "";
-        MonsterStrength.text = "";
-        MonsterWP.text = "";
-        return;
-        throw new NotImplementedException(); // I am just doing it via UI thus I think it's fine...
-        // Maybe just do restorepanel!
     }
 
     [PunRPC]
@@ -258,26 +240,6 @@ public class MultiplayerFightPlayer : MonoBehaviour
         Destroy(m.gameObject);
     }
 
-    private void DisableMonsterUI()
-    {
-        MonsterName.text = "No Monsters";
-        MonsterSprite.GetComponent<Image>().sprite = null;
-        MonsterStrength.text = "";
-        MonsterWP.text = "";
-        MonsterTotalStrength.text = "";
-
-        if (monster.TokenName.Equals("Wardrack"))
-        {
-            wardrack_dice[0].gameObject.SetActive(false);
-            wardrack_dice[1].gameObject.SetActive(false);
-        }
-        else
-        {
-            GST_dice[0].gameObject.SetActive(false);
-            GST_dice[1].gameObject.SetActive(false);
-        }
-    }
-
     private void IsThoraldPresent()
     {
         Thorald = false;
@@ -293,11 +255,5 @@ public class MultiplayerFightPlayer : MonoBehaviour
         if (fighters != null && fighters.Contains(hf)) {
             fighters.Remove(hf);
         }
-        
-        if (fighters.Count == 0) {
-            RestoreMonster();
-            panel.gameObject.SetActive(false);
-        }
-
     }
 }

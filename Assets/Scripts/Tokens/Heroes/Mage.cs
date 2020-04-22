@@ -13,7 +13,7 @@ public class Mage : Hero
         GameObject go = new GameObject();
         Mage mage = go.AddComponent<Mage>();
         mage.Type = typeof(Mage).ToString();
-        go.name = mage.Type.ToString();
+        go.name = mage.Type;
 
         SpriteRenderer renderer = go.AddComponent<SpriteRenderer>();
         Sprite sprite = Resources.Load<Sprite>("Sprites/Tokens/Heroes/" + mage.Type.ToString() + "-" + mage.Sex.ToString());

@@ -13,7 +13,7 @@ public class Archer : Hero
         GameObject go = new GameObject();
         Archer archer = go.AddComponent<Archer>();
         archer.Type = typeof(Archer).ToString();
-        go.name = archer.Type.ToString();
+        go.name = archer.Type;
 
         SpriteRenderer renderer = go.AddComponent<SpriteRenderer>();
         Sprite sprite = Resources.Load<Sprite>("Sprites/Tokens/Heroes/" + archer.Type.ToString() + "-" + archer.Sex.ToString());

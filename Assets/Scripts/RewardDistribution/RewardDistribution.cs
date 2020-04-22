@@ -321,14 +321,4 @@ public class RewardDistribution : MonoBehaviour
     }
 
     #endregion
-
-    #region
-    public void OnDefaultClick() {
-        OnWarriorIncrementGoldClick();
-        OnArcherIncrementGoldClick();
-        OnMageIncrementGoldClick();
-        OnDwarfIncrementGoldClick();
-        //window.SetActive(false);
-    }
-    #endregion
 }

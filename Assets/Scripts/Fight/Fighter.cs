@@ -9,7 +9,6 @@ using System;
 
 public class Fighter : MonoBehaviour {
     public Hero hero;
-    public Text name;
     public Text strength;
     public Text wp;
     public regularDices[] rd; //= new regularDices[4];
@@ -30,7 +29,7 @@ public class Fighter : MonoBehaviour {
     public Button rollBtn, abandonBtn;
     public MultiplayerFightPlayer fight;
     public int rollCount = 0;
-    public int maxRollCount = 0;
+    public int maxRollCount = 1;
     
 
     protected void Awake() {
@@ -38,12 +37,12 @@ public class Fighter : MonoBehaviour {
         abandonBtn.onClick.AddListener(delegate { AbandonFight(); });
     }
 
-    public void Init(Hero hero) {
+    public virtual void Init(Hero hero) {
         this.hero = hero;
         strength.text = hero.Strength.ToString();
         wp.text = hero.Willpower.ToString();
         
-        for (int i = 0; i < hero.Dices[hero.Willpower]; i++) {
+        for (int i = 0; i < hero.Dices[hero.Willpower] && i < rd.Length; i++) {
             rd[i].gameObject.SetActive(true);
         }
 
@@ -76,7 +75,7 @@ public class Fighter : MonoBehaviour {
         rollCount = 0;
     }
 
-    public int RollDice() {
+    public virtual int RollDice() {
         if (hasRolled) {
             return lastRoll;
         }
@@ -105,20 +104,23 @@ public class Fighter : MonoBehaviour {
     }
 
     public int RollDiceWithBow() {
-        if (rollCount < 4) {
-            foreach (regularDices rd in rd)
-            {
-                gameObject.SetActive(false);
+        if (rollCount < maxRollCount) {
+            foreach (regularDices dice in rd) {
+                dice.gameObject.SetActive(false);
             }
-            rd[rollCount].gameObject.SetActive(true);
-            rd[rollCount].OnMouseDown();
-            lastRoll = rd[rollCount].getFinalSide();
+            
+            rd[0].gameObject.SetActive(true);
+            rd[0].OnMouseDown();
+
+            lastRoll = rd[0].getFinalSide();
             hasRolled = true;
             rollCount++;
             lastHeroToRoll = this;
         }
+
         return lastRoll;
     }
+
     public static int getMaxValue(regularDices[] rdList) {
         int max = 0;
         foreach (regularDices dice in rdList)
@@ -179,20 +181,13 @@ public class Fighter : MonoBehaviour {
     }
 
     public void DisableFighter() {
-        foreach (regularDices rd in rd) {
-            gameObject.SetActive(false);
-        }
-
-        strength.text = "";
-        wp.text = "";
-        
-        gameObject.SetActive(false);
+        rollBtn.interactable = false;
     }
 
 
     public void AbandonFight()
     {
         DisableFighter();
-        fight.  RemoveFromFight(this);
+        fight.RemoveFromFight(this);
     }
 }

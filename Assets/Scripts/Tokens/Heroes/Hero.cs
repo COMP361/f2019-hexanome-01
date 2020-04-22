@@ -86,6 +86,12 @@ public class Hero : Movable
         return cell.HeroesPosition;
     }
 
+    public bool hasBow() {
+        if(this is Archer) return true;
+        if(heroInventory.bigToken.GetType() == typeof(Bow)) return true;
+        return false;
+    }
+
     public void Init() {
         timeline = new Timeline(this);
         heroInventory = new HeroInventory(Type.ToString());

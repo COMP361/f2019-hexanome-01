@@ -216,16 +216,4 @@ public class WineskinDistribution : MonoBehaviour
     }
 
     #endregion
-
-    #region
-    public void OnDefaultClick()
-    {
-        OnWarriorIncrementClick();
-        OnArcherIncrementClick();
-        OnMageIncrementClick();
-        OnDwarfIncrementClick();
-        OnDwarfIncrementClick();
-        //window.SetActive(false);
-    }
-    #endregion
 }

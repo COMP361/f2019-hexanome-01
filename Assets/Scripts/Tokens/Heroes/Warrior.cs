@@ -13,7 +13,7 @@ public class Warrior : Hero
         GameObject go = new GameObject();
         Warrior warrior = go.AddComponent<Warrior>();
         warrior.Type = typeof(Warrior).ToString();
-        go.name = warrior.Type.ToString();
+        go.name = warrior.Type;
 
         SpriteRenderer renderer = go.AddComponent<SpriteRenderer>();
         Sprite sprite = Resources.Load<Sprite>("Sprites/Tokens/Heroes/" + warrior.Type.ToString() + "-" + warrior.Sex.ToString());

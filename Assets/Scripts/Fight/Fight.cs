@@ -40,7 +40,7 @@ public class Fight : MonoBehaviour
     }
 
     void Start() {
-        //SetupFight();
+        SetupFight();
     }
 
     void ToggleHeroSelect(string heroName, Button btn) {
