@@ -5,12 +5,16 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class RewardDistribution : MonoBehaviour
+public class RewardDistribution : Singleton<RewardDistribution>
 {
     public GameObject window;
 
+    List<Hero> allHeroes;
+
+    public PhotonView photonView;
+
     public Button acceptBtn;
-    public GameObject warriorPanel, archerPanel, dwarfPanel, magePanel;
+    public GameObject distributeRewardPanel, blockPanel, warriorPanel, archerPanel, dwarfPanel, magePanel;
     public Text remainingRewardText, warriorGoldText, archerGoldText, dwarfGoldText, mageGoldText, warriorWPText, archerWPText, dwarfWPText, mageWPText;
 
     private int remainingReward = 0;
@@ -24,26 +28,47 @@ public class RewardDistribution : MonoBehaviour
     private int dwarfWP= 0;
     private int mageWP = 0;
 
+    void OnEnable(){
+      EventManager.ShareReward += ShowShareReward;
+    }
+
+    void OnDisable(){
+      EventManager.ShareReward -= ShowShareReward;
+    }
+
     void Awake()
     {
-        acceptBtn.onClick.AddListener(delegate { });
+        acceptBtn.onClick.AddListener(delegate { HideShareReward();});
         archerPanel.SetActive(false);
         dwarfPanel.SetActive(false);
         magePanel.SetActive(false);
         warriorPanel.SetActive(false);
-        window.SetActive(false);
+        distributeRewardPanel.SetActive(false);
+        blockPanel.SetActive(false);
     }
 
-    void ShowShareReward(int amt, Hero controller, List<Hero> heroes){
+    void ShowShareReward(int amt, List<Hero> heroes){
       remainingReward = amt;
       SetRemainingRewardText();
 
-      foreach(Hero a in heroes){
-        if(GameManager.instance.MainHero.TokenName.Equals(controller.TokenName)){
-          window.SetActive(true);
+      allHeroes = heroes;
+
+      archerGold = 0;
+      archerWP = 0;
+      dwarfGold = 0;
+      dwarfWP = 0;
+      mageGold =0;
+      mageWP = 0;
+      warriorGold = 0;
+      warriorWP = 0;
+
+
+      foreach(Hero a in allHeroes){
+        if(GameManager.instance.MainHero.TokenName.Equals(a.TokenName)){
+          distributeRewardPanel.SetActive(true);
         }
         else{
-        // Trigger block panels for all others
+          photonView.RPC("blockHeroesRPC", RpcTarget.AllViaServer, new object[] {a.TokenName});
         }
         if(a.TokenName.Equals("Archer")){
           archerGoldText.text = "" + 0;
@@ -66,21 +91,105 @@ public class RewardDistribution : MonoBehaviour
           warriorPanel.SetActive(true);
         }
       }
-
-
     }
 
-    void Update()
-    {
-        if (remainingReward == 0)
-        {
-            Buttons.Unlock(acceptBtn);
+    void HideShareReward(){
+      Finalize();
+      warriorGoldText.text = "" + 0;
+      warriorWPText.text = "" + 0;
+      warriorPanel.SetActive(false);
+
+      mageGoldText.text = "" + 0;
+      mageWPText.text = "" + 0;
+      magePanel.SetActive(false);
+
+      dwarfGoldText.text = "" + 0;
+      dwarfWPText.text = "" + 0;
+      dwarfPanel.SetActive(false);
+
+      archerGoldText.text = "" + 0;
+      archerWPText.text = "" + 0;
+      archerPanel.SetActive(false);
+
+      foreach(Hero a in allHeroes){
+        if(GameManager.instance.MainHero.TokenName.Equals(a.TokenName)){
+          distributeRewardPanel.SetActive(false);
         }
-        else
-        {
-            Buttons.Lock(acceptBtn);
+        else{
+          photonView.RPC("unblockHeroesRPC", RpcTarget.AllViaServer, new object[] {a.TokenName});
         }
+
     }
+  }
+
+  void Finalize(){
+    while(archerGold != 0){
+      GoldCoin.Factory("Archer");
+      archerGold--;
+    }
+    while(dwarfGold != 0){
+      GoldCoin.Factory("Dwarf");
+      dwarfGold--;
+    }
+    while(mageGold != 0){
+      GoldCoin.Factory("Mage");
+      mageGold--;
+    }
+    while(warriorGold != 0){
+      GoldCoin.Factory("Warrior");
+      warriorGold--;
+    }
+    while(archerWP != 0){
+      photonView.RPC("addWPRPC", RpcTarget.AllViaServer, new object[] {"Archer"});
+      archerWP--;
+    }
+    while(dwarfWP != 0){
+      photonView.RPC("addWPRPC", RpcTarget.AllViaServer, new object[] {"Dwarf"});
+      dwarfWP--;
+    }
+    while(mageWP != 0){
+      photonView.RPC("addWPRPC", RpcTarget.AllViaServer, new object[] {"Mage"});
+      mageWP--;
+    }
+    while(warriorWP != 0){
+      photonView.RPC("addWPRPC", RpcTarget.AllViaServer, new object[] {"Warrior"});
+      warriorWP--;
+    }
+  }
+
+  [PunRPC]
+  void blockHeroesRPC(string heroName){
+    if(heroName.Equals(GameManager.instance.MainHero.TokenName)){
+      blockPanel.SetActive(true);
+    }
+  }
+
+  [PunRPC]
+  void unblockHeroesRPC(string heroName){
+    if(heroName.Equals(GameManager.instance.MainHero.TokenName)){
+      blockPanel.SetActive(false);
+    }
+  }
+
+  [PunRPC]
+  void addWPRPC(string heroName){
+    Hero hero = GameManager.instance.findHero(heroName);
+    int currWP = hero.Willpower;
+    currWP++;
+    hero.Willpower = currWP;
+  }
+
+  void Update()
+  {
+      if (remainingReward == 0)
+      {
+          Buttons.Unlock(acceptBtn);
+      }
+      else
+      {
+          Buttons.Lock(acceptBtn);
+      }
+  }
 
     void SetRemainingRewardText()
     {
@@ -139,10 +248,7 @@ public class RewardDistribution : MonoBehaviour
 
     #region Button Methods
 
-    //public void OnAcceptClick()
-    //{
-    //    window.SetActive(false);
-    //}
+
 
     public void OnWarriorIncrementGoldClick()
     {

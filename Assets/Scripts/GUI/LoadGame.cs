@@ -17,7 +17,7 @@ public class LoadGame : MonoBehaviour
     void Start() {
         players = PhotonNetwork.PlayerList.ToList();
 
-        string directoryPath = Application.dataPath.Replace("/Assets", "");
+        string directoryPath = Application.streamingAssetsPath;
         string[] games = Directory.GetDirectories(Path.Combine(directoryPath, "Saves"));
         foreach(string d in games) {
             bool missingHero = false;

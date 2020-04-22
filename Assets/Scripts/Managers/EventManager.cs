@@ -629,7 +629,7 @@ public class EventManager : MonoBehaviour
         {
             DateTime dt = DateTime.Now;
             String folderName = "Saves/save_" + dt.ToString("yyyy-MM-dd-HH-mm-ss");
-            string directoryPath = Application.dataPath.Replace("Assets", "");
+            string directoryPath = Application.streamingAssetsPath;
             Directory.CreateDirectory(Path.Combine(directoryPath, folderName));
             Save(folderName);
         }
@@ -794,4 +794,16 @@ public class EventManager : MonoBehaviour
             CellItemUpdate(cellID);
         }
     }
+
+    public delegate void ShareRewardHandler(int amt, List<Hero> heroes);
+    public static event ShareRewardHandler ShareReward;
+    public static void TriggerShareReward(int amt, List<Hero> heroes)
+    {
+        if (ShareReward != null)
+        {
+            ShareReward(amt, heroes);
+        }
+    }
+
+
 }
