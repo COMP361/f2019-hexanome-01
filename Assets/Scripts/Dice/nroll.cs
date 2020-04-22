@@ -29,12 +29,12 @@ public class nroll : MonoBehaviour
     {
         //regularDice1.RollTheDice();
     }
+
     public void OnMouseDown()
     {
         //StartCoroutine("activatedAllDices");
         fp.hasRolled = true;
         activatedAllDices(numRegularDices, numSpecialDices);
-        GameManager.instance.CurrentPlayer.timeline.Update(Action.Fight.GetCost());
     }
 
     public int activatedAllDices(int numRegularDices, int numSpecialDices)

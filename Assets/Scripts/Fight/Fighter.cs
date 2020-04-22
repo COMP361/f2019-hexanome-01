@@ -11,7 +11,7 @@ public class Fighter : MonoBehaviour {
     public Hero hero;
     public Text strength;
     public Text wp;
-    public regularDices[] rd; //= new regularDices[4];
+    public regularDices[] rd; 
     public specialDices sd;
     public bool hasRolled = false;
     public int lastRoll = -1;
@@ -31,6 +31,13 @@ public class Fighter : MonoBehaviour {
     public int rollCount = 0;
     public int maxRollCount = 1;
     
+    void OnEnable() {
+        EventManager.UpdateHeroStats += UpdatePlayerStats;
+    }
+
+    void OnDisable() {
+        EventManager.UpdateHeroStats -= UpdatePlayerStats;
+    }
 
     protected void Awake() {
         rollBtn.onClick.AddListener(delegate { RollDice(); });
@@ -42,8 +49,12 @@ public class Fighter : MonoBehaviour {
         strength.text = hero.Strength.ToString();
         wp.text = hero.Willpower.ToString();
         
-        for (int i = 0; i < hero.Dices[hero.Willpower] && i < rd.Length; i++) {
-            rd[i].gameObject.SetActive(true);
+        for (int i = 0; i < rd.Length; i++) {
+            if(i < hero.Dices[hero.Willpower]) {
+                rd[i].gameObject.SetActive(true);
+            } else {
+                rd[i].gameObject.SetActive(false);
+            }
         }
 
         foreach (var t in hero.heroInventory.smallTokens) {
@@ -69,6 +80,13 @@ public class Fighter : MonoBehaviour {
         }
     }
 
+    private void UpdatePlayerStats(Hero h) {
+        if(h == this.hero) {
+            strength.text = h.Strength.ToString();
+            wp.text = h.Willpower.ToString();
+        }   
+    }
+
     public void EndofRound() {
         lastHeroToRoll = null;
         // Need to re-initialize the count of rolls.
@@ -82,21 +100,20 @@ public class Fighter : MonoBehaviour {
 
         lastHeroToRoll = this;
 
-        regularDices[] activeDice = new regularDices[hero.Dices[hero.Willpower]];
-        int maxDie;
-        int i = 0;
-        foreach (regularDices rd in rd)
-        {
-            if (rd.gameObject.activeSelf)
-            {
+        int maxDices = hero.Dices[hero.Willpower];
+        regularDices[] activeDice = new regularDices[maxDices];
+        
+        for(int i = 0; i < rd.Length; i++) {
+            if(i < maxDices) {
+                rd.gameObject.SetActive(true);
                 rd.OnMouseDown();
                 activeDice[i] = rd;
-                i++;
+            } else {
+                rd.gameObject.SetActive(false);
             }
         }
 
-        maxDie = getMaxValue(activeDice);
-
+        int maxDie = getMaxValue(activeDice);
         hasRolled = true;
         lastRoll = maxDie;
 

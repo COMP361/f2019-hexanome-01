@@ -131,12 +131,11 @@ public class MultiplayerFightPlayer : MonoBehaviour
 
         foreach (Fighter h in fighters)
         {
-            if (h.lastRoll == -1)
-            {
-                return;
-            }
+            if (h.lastRoll == -1) return;
             total_hero_strength += h.lastRoll;
             total_hero_strength += h.hero.Strength;
+
+            h.hero.timeline.Update(Action.Fight.GetCost());
         }
 
         HeroesTotalStrength.text = total_hero_strength.ToString();
@@ -158,9 +157,9 @@ public class MultiplayerFightPlayer : MonoBehaviour
         {
             difference = total_monster_strength - total_hero_strength;
             
-            // Tofix Reverse loop !
-            foreach (Fighter h in fighters)
-            {
+            for(int i = fighters.Length-1; i >= 0; i--) {
+                Fighter h = fighters[i];
+                
                 if (h.useShield)
                 {
                     h.shield.enabled = true;
@@ -173,6 +172,7 @@ public class MultiplayerFightPlayer : MonoBehaviour
 
                 h.hero.Willpower -= difference;
                 h.wp.text = h.hero.Willpower.ToString();
+
                 foreach (regularDices rd in h.rd)
                 {
                     rd.gameObject.SetActive(false);

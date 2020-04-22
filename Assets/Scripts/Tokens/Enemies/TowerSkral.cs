@@ -6,8 +6,8 @@ public class TowerSkral : Enemy
 {
     public static TowerSkral Factory(int cellID, int numPlayers)
     {
-        Sprite sprite = Resources.Load<Sprite>("Sprites/Tokens/Enemies/Tower-Skral");
-        GameObject go = new GameObject("TowerSkral");
+        Sprite sprite = Resources.Load<Sprite>("Sprites/Tokens/Enemies/TowerSkral");
+        GameObject go = new GameObject("Tower Skral");
         SpriteRenderer renderer = go.AddComponent<SpriteRenderer>();
         renderer.sprite = sprite;
         go.transform.localScale = new Vector3(10, 10, 10);
@@ -17,7 +17,7 @@ public class TowerSkral : Enemy
         skral.Cell = Cell.FromId(cellID);
 
         skral.Will = 6;
-        skral.Reward = 4; // Not sure about this
+        skral.Reward = 4;
 
         if (numPlayers == 3) {
             skral.Strength = 30;
