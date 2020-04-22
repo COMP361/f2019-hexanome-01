@@ -47,6 +47,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -95,7 +96,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   desc: 
-  InUse: 0
+  itemName: 
+  reserved: 0
+  maxUse: 1
   photonView: {fileID: 8683720220056629314}
 --- !u!114 &8683720220056629314
 MonoBehaviour:

@@ -715,23 +715,23 @@ public class EventManager : MonoBehaviour
         }
     }
 
-    public delegate void FalconTradeHandler(Hero hero1, Hero hero2);
+    public delegate void FalconTradeHandler(Hero hero1, Hero hero2, bool isFalcon);
     public static event FalconTradeHandler FalconTrade;
-    public static void TriggerFalconTrade(Hero hero1, Hero hero2)
+    public static void TriggerFalconTrade(Hero hero1, Hero hero2, bool isFalcon)
     {
         if (FalconTrade != null)
         {
-          FalconTrade(hero1, hero2);
+          FalconTrade(hero1, hero2, isFalcon);
         }
     }
 
-    public delegate void InventoriesTradeHandler(Hero hero1, Hero hero2);
+    public delegate void InventoriesTradeHandler(Hero hero1, Hero hero2, bool isFalcon);
     public static event InventoriesTradeHandler InventoriesTrade;
-    public static void TriggerInventoriesTrade(Hero hero1, Hero hero2)
+    public static void TriggerInventoriesTrade(Hero hero1, Hero hero2, bool isFalcon)
     {
         if (InventoriesTrade != null)
         {
-          InventoriesTrade(hero1, hero2);
+          InventoriesTrade(hero1, hero2, isFalcon);
         }
     }
 
