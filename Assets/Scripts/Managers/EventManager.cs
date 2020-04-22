@@ -794,4 +794,16 @@ public class EventManager : MonoBehaviour
             CellItemUpdate(cellID);
         }
     }
+
+    public delegate void ShareRewardHandler(int amt, List<Hero> heroes);
+    public static event ShareRewardHandler ShareReward;
+    public static void TriggerShareReward(int amt, List<Hero> heroes)
+    {
+        if (ShareReward != null)
+        {
+            ShareReward(amt, heroes);
+        }
+    }
+
+
 }

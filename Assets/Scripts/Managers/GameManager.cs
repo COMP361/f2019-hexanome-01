@@ -97,7 +97,7 @@ public class GameManager : Singleton<GameManager>
     }
 
     void Start()
-    {     
+    {
         string saveDirectory = null;
         if(!PhotonNetwork.OfflineMode)
             saveDirectory = (string)PhotonNetwork.CurrentRoom.CustomProperties["Save"];
@@ -127,7 +127,7 @@ public class GameManager : Singleton<GameManager>
         Thorald.Instance.Cell = Cell.FromId(25);
         Skral.Factory(25);
         mainHeroIndex = 0;*/
-        
+
 
         // Add each player's respective hero
         foreach (Player p in players)
@@ -203,6 +203,9 @@ public class GameManager : Singleton<GameManager>
         wells.Add(Well.Factory(45));
         wells.Add(Well.Factory(55));
 
+        if (PhotonNetwork.IsMasterClient){
+          EventManager.TriggerShareReward(10, new List<Hero> {findHero("Archer"), findHero("Dwarf")});
+        }
     }
 
     void LoadGame(string directory)
