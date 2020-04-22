@@ -152,6 +152,10 @@ public class HeroState {
             {
                 Type type = Type.GetType(tokenStr);
                 MethodInfo mInfo = type.GetMethods().FirstOrDefault(method => method.Name == "Factory" && method.GetParameters().Count() == 0);
+                if (type == typeof(Runestone))
+                {
+                    mInfo = type.GetMethods().FirstOrDefault(method => method.Name == "FactoryInventory" && method.GetParameters().Count() == 0);
+                }
                 Token token = (Token)mInfo.Invoke(type, null);
 
                 hero.heroInventory.AddItem(token);

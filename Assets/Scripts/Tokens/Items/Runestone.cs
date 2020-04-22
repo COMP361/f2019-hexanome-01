@@ -30,17 +30,28 @@ public class Runestone : SmallToken
       return runestone;
     }
 
+    public static Runestone FactoryInventory()
+    {
+        GameObject runestoneGo = PhotonNetwork.Instantiate("Prefabs/Tokens/Runestone", Vector3.zero, Quaternion.identity, 0);
+        Runestone rs = runestoneGo.GetComponent<Runestone>();
+        string runestoneColor = rs.color.ToString();
+        Sprite uncoveredSprite = Resources.Load<Sprite>("Sprites/Tokens/Stone/Stone-" + runestoneColor);
+        rs.GetComponent<SpriteRenderer>().sprite = uncoveredSprite;
+        rs.Cell = null;
+        return rs;
+    }
+
     public void OnEnable(){
       isCovered = true;
-      if(runestoneCount == 0 || runestoneCount == 1)
+      if(runestoneCount == 0 || runestoneCount == 3)
       {
           color = RunestoneColor.Blue;
       }
-      if (runestoneCount == 2 || runestoneCount == 3)
+      if (runestoneCount == 1 || runestoneCount == 4)
       {
           color = RunestoneColor.Green;
       }
-      if (runestoneCount == 4)
+      if (runestoneCount == 2)
       {
           color = RunestoneColor.Yellow;
       }
