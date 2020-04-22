@@ -142,6 +142,9 @@ public class InventoriesUITrade : MonoBehaviour
       EventManager.TriggerError(4);
       return;
     }
+    else if(MultiplayerFightPlayer.IsHeroFighting(hero2)){
+      EventManager.TriggerError(6);
+    }
     else if(IsTradeGood()){
       if(isUsingFalcon){
       Falcon toChange = (Falcon)hero1.heroInventory.bigToken;

@@ -12,7 +12,7 @@ public class MultiplayerFightPlayer : MonoBehaviour
     public GameObject panel;
     public PhotonView pv;
     public Text AttackMessage;
-    public List<Fighter> fighters;
+    public static List<Fighter> fighters;
     public Text HeroesTotalStrength;
 
     // Monster's fields
@@ -32,7 +32,7 @@ public class MultiplayerFightPlayer : MonoBehaviour
     private bool Thorald = false;
     public GameObject ThoraldSprite;
 
-    public bool IsHeroFighting(Hero h)
+    public static bool IsHeroFighting(Hero h)
     {
         if(fighters != null && fighters.Find(x => x.hero.Type.Equals(h.Type)) != null)
         {
@@ -165,7 +165,7 @@ public class MultiplayerFightPlayer : MonoBehaviour
         else if (total_hero_strength < total_monster_strength)
         {
             difference = total_monster_strength - total_hero_strength;
-            
+
             for(int i = fighters.Count-1; i >= 0; i--) {
                 Fighter h = fighters[i];
 
@@ -253,7 +253,7 @@ public class MultiplayerFightPlayer : MonoBehaviour
     {
         Thorald = false;
         ThoraldSprite.gameObject.SetActive(false);
-            
+
         if (GameManager.instance.thorald != null && GameManager.instance.thorald.Cell.Equals(GameManager.instance.CurrentPlayer.Cell)) {
             Thorald = true;
             ThoraldSprite.gameObject.SetActive(true);
