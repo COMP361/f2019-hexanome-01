@@ -13,6 +13,9 @@ public class Falcon : BigToken {
   Sprite spriteFront, spriteBack;
 
   void OnEnable() {
+    this.isTurned = false;
+    this.spriteBack = Resources.Load<Sprite>("Sprites/Tokens/FalconBack");
+    this.spriteFront = Resources.Load<Sprite>("Sprites/Tokens/Falcon");
     EventManager.StartDay += TurnFalconNoRPC;
     base.OnEnable();
   }
@@ -25,9 +28,7 @@ public class Falcon : BigToken {
   {
     GameObject falconGO = PhotonNetwork.Instantiate("Prefabs/Tokens/Falcon", Vector3.zero, Quaternion.identity, 0);
     Falcon falcon = falconGO.GetComponent<Falcon>();
-    falcon.isTurned = false;
-    falcon.spriteBack = Resources.Load<Sprite>("Sprites/Tokens/FalconBack");
-    falcon.spriteFront = Resources.Load<Sprite>("Sprites/Tokens/Falcon");        
+
 
     return  falcon;
   }
@@ -66,7 +67,7 @@ public class Falcon : BigToken {
     if(!isTurned) return;
     int viewID = GetComponent<PhotonView>().ViewID;
     TurnFalconRPC(viewID);
-    
+
     foreach (Hero hero in GameManager.instance.heroes) {
       if(hero.heroInventory.bigToken == this) {
         EventManager.TriggerInventoryUIHeroUpdate(hero.heroInventory);

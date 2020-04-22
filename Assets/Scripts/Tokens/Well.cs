@@ -15,7 +15,7 @@ public class Well : Token
   public static Well Factory(int cellID, bool full = true) {
     GameObject wellGO = GameObject.Instantiate((GameObject)Resources.Load("Prefabs/Tokens/Well")) as GameObject;
     Well well = wellGO.GetComponent<Well>();
-    
+
     well.Cell = Cell.FromId(cellID);
     SpriteRenderer sr = well.GetComponent<SpriteRenderer>();
     if(sr != null) sr.enabled = false;
@@ -23,7 +23,7 @@ public class Well : Token
     if(well.Cell == null) return well;
 
     well.goFullWell = well.Cell.transform.Find("well/well-full").gameObject;
-    well.goEmptyWell = well.Cell.transform.Find("well/well-empty").gameObject;  
+    well.goEmptyWell = well.Cell.transform.Find("well/well-empty").gameObject;
 
     if(full) {
       well.DisplayWell();
@@ -68,8 +68,9 @@ public class Well : Token
         hero.Willpower = currWP;
       }
     }
-
+    if (PhotonNetwork.IsMasterClient){
     Cell.Inventory.RemoveToken(this);
+    }
 
     if(GameManager.instance.MainHero.TokenName.Equals(heroType)) {
       EventManager.TriggerInventoryUIHeroPeak(GameManager.instance.MainHero.heroInventory);

@@ -32,7 +32,7 @@ public class GameManager : Singleton<GameManager>
 
     void Awake()
     {
-        PhotonNetwork.OfflineMode = true;
+        PhotonNetwork.OfflineMode = false;
         players = PhotonNetwork.PlayerList.ToList();
         base.Awake();
     }
@@ -115,18 +115,18 @@ public class GameManager : Singleton<GameManager>
         towerskrals = new List<Enemy>();
         wells = new List<Well>();
 
-        heroes.Add(Warrior.Instance);
-        heroes.Add(Archer.Instance);
-        heroes.Add(Mage.Instance);
-        heroes.Add(Dwarf.Instance);
-        Warrior.Instance.Cell = Cell.FromId(25);
-        Archer.Instance.Cell = Cell.FromId(25);
-        Mage.Instance.Cell = Cell.FromId(25);
-        Dwarf.Instance.Cell = Cell.FromId(25);
-        thorald = Thorald.Instance;
-        Thorald.Instance.Cell = Cell.FromId(25);
-        Skral.Factory(25);
-        mainHeroIndex = 0;
+    //    heroes.Add(Warrior.Instance);
+      //  heroes.Add(Archer.Instance);
+      //  heroes.Add(Mage.Instance);
+      //  heroes.Add(Dwarf.Instance);
+    //    Warrior.Instance.Cell = Cell.FromId(25);
+    //    Archer.Instance.Cell = Cell.FromId(25);
+    //    Mage.Instance.Cell = Cell.FromId(25);
+    //    Dwarf.Instance.Cell = Cell.FromId(25);
+    //    thorald = Thorald.Instance;
+    //    Thorald.Instance.Cell = Cell.FromId(25);
+    //    Skral.Factory(25);
+    //    mainHeroIndex = 0;
 
 
         // Add each player's respective hero
@@ -179,8 +179,8 @@ public class GameManager : Singleton<GameManager>
     void NewGame()
     {
         GameObject canvas = GameObject.Find("Canvas");
-        //canvas.transform.Find("DistributeGold").gameObject.SetActive(true);
-        //canvas.transform.Find("DistributeWineskins").gameObject.SetActive(true);
+        canvas.transform.Find("DistributeGold").gameObject.SetActive(true);
+        canvas.transform.Find("DistributeWineskins").gameObject.SetActive(true);
 
         // FARMERS
         farmers.Add(Farmer.Factory(24));
@@ -203,7 +203,7 @@ public class GameManager : Singleton<GameManager>
         wells.Add(Well.Factory(45));
         wells.Add(Well.Factory(55));
 
-        
+
     }
 
     void LoadGame(string directory)
@@ -486,7 +486,6 @@ public class GameManager : Singleton<GameManager>
 
         foreach (Well well in wells) {
           Cell a = Cell.FromId(well.Cell.Index);
-          bool canReset = true;
           if(a.Inventory.Heroes.Count == 0){
             well.ResetWell();
           }
