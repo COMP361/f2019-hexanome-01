@@ -203,9 +203,7 @@ public class GameManager : Singleton<GameManager>
         wells.Add(Well.Factory(45));
         wells.Add(Well.Factory(55));
 
-        if (PhotonNetwork.IsMasterClient){
-          EventManager.TriggerShareReward(10, new List<Hero> {findHero("Archer"), findHero("Dwarf")});
-        }
+        
     }
 
     void LoadGame(string directory)
