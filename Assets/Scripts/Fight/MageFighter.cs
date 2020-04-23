@@ -77,6 +77,7 @@ public class MageFighter : Fighter {
 
     public void EndofRound() {
         hasflippedDie = false;
+        flipBtn.interactable = false;
         base.EndofRound();
     }
 }

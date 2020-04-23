@@ -17,7 +17,6 @@ public class Runestone : SmallToken
     public static Runestone Factory()
     {
         GameObject runestoneGo = PhotonNetwork.Instantiate("Prefabs/Tokens/Runestone", Vector3.zero, Quaternion.identity, 0);
-        //  token = runestoneGo;
         Runestone rs = runestoneGo.GetComponent<Runestone>();
         rs.Cell = null;
         return rs;

@@ -33,6 +33,7 @@ public class Fighter : MonoBehaviour {
     public int rollCount = 0;
     public int maxRollCount = 1;
     public int maxDices;
+    public bool isDead;
     
     void OnEnable() {
         EventManager.UpdateHeroStats += UpdatePlayerStats;
@@ -66,11 +67,24 @@ public class Fighter : MonoBehaviour {
         }
     }
 
+    public void NewRound() {
+        UnlockRollBtns();
+        hero.timeline.Update(Action.Fight.GetCost());
+        InitDices();
+        lastRoll = -1;
+        rollCount = 0;
+        hero.IsFighting = true;
+    }
+
     public virtual void Init(Hero hero) {
         this.hero = hero;
         strength.text = hero.Strength.ToString();
         wp.text = hero.Willpower.ToString();
+        isDead = false;
         
+        transform.Find("Image").gameObject.SetActive(true);
+        transform.Find("RIP").gameObject.SetActive(false);
+
         InitDices();
 
         List<Runestone> gms = new List<Runestone>();
@@ -118,14 +132,14 @@ public class Fighter : MonoBehaviour {
 
 
     private void UpdatePlayerStats(Hero h) {
-        if(h == this.hero) {
+        if(h == this.hero && !isDead) {
             strength.text = h.Strength.ToString();
             wp.text = h.Willpower.ToString();
         }   
     }
 
     public void EndofRound() {
-        MageFighter.flipBtn.interactable = false;
+        hero.IsFighting = false;
     }
 
     public int RollDice() {
@@ -151,11 +165,10 @@ public class Fighter : MonoBehaviour {
 
         if (this.hasSpecialDie)
         {
-            sd.OnMouseDown();
-            if(sd.finalSide >= maxDie)
+            sd.RollTheDice();
+            if(sd.finalSide >= lastRoll)
             {
                 lastRoll = sd.finalSide;
-                maxDie = sd.finalSide;
             }
         }
 
@@ -232,6 +245,16 @@ public class Fighter : MonoBehaviour {
     public void DisableFighter()
     {
         rollBtn.interactable = false;
+        abandonBtn.interactable = false;
+    }
+
+      public void KillFighter()
+    {
+        rollBtn.interactable = false;
+        abandonBtn.interactable = false;
+
+        transform.Find("Image").gameObject.SetActive(false);
+        transform.Find("RIP").gameObject.SetActive(true);
     }
 
 

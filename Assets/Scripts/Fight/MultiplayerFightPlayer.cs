@@ -52,19 +52,8 @@ public class MultiplayerFightPlayer : MonoBehaviour
         newRoundBtn.interactable = true;
         leaveBtn.interactable = true;
         fightOver = false;
-        Thorald = false;
         numRounds = 0;
         remainingRolls = -1;
-    }
-
-    public static bool IsHeroFighting(Hero h)
-    {
-        if(fighters != null && fighters.Find(x => x.hero.Type.Equals(h.Type)) != null)
-        {
-            return true;
-        }
-
-        return false;
     }
 
     public void InitializeHeroes(List<Hero> selectedHeroes)
@@ -86,6 +75,9 @@ public class MultiplayerFightPlayer : MonoBehaviour
         MonsterStrengthStr.text = monster.Strength.ToString();
         MonsterWPStr.text = monster.Will.ToString();
         monsterWP = monster.Will;
+
+        transform.Find("Grid/Monster/Image").gameObject.SetActive(true);
+        transform.Find("Grid/Monster/RIP").gameObject.SetActive(false);
 
         InitMonsterDices();    
 
@@ -126,11 +118,7 @@ public class MultiplayerFightPlayer : MonoBehaviour
         HeroesTotalStrength.text = "" + 0;
 
         foreach(Fighter f in fighters) {
-            f.UnlockRollBtns();
-            f.hero.timeline.Update(Action.Fight.GetCost());
-            f.InitDices();
-            f.lastRoll = -1;
-            f.rollCount = 0;
+            f.NewRound();
         }
 
         Fighter.lastHeroToRoll = null;
@@ -233,22 +221,28 @@ public class MultiplayerFightPlayer : MonoBehaviour
                 }
 
                 if (h.hero.Willpower <= 0) {
-                    h.DisableFighter();
+                    h.isDead = true;
+                    h.KillFighter();
                     h.hero.Strength = Math.Max(1, h.hero.Strength-1) ;
                     h.hero.Willpower = 3;
+                    h.EndofRound();
                     fighters.Remove(h);
-                    continue;
                 }
             }
         }
 
-        foreach (Fighter hf in fighters) {
-            hf.EndofRound();
+        for(int i = fighters.Count-1; i >= 0; i--) {
+            fighters[i].EndofRound();
+            
+            if (!fighters[i].hero.timeline.HasHoursLeft()) {
+                fighters[i].DisableFighter();
+                fighters.Remove(fighters[i]);
+            }
         }
 
         if (fighters.Count == 0) {
             fightOver = true;
-            ResultMsg.text = "Heroes have been killed.";
+            ResultMsg.text = "Heroes have lost.";
         }
 
         if (monsterWP <= 0) {
@@ -261,6 +255,7 @@ public class MultiplayerFightPlayer : MonoBehaviour
         if(!fightOver) {
             newRoundBtn.interactable = true;
         }
+
         leaveBtn.interactable = true;
     }
 
@@ -279,6 +274,8 @@ public class MultiplayerFightPlayer : MonoBehaviour
     private void killMonster()
     {
         ResultMsg.text = "Monster is killed!";
+        transform.Find("Grid/Monster/Image").gameObject.SetActive(false);
+        transform.Find("Grid/Monster/RIP").gameObject.SetActive(true);
         pv.RPC("killMonsterRPC", RpcTarget.AllViaServer);
     }
 

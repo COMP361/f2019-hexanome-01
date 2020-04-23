@@ -142,7 +142,7 @@ public class InventoriesUITrade : MonoBehaviour
       EventManager.TriggerError(4);
       return;
     }
-    else if(MultiplayerFightPlayer.IsHeroFighting(hero2)){
+    else if(hero2.IsFighting){
       EventManager.TriggerError(6);
     }
     else if(IsTradeGood()){

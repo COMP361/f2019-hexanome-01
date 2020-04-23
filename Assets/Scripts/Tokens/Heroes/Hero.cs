@@ -22,7 +22,8 @@ public class Hero : Movable
     public Timeline timeline;
     public HeroInventory heroInventory;
     protected string heroDescription;
-    
+    public bool IsFighting { get; set; }
+
     void OnEnable() {
         EventManager.Save += Save;
         base.OnEnable();
