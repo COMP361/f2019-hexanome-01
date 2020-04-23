@@ -11,8 +11,11 @@ public abstract class Enemy : Movable, IComparable<Enemy>
     }
 
     public int Will { get; set; }
-
+    public int[] Dices { get; protected set; } = new int[21] {
+        2, 2, 2, 2, 2, 2, 2,
+        3, 3, 3, 3, 3, 3, 3,
+        3, 3, 3, 3, 3, 3, 3
+    };
     public int Strength { get; set; }
-
     public int Reward { get; set; }
 }

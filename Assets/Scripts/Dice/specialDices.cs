@@ -1,34 +1,17 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public class specialDices : MonoBehaviour {
+public class specialDices : regularDices {
 
-    // Array of dice sides sprites to load from Resources folder
-    private Sprite[] diceSides;
-
-    // Reference to sprite renderer to change sprites
-    private SpriteRenderer rend;
-    public int finalSide;
-    // Use this for initialization
-    private void Start () {
-
-        // Assign Renderer component
-        rend = GetComponent<SpriteRenderer>();
-
+    public void Awake () {
+        base.Awake();
         // Load dice sides sprites to array from DiceSides subfolder of Resources folder
         diceSides = Resources.LoadAll<Sprite>("Dices/specialDices/");
-        Debug.Log(diceSides.Length);
 	}
 	
-    // If you left click over the dice then RollTheDice coroutine is started
-    public void OnMouseDown()
-    {
-        StartCoroutine("RollTheDice");
-    }
-
+    
     // Coroutine that rolls the dice
-    public IEnumerator RollTheDice()
-    {
+    public override void RollTheDice() {
 
         // Variable to contain random dice side number.
         // It needs to be assigned. Let it be 0 initially
@@ -72,13 +55,7 @@ public class specialDices : MonoBehaviour {
             finalSide = 12;
         }
 
-        yield return new WaitForSeconds(0.05f);
         // Show final dice value in Console
         //Debug.Log(finalSide);
     }
-    public int getFinalSide()
-    {
-        return finalSide;
-    }
-
 }

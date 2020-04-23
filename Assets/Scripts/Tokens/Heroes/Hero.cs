@@ -88,7 +88,7 @@ public class Hero : Movable
 
     public bool hasBow() {
         if(this is Archer) return true;
-        if(heroInventory.bigToken.GetType() == typeof(Bow)) return true;
+        if(heroInventory != null && heroInventory.bigToken != null && heroInventory.bigToken.GetType() == typeof(Bow)) return true;
         return false;
     }
 

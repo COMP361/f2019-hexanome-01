@@ -5,43 +5,35 @@ public class regularDices : MonoBehaviour
 {
 
     // Array of dice sides sprites to load from Resources folder
-    private Sprite[] diceSides;
-
+    protected Sprite[] diceSides;
+    protected Sprite emptyDice;
     // Reference to sprite renderer to change sprites
-    private SpriteRenderer rend;
-    //
+    protected SpriteRenderer rend;
     public int finalSide;
-    // Use this for initialization
-    private void Start()
-    {
+
+    
+    public void Awake() {
         // Assign Renderer component
         rend = GetComponent<SpriteRenderer>();
         // Load dice sides sprites to array from DiceSides subfolder of Resources folder
         diceSides = Resources.LoadAll<Sprite>("Dices/regularDices/");
+        emptyDice = Resources.Load<Sprite>("Dices/d0");
     }
 
-    // If you left click over the dice then RollTheDice coroutine is started
-    public void OnMouseDown()
-    {
-        StartCoroutine("RollTheDice");
-    }
-
-    public void OnflipDie()
-    {
-        StartCoroutine("FlipTheDie");
-    }
-
-    public IEnumerator FlipTheDie()
+    public void FlipTheDie()
     {
         int otherSide = 7 - this.finalSide;
         this.finalSide = otherSide;
         this.rend.sprite = diceSides[otherSide - 1];
+    }
 
-        yield return new WaitForSeconds(0.05f);
+    public void ResetTheDie()
+    {
+        this.rend.sprite = emptyDice;
     }
 
     // Coroutine that rolls the dice
-    public IEnumerator RollTheDice()
+    public virtual void RollTheDice()
     {
 
         // Variable to contain random dice side number.
@@ -72,8 +64,8 @@ public class regularDices : MonoBehaviour
 
         // Show final dice value in Console
         //Debug.Log(finalSide);
-        yield return new WaitForSeconds(0.05f);
     }
+
     public int getFinalSide()
     {
         return finalSide;

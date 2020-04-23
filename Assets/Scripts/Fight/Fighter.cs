@@ -9,11 +9,11 @@ using System;
 
 public class Fighter : MonoBehaviour {
     public Hero hero;
+
     public Text strength;
     public Text wp;
     public regularDices[] rd; 
     public specialDices sd;
-    public bool hasRolled = false;
     public int lastRoll = -1;
     public Button potion;
     public double nb_potion = 0; // SET TO ZERO IF NOT TESTING
@@ -24,12 +24,14 @@ public class Fighter : MonoBehaviour {
     public double nb_shield = 0;
     public Text shieldText;
     public bool useShield = false;
+
     public int gems = 0;
     public static Fighter lastHeroToRoll;
     public Button rollBtn, abandonBtn;
     public MultiplayerFightPlayer fight;
     public int rollCount = 0;
     public int maxRollCount = 1;
+    public int maxDices;
     
     void OnEnable() {
         EventManager.UpdateHeroStats += UpdatePlayerStats;
@@ -39,9 +41,28 @@ public class Fighter : MonoBehaviour {
         EventManager.UpdateHeroStats -= UpdatePlayerStats;
     }
 
-    protected void Awake() {
+    void Start() {
         rollBtn.onClick.AddListener(delegate { RollDice(); });
         abandonBtn.onClick.AddListener(delegate { AbandonFight(); });
+    }
+
+    public void InitDices() {
+        maxDices = hero.Dices[hero.Willpower];
+        if(hero.hasBow()) {
+            maxRollCount = maxDices;
+            maxDices = 1;
+        } else {
+            maxRollCount = 1;
+        }
+
+        for (int i = 0; i < rd.Length; i++) {
+            if(i < maxDices) {
+                rd[i].gameObject.SetActive(true);
+                rd[i].ResetTheDie();
+            } else {
+                rd[i].gameObject.SetActive(false);
+            }
+        }
     }
 
     public virtual void Init(Hero hero) {
@@ -49,13 +70,7 @@ public class Fighter : MonoBehaviour {
         strength.text = hero.Strength.ToString();
         wp.text = hero.Willpower.ToString();
         
-        for (int i = 0; i < rd.Length; i++) {
-            if(i < hero.Dices[hero.Willpower]) {
-                rd[i].gameObject.SetActive(true);
-            } else {
-                rd[i].gameObject.SetActive(false);
-            }
-        }
+        InitDices();
 
         foreach (var t in hero.heroInventory.smallTokens) {
             if (t is Potion) {
@@ -78,7 +93,20 @@ public class Fighter : MonoBehaviour {
                 this.nb_shield += 1;
             }
         }
+
+        LockRollBtns();
     }
+
+    public virtual void LockRollBtns() {
+        rollBtn.interactable = false;
+        abandonBtn.interactable = true;
+    }
+
+    public virtual void UnlockRollBtns() {
+        rollBtn.interactable = true;
+        abandonBtn.interactable = false;
+    }
+
 
     private void UpdatePlayerStats(Hero h) {
         if(h == this.hero) {
@@ -88,52 +116,35 @@ public class Fighter : MonoBehaviour {
     }
 
     public void EndofRound() {
-        lastHeroToRoll = null;
-        // Need to re-initialize the count of rolls.
-        rollCount = 0;
+        MageFighter.flipBtn.interactable = false;
     }
 
-    public virtual int RollDice() {
-        if (hasRolled) {
-            return lastRoll;
+    public int RollDice() {
+        foreach(Fighter f in fight.fighters) {
+            if (f.rollCount < f.maxRollCount && f.rollCount > 0 && f != this) {
+                f.rollBtn.interactable = false;
+            }        
         }
-
+        if (rollCount >= maxRollCount) return lastRoll;
+        if(lastHeroToRoll == null) MageFighter.UnlockFlipBtn();
+        fight.remainingRolls -= 1;
         lastHeroToRoll = this;
 
-        int maxDices = hero.Dices[hero.Willpower];
         regularDices[] activeDice = new regularDices[maxDices];
-        
-        for(int i = 0; i < rd.Length; i++) {
-            if(i < maxDices) {
-                rd[i].gameObject.SetActive(true);
-                rd[i].OnMouseDown();
-                activeDice[i] = rd[i];
-            } else {
-                rd[i].gameObject.SetActive(false);
-            }
+        for(int i = 0; i < maxDices; i++) {
+            rd[i].RollTheDice();
+            activeDice[i] = rd[i];
         }
 
-        int maxDie = getMaxValue(activeDice);
-        hasRolled = true;
-        lastRoll = maxDie;
+        rollCount++;
+        if (rollCount >= maxRollCount) rollBtn.interactable = false;
+        lastRoll = getMaxValue(activeDice);
 
-        return maxDie;
-    }
-
-    public int RollDiceWithBow() {
-        if (rollCount < maxRollCount) {
-            foreach (regularDices dice in rd) {
-                dice.gameObject.SetActive(false);
-            }
-            
-            rd[0].gameObject.SetActive(true);
-            rd[0].OnMouseDown();
-
-            lastRoll = rd[0].getFinalSide();
-            hasRolled = true;
-            rollCount++;
-            lastHeroToRoll = this;
+        if(fight.remainingRolls == 0) {
+            fight.attackBtn.interactable = true;
         }
+
+        fight.getHeroesScore();
 
         return lastRoll;
     }
@@ -202,9 +213,10 @@ public class Fighter : MonoBehaviour {
     }
 
 
-    public void AbandonFight()
-    {
-        DisableFighter();
+    public void AbandonFight() {
+        if(fight.fighters.Count == 1) fight.EndFight();
+
+        gameObject.SetActive(false);
         fight.RemoveFromFight(this);
     }
 }

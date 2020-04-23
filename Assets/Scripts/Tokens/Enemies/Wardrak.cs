@@ -19,6 +19,11 @@ public class Wardrak : Enemy {
         wardrak.Strength = 10;
         wardrak.Reward = 6;
 
+        wardrak.Dices = new int[8] {
+            1, 1, 1, 1, 1, 1, 1, 
+            2
+        };
+        
         return wardrak;
     }
 

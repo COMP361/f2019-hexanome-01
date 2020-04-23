@@ -3,38 +3,34 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
-using System.Collections.Specialized;
-using Random = UnityEngine.Random;
 using System;
 
 public class MageFighter : Fighter {
     public static bool hasflippedDie = false;
-    public static Text flipMessage;
-    public Button flipBtn;
+    public static Button flipBtn;
 
     void Awake() {
+        flipBtn = transform.Find("Dice Actions/Flip Die").GetComponent<Button>();
         flipBtn.onClick.AddListener(delegate { MageSuperpower(); });
-        base.Awake();
+    }
+
+    public override void LockRollBtns() {
+        rollBtn.interactable = false;
+        flipBtn.interactable = false;
+        abandonBtn.interactable = true;
+    }
+
+    public static void UnlockFlipBtn() {
+        flipBtn.interactable = true;
+    }
+
+    public static void LockFlipBtn() {
+        flipBtn.interactable = false;
     }
 
     public void MageSuperpower()
     {
-        /*if (!fighters.Contains(mage))
-        {
-            flipMessage.text = "No wizard, Thus no flip!";
-            return;
-        }*/
-
-        if (hasflippedDie)
-        {
-            flipMessage.text = "Already used the superpower this round.";
-            return;
-        }
-
-        if (Fighter.lastHeroToRoll == null || !Fighter.lastHeroToRoll.hasRolled)
-        {
-            flipMessage.text = "Nobody rolled their dice yet!";
-        }
+        hasflippedDie = true;
 
         int smallestdie = 6;
         regularDices dieToFlip = Fighter.lastHeroToRoll.rd[0];
@@ -45,12 +41,16 @@ public class MageFighter : Fighter {
                 dieToFlip = rd;
             }
         }
-        dieToFlip.OnflipDie();
+        
+        dieToFlip.FlipTheDie();
+        LockFlipBtn();
+
 
         if (Fighter.lastHeroToRoll.gameObject.name.Equals("Archer"))
         {
-            Fighter.lastHeroToRoll.hasRolled = true;
+            Fighter.lastHeroToRoll.rollBtn.interactable = false;
             Fighter.lastHeroToRoll.lastRoll = dieToFlip.finalSide;
+            fight.getHeroesScore();
             return;
         }
 
@@ -66,17 +66,14 @@ public class MageFighter : Fighter {
                 i++;
             }
         }
-        maxDie = Fighter.getMaxValue(activeDice);
 
-        Fighter.lastHeroToRoll.hasRolled = true;
+        maxDie = Fighter.getMaxValue(activeDice);
         Fighter.lastHeroToRoll.lastRoll = maxDie;
+        fight.getHeroesScore();
     }
 
     public void EndofRound() {
-        //restore the flipped thingy
-        flipMessage.text = "";
         hasflippedDie = false;
-
         base.EndofRound();
     }
 }

@@ -13,6 +13,7 @@ public class Fight : MonoBehaviour
 
     Component[] heroSelectbtns;
     Button heroSelectConfirm;
+    
     public MultiplayerFightPlayer multiplayerFight;
     
     void OnEnable() {
@@ -37,10 +38,6 @@ public class Fight : MonoBehaviour
 
         heroSelectConfirm = heroSelectPanel.transform.Find("Confirm button").GetComponent<Button>();
         heroSelectConfirm.onClick.AddListener(delegate { HideHeroSelectPanel(); ShowFightPanel(); });
-    }
-
-    void Start() {
-        SetupFight();
     }
 
     void ToggleHeroSelect(string heroName, Button btn) {
@@ -89,12 +86,15 @@ public class Fight : MonoBehaviour
                 btn.gameObject.SetActive(false);
                 continue;
             }
-
+            
             btn.gameObject.SetActive(true);
             btn.interactable = false;
             foreach(Hero hero in closeHeroes) {
                 if(btn.gameObject.name == hero.TokenName) {
                     btn.interactable = true;
+                    Image btnImage = btn.GetComponent<Image>();
+                    ButtonMultiSelect sprites = btn.GetComponent<ButtonMultiSelect>();
+                    btnImage.sprite = sprites.off;
                     break;
                 }
             }
@@ -121,7 +121,6 @@ public class Fight : MonoBehaviour
             }
         }
 
-        multiplayerFight.InitializeMonster();
-        multiplayerFight.InitializeHeroes(selectedHeroes);
+        multiplayerFight.Init(selectedHeroes);
     }
 }
