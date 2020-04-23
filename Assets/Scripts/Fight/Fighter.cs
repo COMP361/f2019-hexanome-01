@@ -25,8 +25,6 @@ public class Fighter : MonoBehaviour {
     public double nb_shield = 0;
     public Text shieldText;
     public bool useShield = false;
-
-    public int gems = 0;
     public static Fighter lastHeroToRoll;
     public Button rollBtn, abandonBtn;
     public MultiplayerFightPlayer fight;
@@ -50,13 +48,22 @@ public class Fighter : MonoBehaviour {
 
     public void InitDices() {
         maxDices = hero.Dices[hero.Willpower];
-        if(hero.hasBow()) {
+        if(hero.HasBow()) {
             maxRollCount = maxDices;
             maxDices = 1;
         } else {
             maxRollCount = 1;
         }
 
+        if(hero.HasSpecialDice()) {
+            this.hasSpecialDie = true;
+            this.sd.gameObject.SetActive(true);
+            this.sd.ResetTheDie();
+            maxDices -= 1;
+        } else {
+            this.sd.gameObject.SetActive(false);
+        }
+        
         for (int i = 0; i < rd.Length; i++) {
             if(i < maxDices) {
                 rd[i].gameObject.SetActive(true);
@@ -87,25 +94,9 @@ public class Fighter : MonoBehaviour {
 
         InitDices();
 
-        List<Runestone> gms = new List<Runestone>();
-
-        foreach (var t in hero.heroInventory.smallTokens)
-        {
-            if (t is Potion)
-            {
-                this.nb_potion++;
-            }
-            if (t is Runestone)
-            {
-                gms.Add((Runestone) t);
-                this.gems++;
-            }
-        }
-        
-
-        if(IsFullSetGem(gms)) {
-            this.hasSpecialDie = true;
-            this.sd.gameObject.SetActive(true);
+        foreach (DictionaryEntry entry in hero.heroInventory.smallTokens) {
+            Token token = (Token)entry.Value;
+            if (token is Potion) this.nb_potion++;
         }
 
         foreach(var t in hero.heroInventory.AllTokens) {
@@ -263,35 +254,5 @@ public class Fighter : MonoBehaviour {
 
         gameObject.SetActive(false);
         fight.RemoveFromFight(this);
-    }
-
-    private bool IsFullSetGem(List<Runestone> gms) 
-    {
-        bool blue = false, green = false, yellow = false;
-
-        foreach(Runestone g in gms)
-        {
-            if(g.color == RunestoneColor.Blue)
-            {
-                blue = true;
-            }
-            if(g.color == RunestoneColor.Green)
-            {
-                green = true;
-            }
-            if(g.color == RunestoneColor.Yellow)
-            {
-                yellow = true;
-            }
-        }
-
-        if(blue && yellow && green)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
     }
 }

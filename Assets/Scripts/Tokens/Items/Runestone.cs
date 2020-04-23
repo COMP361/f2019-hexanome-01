@@ -59,8 +59,7 @@ public class Runestone : SmallToken
       token = PhotonView.Find(viewID).gameObject;
     }
 
-    public RunestoneColor GetColor()
-    {
+    public RunestoneColor GetColor(){
       return color;
     }
 
@@ -76,11 +75,11 @@ public class Runestone : SmallToken
 
     public override void UseEffect(){
       Debug.Log("Use Runestone Effect");
-      uncoverRunestone();
+      UncoverRunestone();
     }
 
     [PunRPC]
-    public void uncoverRunestoneRPC(int ViewID)
+    public void UncoverRunestoneRPC(int ViewID)
     {
         if(photonView.ViewID == ViewID){
         isCovered = false;
@@ -92,8 +91,8 @@ public class Runestone : SmallToken
       }
     }
 
-    public void uncoverRunestone(){
-      photonView.RPC("uncoverRunestoneRPC", RpcTarget.AllViaServer, new object[] {photonView.ViewID});
+    public void UncoverRunestone(){
+      photonView.RPC("UncoverRunestoneRPC", RpcTarget.AllViaServer, new object[] {photonView.ViewID});
     }
 
     public static string Type { get => typeof(Runestone).ToString(); }

@@ -276,6 +276,14 @@ public class MultiplayerFightPlayer : MonoBehaviour
         ResultMsg.text = "Monster is killed!";
         transform.Find("Grid/Monster/Image").gameObject.SetActive(false);
         transform.Find("Grid/Monster/RIP").gameObject.SetActive(true);
+
+        List<Hero> heroes = new List<Hero>();
+        foreach(Fighter f in fighters) {
+            heroes.Add(f.hero);
+        }
+
+        EventManager.TriggerShareReward(monster.Reward, heroes);
+        Debug.Log("test");
         pv.RPC("killMonsterRPC", RpcTarget.AllViaServer);
     }
 

@@ -63,7 +63,7 @@ public class TelescopeUseUI : MonoBehaviour
 
   public void Unveil(){
     if(toUnveil is Runestone){
-      ((Runestone)toUnveil).uncoverRunestone();
+      ((Runestone)toUnveil).UncoverRunestone();
     }
     else if (toUnveil is Fog){
       ((Fog)toUnveil).Reveal2();

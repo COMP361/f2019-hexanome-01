@@ -87,9 +87,25 @@ public class Hero : Movable
         return cell.HeroesPosition;
     }
 
-    public bool hasBow() {
+    public bool HasBow() {
         if(this is Archer) return true;
         if(heroInventory != null && heroInventory.bigToken != null && heroInventory.bigToken.GetType() == typeof(Bow)) return true;
+        return false;
+    }
+
+    public bool HasSpecialDice() {
+        List<Runestone> stones = new List<Runestone>();
+
+        foreach (DictionaryEntry entry in heroInventory.smallTokens) {
+            Token token = (Token)entry.Value;
+            if (token is Runestone) stones.Add((Runestone)token);
+        }
+        
+        if(stones.Count == 3
+        && stones[0].color != stones[1].color
+        && stones[0].color != stones[2].color
+        && stones[1].color != stones[2].color) return true;
+
         return false;
     }
 
