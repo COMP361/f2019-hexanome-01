@@ -37,6 +37,8 @@ public class Falcon : BigToken {
   {
     object[] myCustomInitData = {cellID};
     GameObject falconGO = PhotonNetwork.Instantiate("Prefabs/Tokens/Falcon", Vector3.zero, Quaternion.identity, 0, myCustomInitData);
+    Falcon falcon = falconGO.GetComponent<Falcon>();
+    falcon.Cell = Cell.FromId(cellID);
     return falconGO.GetComponent<Falcon>();
   }
 
