@@ -17,7 +17,7 @@ public class regularDices : MonoBehaviour
         rend = GetComponent<SpriteRenderer>();
         // Load dice sides sprites to array from DiceSides subfolder of Resources folder
         diceSides = Resources.LoadAll<Sprite>("Dices/regularDices/");
-        emptyDice = Resources.Load<Sprite>("Dices/d0");
+        emptyDice = Resources.Load<Sprite>("Dices/rd0");
     }
 
     public void FlipTheDie()

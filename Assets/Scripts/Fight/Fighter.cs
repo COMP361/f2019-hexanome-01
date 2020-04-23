@@ -154,11 +154,9 @@ public class Fighter : MonoBehaviour {
         if (rollCount >= maxRollCount) rollBtn.interactable = false;
         lastRoll = getMaxValue(activeDice);
 
-        if (this.hasSpecialDie)
-        {
+        if (this.hasSpecialDie) {
             sd.RollTheDice();
-            if(sd.finalSide >= lastRoll)
-            {
+            if(sd.finalSide >= lastRoll) {
                 lastRoll = sd.finalSide;
             }
         }

@@ -7,6 +7,7 @@ public class specialDices : regularDices {
         base.Awake();
         // Load dice sides sprites to array from DiceSides subfolder of Resources folder
         diceSides = Resources.LoadAll<Sprite>("Dices/specialDices/");
+        emptyDice = Resources.Load<Sprite>("Dices/sd0");
 	}
 	
     
