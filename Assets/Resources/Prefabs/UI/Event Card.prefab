@@ -396,8 +396,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -790}
-  m_SizeDelta: {x: 230, y: 120}
+  m_AnchoredPosition: {x: 0, y: -780}
+  m_SizeDelta: {x: 230, y: 130}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8561676021608911137
 CanvasRenderer:
@@ -438,8 +438,9 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Each side of the shield can be used once to help avoiding losing willpower
-    points after a battle round, or against an event card.
+  m_Text: Now place a shield on space 57. A hero who enters space 57 or is already
+    standing there can collect the shield. If more than one hero is standing there,
+    the hero with the lowest rank gets the shield.
 --- !u!1 &6760066761459637479
 GameObject:
   m_ObjectHideFlags: 0
@@ -546,7 +547,7 @@ RectTransform:
   m_GameObject: {fileID: 6930500462828667216}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.0997696, y: 1.0997696, z: 1.0997696}
   m_Children: []
   m_Father: {fileID: 1239065571028856830}
   m_RootOrder: 0
@@ -626,7 +627,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -720}
+  m_AnchoredPosition: {x: 0, y: -700}
   m_SizeDelta: {x: 220, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &9181723397715173046
