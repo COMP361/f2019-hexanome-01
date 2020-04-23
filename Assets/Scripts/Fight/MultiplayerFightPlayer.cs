@@ -27,21 +27,22 @@ public class MultiplayerFightPlayer : MonoBehaviour
 
     public Text MonsterTotalStrength;
     // GorsSkralTroll_dice
-    public regularDices[] GST_dice = new regularDices[3]; 
+    public regularDices[] GST_dice = new regularDices[3];
     public specialDices[] wardrack_dice = new specialDices[2];
-    
+
     // Thorald
     private bool Thorald;
     public GameObject ThoraldSprite;
 
-    public Button newRoundBtn, leaveBtn, attackBtn;
+    public Button newRoundBtn, leaveBtn, attackBtn, shareRewardBtn;
     private int numRounds;
     public int remainingRolls;
     public bool fightOver;
-    
+
     public void Awake() {
         newRoundBtn.onClick.AddListener(delegate { NewRound(); });
         leaveBtn.onClick.AddListener(delegate { EndFight(); });
+        shareRewardBtn.onClick.AddListener(delegate { shareRewardActivate(); EndFight();});
     }
 
     public void Init(List<Hero> selectedHeroes) {
@@ -49,6 +50,7 @@ public class MultiplayerFightPlayer : MonoBehaviour
         InitializeHeroes(selectedHeroes);
         ResultMsg.text = "";
         attackBtn.interactable = false;
+        shareRewardBtn.interactable = false;
         newRoundBtn.interactable = true;
         leaveBtn.interactable = true;
         fightOver = false;
@@ -79,7 +81,7 @@ public class MultiplayerFightPlayer : MonoBehaviour
         transform.Find("Grid/Monster/Image").gameObject.SetActive(true);
         transform.Find("Grid/Monster/RIP").gameObject.SetActive(false);
 
-        InitMonsterDices();    
+        InitMonsterDices();
 
         MonsterSprite.GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Tokens/Enemies/" + MonsterName.text.ToLower());
     }
@@ -148,7 +150,7 @@ public class MultiplayerFightPlayer : MonoBehaviour
 
         } else if(maxDices == 3) {
             if(results[0] == results[1] && results[0] == results[2]) return results[0] + results[1] + results[2];
-            
+
             int doubleScore = 0;
             if(results[0] == results[1]) {
                 doubleScore = results[0] + results[1];
@@ -179,7 +181,7 @@ public class MultiplayerFightPlayer : MonoBehaviour
         }
 
         HeroesTotalStrength.text = totalScore.ToString();
-        
+
         return totalScore;
     }
 
@@ -188,7 +190,7 @@ public class MultiplayerFightPlayer : MonoBehaviour
         foreach (Fighter h in fighters) {
             if (h.lastRoll == -1) return;
         }
-        
+
         int total_hero_strength = getHeroesScore();
         int total_monster_strength = monsterStrength + MonsterRoll();
         MonsterTotalStrength.text = total_monster_strength.ToString();
@@ -233,7 +235,7 @@ public class MultiplayerFightPlayer : MonoBehaviour
 
         for(int i = fighters.Count-1; i >= 0; i--) {
             fighters[i].EndofRound();
-            
+
             if (!fighters[i].hero.timeline.HasHoursLeft()) {
                 fighters[i].DisableFighter();
                 fighters.Remove(fighters[i]);
@@ -254,9 +256,10 @@ public class MultiplayerFightPlayer : MonoBehaviour
 
         if(!fightOver) {
             newRoundBtn.interactable = true;
+            leaveBtn.interactable = true;
         }
 
-        leaveBtn.interactable = true;
+
     }
 
     private void disablePanel()
@@ -276,15 +279,20 @@ public class MultiplayerFightPlayer : MonoBehaviour
         ResultMsg.text = "Monster is killed!";
         transform.Find("Grid/Monster/Image").gameObject.SetActive(false);
         transform.Find("Grid/Monster/RIP").gameObject.SetActive(true);
+        leaveBtn.interactable = false;
+        shareRewardBtn.interactable = true;
 
-        List<Hero> heroes = new List<Hero>();
-        foreach(Fighter f in fighters) {
-            heroes.Add(f.hero);
-        }
-
-        EventManager.TriggerShareReward(monster.Reward, heroes);
         Debug.Log("test");
         pv.RPC("killMonsterRPC", RpcTarget.AllViaServer);
+    }
+
+    private void shareRewardActivate(){
+      List<Hero> heroes = new List<Hero>();
+      foreach(Fighter f in fighters) {
+          heroes.Add(f.hero);
+      }
+
+      EventManager.TriggerShareReward(monster.Reward, heroes);
     }
 
     private void IsThoraldPresent()

@@ -349,7 +349,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6257141750423431961}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6816174724812870636}
+        m_MethodName: OnWarriorDecrementGoldClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &3680586537538654829
 GameObject:
   m_ObjectHideFlags: 0
@@ -698,7 +709,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6563663289004691332}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6816174724812870636}
+        m_MethodName: OnArcherDecrementGoldClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &4976404084824533232
 GameObject:
   m_ObjectHideFlags: 0
@@ -1031,7 +1053,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 7102906928754817682}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6816174724812870636}
+        m_MethodName: OnDwarfDecrementGoldClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &6486239884122573569
 GameObject:
   m_ObjectHideFlags: 0
@@ -1223,7 +1256,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6816174722998740450}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6816174724812870636}
+        m_MethodName: OnArcherIncrementWPClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &6816174723023321910
 GameObject:
   m_ObjectHideFlags: 0
@@ -1572,7 +1616,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6816174723089628350}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6816174724812870636}
+        m_MethodName: OnWarriorIncrementWPClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &6816174723091115193
 GameObject:
   m_ObjectHideFlags: 0
@@ -1846,7 +1901,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6816174723396707886}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6816174724812870636}
+        m_MethodName: OnWarriorDecrementWPClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &6816174723530222507
 GameObject:
   m_ObjectHideFlags: 0
@@ -2274,7 +2340,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6816174724109747925}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6816174724812870636}
+        m_MethodName: OnDwarfDecrementWPClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &6816174724157908568
 GameObject:
   m_ObjectHideFlags: 0
@@ -2858,7 +2935,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6816174724629349631}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6816174724812870636}
+        m_MethodName: OnMageDecrementWPClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &6816174724638687124
 GameObject:
   m_ObjectHideFlags: 0
@@ -3053,7 +3141,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6816174724703527563}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6816174724812870636}
+        m_MethodName: OnArcherDecrementWPClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &6816174724733871999
 GameObject:
   m_ObjectHideFlags: 0
@@ -3248,7 +3347,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6816174724902623694}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6816174724812870636}
+        m_MethodName: OnDwarfIncrementWPClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &6816174724938429492
 GameObject:
   m_ObjectHideFlags: 0
@@ -3366,7 +3476,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6816174724938429483}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6816174724812870636}
+        m_MethodName: OnMageIncrementWPClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &6816174725087114521
 GameObject:
   m_ObjectHideFlags: 0
@@ -4235,7 +4356,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 7296941942196900972}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6816174724812870636}
+        m_MethodName: OnArcherIncrementGoldClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &7296941942284599663
 GameObject:
   m_ObjectHideFlags: 0
@@ -4733,7 +4865,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 7296941942500196367}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6816174724812870636}
+        m_MethodName: OnMageIncrementGoldClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &7296941942664145405
 GameObject:
   m_ObjectHideFlags: 0
@@ -5403,7 +5546,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 7296941943426427819}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6816174724812870636}
+        m_MethodName: OnWarriorIncrementGoldClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &7296941943548913581
 GameObject:
   m_ObjectHideFlags: 0
@@ -5598,7 +5752,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 7296941943661102576}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6816174724812870636}
+        m_MethodName: OnDwarfIncrementGoldClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &7296941943782805397
 GameObject:
   m_ObjectHideFlags: 0
@@ -6018,4 +6183,15 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 3922474432241357798}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6816174724812870636}
+        m_MethodName: OnMageDecrementGoldClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
