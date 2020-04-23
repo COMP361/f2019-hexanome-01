@@ -57,6 +57,16 @@ public class MultiplayerFightPlayer : MonoBehaviour
         remainingRolls = -1;
     }
 
+    public static bool IsHeroFighting(Hero h)
+    {
+        if(fighters != null && fighters.Find(x => x.hero.Type.Equals(h.Type)) != null)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
     public void InitializeHeroes(List<Hero> selectedHeroes)
     {
         fighters = new List<Fighter>();
@@ -203,7 +213,7 @@ public class MultiplayerFightPlayer : MonoBehaviour
             MonsterWPStr.text = monsterWP.ToString();
         } else if (total_hero_strength < total_monster_strength) {
             difference = total_monster_strength - total_hero_strength;
-            
+
             for(int i = fighters.Count-1; i >= 0; i--) {
                 Fighter h = fighters[i];
 
@@ -276,7 +286,7 @@ public class MultiplayerFightPlayer : MonoBehaviour
     {
         Thorald = false;
         ThoraldSprite.gameObject.SetActive(false);
-            
+
         if (GameManager.instance.thorald != null && GameManager.instance.thorald.Cell.Equals(GameManager.instance.CurrentPlayer.Cell)) {
             Thorald = true;
             ThoraldSprite.gameObject.SetActive(true);

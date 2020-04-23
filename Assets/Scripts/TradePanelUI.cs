@@ -51,7 +51,7 @@ public class TradePanelUI : MonoBehaviour
     BlockPanel.SetActive(false);
   }
 
-  public void ShowFalconTrade(Hero hero1, Hero hero2){
+  public void ShowFalconTrade(Hero hero1, Hero hero2, bool isFalcon){
     this.hero1 = hero1;
     this.hero2 = hero2;
     heroOneTitle.text = this.hero1.TokenName;
@@ -63,7 +63,7 @@ public class TradePanelUI : MonoBehaviour
     FalconTradePanel.SetActive(true);
     ActivateBlockPanel(hero2.TokenName);
 
-    EventManager.TriggerInventoriesTrade(this.hero1, this.hero2);
+    EventManager.TriggerInventoriesTrade(this.hero1, this.hero2, isFalcon);
   }
 
   public void HideFalconTrade(){

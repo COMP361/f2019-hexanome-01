@@ -14,6 +14,7 @@ public class Fighter : MonoBehaviour {
     public Text wp;
     public regularDices[] rd; 
     public specialDices sd;
+    public bool hasSpecialDie = false;
     public int lastRoll = -1;
     public Button potion;
     public double nb_potion = 0; // SET TO ZERO IF NOT TESTING
@@ -72,16 +73,24 @@ public class Fighter : MonoBehaviour {
         
         InitDices();
 
-        foreach (var t in hero.heroInventory.smallTokens) {
-            if (t is Potion) {
+        List<Runestone> gms = new List<Runestone>();
+
+        foreach (var t in hero.heroInventory.smallTokens)
+        {
+            if (t is Potion)
+            {
                 this.nb_potion++;
             }
-            if(t is Runestone) {
+            if (t is Runestone)
+            {
+                gms.Add((Runestone) t);
                 this.gems++;
             }
         }
+        
 
-        if(this.gems > 2) {
+        if(IsFullSetGem(gms)) {
+            this.hasSpecialDie = true;
             this.sd.gameObject.SetActive(true);
         }
 
@@ -140,6 +149,16 @@ public class Fighter : MonoBehaviour {
         if (rollCount >= maxRollCount) rollBtn.interactable = false;
         lastRoll = getMaxValue(activeDice);
 
+        if (this.hasSpecialDie)
+        {
+            sd.OnMouseDown();
+            if(sd.finalSide >= maxDie)
+            {
+                lastRoll = sd.finalSide;
+                maxDie = sd.finalSide;
+            }
+        }
+
         if(fight.remainingRolls == 0) {
             fight.attackBtn.interactable = true;
         }
@@ -149,7 +168,8 @@ public class Fighter : MonoBehaviour {
         return lastRoll;
     }
 
-    public static int getMaxValue(regularDices[] rdList) {
+    public static int getMaxValue(regularDices[] rdList) 
+{
         int max = 0;
         foreach (regularDices dice in rdList)
         {
@@ -191,7 +211,8 @@ public class Fighter : MonoBehaviour {
         }
     }
 
-    private void UseHelm() {
+    private void UseHelm()
+    {
         if (nb_helm > 0 && lastRoll != -1)
         {
             potion.GetComponent<Image>().color = potion.GetComponent<Button>().colors.pressedColor;
@@ -208,7 +229,8 @@ public class Fighter : MonoBehaviour {
         }
     }
 
-    public void DisableFighter() {
+    public void DisableFighter()
+    {
         rollBtn.interactable = false;
     }
 
@@ -218,5 +240,35 @@ public class Fighter : MonoBehaviour {
 
         gameObject.SetActive(false);
         fight.RemoveFromFight(this);
+    }
+
+    private bool IsFullSetGem(List<Runestone> gms) 
+    {
+        bool blue = false, green = false, yellow = false;
+
+        foreach(Runestone g in gms)
+        {
+            if(g.color == RunestoneColor.Blue)
+            {
+                blue = true;
+            }
+            if(g.color == RunestoneColor.Green)
+            {
+                green = true;
+            }
+            if(g.color == RunestoneColor.Yellow)
+            {
+                yellow = true;
+            }
+        }
+
+        if(blue && yellow && green)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 }

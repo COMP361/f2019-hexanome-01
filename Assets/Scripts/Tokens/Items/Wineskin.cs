@@ -11,6 +11,7 @@ public class Wineskin : SmallToken
   public PhotonView photonView;
 
   public void OnEnable() {
+    this.maxUse = 2;
     EventManager.ActionUpdate += FreeReservation;
     base.OnEnable();
   }
@@ -24,7 +25,6 @@ public class Wineskin : SmallToken
     GameObject wineSkinGO = PhotonNetwork.Instantiate("Prefabs/Tokens/Wineskin", Vector3.zero, Quaternion.identity, 0);
     Wineskin wineskin = wineSkinGO.GetComponent<Wineskin>();
     wineskin.Cell = null;
-    wineskin.maxUse = 2;
     return wineskin;
   }
 

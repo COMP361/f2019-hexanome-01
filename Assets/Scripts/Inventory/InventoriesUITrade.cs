@@ -10,7 +10,7 @@ public class InventoriesUITrade : MonoBehaviour
 {
   Hero hero1;
   Hero hero2;
-
+  bool isUsingFalcon;
 
 
   protected Token[] hero1Items;
@@ -113,7 +113,8 @@ public class InventoriesUITrade : MonoBehaviour
     EventManager.TradeVerify -= Verify;
   }
 
-  void init(Hero hero1, Hero hero2){
+  void init(Hero hero1, Hero hero2, bool isFalcon){
+    isUsingFalcon = isFalcon;
     this.hero1 = hero1;
     this.hero2 = hero2;
     setLists();
@@ -141,9 +142,14 @@ public class InventoriesUITrade : MonoBehaviour
       EventManager.TriggerError(4);
       return;
     }
+    else if(MultiplayerFightPlayer.IsHeroFighting(hero2)){
+      EventManager.TriggerError(6);
+    }
     else if(IsTradeGood()){
+      if(isUsingFalcon){
       Falcon toChange = (Falcon)hero1.heroInventory.bigToken;
       toChange.TurnFalcon();
+      }
       ProceedTrade();
       EventManager.TriggerEndTrade();
       return;

@@ -36,8 +36,11 @@ public class MageFighter : Fighter {
         regularDices dieToFlip = Fighter.lastHeroToRoll.rd[0];
         foreach (regularDices rd in Fighter.lastHeroToRoll.rd)
         {
+            //Debug.Log("the smallest die is : " + smallestdie + " and the actual one rn is : "+ rd.finalSide);
             if ((rd.finalSide <= smallestdie) && rd.gameObject.activeSelf)
             {
+                //Debug.Log("switched!");
+                smallestdie = rd.finalSide;
                 dieToFlip = rd;
             }
         }

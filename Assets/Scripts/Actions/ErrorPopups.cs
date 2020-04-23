@@ -61,7 +61,11 @@ public class ErrorPopups : Singleton<ErrorPopups>
       }
       if(type == 5){
         errorPanelTitle.text = "Error!";
-        errorPanelDesc.text = "You can not make that trade as one of the hero would have to much items. Please make another trade or cancel.";
+        errorPanelDesc.text = "You can not make that trade as one of the hero would have too much items. Please make another trade or cancel.";
+      }
+      if(type == 6){
+        errorPanelTitle.text = "Error!";
+        errorPanelDesc.text = "You can not make that trade as the other hero is currently participating in a fight round. Please make another trade or cancel.";
       }
       errorPanel.SetActive(true);
     }
