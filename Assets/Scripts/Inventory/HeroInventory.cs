@@ -29,6 +29,7 @@ public class HeroInventory
       golds = new OrderedDictionary();
       AllTokens = new OrderedDictionary();
       smallTokens = new OrderedDictionary();
+      EventManager.TriggerInitHeroInv(this);
     }
 
 
@@ -75,6 +76,7 @@ public class HeroInventory
         numOfGold++;
         if(GameManager.instance.MainHero.TokenName.Equals(parentHero)){
           EventManager.TriggerInventoryUIHeroUpdate(this);
+          EventManager.TriggerGoldUpdate(GameManager.instance.findHero(parentHero));
         }
         else if(parentHero.Equals(CharChoice.choice.TokenName)){
           EventManager.TriggerInventoryUIHeroPeak(this);
@@ -98,6 +100,7 @@ public class HeroInventory
       golds.Remove(convertToKey(viewID));
       if(GameManager.instance.MainHero.TokenName.Equals(parentHero)){
         EventManager.TriggerInventoryUIHeroUpdate(this);
+        EventManager.TriggerGoldUpdate(GameManager.instance.findHero(parentHero));
       } else if(parentHero.Equals(CharChoice.choice.TokenName)){
         EventManager.TriggerInventoryUIHeroPeak(this);
       }
@@ -120,7 +123,7 @@ public class HeroInventory
       string id = convertToKey(smallToken.GetComponent<PhotonView>().ViewID);
       smallTokens.Add(id, (SmallToken)smallToken);
       AllTokens.Add(id,(SmallToken)smallToken);
-      
+
       if(GameManager.instance.MainHero.TokenName.Equals(parentHero)){
         EventManager.TriggerInventoryUIHeroUpdate(this);
       } else if(parentHero.Equals(CharChoice.choice.TokenName)){

@@ -37,7 +37,7 @@ public class Narrator {
         legendCardDeck = new LegendCardDeck(false);
         herbRoll = 1;
         if(!PhotonNetwork.OfflineMode) herbRoll = (int)PhotonNetwork.CurrentRoom.CustomProperties["HerbRoll"];
-        
+
         if(herbRoll == 1 || herbRoll == 2) {
             herbCellId = 37;
         } else if (herbRoll == 3 || herbRoll == 4) {
@@ -58,7 +58,7 @@ public class Narrator {
         tasks = new Dictionary<String, String>();
         tasks.Add("Witch", "- Find the Witch hidden in the fog \n");
         UpdateTasks();
-        
+
         narratorToken = new GameObject("Narrator");
         Sprite sprite = Resources.Load<Sprite>("Sprites/Tokens/Narrator");
         SpriteRenderer sr = narratorToken.AddComponent<SpriteRenderer>();
@@ -121,6 +121,16 @@ public class Narrator {
             }
         }
 
+        if (index == 0) // C
+        {
+            LegendCard A3 = legendCardDeck.getCard("A3");
+            LegendCard A4 = legendCardDeck.getCard("A4");
+            A3.ApplyEffect();
+            A4.ApplyEffect();
+      //      tasks.Add("Tower Skrall", "- Kill the Tower Skral \n");
+      //      UpdateTasks();
+        }
+
         if (index == 2) // C
         {
             LegendCard c1 = legendCardDeck.getCard("C1");
@@ -170,7 +180,7 @@ public class Narrator {
         tasks.Add("Herb", "- Bring the Herb (Cell " + herbCellId + ") to the Castle \n");
         UpdateTasks();
     }
-    
+
     // Decide when the runestone card will be triggered
     public void SetRunestonePosition()
     {
@@ -232,7 +242,7 @@ public class Narrator {
         }
 
         if(!towerSkralDefeated && index >= 2) tasks.Add("Tower Skrall", "- Kill the Tower Skral \n");
-       
+
         UpdateTasks();
     }
 }
@@ -250,7 +260,7 @@ public class NarratorState
     public bool witchFound;
     public bool medicineDelivered;
     public bool towerSkralDefeated;
-    
+
     public NarratorState()
     {
         Narrator narrator = GameManager.instance.narrator;

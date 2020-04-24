@@ -61,7 +61,11 @@ public class Hero : Movable
             } else {
                 _strength = value;
             }
-            EventManager.TriggerUpdateHeroStats(this);
+            if(GameManager.instance.MainHero.TokenName.Equals(this.TokenName)) {
+              EventManager.TriggerInventoryUIHeroPeak(GameManager.instance.MainHero.heroInventory);
+            } else if(this.TokenName.Equals(CharChoice.choice.TokenName)){
+              EventManager.TriggerInventoryUIHeroPeak(GameManager.instance.findHero(this.TokenName).heroInventory);
+            }
         }
     }
 
@@ -78,7 +82,11 @@ public class Hero : Movable
             } else {
                 _willpower = value;
             }
-            EventManager.TriggerUpdateHeroStats(this);
+            if(GameManager.instance.MainHero.TokenName.Equals(this.TokenName)) {
+              EventManager.TriggerInventoryUIHeroPeak(GameManager.instance.MainHero.heroInventory);
+            } else if(this.TokenName.Equals(CharChoice.choice.TokenName)){
+              EventManager.TriggerInventoryUIHeroPeak(GameManager.instance.findHero(this.TokenName).heroInventory);
+            }
         }
     }
 
@@ -100,7 +108,7 @@ public class Hero : Movable
             Token token = (Token)entry.Value;
             if (token is Runestone) stones.Add((Runestone)token);
         }
-        
+
         if(stones.Count == 3
         && stones[0].color != stones[1].color
         && stones[0].color != stones[2].color
@@ -114,7 +122,7 @@ public class Hero : Movable
         heroInventory = new HeroInventory(Type.ToString());
         MovePerHour = 1;
     }
-    
+
     public void Load(string saveId) {
         HeroState.Load(this, saveId);
     }
@@ -131,7 +139,7 @@ public class HeroState {
     public int timelineIndex;
     public Sex sex;
     public List<string> inventory;
-    
+
     public HeroState() {}
 
     private static HeroState _instance;
@@ -150,7 +158,7 @@ public class HeroState {
         HeroState.Instance.strength = hero.Strength;
         HeroState.Instance.timelineIndex = hero.timeline.Index;
         HeroState.Instance.sex = hero.Sex;
-        
+
         HeroState.Instance.inventory = new List<string>();
         foreach(DictionaryEntry entry in hero.heroInventory.AllTokens){
             HeroState.Instance.inventory.Add(entry.Value.GetType().ToString());

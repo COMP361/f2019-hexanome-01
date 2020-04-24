@@ -20,12 +20,14 @@ public class MerchantCellUI : Singleton<MerchantCellUI>
     EventManager.CurrentPlayerUpdate += LockItems;
     EventManager.CellUpdate += LockItems;
     EventManager.MainHeroInit += LockItems;
+    EventManager.GoldUpdate += LockItems;
   }
 
   void OnDisable() {
     EventManager.CurrentPlayerUpdate -= LockItems;
     EventManager.CellUpdate -= LockItems;
     EventManager.MainHeroInit -= LockItems;
+    EventManager.GoldUpdate -= LockItems;
   }
 
   void Start() {
@@ -44,7 +46,7 @@ public class MerchantCellUI : Singleton<MerchantCellUI>
 
     for(int i = 0; i < btns.Length; i++) {
       Button btn = (Button)btns[i];
-      
+
       if(btn.transform.parent.name == "Strength") {
         btn.onClick.AddListener(() => {
           ShowPanel(Strength.itemName, Strength.desc);
@@ -99,8 +101,8 @@ public class MerchantCellUI : Singleton<MerchantCellUI>
 
   void LockItems(Token token) {
     if(btns == null || GameManager.instance.MainHero == null) return;
-    
-    
+
+
     Hero hero = null;
     Witch witch = null;
     if(GameManager.instance.MainHero.GetType().IsCompatibleWith(token.GetType())) {
@@ -110,7 +112,7 @@ public class MerchantCellUI : Singleton<MerchantCellUI>
     } else {
       return;
     }
-    
+
     if(hero == null || hero.heroInventory.numOfGold < 2 || !cellsID.Contains(hero.Cell.Index)) {
       for(int i = 0; i < btns.Length; i++) {
         Buttons.Lock((Button)btns[i]);
