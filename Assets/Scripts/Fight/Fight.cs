@@ -8,7 +8,7 @@ public class Fight : MonoBehaviour
 {
     GameObject heroSelectPanel;
     GameObject fightPanel;
-    GameObject distanceFightPanel;
+    GameObject monsterSelectPanel;
     List<Hero> closeHeroes;
     List<Hero> selectedHeroes;
 
@@ -30,6 +30,7 @@ public class Fight : MonoBehaviour
         selectedHeroes = new List<Hero>();
         heroSelectPanel = transform.Find("Hero Select").gameObject;
         fightPanel = transform.Find("Fight Rounds").gameObject;
+        monsterSelectPanel = transform.Find("Monster Select").gameObject;
 
         heroSelectbtns = heroSelectPanel.transform.Find("Grid/").GetComponentsInChildren(typeof(Button));
         for(int i = 0; i < heroSelectbtns.Length; i++) {
@@ -72,11 +73,17 @@ public class Fight : MonoBehaviour
             if(hero.Cell.Index == GameManager.instance.CurrentPlayer.Cell.Index) closeHeroes.Add(hero);
         }
 
+
         //if(closeHeroes.Count > 1) {
         //    ShowHeroSelectPanel();
         //} else {
         //    ShowFightPanel();
         //}
+    }
+
+    void ShowMonsterSelectPanel()
+    {
+        monsterSelectPanel.SetActive(true);
     }
 
     void ShowHeroSelectPanel() {
