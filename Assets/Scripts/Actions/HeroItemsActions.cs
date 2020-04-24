@@ -22,33 +22,26 @@ public class HeroItemsActions : MonoBehaviour
   void OnEnable() {
     EventManager.HeroItemClick += ShowHeroActions;
     EventManager.MoveSelect += UnlockMoveItems;
-    EventManager.MoveThorald += UnlockMoveItems;
     EventManager.LockMoveItems += LockMoveItems;
     }
 
   void OnDisable() {
     EventManager.HeroItemClick -= ShowHeroActions;
     EventManager.MoveSelect -= UnlockMoveItems;
-    EventManager.MoveThorald -= UnlockMoveItems;
     EventManager.LockMoveItems -= LockMoveItems;
   }
 
 
   void Awake() {
       canUseMoveItems = false;
-
       heroItemsPanel = transform.Find("Hero Items Actions").gameObject;
-
       heroItemsPanelTitle = heroItemsPanel.transform.Find("Panel Title").GetComponent<Text>();
       heroItemsPanelDesc = heroItemsPanel.transform.Find("Panel Description").GetComponent<Text>();
 
-
       token = null;
-
 
       cancelBtn= heroItemsPanel.transform.Find("Cancel Button").GetComponent<Button>();
       cancelBtn.onClick.AddListener(delegate { HideHeroActions(); });
-
 
       useBtn = heroItemsPanel.transform.Find("Use Item Button").GetComponent<Button>();
       useBtn.onClick.AddListener(delegate { UseItem(); });

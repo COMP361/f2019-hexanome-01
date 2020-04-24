@@ -5,8 +5,13 @@ using UnityEngine;
 [ExecuteInEditMode]
 public class HerbGor : Gor
 {
-    public static HerbGor Factory(int cellID)
-    {
+    public static bool quitting = false;
+
+    void OnApplicationQuit() {
+        quitting = true;
+    }
+
+    public static HerbGor Factory(int cellID) {
         Sprite sprite = Resources.Load<Sprite>("Sprites/Tokens/Enemies/Gor");
         GameObject go = new GameObject("Gor");
         SpriteRenderer renderer = go.AddComponent<SpriteRenderer>();
@@ -25,6 +30,6 @@ public class HerbGor : Gor
     }
     
     void OnDestroy() {
-        Herb.Factory(Cell.Index, Herbs.Herb4);
+        if (!quitting) Herb.Factory(Cell.Index);
     }
 }
