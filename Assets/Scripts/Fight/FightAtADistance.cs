@@ -13,23 +13,38 @@ public class FightAtADistance : MonoBehaviour
 
     private void OnEnable()
     {
+        Debug.Log("OnEnable (fightAtADistance) started.");
         EventManager.CellClick += ChooseCellToAttack;
     }
     private void OnDisable()
     {
-        EventManager.CellClick -= ChooseCellToAttack;
+        Debug.Log("OnDisable (fightAtADistance) started.");
+        //EventManager.CellClick -= ChooseCellToAttack;
     }
 
     void ChooseCellToAttack(int cellID, Hero hero)
     {
+        Debug.Log("ChooseCellToAttack started.");
         if (hero != GameManager.instance.CurrentPlayer) return;
         goal = Cell.FromId(cellID);
-        path.Extend(goal);
-        ShowAttackableArea();
+        //path.Extend(goal);
+        //ShowAttackableArea();
+        Debug.Log("the cell id is " + goal.Index);
+        DisableAttackArea();
+    }
+
+    void DisableAttackArea()
+    {
+        foreach (Cell cell in Cell.cells)
+        {
+            cell.Reset();
+            //cell.Disable();
+        }
     }
 
     void ShowAttackableArea()
     {
+        Debug.Log("ShowAttackableArea started.");
         freeCells = AdjacentMonstersToHero();
 
         foreach (Cell cell in Cell.cells)
@@ -42,6 +57,7 @@ public class FightAtADistance : MonoBehaviour
         {
             cell.Reset();
         }
+        
     }
 
     public List<Cell> AdjacentMonstersToHero()
@@ -101,6 +117,6 @@ public class FightAtADistance : MonoBehaviour
         monsterSelectPanel = GameObject.Find("Canvas/Fight/Monster Select");
         monsterSelectPanel.SetActive(false);
 
-
+        ShowAttackableArea();
     }
 }

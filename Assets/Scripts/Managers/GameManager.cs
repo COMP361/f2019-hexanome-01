@@ -32,7 +32,7 @@ public class GameManager : Singleton<GameManager>
 
     void Awake()
     {
-        PhotonNetwork.OfflineMode = false;
+        PhotonNetwork.OfflineMode = true;
         players = PhotonNetwork.PlayerList.ToList();
         base.Awake();
     }
@@ -115,9 +115,8 @@ public class GameManager : Singleton<GameManager>
         towerskrals = new List<Enemy>();
         wells = new List<Well>();
 
-
-        heroes.Add(Warrior.Instance);
         heroes.Add(Archer.Instance);
+        heroes.Add(Warrior.Instance);
         heroes.Add(Mage.Instance);
         heroes.Add(Dwarf.Instance);
         Warrior.Instance.Cell = Cell.FromId(25);
