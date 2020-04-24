@@ -28,7 +28,7 @@ public class FightAtADistance : MonoBehaviour
 
     void ShowAttackableArea()
     {
-        freeCells = goal.WithinRange(1, 1);
+        freeCells = AdjacentMonstersToHero();
 
         foreach (Cell cell in Cell.cells)
         {
@@ -40,8 +40,6 @@ public class FightAtADistance : MonoBehaviour
         {
             cell.Reset();
         }
-
-        goal.Disable();
     }
 
     public List<Cell> AdjacentMonstersToHero()
