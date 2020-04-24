@@ -4,6 +4,45 @@ using UnityEngine;
 
 public class FightAtADistance : MonoBehaviour
 {
+    private MapPath path;
+    private Cell goal;
+    private List<Cell> freeCells;
+    private List<Cell> extCells;
+
+    private void OnEnable()
+    {
+        EventManager.CellClick += ChooseCellToAttack;
+    }
+    private void OnDisable()
+    {
+        EventManager.CellClick -= ChooseCellToAttack;
+    }
+
+    void ChooseCellToAttack(int cellID, Hero hero)
+    {
+        if (hero != GameManager.instance.CurrentPlayer) return;
+        goal = Cell.FromId(cellID);
+        path.Extend(goal);
+        ShowAttackableArea();
+    }
+
+    void ShowAttackableArea()
+    {
+        freeCells = goal.WithinRange(1, 1);
+
+        foreach (Cell cell in Cell.cells)
+        {
+            cell.Reset();
+            cell.Disable();
+        }
+
+        foreach (Cell cell in freeCells)
+        {
+            cell.Reset();
+        }
+
+        goal.Disable();
+    }
 
     public List<Cell> AdjacentMonstersToHero()
     {

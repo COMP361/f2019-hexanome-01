@@ -834,6 +834,4 @@ public class EventManager : MonoBehaviour
             InitHeroInv(heroInv);
         }
     }
-
-
 }
