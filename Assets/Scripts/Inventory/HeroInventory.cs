@@ -335,8 +335,6 @@ public class HeroInventory
       return false;
     }
 
-
-
   #endregion
 
 }
