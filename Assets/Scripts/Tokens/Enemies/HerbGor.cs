@@ -29,7 +29,8 @@ public class HerbGor : Gor
         return gor;
     }
     
-    void OnDestroy() {
+    protected void OnDestroy() {
         if (!quitting) Herb.Factory(Cell.Index);
+        base.OnDestroy();
     }
 }

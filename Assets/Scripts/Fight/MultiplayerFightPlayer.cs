@@ -268,10 +268,10 @@ public class MultiplayerFightPlayer : MonoBehaviour
     }
 
     [PunRPC]
-    private void killMonsterRPC()
+    private void killMonsterRPC(int cellID)
     {
-        GameManager.instance.RemoveTokenCell(monster, monster.Cell.Inventory);
-        Destroy(monster.gameObject);
+        Enemy enemy = Cell.FromId(cellID).Inventory.Enemies[0];
+        Destroy(enemy.gameObject);
     }
 
     private void killMonster()
@@ -282,8 +282,7 @@ public class MultiplayerFightPlayer : MonoBehaviour
         leaveBtn.interactable = false;
         shareRewardBtn.interactable = true;
 
-        Debug.Log("test");
-        pv.RPC("killMonsterRPC", RpcTarget.AllViaServer);
+        pv.RPC("killMonsterRPC", RpcTarget.AllViaServer, monster.Cell.Index);
     }
 
     private void shareRewardActivate(){

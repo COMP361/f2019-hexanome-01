@@ -26,5 +26,10 @@ public class Gor : Enemy
         return gor;
     }
 
+    protected void OnDestroy() {
+        Cell = null;
+        if(GameManager.instance != null && GameManager.instance.gors != null) GameManager.instance.gors.Remove(this);
+    }
+
     public static string Type { get => typeof(Gor).ToString(); }
 }

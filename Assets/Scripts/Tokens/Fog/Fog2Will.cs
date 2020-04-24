@@ -8,7 +8,6 @@ public class Fog2Will : Fog {
     }
 
     public override void ApplyEffect() {
-        if(GameManager.instance.CurrentPlayer != GameManager.instance.MainHero) return;
         GameManager.instance.CurrentPlayer.Willpower += 2;
     }
 }
