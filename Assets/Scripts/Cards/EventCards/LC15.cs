@@ -11,9 +11,10 @@ public class LC15 : EventCard {
     }
 
     public override void ApplyEffect() {
-        Well w = Cell.FromId(35).Inventory.Well;
-        if(w != null) {
-            w.DestroyWell();
+        for(int i = 0; i < GameManager.instance.wells.Count; i++) {
+            if(GameManager.instance.wells[i].Cell.Index == 35) {
+                GameManager.instance.wells[i].DestroyWell();
+            }
         }
     }
 }

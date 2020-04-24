@@ -174,6 +174,7 @@ public class GameManager : Singleton<GameManager>
         EventManager.TriggerMainHeroInit(MainHero);
         CharChoice.Init(heroes);
         CharChoice.choice = MainHero;
+        narrator.CheckLegendCards();
         GiveTurn();
     }
 

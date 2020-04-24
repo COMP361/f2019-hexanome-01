@@ -7,7 +7,6 @@ using UnityEngine.UI;
 
 public class RewardDistribution : Singleton<RewardDistribution>
 {
-    public GameObject window;
 
     List<Hero> allHeroes;
 

@@ -610,6 +610,16 @@ public class EventManager : MonoBehaviour
         }
     }
 
+    public delegate void LegendCardHandler(LegendCard card);
+    public static event LegendCardHandler LegendCard;
+    public static void TriggerLegendCard(LegendCard card)
+    {
+        if (LegendCard != null)
+        {
+          LegendCard(card);
+        }
+    }
+
     //Triggered when a error happens
     public delegate void ErrorHandler(int type);
     public static event ErrorHandler Error;
@@ -802,6 +812,26 @@ public class EventManager : MonoBehaviour
         if (ShareReward != null)
         {
             ShareReward(amt, heroes);
+        }
+    }
+
+    public delegate void GoldUpdateHandler(Token token);
+    public static event GoldUpdateHandler GoldUpdate;
+    public static void TriggerGoldUpdate(Token token)
+    {
+        if (GoldUpdate != null)
+        {
+            GoldUpdate(token);
+        }
+    }
+
+    public delegate void InitHeroInvHandler(HeroInventory heroInv);
+    public static event InitHeroInvHandler InitHeroInv;
+    public static void TriggerInitHeroInv(HeroInventory heroInv)
+    {
+        if (InitHeroInv != null)
+        {
+            InitHeroInv(heroInv);
         }
     }
 
