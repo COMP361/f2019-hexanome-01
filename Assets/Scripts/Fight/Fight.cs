@@ -73,7 +73,7 @@ public class Fight : MonoBehaviour
             if(hero.Cell.Index == GameManager.instance.CurrentPlayer.Cell.Index) closeHeroes.Add(hero);
         }
 
-
+        ShowMonsterSelectPanel();
         //if(closeHeroes.Count > 1) {
         //    ShowHeroSelectPanel();
         //} else {
