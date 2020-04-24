@@ -115,7 +115,7 @@ public class GameManager : Singleton<GameManager>
         towerskrals = new List<Enemy>();
         wells = new List<Well>();
 
-        /*
+
         heroes.Add(Warrior.Instance);
         heroes.Add(Archer.Instance);
         heroes.Add(Mage.Instance);
@@ -128,7 +128,7 @@ public class GameManager : Singleton<GameManager>
         Thorald.Instance.Cell = Cell.FromId(25);
         Skral.Factory(25);
         mainHeroIndex = 0;
-        */
+
 
         // Add each player's respective hero
         foreach (Player p in players)
@@ -181,8 +181,8 @@ public class GameManager : Singleton<GameManager>
     void NewGame()
     {
         GameObject canvas = GameObject.Find("Canvas");
-        canvas.transform.Find("DistributeGold").gameObject.SetActive(true);
-        canvas.transform.Find("DistributeWineskins").gameObject.SetActive(true);
+        //canvas.transform.Find("DistributeGold").gameObject.SetActive(true);
+        //canvas.transform.Find("DistributeWineskins").gameObject.SetActive(true);
 
         // FARMERS
         farmers.Add(Farmer.Factory(24));

@@ -8,6 +8,7 @@ public class Fight : MonoBehaviour
 {
     GameObject heroSelectPanel;
     GameObject fightPanel;
+    GameObject distanceFightPanel;
     List<Hero> closeHeroes;
     List<Hero> selectedHeroes;
 
@@ -71,11 +72,11 @@ public class Fight : MonoBehaviour
             if(hero.Cell.Index == GameManager.instance.CurrentPlayer.Cell.Index) closeHeroes.Add(hero);
         }
 
-        if(closeHeroes.Count > 1) {
-            ShowHeroSelectPanel();
-        } else {
-            ShowFightPanel();
-        }
+        //if(closeHeroes.Count > 1) {
+        //    ShowHeroSelectPanel();
+        //} else {
+        //    ShowFightPanel();
+        //}
     }
 
     void ShowHeroSelectPanel() {
