@@ -22,6 +22,7 @@ public class LegendCardDeck {
 
     public LegendCard getCard(string id)
     {
+        EventManager.TriggerLegendCard(cards.Find(x => x.id == id));
         return cards.Find(x => x.id == id);
     }
 }

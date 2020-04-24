@@ -5,7 +5,7 @@ using System;
 
 public class Farmer : Movable {
     static Color color = Color.white;
-    
+
     Sprite sprite;
     Sprite attachedSprite;
     SpriteRenderer sr;
@@ -25,7 +25,7 @@ public class Farmer : Movable {
         sr = gameObject.AddComponent<SpriteRenderer>();
         Detach();
     }
-    
+
     public static Farmer Factory(int cellID) {
         GameObject go = new GameObject("farmer");
         Farmer farmer = go.AddComponent<Farmer>();
@@ -42,7 +42,7 @@ public class Farmer : Movable {
             Destroy(gameObject);
         }
     }
-    
+
     public void Attach() {
         if (attachedSprite != null) {
             sr.sprite = attachedSprite;

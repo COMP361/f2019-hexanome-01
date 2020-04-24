@@ -17,7 +17,7 @@ public class InventoryUIHero : Singleton<InventoryUIHero>
   protected InventorySpotHero goldSpot;
   protected Transform goldText;
 
-  void Start()
+  void Awake()
   {
     smallSpots = smallToken.GetComponentsInChildren<InventorySpotHero>();
     bigSpot = bigToken.GetComponentInChildren<InventorySpotHero>();
@@ -32,11 +32,13 @@ public class InventoryUIHero : Singleton<InventoryUIHero>
   protected virtual void OnEnable() {
     EventManager.InventoryUIHeroUpdate += UpdateUI;
     EventManager.InventoryUIHeroPeak += UpdateUI;
+    EventManager.InitHeroInv += UpdateUI;
   }
 
   protected virtual void OnDisable() {
     EventManager.InventoryUIHeroUpdate -= UpdateUI;
     EventManager.InventoryUIHeroPeak -= UpdateUI;
+    EventManager.InitHeroInv -= UpdateUI;
   }
 
   void UpdateUI(HeroInventory heroInv){
