@@ -4,22 +4,50 @@ using UnityEngine;
 
 public class FightAtADistance : MonoBehaviour
 {
+    private MapPath path;
+    private Cell goal;
+    private List<Cell> freeCells;
+    private List<Cell> extCells;
 
-    void TriggerChoiceCell()
+    private void OnEnable()
     {
-        bool hasBow = false;
-        foreach(Token t in GameManager.instance.CurrentPlayer.heroInventory.AllTokens)
+        EventManager.CellClick += ChooseCellToAttack;
+    }
+    private void OnDisable()
+    {
+        EventManager.CellClick -= ChooseCellToAttack;
+    }
+
+    void ChooseCellToAttack(int cellID, Hero hero)
+    {
+        if (hero != GameManager.instance.CurrentPlayer) return;
+        goal = Cell.FromId(cellID);
+        path.Extend(goal);
+        ShowAttackableArea();
+    }
+
+    void ShowAttackableArea()
+    {
+        freeCells = AdjacentMonstersToHero();
+
+        foreach (Cell cell in Cell.cells)
         {
-            if(t is Bow)
-            {
-                hasBow = true;
-            }
+            cell.Reset();
+            cell.Disable();
         }
 
-        if (!hasBow)
+        foreach (Cell cell in freeCells)
+        {
+            cell.Reset();
+        }
+    }
+
+    public List<Cell> AdjacentMonstersToHero()
+    {
+        if (!GameManager.instance.CurrentPlayer.HasBow())
         {
             Debug.Log("Doesn't have a bow");
-            return;
+            return null;
         }
 
         List<Cell> adjacent_cells = new List<Cell>();
@@ -29,6 +57,40 @@ public class FightAtADistance : MonoBehaviour
             if(c.Inventory.Enemies.Find(x => x is Enemy) != null)
             adjacent_cells.Add(c);
         }
+
+        return adjacent_cells;
     }
 
+    public List<Cell> AdjacentCellsWitHero(Cell cell)
+    {
+        List<Cell> adjacent_cells = new List<Cell>();
+
+        foreach (Cell c in cell.WithinRange(1, 1))
+        {
+            if (c.Inventory.Heroes.Find(x => x is Hero) != null)
+                adjacent_cells.Add(c);
+        }
+
+        return adjacent_cells;
+    }
+
+    public List<Hero> CellWithHeroHasBow(Cell cell)
+    {
+        List<Cell> adjacent_cells = new List<Cell>();
+        List<Hero> heroes = new List<Hero>();
+
+        foreach (Cell c in cell.WithinRange(1, 1))
+        {
+            if (c.Inventory.Heroes.Find(x => x is Hero) != null)
+            {
+                adjacent_cells.Add(c);
+                foreach(Hero h in c.Inventory.Heroes)
+                {
+                    heroes.Add(h);
+                }
+            }
+        }
+
+        return heroes;
+    }
 }
