@@ -96,7 +96,6 @@ LightmapSettings:
     m_PVRFilteringAtrousPositionSigmaAO: 1
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
-    m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
   m_UseShadowmask: 1
 --- !u!196 &4
@@ -1173,15 +1172,30 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2768507553007534162}
     m_Modifications:
+    - target: {fileID: 457927382944535901, guid: 5043aa72989c8889eabacd9f9597cab8,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 457927382944535901, guid: 5043aa72989c8889eabacd9f9597cab8,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 1030470043585775797, guid: 5043aa72989c8889eabacd9f9597cab8,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -780
+      value: -800
       objectReference: {fileID: 0}
     - target: {fileID: 1030470043585775797, guid: 5043aa72989c8889eabacd9f9597cab8,
         type: 3}
       propertyPath: m_SizeDelta.y
       value: 130
+      objectReference: {fileID: 0}
+    - target: {fileID: 1030470043585775797, guid: 5043aa72989c8889eabacd9f9597cab8,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 260
       objectReference: {fileID: 0}
     - target: {fileID: 1990006221265595184, guid: 5043aa72989c8889eabacd9f9597cab8,
         type: 3}
@@ -1191,9 +1205,7 @@ PrefabInstance:
     - target: {fileID: 2664710193196462628, guid: 5043aa72989c8889eabacd9f9597cab8,
         type: 3}
       propertyPath: m_Text
-      value: Now place a shield on space 57. A hero who enters space 57 or is already
-        standing there can collect the shield. If more than one hero is standing
-        there, the hero with the lowest rank gets the shield.
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 5632152454324357627, guid: 5043aa72989c8889eabacd9f9597cab8,
         type: 3}
@@ -1210,10 +1222,20 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 1.0997696
       objectReference: {fileID: 0}
+    - target: {fileID: 6378480380024018894, guid: 5043aa72989c8889eabacd9f9597cab8,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 6378480380024018894, guid: 5043aa72989c8889eabacd9f9597cab8,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 105
+      objectReference: {fileID: 0}
     - target: {fileID: 6760066761459637479, guid: 5043aa72989c8889eabacd9f9597cab8,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7308947429176520329, guid: 5043aa72989c8889eabacd9f9597cab8,
         type: 3}
@@ -1320,10 +1342,20 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 8841279272767482951, guid: 5043aa72989c8889eabacd9f9597cab8,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -92
+      objectReference: {fileID: 0}
+    - target: {fileID: 8841279272767482951, guid: 5043aa72989c8889eabacd9f9597cab8,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -120
+      objectReference: {fileID: 0}
     - target: {fileID: 9218989438429871777, guid: 5043aa72989c8889eabacd9f9597cab8,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -700
+      value: -715
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5043aa72989c8889eabacd9f9597cab8, type: 3}
