@@ -5,12 +5,6 @@ using UnityEngine;
 [ExecuteInEditMode]
 public class HerbGor : Gor
 {
-    public static bool quitting = false;
-
-    void OnApplicationQuit() {
-        quitting = true;
-    }
-
     public static HerbGor Factory(int cellID) {
         Sprite sprite = Resources.Load<Sprite>("Sprites/Tokens/Enemies/Gor");
         GameObject go = new GameObject("Gor");
@@ -30,7 +24,8 @@ public class HerbGor : Gor
     }
     
     protected void OnDestroy() {
-        if (!quitting) Herb.Factory(Cell.Index);
+        if(quitting) return;
+        Herb.Factory(Cell.Index);
         base.OnDestroy();
     }
 }

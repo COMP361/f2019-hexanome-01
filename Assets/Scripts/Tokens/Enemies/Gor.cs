@@ -5,6 +5,11 @@ using UnityEngine;
 public class Gor : Enemy
 {
     static Color color = Color.black;
+    public static bool quitting = false;
+
+    void OnApplicationQuit() {
+        quitting = true;
+    }
 
     public static Gor Factory(int cellID)
     {
@@ -27,8 +32,9 @@ public class Gor : Enemy
     }
 
     protected void OnDestroy() {
+        if(quitting) return;
         Cell = null;
-        if(GameManager.instance != null && GameManager.instance.gors != null) GameManager.instance.gors.Remove(this);
+        GameManager.instance.gors.Remove(this);
     }
 
     public static string Type { get => typeof(Gor).ToString(); }

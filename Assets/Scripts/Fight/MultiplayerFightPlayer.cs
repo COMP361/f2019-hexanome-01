@@ -62,7 +62,7 @@ public class MultiplayerFightPlayer : MonoBehaviour
     {
         fighters = new List<Fighter>();
         foreach (Hero hero in selectedHeroes) {
-            Fighter h = transform.Find("Grid/" + hero.TokenName).GetComponent<Fighter>();
+            Fighter h = transform.Find("Panel/Grid/" + hero.TokenName).GetComponent<Fighter>();
             h.Init(hero);
             fighters.Add(h);
         }
@@ -78,8 +78,8 @@ public class MultiplayerFightPlayer : MonoBehaviour
         MonsterWPStr.text = monster.Will.ToString();
         monsterWP = monster.Will;
 
-        transform.Find("Grid/Monster/Image").gameObject.SetActive(true);
-        transform.Find("Grid/Monster/RIP").gameObject.SetActive(false);
+        transform.Find("Panel/Grid/Monster/Image").gameObject.SetActive(true);
+        transform.Find("Panel/Grid/Monster/RIP").gameObject.SetActive(false);
 
         InitMonsterDices();
 
@@ -267,22 +267,21 @@ public class MultiplayerFightPlayer : MonoBehaviour
         panel.SetActive(false);
     }
 
-    [PunRPC]
-    private void killMonsterRPC(int cellID)
-    {
-        Enemy enemy = Cell.FromId(cellID).Inventory.Enemies[0];
-        Destroy(enemy.gameObject);
-    }
-
     private void killMonster()
     {
         ResultMsg.text = "Monster is killed!";
-        transform.Find("Grid/Monster/Image").gameObject.SetActive(false);
-        transform.Find("Grid/Monster/RIP").gameObject.SetActive(true);
+        transform.Find("Panel/Grid/Monster/Image").gameObject.SetActive(false);
+        transform.Find("Panel/Grid/Monster/RIP").gameObject.SetActive(true);
         leaveBtn.interactable = false;
         shareRewardBtn.interactable = true;
 
-        pv.RPC("killMonsterRPC", RpcTarget.AllViaServer, monster.Cell.Index);
+        pv.RPC("killMonsterRPC", RpcTarget.AllViaServer, new object[] {monster.Cell.Index});
+    }
+
+    [PunRPC]
+    void killMonsterRPC(int cellID) {
+        Enemy enemy = Cell.FromId(cellID).Inventory.Enemies[0];
+        Destroy(enemy.gameObject);
     }
 
     private void shareRewardActivate(){
@@ -312,7 +311,7 @@ public class MultiplayerFightPlayer : MonoBehaviour
     }
 
     public void EndFight() {
-        gameObject.SetActive(false);
+        panel.SetActive(false);
         if(numRounds == 0)  {
             EventManager.TriggerActionUpdate(Action.None.Value);
         } else {
