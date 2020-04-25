@@ -10,8 +10,6 @@ public class FogStrength : Fog {
     }
 
     public override void ApplyEffect() {
-      
         Cell.Inventory.Heroes[0].Strength += 1;
-      //GameManager.instance.CurrentPlayer.Strength += 1;
     }
 }

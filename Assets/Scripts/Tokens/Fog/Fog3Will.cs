@@ -8,7 +8,6 @@ public class Fog3Will : Fog {
     }
 
     public override void ApplyEffect() {
-      //  GameManager.instance.CurrentPlayer.Willpower += 3;
         Cell.Inventory.Heroes[0].Willpower += 3;
     }
 }
