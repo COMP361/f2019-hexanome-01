@@ -8,7 +8,10 @@ public class A4 : LegendCard
     {
         this.id = "A4";
 
-        this.story = "At first sunlight, the heroes receive a message: Old King Brandur's willpower seem to have weakened with the passage of time. " +
+        this.story = "A gloomy mood has fallen upon the people. Rumors are making the rounds that skarls have set up a stronghold in some undisclosed location. " +
+        "The heroes have scattered themselves acrosse the entire land in search of this location. The defense in the castle is in their hands alone. " +
+        "Many farmers have asked for help and are seeking shelter behind the high walls of Rietburg Castle." +
+        "At first sunlight, the heroes receive a message: Old King Brandur's willpower seem to have weakened with the passage of time. " +
             "But there is said to be a herb growing in the mountain passes that can revive a person's life.";
 
         this.task = "The players must heal the king with the medicinal herb. " +
