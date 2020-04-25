@@ -162,6 +162,10 @@ public class GameManager : Singleton<GameManager>
             }
         }
 
+        EventManager.TriggerMainHeroInit(MainHero);
+        CharChoice.Init(heroes);
+        CharChoice.choice = MainHero;
+
         if (saveDirectory == null)
         {
             NewGame();
@@ -171,9 +175,6 @@ public class GameManager : Singleton<GameManager>
             LoadGame(saveDirectory);
         }
 
-        EventManager.TriggerMainHeroInit(MainHero);
-        CharChoice.Init(heroes);
-        CharChoice.choice = MainHero;
         narrator.CheckLegendCards();
         GiveTurn();
     }
