@@ -34,7 +34,7 @@ public class Strength : Token {
     if(hero.timeline.Index != 0){
       if(hero.heroInventory.numOfGold >= cost) {
           hero.heroInventory.RemoveGold(cost);
-          GameManager.instance.photonView.RPC("AddStrengthRPC", RpcTarget.AllViaServer, new object[] {1, hero.TokenName});
+          hero.setStrength((hero.Strength + 1));
       }
 
       else{

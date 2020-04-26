@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
+using Photon.Realtime;
 
 public class FogStrength : Fog {
     public static void Factory() {
@@ -8,6 +10,6 @@ public class FogStrength : Fog {
     }
 
     public override void ApplyEffect() {
-        GameManager.instance.CurrentPlayer.Strength += 1;     
+        Cell.Inventory.Heroes[0].Strength += 1;
     }
 }

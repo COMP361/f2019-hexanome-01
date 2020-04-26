@@ -163,23 +163,18 @@ public class CellInventory {
   }
 
   public void RemoveToken(Token token) {
-    if(token != null){
-      if(token is Hero || token is Fog || token is Well || token is Enemy || token is Farmer || token is Witch || token is Thorald){
-        GameManager.instance.RemoveTokenCell(token, this);
-      }
+    if(token == null) return;
 
+    if(token is Hero || token is Fog || token is Well || token is Enemy || token is Farmer || token is Witch || token is Thorald){
+      GameManager.instance.RemoveTokenCell(token, this);
+    } else { 
       // is an item
-      else {
-        int viewID = token.GetComponent<PhotonView>().ViewID;
-        if(items.Contains(convertToKey(token.GetComponent<PhotonView>().ViewID))){
-          GameManager.instance.photonView.RPC("RemoveItemCellRPC", RpcTarget.AllViaServer, new object[] {viewID, cellID});
-        } else {
-          Debug.Log("Error Cell RemoveToken1");
-        }
+      int viewID = token.GetComponent<PhotonView>().ViewID;
+      if(items.Contains(convertToKey(token.GetComponent<PhotonView>().ViewID))){
+        GameManager.instance.photonView.RPC("RemoveItemCellRPC", RpcTarget.AllViaServer, new object[] {viewID, cellID});
+      } else {
+        Debug.Log("Error Cell RemoveToken1");
       }
-    }
-    else{
-      Debug.Log("Error Cell RemoveToken2");
     }
   }
 

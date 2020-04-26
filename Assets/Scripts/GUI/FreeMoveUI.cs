@@ -33,10 +33,10 @@ public class FreeMoveUI : MonoBehaviour
     FreeMovePanelTitle.text  = "Wineskin";
     FreeMovePanelDesc.text = "How many free moves do you want to use from your wineskin";
     token = null;
-    
+
     Buttons = new List<Button>();
     Button btn;
-    
+
     btn = FreeMovePanel.transform.Find("Btn0").GetComponent<Button>();
     btn.onClick.AddListener(delegate { OnClick(0); });
     Buttons.Add(btn);
@@ -59,11 +59,12 @@ public class FreeMoveUI : MonoBehaviour
   }
 
   void OnClick(int count) {
-    this.token.reserved = count; 
-    EventManager.TriggerFreeMoveCount(this.token); 
+    this.token.reserved = count;
+    EventManager.TriggerClearPath();
+    EventManager.TriggerFreeMoveCount(this.token);
     HideFreeMove();
   }
-  
+
   public void ShowFreeMoves(Token item) {
     token = item;
     if(token is Wineskin){

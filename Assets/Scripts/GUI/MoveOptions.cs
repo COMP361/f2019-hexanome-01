@@ -7,6 +7,8 @@ public class MoveOptions : MonoBehaviour {
 
     Button cancelBtn, confirmBtn, clearPathBtn, pickFarmerBtn, dropFarmerBtn;
 
+    Text freeMoves;
+
     void OnEnable() {
         EventManager.MoveSelect += Show;
         EventManager.MoveThorald += Show;
@@ -23,6 +25,7 @@ public class MoveOptions : MonoBehaviour {
         EventManager.FarmersInventoriesUpdate += LockDropFarmer;
         EventManager.FarmersInventoriesUpdate += LockPickFarmer;
         EventManager.Move += LockPickFarmer;
+        EventManager.DisplayFreeMoves += displayFreeMoves;
     }
 
     void OnDisable() {
@@ -39,6 +42,7 @@ public class MoveOptions : MonoBehaviour {
         EventManager.FarmersInventoriesUpdate -= LockPickFarmer;
         EventManager.FarmersInventoriesUpdate -= LockDropFarmer;
         EventManager.Move -= LockPickFarmer;
+        EventManager.DisplayFreeMoves -= displayFreeMoves;
     }
 
     void Awake() {
@@ -51,14 +55,18 @@ public class MoveOptions : MonoBehaviour {
         clearPathBtn.onClick.AddListener(delegate { EventManager.TriggerClearPath(); });
 
         confirmBtn = panel.transform.Find("Confirm Button").GetComponent<Button>();
-        confirmBtn.onClick.AddListener(delegate { EventManager.TriggerMoveConfirm(); EventManager.TriggerLockMoveItems();});
+        confirmBtn.onClick.AddListener(delegate { GameManager.instance.tryMove();});
 
         pickFarmerBtn = panel.transform.Find("Pick Farmer Button").GetComponent<Button>();
         pickFarmerBtn.onClick.AddListener(delegate { EventManager.TriggerPickFarmer(); });
 
         dropFarmerBtn = panel.transform.Find("Drop Farmer Button").GetComponent<Button>();
         dropFarmerBtn.onClick.AddListener(delegate { EventManager.TriggerDropFarmer(); });
+
+        freeMoves = panel.transform.Find("FreeMoves").GetComponent<Text>();
     }
+
+
 
     void LockConfirm(int count) {
         if(count > 0) {
@@ -98,6 +106,7 @@ public class MoveOptions : MonoBehaviour {
 
     public void Show() {
         panel.SetActive(true);
+        displayFreeMoves(0);
     }
 
     public void Hide(int action) {
@@ -120,5 +129,9 @@ public class MoveOptions : MonoBehaviour {
 
     public void EnableHeroOptions(int action) {
         if(Action.FromValue<Action>(action) == Action.None) EnableHeroOptions();
+    }
+
+    public void displayFreeMoves(int amt){
+      freeMoves.text = "Free Moves = " + amt;
     }
 }

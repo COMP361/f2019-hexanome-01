@@ -82,6 +82,10 @@ public class MoveCommand : MonoBehaviour, ICommand
         EventManager.TriggerFarmersInventoriesUpdate(farmers.Count, GetDroppableFarmerCount(), GetDetachedFarmerCount());
     }
 
+    public bool canMove(){
+      return (totalFreeMoves < path.Cells.Count);
+    }
+
     void AddFarmerTarget(Cell c)
     {
         GameObject go = new GameObject("farmerTarget");
@@ -115,9 +119,9 @@ public class MoveCommand : MonoBehaviour, ICommand
         {
             cell.Reset();
         }
-        
+
         farmerTargets = new List<GameObject>();
-        EventManager.TriggerClearFreeMove();
+      //EventManager.TriggerClearFreeMove();
     }
 
     void ShowMovableArea()
@@ -363,6 +367,7 @@ public class MoveCommand : MonoBehaviour, ICommand
         EventManager.EndDay -= Dispose;
         EventManager.FreeMoveCount -= AddFreeMoveCount;
 
+        ResetFreeMove();
         ClearPath();
         Destroy(this.gameObject);
 
@@ -379,7 +384,7 @@ public class MoveCommand : MonoBehaviour, ICommand
     void SetDestination(int cellID, Hero hero)
     {
         if(hero != GameManager.instance.CurrentPlayer) return;
-        
+
         if (!PhotonNetwork.OfflineMode)
         {
             photonView.RPC("SetDestinationRPC", RpcTarget.AllViaServer, cellID);
@@ -405,20 +410,21 @@ public class MoveCommand : MonoBehaviour, ICommand
 
     void UpdateFreeMoves() {
         totalFreeMoves = 0;
-        foreach(Token token in freeMoves) {  
+        foreach(Token token in freeMoves) {
             totalFreeMoves += token.reserved;
         }
+        EventManager.TriggerDisplayFreeMoves(totalFreeMoves);
         ShowMovableArea();
     }
 
     public void AddFreeMoveCount(Token item){
-      if(!freeMoves.Contains(item)) freeMoves.Add(item); 
+      if(!freeMoves.Contains(item)) freeMoves.Add(item);
       UpdateFreeMoves();
     }
 
     public void Execute()
     {
-      foreach(Token token in freeMoves) {  
+      foreach(Token token in freeMoves) {
         if (token is HalfWineskin && token.reserved == 1){
             GameManager.instance.MainHero.heroInventory.RemoveSmallToken((SmallToken)token);
         } else if(token is Wineskin && token.reserved == 2){
@@ -430,9 +436,10 @@ public class MoveCommand : MonoBehaviour, ICommand
             GameManager.instance.MainHero.heroInventory.RemoveSmallToken((SmallToken)token);
         }
       }
-      
+
       freeMoves = new List<Token>();
-      
+
+
       if (!PhotonNetwork.OfflineMode) {
           photonView.RPC("ExecuteRPC", RpcTarget.AllViaServer);
       } else {
@@ -514,7 +521,7 @@ public class MoveCommand : MonoBehaviour, ICommand
     }
 
     void ResetFreeMove(){
-      foreach(Token token in freeMoves) {  
+      foreach(Token token in freeMoves) {
         token.reserved = 0;
       }
 

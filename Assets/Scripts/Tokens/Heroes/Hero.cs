@@ -57,9 +57,9 @@ public class Hero : Movable
         }
         set {
             if(value < 0) {
-                _strength = 0;
+            _strength = 0;
             } else {
-                _strength = value;
+            _strength = value;
             }
             if(GameManager.instance.MainHero.TokenName.Equals(this.TokenName)) {
               EventManager.TriggerInventoryUIHeroPeak(GameManager.instance.MainHero.heroInventory);
@@ -67,6 +67,13 @@ public class Hero : Movable
               EventManager.TriggerInventoryUIHeroPeak(GameManager.instance.findHero(this.TokenName).heroInventory);
             }
         }
+    }
+
+    public void setStrength(int amt){
+      GameManager.instance.photonView.RPC("addStrengthRPC", RpcTarget.AllViaServer, new object[] {amt, this.TokenName});
+    }
+    public void setWP(int amt){
+      GameManager.instance.photonView.RPC("setWPRPC", RpcTarget.AllViaServer, new object[] {amt, this.TokenName});
     }
 
     private int _willpower = 7;

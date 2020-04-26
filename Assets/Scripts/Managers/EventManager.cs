@@ -834,4 +834,16 @@ public class EventManager : MonoBehaviour
             InitHeroInv(heroInv);
         }
     }
+
+    public delegate void DisplayFreeMovesHandler(int amt);
+    public static event DisplayFreeMovesHandler DisplayFreeMoves;
+    public static void TriggerDisplayFreeMoves(int amt)
+    {
+        if (DisplayFreeMoves != null)
+        {
+            DisplayFreeMoves(amt);
+        }
+    }
+
+
 }

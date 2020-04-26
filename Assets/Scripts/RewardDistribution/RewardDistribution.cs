@@ -139,19 +139,23 @@ public class RewardDistribution : Singleton<RewardDistribution>
       warriorGold--;
     }
     while(archerWP != 0){
-      photonView.RPC("addWPRPC", RpcTarget.AllViaServer, new object[] {"Archer"});
+      Hero a = GameManager.instance.findHero("Archer");
+      a.setWP(a.Willpower + 1);
       archerWP--;
     }
     while(dwarfWP != 0){
-      photonView.RPC("addWPRPC", RpcTarget.AllViaServer, new object[] {"Dwarf"});
+      Hero a = GameManager.instance.findHero("Dwarf");
+      a.setWP(a.Willpower + 1);
       dwarfWP--;
     }
     while(mageWP != 0){
-      photonView.RPC("addWPRPC", RpcTarget.AllViaServer, new object[] {"Mage"});
+      Hero a = GameManager.instance.findHero("Mage");
+      a.setWP(a.Willpower + 1);
       mageWP--;
     }
     while(warriorWP != 0){
-      photonView.RPC("addWPRPC", RpcTarget.AllViaServer, new object[] {"Warrior"});
+      Hero a = GameManager.instance.findHero("Warrior");
+      a.setWP(a.Willpower + 1);
       warriorWP--;
     }
   }
@@ -168,14 +172,6 @@ public class RewardDistribution : Singleton<RewardDistribution>
     if(heroName.Equals(GameManager.instance.MainHero.TokenName)){
       blockPanel.SetActive(false);
     }
-  }
-
-  [PunRPC]
-  void addWPRPC(string heroName){
-    Hero hero = GameManager.instance.findHero(heroName);
-    int currWP = hero.Willpower;
-    currWP++;
-    hero.Willpower = currWP;
   }
 
   void Update()

@@ -28,7 +28,7 @@ public class Fight : MonoBehaviour
         closeHeroes = new List<Hero>();
         selectedHeroes = new List<Hero>();
         heroSelectPanel = transform.Find("Hero Select").gameObject;
-        fightPanel = transform.Find("Fight Rounds").gameObject;
+        fightPanel = transform.Find("Fight Rounds/Panel").gameObject;
 
         heroSelectbtns = heroSelectPanel.transform.Find("Grid/").GetComponentsInChildren(typeof(Button));
         for(int i = 0; i < heroSelectbtns.Length; i++) {

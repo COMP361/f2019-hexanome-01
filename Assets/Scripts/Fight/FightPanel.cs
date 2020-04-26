@@ -217,20 +217,11 @@ public class FightPanel : MonoBehaviour
 
         EventManager.TriggerCurrentPlayerUpdate(GameManager.instance.CurrentPlayer);
     }
-    [PunRPC]
-    void killMonsterRPC()
-    {
-        //monster_object.SetActive(!monster_object.activeSelf);
-        kill();
-        //EventManager.TriggerEnemyDestroyed((Enemy)monster_object);
-        //GameManager.instance.CurrentPlayer.State.cell.Inventory.Enemies[0].gameObject.SetActive(false);
-        //Destroy(GameManager.instance.CurrentPlayer.State.cell.Inventory.Enemies[0].gameObject);
-        //GameManager.instance.CurrentPlayer.State.cell.Inventory.RemoveToken(monster_object);
-    }
+    
 
     void killMonster()
     {
-        pv.RPC("killMonsterRPC", RpcTarget.AllViaServer);
+        //pv.RPC("killMonsterRPC", RpcTarget.AllViaServer);
         //EventManager.TriggerEnemyDestroyed((Enemy)monster_object);
         //pv.RPC("killMonsterRPC", RpcTarget.AllViaServer);
         GameManager.instance.RemoveTokenCell(monster_object, monster_object.Cell.Inventory);

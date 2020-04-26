@@ -69,7 +69,7 @@ public class GameManager : Singleton<GameManager>
         EventManager.DistributeGold -= DistributeGold;
         EventManager.DistributeWinekins -= DistributeWineskins;
         EventManager.Save -= Save;
-    }
+   }
 
     void RemoveEnemy(Enemy enemy)
     {
@@ -162,6 +162,10 @@ public class GameManager : Singleton<GameManager>
             }
         }
 
+        EventManager.TriggerMainHeroInit(MainHero);
+        CharChoice.Init(heroes);
+        CharChoice.choice = MainHero;
+
         if (saveDirectory == null)
         {
             NewGame();
@@ -171,9 +175,6 @@ public class GameManager : Singleton<GameManager>
             LoadGame(saveDirectory);
         }
 
-        EventManager.TriggerMainHeroInit(MainHero);
-        CharChoice.Init(heroes);
-        CharChoice.choice = MainHero;
         narrator.CheckLegendCards();
         GiveTurn();
     }
@@ -552,6 +553,16 @@ public class GameManager : Singleton<GameManager>
         }
     }
 
+    public void tryMove(){
+      if( ((MoveCommand)command).canMove()){
+        EventManager.TriggerMoveConfirm();
+        EventManager.TriggerLockMoveItems();
+    }
+      else{
+        EventManager.TriggerError(8);
+      }
+    }
+
     [PunRPC]
     void InitMoveRPC(int viewId)
     {
@@ -586,6 +597,8 @@ public class GameManager : Singleton<GameManager>
     {
         command.Execute();
     }
+
+
 
     public Hero CurrentPlayer
     {
@@ -706,6 +719,7 @@ public class GameManager : Singleton<GameManager>
       toRemoveFrom.heroInventory.Clear2();
     }
 
+/*
 
     [PunRPC]
     public void AddStrengthRPC(int amt, string hero){
@@ -718,7 +732,7 @@ public class GameManager : Singleton<GameManager>
           EventManager.TriggerInventoryUIHeroPeak(findHero(hero).heroInventory);
       }
     }
-
+*/
     public Hero findHero(string hero){
       for (int i = 0; i <heroes.Count(); i++){
         if(heroes[i].TokenName.Equals(hero)){
@@ -747,6 +761,18 @@ public class GameManager : Singleton<GameManager>
           ((Fog)b).Reveal();
         }
       }
+    }
+
+    [PunRPC]
+    public virtual void addStrengthRPC(int value, string heroName) {
+      Hero toSet = findHero(heroName);
+      toSet.Strength = value;
+    }
+
+    [PunRPC]
+    public virtual void setWPRPC(int value, string heroName) {
+      Hero toSet = findHero(heroName);
+      toSet.Willpower = value;
     }
 }
 

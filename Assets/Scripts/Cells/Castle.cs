@@ -85,7 +85,7 @@ public class Castle : Cell
         Boolean hasHerb = false;
         foreach(object item in Inventory.items.Values)
         {
-            if (item.ToString() == "Herb")
+            if (item.GetType() == typeof(Herb))
             {
                 hasHerb = true;
             }

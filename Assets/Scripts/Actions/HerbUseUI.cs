@@ -73,29 +73,19 @@ public class HerbUseUI : MonoBehaviour
 
   public void clickWillpower(){
     if(this.herb.myType.Equals(Herbs.Herb3)){
-      photonView.RPC("IncreaseWillPowerRPC", RpcTarget.AllViaServer, new object[] {GameManager.instance.MainHero.TokenName, 3});
+    Hero a = GameManager.instance.findHero(GameManager.instance.MainHero.TokenName);
+    a.setWP(a.Willpower + 3);
     }
     else
     {
-      photonView.RPC("IncreaseWillPowerRPC", RpcTarget.AllViaServer, new object[] {GameManager.instance.MainHero.TokenName, 4});
+    Hero a = GameManager.instance.findHero(GameManager.instance.MainHero.TokenName);
+    a.setWP(a.Willpower + 4);
     }
     GameManager.instance.MainHero.heroInventory.RemoveSmallToken(this.herb);
     HideHerbUse();
   }
 
-  [PunRPC]
-  public void IncreaseWillPowerRPC(string heroName, int amt){
-    Hero toAddTo = GameManager.instance.findHero(heroName);
-    int currWP = toAddTo.Willpower;
-    currWP = currWP + amt;
-    toAddTo.Willpower = currWP;
 
-    if(GameManager.instance.MainHero.TokenName.Equals(heroName)) {
-      EventManager.TriggerInventoryUIHeroPeak(GameManager.instance.MainHero.heroInventory);
-    } else if(heroName.Equals(CharChoice.choice.TokenName)){
-      EventManager.TriggerInventoryUIHeroPeak(GameManager.instance.findHero(heroName).heroInventory);
-    }
-  }
 
   public void UnlockMoveItems(){
     canUseMoveItems = true;

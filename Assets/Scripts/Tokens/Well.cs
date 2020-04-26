@@ -52,30 +52,19 @@ public class Well : Token
     if(Cell.Index == hero.Cell.Index){
       GameManager.instance.photonView.RPC("EmptyWellRPC", RpcTarget.AllViaServer, new object[] {Cell.Index, hero.TokenName});
     }
+
+    if(hero.TokenName.Equals("Warrior")){
+      hero.setWP((hero.Willpower + 5));
+    }
+    else{
+      hero.setWP((hero.Willpower + 3));
+    }
   }
 
   public void EmptyWell(string heroType) {
     DisplayWell(true);
-
-    foreach(Hero hero in GameManager.instance.heroes) {
-      if(hero.TokenName.Equals(heroType)){
-        int currWP = hero.Willpower;
-        if(hero.TokenName.Equals("Warrior")){
-          currWP = currWP + 5;
-        } else {
-          currWP = currWP + 3;
-        }
-        hero.Willpower = currWP;
-      }
-    }
     if (PhotonNetwork.IsMasterClient){
     Cell.Inventory.RemoveToken(this);
-    }
-
-    if(GameManager.instance.MainHero.TokenName.Equals(heroType)) {
-      EventManager.TriggerInventoryUIHeroPeak(GameManager.instance.MainHero.heroInventory);
-    } else if(heroType.Equals(CharChoice.choice.TokenName)){
-      EventManager.TriggerInventoryUIHeroPeak(GameManager.instance.findHero(heroType).heroInventory);
     }
   }
 
