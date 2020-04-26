@@ -67,6 +67,10 @@ public class ErrorPopups : Singleton<ErrorPopups>
         errorPanelTitle.text = "Error!";
         errorPanelDesc.text = "You can not make that trade as the other hero is currently participating in a fight round. Please make another trade or cancel.";
       }
+      if(type == 7){
+        errorPanelTitle.text = "Error!";
+        errorPanelDesc.text = "You are using more free moves than the number of cells you want to move accross! Change the number of free moves and try again.";
+      }
       errorPanel.SetActive(true);
     }
 }

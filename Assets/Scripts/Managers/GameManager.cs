@@ -69,7 +69,7 @@ public class GameManager : Singleton<GameManager>
         EventManager.DistributeGold -= DistributeGold;
         EventManager.DistributeWinekins -= DistributeWineskins;
         EventManager.Save -= Save;
-    }
+   }
 
     void RemoveEnemy(Enemy enemy)
     {
@@ -553,6 +553,16 @@ public class GameManager : Singleton<GameManager>
         }
     }
 
+    public void tryMove(){
+      if( ((MoveCommand)command).canMove()){
+        EventManager.TriggerMoveConfirm();
+        EventManager.TriggerLockMoveItems();
+    }
+      else{
+        EventManager.TriggerError(8);
+      }
+    }
+
     [PunRPC]
     void InitMoveRPC(int viewId)
     {
@@ -587,6 +597,8 @@ public class GameManager : Singleton<GameManager>
     {
         command.Execute();
     }
+
+
 
     public Hero CurrentPlayer
     {
