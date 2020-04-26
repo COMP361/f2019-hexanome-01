@@ -16,6 +16,10 @@ public class Fight : MonoBehaviour
     Button heroSelectConfirm;
     
     public MultiplayerFightPlayer multiplayerFight;
+
+    public FightAtADistance fightAtADistance;
+    public Cell goal;
+    public bool distanceFight;
     
     void OnEnable() {
         EventManager.Fight += SetupFight;    
@@ -68,11 +72,25 @@ public class Fight : MonoBehaviour
         selectedHeroes.Add(GameManager.instance.CurrentPlayer);
         
         closeHeroes = new List<Hero>();
-        foreach(Hero hero in GameManager.instance.heroes) {
-            // Missing Archer case
-            if(hero.Cell.Index == GameManager.instance.CurrentPlayer.Cell.Index) closeHeroes.Add(hero);
-        }
 
+        if (distanceFight)
+        {
+            Cell cell = fightAtADistance.goal;
+            fightAtADistance.CellWithHeroHasBow(cell);
+            foreach (Hero hero in GameManager.instance.heroes)
+            {
+                // Missing Archer case
+                if (hero.Cell.Index == cell.Index) closeHeroes.Add(hero);
+            }
+        }
+        else
+        {
+            foreach (Hero hero in GameManager.instance.heroes)
+            {
+                // Missing Archer case
+                if (hero.Cell.Index == GameManager.instance.CurrentPlayer.Cell.Index) closeHeroes.Add(hero);
+            }
+        }
         ShowMonsterSelectPanel();
         //if(closeHeroes.Count > 1) {
         //    ShowHeroSelectPanel();
@@ -86,8 +104,9 @@ public class Fight : MonoBehaviour
         monsterSelectPanel.SetActive(true);
     }
 
-    void ShowHeroSelectPanel() {
+    public void ShowHeroSelectPanel() {
         heroSelectPanel.SetActive(true);
+        goal = fightAtADistance.goal;
 
         foreach (Button btn in heroSelectbtns) {
             if(btn.gameObject.name == GameManager.instance.CurrentPlayer.TokenName) {
@@ -131,4 +150,10 @@ public class Fight : MonoBehaviour
 
         multiplayerFight.Init(selectedHeroes);
     }
+
+    public void SetDistanceTrue()
+    {
+        this.distanceFight = true;
+    }
+
 }

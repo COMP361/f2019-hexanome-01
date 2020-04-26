@@ -5,11 +5,13 @@ using UnityEngine;
 public class FightAtADistance : MonoBehaviour
 {
     private MapPath path;
-    private Cell goal;
+    public Cell goal { get; set; }
     private List<Cell> freeCells;
     private List<Cell> extCells;
 
     GameObject monsterSelectPanel;
+    public Fight fight;
+    public GameObject heroSelectPanel;
 
     private void OnEnable()
     {
@@ -30,7 +32,9 @@ public class FightAtADistance : MonoBehaviour
         //path.Extend(goal);
         //ShowAttackableArea();
         Debug.Log("the cell id is " + goal.Index);
+        fight.ShowHeroSelectPanel();
         DisableAttackArea();
+        heroSelectPanel.gameObject.SetActive(true);
     }
 
     void DisableAttackArea()
@@ -38,7 +42,7 @@ public class FightAtADistance : MonoBehaviour
         foreach (Cell cell in Cell.cells)
         {
             cell.Reset();
-            //cell.Disable();
+            cell.Disable();
         }
     }
 

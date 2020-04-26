@@ -39,6 +39,8 @@ public class MultiplayerFightPlayer : MonoBehaviour
     public int remainingRolls;
     public bool fightOver;
 
+    public Fight fight;
+
     public void Awake() {
         newRoundBtn.onClick.AddListener(delegate { NewRound(); });
         leaveBtn.onClick.AddListener(delegate { EndFight(); });
@@ -71,7 +73,14 @@ public class MultiplayerFightPlayer : MonoBehaviour
 
     public void InitializeMonster()
     {
-        monster = GameManager.instance.CurrentPlayer.Cell.Inventory.Enemies[0];
+        if (fight.distanceFight)
+        {
+            monster = fight.goal.Inventory.Enemies[0];
+        }
+        else
+        {
+            monster = GameManager.instance.CurrentPlayer.Cell.Inventory.Enemies[0];
+        }
         MonsterName.text = monster.TokenName;
         monsterStrength = monster.Strength;
         MonsterStrengthStr.text = monster.Strength.ToString();
