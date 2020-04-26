@@ -33,10 +33,8 @@ public class Runestone : SmallToken
     {
         GameObject runestoneGo = PhotonNetwork.Instantiate("Prefabs/Tokens/Runestone", Vector3.zero, Quaternion.identity, 0);
         Runestone rs = runestoneGo.GetComponent<Runestone>();
-        string runestoneColor = rs.color.ToString();
-        Sprite uncoveredSprite = Resources.Load<Sprite>("Sprites/Tokens/Stone/Stone-" + runestoneColor);
-        rs.GetComponent<SpriteRenderer>().sprite = uncoveredSprite;
         rs.Cell = null;
+        rs.UncoverRunestoneInventory();
         return rs;
     }
 
@@ -93,6 +91,22 @@ public class Runestone : SmallToken
 
     public void UncoverRunestone(){
       photonView.RPC("UncoverRunestoneRPC", RpcTarget.AllViaServer, new object[] {photonView.ViewID});
+    }
+
+    [PunRPC]
+    public void UncoverRunestoneInventoryRPC(int ViewID)
+    {
+        if (photonView.ViewID == ViewID)
+        {
+            string runestoneColor = color.ToString();
+            Sprite uncoveredSprite = Resources.Load<Sprite>("Sprites/Tokens/Stone/Stone-" + runestoneColor);
+            token.GetComponent<SpriteRenderer>().sprite = uncoveredSprite;
+        }
+    }
+
+    public void UncoverRunestoneInventory()
+    {
+        photonView.RPC("UncoverRunestoneInventoryRPC", RpcTarget.AllViaServer, new object[] { photonView.ViewID });
     }
 
     public static string Type { get => typeof(Runestone).ToString(); }
