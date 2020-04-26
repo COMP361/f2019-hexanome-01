@@ -34,6 +34,8 @@ public class FightAtADistance : MonoBehaviour
         Debug.Log("the cell id is " + goal.Index);
         fight.ShowHeroSelectPanel();
         DisableAttackArea();
+        monsterSelectPanel.transform.localScale = new Vector3(1, 1, 1);
+        monsterSelectPanel.SetActive(false);
         heroSelectPanel.gameObject.SetActive(true);
     }
 
@@ -42,7 +44,7 @@ public class FightAtADistance : MonoBehaviour
         foreach (Cell cell in Cell.cells)
         {
             cell.Reset();
-            cell.Disable();
+            //cell.Disable();
         }
     }
 
@@ -119,7 +121,7 @@ public class FightAtADistance : MonoBehaviour
     public void OnClickAdjacent()
     {
         monsterSelectPanel = GameObject.Find("Canvas/Fight/Monster Select");
-        monsterSelectPanel.SetActive(false);
+        monsterSelectPanel.transform.localScale = new Vector3(0, 0, 0);
 
         ShowAttackableArea();
     }
