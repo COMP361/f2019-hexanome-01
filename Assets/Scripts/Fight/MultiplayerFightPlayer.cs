@@ -282,6 +282,12 @@ public class MultiplayerFightPlayer : MonoBehaviour
     void killMonsterRPC(int cellID) {
         Enemy enemy = Cell.FromId(cellID).Inventory.Enemies[0];
         Destroy(enemy.gameObject);
+        if (enemy.GetType() == typeof(TowerSkral))
+        {
+            disablePanel();
+            GameManager.instance.narrator.MoveNarratorToIndex(13);
+            GameManager.instance.castle.CheckWin();
+        }
     }
 
     private void shareRewardActivate(){

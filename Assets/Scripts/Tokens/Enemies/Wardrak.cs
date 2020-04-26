@@ -13,7 +13,14 @@ public class Wardrak : Enemy {
         
         Wardrak wardrak = go.AddComponent<Wardrak>();
         wardrak.TokenName = Type;
-        wardrak.Cell = Cell.FromId(cellID);
+
+        Cell cell = Cell.FromId(cellID);
+        // Check if cell is occupied by another monster
+        while(cell.Inventory.Enemies.Count != 0 && cell.Index != 0)
+        {
+            cell = cell.enemyPath;
+        }
+        wardrak.Cell = cell;
         
         wardrak.Will = 7;
         wardrak.Strength = 10;
