@@ -21,7 +21,7 @@ public class FightAtADistance : MonoBehaviour
     private void OnDisable()
     {
         Debug.Log("OnDisable (fightAtADistance) started.");
-        //EventManager.CellClick -= ChooseCellToAttack;
+        EventManager.CellClick -= ChooseCellToAttack;
     }
 
     void ChooseCellToAttack(int cellID, Hero hero)

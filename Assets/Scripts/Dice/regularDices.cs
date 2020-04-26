@@ -29,6 +29,8 @@ public class regularDices : MonoBehaviour
 
     public void ResetTheDie()
     {
+        this.rend = GetComponent<SpriteRenderer>();
+        emptyDice = Resources.Load<Sprite>("Dices/rd0");
         this.rend.sprite = emptyDice;
     }
 
