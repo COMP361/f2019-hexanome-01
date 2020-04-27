@@ -81,10 +81,12 @@ public class MultiplayerFightPlayer : MonoBehaviour
         if (fight.distanceFight)
         {
             monster = fight.goal.Inventory.Enemies[0];
+            EventManager.TriggerInventoryUICellEnter(fight.goal.Inventory, fight.goal.Index);
         }
         else
         {
             monster = GameManager.instance.CurrentPlayer.Cell.Inventory.Enemies[0];
+            EventManager.TriggerInventoryUICellEnter(GameManager.instance.CurrentPlayer.Cell.Inventory, GameManager.instance.CurrentPlayer.Cell.Index);
         }
         MonsterName.text = monster.TokenName;
         monsterStrength = monster.Strength;
