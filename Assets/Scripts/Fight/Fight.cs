@@ -30,6 +30,7 @@ public class Fight : MonoBehaviour
     }
 
     void Awake() {
+        distanceFight = false;
         closeHeroes = new List<Hero>();
         selectedHeroes = new List<Hero>();
         heroSelectPanel = transform.Find("Hero Select").gameObject;
