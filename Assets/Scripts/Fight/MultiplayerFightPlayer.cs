@@ -87,8 +87,8 @@ public class MultiplayerFightPlayer : MonoBehaviour
         MonsterWPStr.text = monster.Will.ToString();
         monsterWP = monster.Will;
 
-        transform.Find("Grid/Monster/Image").gameObject.SetActive(true);
-        transform.Find("Grid/Monster/RIP").gameObject.SetActive(false);
+        transform.Find("Panel/Grid/Monster/Image").gameObject.SetActive(true);
+        transform.Find("Panel/Grid/Monster/RIP").gameObject.SetActive(false);
 
         InitMonsterDices();
 
