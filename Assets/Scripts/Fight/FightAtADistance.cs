@@ -5,29 +5,52 @@ using UnityEngine;
 public class FightAtADistance : MonoBehaviour
 {
     private MapPath path;
-    private Cell goal;
+    public Cell goal { get; set; }
     private List<Cell> freeCells;
     private List<Cell> extCells;
 
+    GameObject monsterSelectPanel;
+    public Fight fight;
+    public GameObject heroSelectPanel;
+
     private void OnEnable()
     {
+        Debug.Log("OnEnable (fightAtADistance) started.");
         EventManager.CellClick += ChooseCellToAttack;
     }
     private void OnDisable()
     {
+        Debug.Log("OnDisable (fightAtADistance) started.");
         EventManager.CellClick -= ChooseCellToAttack;
     }
 
     void ChooseCellToAttack(int cellID, Hero hero)
     {
+        Debug.Log("ChooseCellToAttack started.");
         if (hero != GameManager.instance.CurrentPlayer) return;
         goal = Cell.FromId(cellID);
-        path.Extend(goal);
-        ShowAttackableArea();
+        //path.Extend(goal);
+        //ShowAttackableArea();
+        Debug.Log("the cell id is " + goal.Index);
+        fight.ShowHeroSelectPanel();
+        DisableAttackArea();
+        monsterSelectPanel.transform.localScale = new Vector3(1, 1, 1);
+        monsterSelectPanel.SetActive(false);
+        heroSelectPanel.gameObject.SetActive(true);
+    }
+
+    void DisableAttackArea()
+    {
+        foreach (Cell cell in Cell.cells)
+        {
+            cell.Reset();
+            //cell.Disable();
+        }
     }
 
     void ShowAttackableArea()
     {
+        Debug.Log("ShowAttackableArea started.");
         freeCells = AdjacentMonstersToHero();
 
         foreach (Cell cell in Cell.cells)
@@ -40,6 +63,7 @@ public class FightAtADistance : MonoBehaviour
         {
             cell.Reset();
         }
+        
     }
 
     public List<Cell> AdjacentMonstersToHero()
@@ -92,5 +116,13 @@ public class FightAtADistance : MonoBehaviour
         }
 
         return heroes;
+    }
+
+    public void OnClickAdjacent()
+    {
+        monsterSelectPanel = GameObject.Find("Canvas/Fight/Monster Select");
+        monsterSelectPanel.transform.localScale = new Vector3(0, 0, 0);
+
+        ShowAttackableArea();
     }
 }

@@ -13,9 +13,14 @@ public class Fight : MonoBehaviour
 
     Component[] heroSelectbtns;
     Button heroSelectConfirm;
-    
+
     public MultiplayerFightPlayer multiplayerFight;
-    
+
+    GameObject monsterSelectPanel;
+    public FightAtADistance fightAtADistance;
+    public Cell goal;
+    public bool distanceFight;
+
     void OnEnable() {
         EventManager.Fight += SetupFight;    
     }
@@ -61,24 +66,40 @@ public class Fight : MonoBehaviour
         }
     }
 
-    void SetupFight() {
-        selectedHeroes = new List<Hero>();  
+    void SetupFight()
+    {
+        selectedHeroes = new List<Hero>();
         selectedHeroes.Add(GameManager.instance.CurrentPlayer);
-        
-        closeHeroes = new List<Hero>();
-        foreach(Hero hero in GameManager.instance.heroes) {
-            // Missing Archer case
-            if(hero.Cell.Index == GameManager.instance.CurrentPlayer.Cell.Index) closeHeroes.Add(hero);
-        }
 
-        if(closeHeroes.Count > 1) {
-            ShowHeroSelectPanel();
-        } else {
-            ShowFightPanel();
+        closeHeroes = new List<Hero>();
+
+        if (distanceFight)
+        {
+            Cell cell = fightAtADistance.goal;
+            fightAtADistance.CellWithHeroHasBow(cell);
+            foreach (Hero hero in GameManager.instance.heroes)
+            {
+                // Missing Archer case
+                if (hero.Cell.Index == cell.Index) closeHeroes.Add(hero);
+            }
         }
+        else
+        {
+            foreach (Hero hero in GameManager.instance.heroes)
+            {
+                // Missing Archer case
+                if (hero.Cell.Index == GameManager.instance.CurrentPlayer.Cell.Index) closeHeroes.Add(hero);
+            }
+        }
+        ShowMonsterSelectPanel();
+        //if(closeHeroes.Count > 1) {
+        //    ShowHeroSelectPanel();
+        //} else {
+        //    ShowFightPanel();
+        //}
     }
 
-    void ShowHeroSelectPanel() {
+    public void ShowHeroSelectPanel() {
         heroSelectPanel.SetActive(true);
 
         foreach (Button btn in heroSelectbtns) {
@@ -122,5 +143,20 @@ public class Fight : MonoBehaviour
         }
 
         multiplayerFight.Init(selectedHeroes);
+    }
+
+    void ShowMonsterSelectPanel()
+    {
+        monsterSelectPanel.SetActive(true);
+    }
+
+    public void SetDistanceTrue()
+    {
+        this.distanceFight = true;
+    }
+
+    public void SetDistanceFalse()
+    {
+        this.distanceFight = false;
     }
 }
