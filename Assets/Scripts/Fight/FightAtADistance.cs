@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class FightAtADistance : MonoBehaviour
 {
@@ -10,11 +9,9 @@ public class FightAtADistance : MonoBehaviour
     private List<Cell> freeCells;
     private List<Cell> extCells;
 
-    GameObject monsterSelectPanel; 
+    GameObject monsterSelectPanel;
     public Fight fight;
     public GameObject heroSelectPanel;
-
-    public Text noBowText;
 
     private void OnEnable()
     {
@@ -27,11 +24,6 @@ public class FightAtADistance : MonoBehaviour
         EventManager.CellClick -= ChooseCellToAttack;
     }
 
-    private void Awake()
-    {
-        monsterSelectPanel = GameObject.Find("Canvas/Fight/Monster Select");
-    }
-
     void ChooseCellToAttack(int cellID, Hero hero)
     {
         Debug.Log("ChooseCellToAttack started.");
@@ -40,11 +32,10 @@ public class FightAtADistance : MonoBehaviour
         //path.Extend(goal);
         //ShowAttackableArea();
         Debug.Log("the cell id is " + goal.Index);
+        fight.ShowHeroSelectPanel();
         DisableAttackArea();
         monsterSelectPanel.transform.localScale = new Vector3(1, 1, 1);
         monsterSelectPanel.SetActive(false);
-        fight.SetupFight();
-        fight.ShowHeroSelectPanel();
         heroSelectPanel.gameObject.SetActive(true);
     }
 
@@ -119,7 +110,7 @@ public class FightAtADistance : MonoBehaviour
                 adjacent_cells.Add(c);
                 foreach(Hero h in c.Inventory.Heroes)
                 {
-                    if (h.HasBow()) { heroes.Add(h); }
+                    heroes.Add(h);
                 }
             }
         }
@@ -129,19 +120,9 @@ public class FightAtADistance : MonoBehaviour
 
     public void OnClickAdjacent()
     {
-        if (!GameManager.instance.CurrentPlayer.HasBow())
-        {
-            noBowText.text = "You don't have a bow...";
-        }
-        noBowText.text = "";
         monsterSelectPanel = GameObject.Find("Canvas/Fight/Monster Select");
         monsterSelectPanel.transform.localScale = new Vector3(0, 0, 0);
 
         ShowAttackableArea();
-    }
-
-    public void ResetTextBow()
-    {
-        noBowText.text = "";
     }
 }
