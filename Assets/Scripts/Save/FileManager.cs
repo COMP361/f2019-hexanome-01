@@ -13,7 +13,6 @@ public class FileManager
         string directoryPath = Application.streamingAssetsPath;
         string filePath = Path.Combine(directoryPath + "/Saves/", filename);
         T output;
-        Debug.Log(filePath);
         if (File.Exists(filePath)) {
             string dataAsJson = File.ReadAllText(filePath);
             output = JsonUtility.FromJson<T>(dataAsJson);

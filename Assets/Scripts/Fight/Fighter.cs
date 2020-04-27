@@ -75,11 +75,9 @@ public class Fighter : MonoBehaviour {
     }
 
     public void NewRound() {
-        UnlockRollBtns();
-        
-        fight.pv.RPC("NewRoundRPC", RpcTarget.AllViaServer, new object[] { hero.TokenName });
-        
         InitDices();
+        fight.pv.RPC("NewRoundRPC", RpcTarget.AllViaServer, new object[] { hero.TokenName });
+        UnlockRollBtns();
         lastRoll = -1;
         rollCount = 0;
     }
@@ -125,7 +123,6 @@ public class Fighter : MonoBehaviour {
 
     private void UpdatePlayerStats(Hero h) {
         if(h == this.hero && !isDead) {
-            Debug.Log("update stat " + h.TokenName);
             strength.text = h.Strength.ToString();
             wp.text = h.Willpower.ToString();
         }   
@@ -237,9 +234,10 @@ public class Fighter : MonoBehaviour {
     {
         rollBtn.interactable = false;
         abandonBtn.interactable = false;
+        InitDices();
     }
 
-      public void KillFighter()
+    public void KillFighter()
     {
         rollBtn.interactable = false;
         abandonBtn.interactable = false;

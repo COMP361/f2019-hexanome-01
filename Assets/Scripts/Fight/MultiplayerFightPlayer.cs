@@ -14,6 +14,8 @@ public class MultiplayerFightPlayer : MonoBehaviour
     public Text AttackMessage;
     public Text ResultMsg;
     public List<Fighter> fighters;
+    public List<Fighter> disabledFighters;
+
     public Text HeroesTotalStrength;
 
     // Monster's fields
@@ -38,7 +40,6 @@ public class MultiplayerFightPlayer : MonoBehaviour
     private int numRounds;
     public int remainingRolls;
     public bool fightOver;
-
     public Fight fight;
 
     public void Awake() {
@@ -58,11 +59,15 @@ public class MultiplayerFightPlayer : MonoBehaviour
         fightOver = false;
         numRounds = 0;
         remainingRolls = -1;
+
+        CheckGameOver();
     }
 
     public void InitializeHeroes(List<Hero> selectedHeroes)
     {
         fighters = new List<Fighter>();
+        disabledFighters = new List<Fighter>();
+
         foreach (Hero hero in selectedHeroes) {
             Fighter h = transform.Find("Panel/Grid/" + hero.TokenName).GetComponent<Fighter>();
             h.Init(hero);
@@ -121,16 +126,20 @@ public class MultiplayerFightPlayer : MonoBehaviour
     }
 
     void NewRound() {
+        foreach(Fighter f in fighters) {
+            f.NewRound();
+        }
+
+        foreach(Fighter f in disabledFighters) {
+            f.InitDices();
+        }
+
         numRounds++;
         remainingRolls = fighters.Count;
         leaveBtn.interactable = false;
         newRoundBtn.interactable = false;
         MonsterTotalStrength.text = "" + 0;
         HeroesTotalStrength.text = "" + 0;
-
-        foreach(Fighter f in fighters) {
-            f.NewRound();
-        }
 
         Fighter.lastHeroToRoll = null;
         InitMonsterDices();
@@ -194,10 +203,40 @@ public class MultiplayerFightPlayer : MonoBehaviour
         return totalScore;
     }
 
+
+    void CheckGameOver() {
+        for(int i = fighters.Count-1; i >= 0; i--) {
+            Fighter f = fighters[i];
+            if (f.hero.Willpower <= 0) {
+                f.isDead = true;
+                f.KillFighter();
+                f.hero.Strength = Math.Max(1, f.hero.Strength-1) ;
+                f.hero.setWP(3);
+                disabledFighters.Add(f);
+                fighters.Remove(f);
+            } else if (!f.hero.timeline.HasHoursLeft()) {
+                f.DisableFighter();
+                disabledFighters.Add(f);
+                fighters.Remove(f);
+            }
+        }
+        
+        if (fighters.Count == 0) {
+            fightOver = true;
+            ResultMsg.text = "Heroes have lost.";
+        }
+
+        if(fightOver) newRoundBtn.interactable = false;
+    }
+
     public void Attack()
     {
-        foreach (Fighter h in fighters) {
-            if (h.lastRoll == -1) return;
+        foreach (Fighter f in fighters) {
+            if (f.lastRoll == -1) return;
+        }
+
+        foreach (Fighter f in fighters) {
+            f.EndofRound();
         }
 
         int total_hero_strength = getHeroesScore();
@@ -214,39 +253,45 @@ public class MultiplayerFightPlayer : MonoBehaviour
             difference = total_monster_strength - total_hero_strength;
 
             for(int i = fighters.Count-1; i >= 0; i--) {
-                Fighter h = fighters[i];
-                foreach (regularDices rd in h.rd) {
-                    rd.gameObject.SetActive(false);
-                }
-                
-                if (h.useShield) {
-                    h.shield.enabled = true;
-                    Image img = h.shield.GetComponent<Image>();
+                Fighter f = fighters[i];
+                if (f.useShield) {
+                    f.shield.enabled = true;
+                    Image img = f.shield.GetComponent<Image>();
                     img.color = Color.white;
-                    h.useShield = false;
+                    f.useShield = false;
                     continue;
                 }
 
-                int willpower = Math.Max(0, h.hero.Willpower - difference);
-                h.hero.setWP(willpower);
+                int willpower = Math.Max(0, f.hero.Willpower - difference);
+                f.hero.setWP(willpower);
 
+                // Check Game Over
+                
                 if (willpower <= 0) {
-                    h.isDead = true;
-                    h.KillFighter();
-                    h.hero.Strength = Math.Max(1, h.hero.Strength-1) ;
-                    h.hero.setWP(3);
-                    h.EndofRound();
-                    fighters.Remove(h);
+                    f.isDead = true;
+                    f.KillFighter();
+                    f.hero.Strength = Math.Max(1, f.hero.Strength-1) ;
+                    f.hero.setWP(3);
+                    disabledFighters.Add(f);
+                    fighters.Remove(f);
+                } else if (!(Timeline.GetFreeHours(f.hero.timeline.Index) > 0 || Timeline.GetExtendedHours(f.hero.timeline.Index, willpower) > 0)) {
+                    f.DisableFighter();
+                    disabledFighters.Add(f);
+                    fighters.Remove(f);
                 }
             }
         }
 
-        for(int i = fighters.Count-1; i >= 0; i--) {
-            fighters[i].EndofRound();
+        leaveBtn.interactable = true;
+        attackBtn.interactable = false;
+        newRoundBtn.interactable = true; 
 
-            if (!fighters[i].hero.timeline.HasHoursLeft()) {
-                fighters[i].DisableFighter();
-                fighters.Remove(fighters[i]);
+        for(int i = fighters.Count-1; i >= 0; i--) {
+            Fighter f = fighters[i];
+            if (!f.hero.timeline.HasHoursLeft()) {
+                f.DisableFighter();
+                disabledFighters.Add(f);
+                fighters.Remove(f);
             }
         }
 
@@ -255,17 +300,12 @@ public class MultiplayerFightPlayer : MonoBehaviour
             ResultMsg.text = "Heroes have lost.";
         }
 
-        leaveBtn.interactable = true;
-        attackBtn.interactable = false;
-
         if (monsterWP <= 0) {
             fightOver = true;
             killMonster();
         }
 
-        if(!fightOver) {
-            newRoundBtn.interactable = true;
-        }
+        if(fightOver) newRoundBtn.interactable = false;  
     }
 
     private void disablePanel()

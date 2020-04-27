@@ -81,19 +81,17 @@ public class Fight : MonoBehaviour
             foreach (Hero hero in cell.Inventory.Heroes)
             {
                 // Missing Archer case
-                if (hero.Cell.Index == cell.Index) closeHeroes.Add(hero);
+                if (hero.Cell.Index == cell.Index && hero.timeline.HasHoursLeft()) closeHeroes.Add(hero);
             }
             foreach(Hero hero in heroes)
             {
-                closeHeroes.Add(hero);
+                if (hero.timeline.HasHoursLeft()) closeHeroes.Add(hero);
             }
-        }
-        else
-        {
+        } else {
             foreach (Hero hero in GameManager.instance.heroes)
             {
                 // Missing Archer case
-                if (hero.Cell.Index == GameManager.instance.CurrentPlayer.Cell.Index) closeHeroes.Add(hero);
+                if (hero.Cell.Index == GameManager.instance.CurrentPlayer.Cell.Index && hero.timeline.HasHoursLeft()) closeHeroes.Add(hero);
             }
         }
 

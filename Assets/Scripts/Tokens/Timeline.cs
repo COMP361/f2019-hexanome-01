@@ -67,7 +67,7 @@ public class Timeline
         int count = Math.Min(extendedLimit - index, extendedLimit - freeLimit);
         int i;
         for(i = 0; i <= count; i++) {
-            if(willpower - i * 2 < 2 || i == count) break;
+            if(willpower - i * 2 < 3 || i == count) break;
         }
         return i;
     }
