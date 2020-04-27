@@ -22,11 +22,11 @@ public class Fight : MonoBehaviour
     public bool distanceFight;
 
     void OnEnable() {
-        EventManager.Fight += SetupFight;    
+        //EventManager.Fight += SetupFight;    
     }
 
     void OnDisable() {
-        EventManager.Fight -= SetupFight;
+        //EventManager.Fight -= SetupFight;
     }
 
     void Awake() {

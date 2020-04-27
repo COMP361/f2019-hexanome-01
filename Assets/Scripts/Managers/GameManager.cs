@@ -115,20 +115,20 @@ public class GameManager : Singleton<GameManager>
         towerskrals = new List<Enemy>();
         wells = new List<Well>();
 
-        /*
-        heroes.Add(Warrior.Instance);
-        heroes.Add(Archer.Instance);
-        heroes.Add(Mage.Instance);
-        heroes.Add(Dwarf.Instance);
-        Warrior.Instance.Cell = Cell.FromId(25);
-        Archer.Instance.Cell = Cell.FromId(25);
-        Mage.Instance.Cell = Cell.FromId(25);
-        Dwarf.Instance.Cell = Cell.FromId(25);
-        thorald = Thorald.Instance;
-        Thorald.Instance.Cell = Cell.FromId(25);
-        Skral.Factory(25);
-        mainHeroIndex = 0;
-        */
+        
+        //heroes.Add(Archer.Instance);
+        //heroes.Add(Warrior.Instance);
+        //heroes.Add(Mage.Instance);
+        //heroes.Add(Dwarf.Instance);
+        //Warrior.Instance.Cell = Cell.FromId(26);
+        //Archer.Instance.Cell = Cell.FromId(26);
+        //Mage.Instance.Cell = Cell.FromId(26);
+        //Dwarf.Instance.Cell = Cell.FromId(26);
+        //thorald = Thorald.Instance;
+        //Thorald.Instance.Cell = Cell.FromId(26);
+        //Skral.Factory(25);
+        //mainHeroIndex = 0;
+        
 
         // Add each player's respective hero
         foreach (Player p in players)
