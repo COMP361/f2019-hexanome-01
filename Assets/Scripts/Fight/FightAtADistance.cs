@@ -10,7 +10,7 @@ public class FightAtADistance : MonoBehaviour
     private List<Cell> freeCells;
     private List<Cell> extCells;
 
-    GameObject monsterSelectPanel = GameObject.Find("Canvas/Fight/Monster Select");
+    GameObject monsterSelectPanel; 
     public Fight fight;
     public GameObject heroSelectPanel;
 
@@ -25,6 +25,11 @@ public class FightAtADistance : MonoBehaviour
     {
         Debug.Log("OnDisable (fightAtADistance) started.");
         EventManager.CellClick -= ChooseCellToAttack;
+    }
+
+    private void Awake()
+    {
+        monsterSelectPanel = GameObject.Find("Canvas/Fight/Monster Select");
     }
 
     void ChooseCellToAttack(int cellID, Hero hero)
