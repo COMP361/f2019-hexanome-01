@@ -132,6 +132,6 @@ public class MoveOptions : MonoBehaviour {
     }
 
     public void displayFreeMoves(int amt){
-      freeMoves.text = "Free Moves = " + amt;
+      freeMoves.text = "Free Moves: " + amt;
     }
 }

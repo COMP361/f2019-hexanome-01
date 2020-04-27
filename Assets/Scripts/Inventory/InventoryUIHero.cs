@@ -71,8 +71,7 @@ public class InventoryUIHero : Singleton<InventoryUIHero>
       goldSpot.AddItem((Token) heroInv.golds[0]);
       goldText.GetComponent<Text>().text = "X" + heroInv.numOfGold;
       goldText.gameObject.SetActive(true);
-    }
-    else{
+    } else{
       goldText.gameObject.SetActive(false);
       goldSpot.ClearSpot();
     }

@@ -590,16 +590,6 @@ public class EventManager : MonoBehaviour
         }
     }
 
-    public delegate void UpdateHeroStatsHandler(Hero hero);
-    public static event UpdateHeroStatsHandler UpdateHeroStats;
-    public static void TriggerUpdateHeroStats(Hero hero)
-    {
-        if (UpdateHeroStats != null)
-        {
-            UpdateHeroStats(hero);
-        }
-    }
-
     public delegate void EventCardHandler(EventCard card);
     public static event EventCardHandler EventCard;
     public static void TriggerEventCard(EventCard card)

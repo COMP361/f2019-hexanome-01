@@ -75,7 +75,7 @@ public class MageFighter : Fighter {
         fight.getHeroesScore();
     }
 
-    public void EndofRound() {
+    public override void EndofRound() {
         hasflippedDie = false;
         flipBtn.interactable = false;
         base.EndofRound();

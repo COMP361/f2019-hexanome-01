@@ -206,7 +206,10 @@ public class MultiplayerFightPlayer : MonoBehaviour
 
             for(int i = fighters.Count-1; i >= 0; i--) {
                 Fighter h = fighters[i];
-
+                foreach (regularDices rd in h.rd) {
+                    rd.gameObject.SetActive(false);
+                }
+                
                 if (h.useShield) {
                     h.shield.enabled = true;
                     Image img = h.shield.GetComponent<Image>();
@@ -215,18 +218,14 @@ public class MultiplayerFightPlayer : MonoBehaviour
                     continue;
                 }
 
-                h.hero.Willpower = Math.Max(0, h.hero.Willpower - difference);
-                h.wp.text = h.hero.Willpower.ToString();
+                int willpower = Math.Max(0, h.hero.Willpower - difference);
+                h.hero.setWP(willpower);
 
-                foreach (regularDices rd in h.rd) {
-                    rd.gameObject.SetActive(false);
-                }
-
-                if (h.hero.Willpower <= 0) {
+                if (willpower <= 0) {
                     h.isDead = true;
                     h.KillFighter();
                     h.hero.Strength = Math.Max(1, h.hero.Strength-1) ;
-                    h.hero.Willpower = 3;
+                    h.hero.setWP(3);
                     h.EndofRound();
                     fighters.Remove(h);
                 }
@@ -247,19 +246,17 @@ public class MultiplayerFightPlayer : MonoBehaviour
             ResultMsg.text = "Heroes have lost.";
         }
 
+        leaveBtn.interactable = true;
+        attackBtn.interactable = false;
+
         if (monsterWP <= 0) {
             fightOver = true;
             killMonster();
         }
 
-        attackBtn.interactable = false;
-
         if(!fightOver) {
             newRoundBtn.interactable = true;
-            leaveBtn.interactable = true;
         }
-
-
     }
 
     private void disablePanel()
@@ -275,11 +272,30 @@ public class MultiplayerFightPlayer : MonoBehaviour
         leaveBtn.interactable = false;
         shareRewardBtn.interactable = true;
 
-        pv.RPC("killMonsterRPC", RpcTarget.AllViaServer, new object[] {monster.Cell.Index});
+        pv.RPC("KillMonsterRPC", RpcTarget.AllViaServer, new object[] {monster.Cell.Index});
     }
 
     [PunRPC]
-    void killMonsterRPC(int cellID) {
+    void NewRoundRPC(String heroName) {
+        foreach(Hero hero in GameManager.instance.heroes) {
+            if(hero.TokenName == heroName) {
+                hero.timeline.Update(Action.Fight.GetCost());
+                hero.IsFighting = true;
+            }
+        }
+    }
+
+    [PunRPC]
+    void EndofRoundRPC(String heroName) {
+        foreach(Hero hero in GameManager.instance.heroes) {
+            if(hero.TokenName == heroName) {
+                hero.IsFighting = false;
+            }
+        }
+    }
+
+    [PunRPC]
+    void KillMonsterRPC(int cellID) {
         Enemy enemy = Cell.FromId(cellID).Inventory.Enemies[0];
         Destroy(enemy.gameObject);
         if (enemy.GetType() == typeof(TowerSkral))

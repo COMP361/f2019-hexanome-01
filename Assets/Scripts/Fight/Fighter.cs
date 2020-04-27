@@ -34,11 +34,11 @@ public class Fighter : MonoBehaviour {
     public bool isDead;
     
     void OnEnable() {
-        EventManager.UpdateHeroStats += UpdatePlayerStats;
+        EventManager.CompleteHeroBoardUpdate += UpdatePlayerStats;
     }
 
     void OnDisable() {
-        EventManager.UpdateHeroStats -= UpdatePlayerStats;
+        EventManager.CompleteHeroBoardUpdate -= UpdatePlayerStats;
     }
 
     void Start() {
@@ -76,11 +76,12 @@ public class Fighter : MonoBehaviour {
 
     public void NewRound() {
         UnlockRollBtns();
-        hero.timeline.Update(Action.Fight.GetCost());
+        
+        fight.pv.RPC("NewRoundRPC", RpcTarget.AllViaServer, new object[] { hero.TokenName });
+        
         InitDices();
         lastRoll = -1;
         rollCount = 0;
-        hero.IsFighting = true;
     }
 
     public virtual void Init(Hero hero) {
@@ -129,8 +130,8 @@ public class Fighter : MonoBehaviour {
         }   
     }
 
-    public void EndofRound() {
-        hero.IsFighting = false;
+    public virtual void EndofRound() {
+        fight.pv.RPC("EndofRoundRPC", RpcTarget.AllViaServer, new object[] { hero.TokenName });
     }
 
     public int RollDice() {

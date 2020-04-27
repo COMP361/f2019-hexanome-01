@@ -13,14 +13,12 @@ public class PlayerBoardTrade : MonoBehaviour
 
   void OnEnable() {
     EventManager.FarmersInventoriesUpdate += UpdateFarmerCount;
-    EventManager.UpdateHeroStats += UpdatePlayerStats;
     EventManager.MainHeroInit += InitHero;
     EventManager.CompleteHeroBoardUpdate += updateCompleteBoard;
   }
 
   void OnDisable() {
     EventManager.FarmersInventoriesUpdate -= UpdateFarmerCount;
-    EventManager.UpdateHeroStats -= UpdatePlayerStats;
     EventManager.MainHeroInit -= InitHero;
     EventManager.CompleteHeroBoardUpdate -= updateCompleteBoard;
   }
