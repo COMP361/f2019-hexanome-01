@@ -32,6 +32,7 @@ public class FightAtADistance : MonoBehaviour
         //path.Extend(goal);
         //ShowAttackableArea();
         Debug.Log("the cell id is " + goal.Index);
+        fight.SetupFight();
         fight.ShowHeroSelectPanel();
         DisableAttackArea();
         monsterSelectPanel.transform.localScale = new Vector3(1, 1, 1);
@@ -110,7 +111,7 @@ public class FightAtADistance : MonoBehaviour
                 adjacent_cells.Add(c);
                 foreach(Hero h in c.Inventory.Heroes)
                 {
-                    heroes.Add(h);
+                    if(h.HasBow()) heroes.Add(h);
                 }
             }
         }
