@@ -1,33 +1,60 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class FightAtADistance : MonoBehaviour
 {
     private MapPath path;
-    private Cell goal;
+    public Cell goal { get; set; }
     private List<Cell> freeCells;
     private List<Cell> extCells;
 
+    GameObject monsterSelectPanel = GameObject.Find("Canvas/Fight/Monster Select");
+    public Fight fight;
+    public GameObject heroSelectPanel;
+
+    public Text noBowText;
+
     private void OnEnable()
     {
+        Debug.Log("OnEnable (fightAtADistance) started.");
         EventManager.CellClick += ChooseCellToAttack;
     }
     private void OnDisable()
     {
+        Debug.Log("OnDisable (fightAtADistance) started.");
         EventManager.CellClick -= ChooseCellToAttack;
     }
 
     void ChooseCellToAttack(int cellID, Hero hero)
     {
+        Debug.Log("ChooseCellToAttack started.");
         if (hero != GameManager.instance.CurrentPlayer) return;
         goal = Cell.FromId(cellID);
-        path.Extend(goal);
-        ShowAttackableArea();
+        //path.Extend(goal);
+        //ShowAttackableArea();
+        Debug.Log("the cell id is " + goal.Index);
+        fight.ShowHeroSelectPanel();
+        DisableAttackArea();
+        monsterSelectPanel.transform.localScale = new Vector3(1, 1, 1);
+        monsterSelectPanel.SetActive(false);
+        fight.SetupFight();
+        heroSelectPanel.gameObject.SetActive(true);
+    }
+
+    void DisableAttackArea()
+    {
+        foreach (Cell cell in Cell.cells)
+        {
+            cell.Reset();
+            //cell.Disable();
+        }
     }
 
     void ShowAttackableArea()
     {
+        Debug.Log("ShowAttackableArea started.");
         freeCells = AdjacentMonstersToHero();
 
         foreach (Cell cell in Cell.cells)
@@ -40,6 +67,7 @@ public class FightAtADistance : MonoBehaviour
         {
             cell.Reset();
         }
+        
     }
 
     public List<Cell> AdjacentMonstersToHero()
@@ -86,11 +114,29 @@ public class FightAtADistance : MonoBehaviour
                 adjacent_cells.Add(c);
                 foreach(Hero h in c.Inventory.Heroes)
                 {
-                    heroes.Add(h);
+                    if (h.HasBow()) { heroes.Add(h); }
                 }
             }
         }
 
         return heroes;
+    }
+
+    public void OnClickAdjacent()
+    {
+        if (!GameManager.instance.CurrentPlayer.HasBow())
+        {
+            noBowText.text = "You don't have a bow...";
+        }
+        noBowText.text = "";
+        monsterSelectPanel = GameObject.Find("Canvas/Fight/Monster Select");
+        monsterSelectPanel.transform.localScale = new Vector3(0, 0, 0);
+
+        ShowAttackableArea();
+    }
+
+    public void ResetTextBow()
+    {
+        noBowText.text = "";
     }
 }

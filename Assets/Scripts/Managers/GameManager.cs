@@ -31,7 +31,7 @@ public class GameManager : Singleton<GameManager>
 
     void Awake()
     {
-        PhotonNetwork.OfflineMode = false;
+        PhotonNetwork.OfflineMode = true;
         players = PhotonNetwork.PlayerList.ToList();
         base.Awake();
     }
@@ -118,8 +118,11 @@ public class GameManager : Singleton<GameManager>
         /*heroes.Add(Warrior.Instance);
         mainHeroIndex = 0;
         heroes.Add(Archer.Instance);
+        heroes.Add(Warrior.Instance);
         heroes.Add(Mage.Instance);
         heroes.Add(Dwarf.Instance);
+
+
         Warrior.Instance.Cell = Cell.FromId(25);
         Warrior.Instance.timeline.Index = 5;
         Warrior.Instance.Willpower = 1;
@@ -129,6 +132,7 @@ public class GameManager : Singleton<GameManager>
         thorald = Thorald.Instance;
         Thorald.Instance.Cell = Cell.FromId(25);
         TowerSkral.Factory(25, 4);*/
+
 
         // Add each player's respective hero
         foreach (Player p in players)
@@ -182,8 +186,8 @@ public class GameManager : Singleton<GameManager>
     void NewGame()
     {
         GameObject canvas = GameObject.Find("Canvas");
-        canvas.transform.Find("DistributeGold").gameObject.SetActive(true);
-        canvas.transform.Find("DistributeWineskins").gameObject.SetActive(true);
+        //canvas.transform.Find("DistributeGold").gameObject.SetActive(true);
+        //canvas.transform.Find("DistributeWineskins").gameObject.SetActive(true);
 
         // FARMERS
         farmers.Add(Farmer.Factory(24));
