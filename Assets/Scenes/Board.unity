@@ -899,42 +899,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 815380747998486158, guid: 2644f4754d1d7c9ba8e309ac66e76dd6,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 815380747998486158, guid: 2644f4754d1d7c9ba8e309ac66e76dd6,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 1409299447}
-    - target: {fileID: 815380747998486158, guid: 2644f4754d1d7c9ba8e309ac66e76dd6,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SetActive
-      objectReference: {fileID: 0}
-    - target: {fileID: 815380747998486158, guid: 2644f4754d1d7c9ba8e309ac66e76dd6,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 815380747998486158, guid: 2644f4754d1d7c9ba8e309ac66e76dd6,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_BoolArgument
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2644f4754d1d7c9ba8e309ac66e76dd6, type: 3}
 --- !u!4 &1409299446 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 815380746526133039, guid: 2644f4754d1d7c9ba8e309ac66e76dd6,
-    type: 3}
-  m_PrefabInstance: {fileID: 1409299445}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &1409299447 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 815380746526133027, guid: 2644f4754d1d7c9ba8e309ac66e76dd6,
     type: 3}
   m_PrefabInstance: {fileID: 1409299445}
   m_PrefabAsset: {fileID: 0}
@@ -984,6 +953,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   multiplayerFight: {fileID: 1001437269}
+  fightAtADistance: {fileID: 0}
+  goal: {fileID: 0}
+  distanceFight: 0
 --- !u!1001 &1437529560
 PrefabInstance:
   m_ObjectHideFlags: 0
