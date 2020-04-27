@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class FightAtADistance : MonoBehaviour
 {
@@ -12,6 +13,8 @@ public class FightAtADistance : MonoBehaviour
     GameObject monsterSelectPanel;
     public Fight fight;
     public GameObject heroSelectPanel;
+
+    public Text noBowText;
 
     private void OnEnable()
     {
@@ -120,9 +123,19 @@ public class FightAtADistance : MonoBehaviour
 
     public void OnClickAdjacent()
     {
+        if (!GameManager.instance.CurrentPlayer.HasBow())
+        {
+            noBowText.text = "You don't have a bow...";
+        }
+        noBowText.text = "";
         monsterSelectPanel = GameObject.Find("Canvas/Fight/Monster Select");
         monsterSelectPanel.transform.localScale = new Vector3(0, 0, 0);
 
         ShowAttackableArea();
+    }
+
+    public void ResetTextBow()
+    {
+        noBowText.text = "";
     }
 }
