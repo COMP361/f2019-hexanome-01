@@ -32,6 +32,7 @@ public class FightAtADistance : MonoBehaviour
         //path.Extend(goal);
         //ShowAttackableArea();
         Debug.Log("the cell id is " + goal.Index);
+        fight.goal = this.goal;
         fight.SetupFight();
         fight.ShowHeroSelectPanel();
         DisableAttackArea();
