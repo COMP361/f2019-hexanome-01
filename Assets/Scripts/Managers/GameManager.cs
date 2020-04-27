@@ -120,13 +120,13 @@ public class GameManager : Singleton<GameManager>
         heroes.Add(Warrior.Instance);
         heroes.Add(Mage.Instance);
         heroes.Add(Dwarf.Instance);
-        Warrior.Instance.Cell = Cell.FromId(25);
-        Archer.Instance.Cell = Cell.FromId(25);
-        Mage.Instance.Cell = Cell.FromId(25);
-        Dwarf.Instance.Cell = Cell.FromId(25);
+        Warrior.Instance.Cell = Cell.FromId(26);
+        Archer.Instance.Cell = Cell.FromId(26);
+        Mage.Instance.Cell = Cell.FromId(26);
+        Dwarf.Instance.Cell = Cell.FromId(26);
         thorald = Thorald.Instance;
-        Thorald.Instance.Cell = Cell.FromId(25);
-        Skral.Factory(25);
+        Thorald.Instance.Cell = Cell.FromId(26);
+        Skral.Factory(27);
         mainHeroIndex = 0;
         
 

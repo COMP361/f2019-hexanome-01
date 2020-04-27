@@ -10,7 +10,7 @@ public class FightAtADistance : MonoBehaviour
     private List<Cell> freeCells;
     private List<Cell> extCells;
 
-    GameObject monsterSelectPanel;
+    GameObject monsterSelectPanel = GameObject.Find("Canvas/Fight/Monster Select");
     public Fight fight;
     public GameObject heroSelectPanel;
 
@@ -39,6 +39,7 @@ public class FightAtADistance : MonoBehaviour
         DisableAttackArea();
         monsterSelectPanel.transform.localScale = new Vector3(1, 1, 1);
         monsterSelectPanel.SetActive(false);
+        fight.SetupFight();
         heroSelectPanel.gameObject.SetActive(true);
     }
 
@@ -113,7 +114,7 @@ public class FightAtADistance : MonoBehaviour
                 adjacent_cells.Add(c);
                 foreach(Hero h in c.Inventory.Heroes)
                 {
-                    heroes.Add(h);
+                    if (h.HasBow()) { heroes.Add(h); }
                 }
             }
         }

@@ -66,7 +66,7 @@ public class Fight : MonoBehaviour
         }
     }
 
-    void SetupFight()
+    public void SetupFight()
     {
         selectedHeroes = new List<Hero>();
         selectedHeroes.Add(GameManager.instance.CurrentPlayer);
@@ -76,11 +76,15 @@ public class Fight : MonoBehaviour
         if (distanceFight)
         {
             Cell cell = fightAtADistance.goal;
-            fightAtADistance.CellWithHeroHasBow(cell);
-            foreach (Hero hero in GameManager.instance.heroes)
+            List<Hero> heroes = fightAtADistance.CellWithHeroHasBow(cell);
+            foreach (Hero hero in cell.Inventory.Heroes)
             {
                 // Missing Archer case
                 if (hero.Cell.Index == cell.Index) closeHeroes.Add(hero);
+            }
+            foreach(Hero hero in heroes)
+            {
+                closeHeroes.Add(hero);
             }
         }
         else
@@ -91,7 +95,7 @@ public class Fight : MonoBehaviour
                 if (hero.Cell.Index == GameManager.instance.CurrentPlayer.Cell.Index) closeHeroes.Add(hero);
             }
         }
-        ShowMonsterSelectPanel();
+
         //if(closeHeroes.Count > 1) {
         //    ShowHeroSelectPanel();
         //} else {
@@ -99,19 +103,25 @@ public class Fight : MonoBehaviour
         //}
     }
 
-    public void ShowHeroSelectPanel() {
+    public void ShowHeroSelectPanel()
+    {
         heroSelectPanel.SetActive(true);
+        goal = fightAtADistance.goal;
 
-        foreach (Button btn in heroSelectbtns) {
-            if(btn.gameObject.name == GameManager.instance.CurrentPlayer.TokenName) {
+        foreach (Button btn in heroSelectbtns)
+        {
+            if (btn.gameObject.name == GameManager.instance.CurrentPlayer.TokenName)
+            {
                 btn.gameObject.SetActive(false);
                 continue;
             }
-            
+
             btn.gameObject.SetActive(true);
             btn.interactable = false;
-            foreach(Hero hero in closeHeroes) {
-                if(btn.gameObject.name == hero.TokenName) {
+            foreach (Hero hero in closeHeroes)
+            {
+                if (btn.gameObject.name == hero.TokenName)
+                {
                     btn.interactable = true;
                     Image btnImage = btn.GetComponent<Image>();
                     ButtonMultiSelect sprites = btn.GetComponent<ButtonMultiSelect>();
@@ -143,11 +153,6 @@ public class Fight : MonoBehaviour
         }
 
         multiplayerFight.Init(selectedHeroes);
-    }
-
-    void ShowMonsterSelectPanel()
-    {
-        monsterSelectPanel.SetActive(true);
     }
 
     public void SetDistanceTrue()
