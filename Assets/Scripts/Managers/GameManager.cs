@@ -31,7 +31,7 @@ public class GameManager : Singleton<GameManager>
 
     void Awake()
     {
-        PhotonNetwork.OfflineMode = true;
+        PhotonNetwork.OfflineMode = false;
         players = PhotonNetwork.PlayerList.ToList();
         base.Awake();
     }
@@ -186,8 +186,8 @@ public class GameManager : Singleton<GameManager>
     void NewGame()
     {
         GameObject canvas = GameObject.Find("Canvas");
-        //canvas.transform.Find("DistributeGold").gameObject.SetActive(true);
-        //canvas.transform.Find("DistributeWineskins").gameObject.SetActive(true);
+        canvas.transform.Find("DistributeGold").gameObject.SetActive(true);
+        canvas.transform.Find("DistributeWineskins").gameObject.SetActive(true);
 
         // FARMERS
         farmers.Add(Farmer.Factory(24));
