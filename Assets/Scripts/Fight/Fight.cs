@@ -96,11 +96,14 @@ public class Fight : MonoBehaviour
             }
         }
 
-        //if(closeHeroes.Count > 1) {
-        //    ShowHeroSelectPanel();
-        //} else {
-        //    ShowFightPanel();
-        //}
+        if (closeHeroes.Count > 1)
+        {
+            ShowHeroSelectPanel();
+        }
+        else
+        {
+            ShowFightPanel();
+        }
     }
 
     public void ShowHeroSelectPanel()

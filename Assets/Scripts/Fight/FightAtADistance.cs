@@ -35,11 +35,11 @@ public class FightAtADistance : MonoBehaviour
         //path.Extend(goal);
         //ShowAttackableArea();
         Debug.Log("the cell id is " + goal.Index);
-        fight.ShowHeroSelectPanel();
         DisableAttackArea();
         monsterSelectPanel.transform.localScale = new Vector3(1, 1, 1);
         monsterSelectPanel.SetActive(false);
         fight.SetupFight();
+        fight.ShowHeroSelectPanel();
         heroSelectPanel.gameObject.SetActive(true);
     }
 
