@@ -61,10 +61,13 @@ public class Hero : Movable
             } else {
             _strength = value;
             }
+
+            EventManager.TriggerUpdateHeroStats(this);
+
             if(GameManager.instance.MainHero.TokenName.Equals(this.TokenName)) {
               EventManager.TriggerInventoryUIHeroPeak(GameManager.instance.MainHero.heroInventory);
             } else if(this.TokenName.Equals(CharChoice.choice.TokenName)){
-              EventManager.TriggerInventoryUIHeroPeak(GameManager.instance.findHero(this.TokenName).heroInventory);
+              EventManager.TriggerInventoryUIHeroPeak(heroInventory);
             }
         }
     }
@@ -89,10 +92,13 @@ public class Hero : Movable
             } else {
                 _willpower = value;
             }
+            
+            EventManager.TriggerUpdateHeroStats(this);
+
             if(GameManager.instance.MainHero.TokenName.Equals(this.TokenName)) {
               EventManager.TriggerInventoryUIHeroPeak(GameManager.instance.MainHero.heroInventory);
             } else if(this.TokenName.Equals(CharChoice.choice.TokenName)){
-              EventManager.TriggerInventoryUIHeroPeak(GameManager.instance.findHero(this.TokenName).heroInventory);
+              EventManager.TriggerInventoryUIHeroPeak(heroInventory);
             }
         }
     }

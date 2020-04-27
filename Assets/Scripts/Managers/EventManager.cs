@@ -346,9 +346,7 @@ public class EventManager : MonoBehaviour
             if (!PhotonNetwork.OfflineMode)
             {
                 string playerHero = (string)PhotonNetwork.LocalPlayer.CustomProperties["Class"];
-              //  if(heroInventory.parentHero.Equals(CharChoice.choice.TokenName))
-                if (heroInventory.parentHero == playerHero)
-                {
+                if (heroInventory.parentHero == playerHero) {
                     InventoryUIHeroUpdate(heroInventory);
                     Hero hero = GameManager.instance.findHero(heroInventory.parentHero);
                     TriggerCompleteHeroBoardUpdate(hero);
@@ -587,6 +585,17 @@ public class EventManager : MonoBehaviour
         if (DistributeWinekins != null)
         {
             DistributeWinekins(warriorWineskins, archerWineskins, dwarfWineskins, mageWinekins);
+        }
+    }
+
+    // Triggered when strength and willpower updated for all heroes
+    public delegate void UpdateHeroStatsHandler(Hero hero);
+    public static event UpdateHeroStatsHandler UpdateHeroStats;
+    public static void TriggerUpdateHeroStats(Hero hero)
+    {
+        if (UpdateHeroStats != null)
+        {
+            UpdateHeroStats(hero);
         }
     }
 

@@ -34,11 +34,11 @@ public class Fighter : MonoBehaviour {
     public bool isDead;
     
     void OnEnable() {
-        EventManager.CompleteHeroBoardUpdate += UpdatePlayerStats;
+        EventManager.UpdateHeroStats += UpdatePlayerStats;
     }
 
     void OnDisable() {
-        EventManager.CompleteHeroBoardUpdate -= UpdatePlayerStats;
+        EventManager.UpdateHeroStats -= UpdatePlayerStats;
     }
 
     void Start() {
@@ -125,6 +125,7 @@ public class Fighter : MonoBehaviour {
 
     private void UpdatePlayerStats(Hero h) {
         if(h == this.hero && !isDead) {
+            Debug.Log("update stat " + h.TokenName);
             strength.text = h.Strength.ToString();
             wp.text = h.Willpower.ToString();
         }   

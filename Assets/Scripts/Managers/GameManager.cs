@@ -1,4 +1,3 @@
-
 using Photon.Pun;
 using Photon.Realtime;
 using System.Collections;
@@ -115,20 +114,21 @@ public class GameManager : Singleton<GameManager>
         towerskrals = new List<Enemy>();
         wells = new List<Well>();
 
-        /*
-        heroes.Add(Warrior.Instance);
+        
+        /*heroes.Add(Warrior.Instance);
+        mainHeroIndex = 0;
         heroes.Add(Archer.Instance);
         heroes.Add(Mage.Instance);
         heroes.Add(Dwarf.Instance);
         Warrior.Instance.Cell = Cell.FromId(25);
+        Warrior.Instance.timeline.Index = 5;
+        Warrior.Instance.Willpower = 1;
         Archer.Instance.Cell = Cell.FromId(25);
         Mage.Instance.Cell = Cell.FromId(25);
         Dwarf.Instance.Cell = Cell.FromId(25);
         thorald = Thorald.Instance;
         Thorald.Instance.Cell = Cell.FromId(25);
-        Skral.Factory(25);
-        mainHeroIndex = 0;
-        */
+        TowerSkral.Factory(25, 4);*/
 
         // Add each player's respective hero
         foreach (Player p in players)
