@@ -80,8 +80,9 @@ public class MultiplayerFightPlayer : MonoBehaviour
     {
         Cell cell = Cell.FromId(cellID);
         monster = cell.Inventory.Enemies[0];
-        EventManager.TriggerInventoryUICellEnter(cell.Inventory, cell.Index);
-        
+      //  EventManager.TriggerInventoryUICellEnter(cell.Inventory, cell.Index);
+          EventManager.TriggerFightInventories(GameManager.instance.MainHero.Cell.Inventory, GameManager.instance.MainHero.Cell.Index);
+
         MonsterName.text = monster.TokenName;
         monsterStrength = monster.Strength;
         MonsterStrengthStr.text = monster.Strength.ToString();
