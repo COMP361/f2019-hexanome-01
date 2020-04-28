@@ -17,23 +17,28 @@ public class HeroItemsActions : MonoBehaviour
   Text heroItemsPanelDesc;
 
   bool canUseMoveItems;
+  bool isInRoundFight;
 
 
   void OnEnable() {
     EventManager.HeroItemClick += ShowHeroActions;
     EventManager.MoveSelect += UnlockMoveItems;
     EventManager.LockMoveItems += LockMoveItems;
+    EventManager.StartRoundFight += updateRoundFight;
+    EventManager.EndRoundFight += updateRoundFightEnd;
     }
 
   void OnDisable() {
     EventManager.HeroItemClick -= ShowHeroActions;
     EventManager.MoveSelect -= UnlockMoveItems;
     EventManager.LockMoveItems -= LockMoveItems;
+    EventManager.EndRoundFight -= updateRoundFightEnd;
   }
 
 
   void Awake() {
       canUseMoveItems = false;
+      bool isInRoundFight = false;
       heroItemsPanel = transform.Find("Hero Items Actions").gameObject;
       heroItemsPanelTitle = heroItemsPanel.transform.Find("Panel Title").GetComponent<Text>();
       heroItemsPanelDesc = heroItemsPanel.transform.Find("Panel Description").GetComponent<Text>();
@@ -50,6 +55,14 @@ public class HeroItemsActions : MonoBehaviour
       dropBtn.onClick.AddListener(delegate { DropItem(); });
   }
 
+  void updateRoundFight(){
+    isInRoundFight = true;
+  }
+
+  void updateRoundFightEnd(){
+    isInRoundFight = false;
+  }
+
 
   public void ShowHeroActions(Token item) {
       token = item;
@@ -60,6 +73,9 @@ public class HeroItemsActions : MonoBehaviour
         if(!canUseMoveItems){
           useBtn.interactable = false;
         }
+        if(GameManager.instance.MainHero.IsFighting){
+          dropBtn.interactable = false;
+        }
       }
       if(token is HalfWineskin){
         heroItemsPanelTitle.text = HalfWineskin.itemName;
@@ -67,16 +83,25 @@ public class HeroItemsActions : MonoBehaviour
         if(!canUseMoveItems){
           useBtn.interactable = false;
         }
+        if(GameManager.instance.MainHero.IsFighting){
+          dropBtn.interactable = false;
+        }
       }
       else if(token is Potion){
         heroItemsPanelTitle.text = Potion.itemName;
         heroItemsPanelDesc.text = Potion.desc;
         useBtn.interactable = false;
+        if(GameManager.instance.MainHero.IsFighting){
+          dropBtn.interactable = false;
+        }
       }
       else if(token is Bow){
         heroItemsPanelTitle.text = Bow.itemName;
         heroItemsPanelDesc.text = Bow.desc;
         useBtn.interactable = false;
+        if(GameManager.instance.MainHero.IsFighting){
+          dropBtn.interactable = false;
+        }
       }
       else if(token is Falcon){
         heroItemsPanelTitle.text = Falcon.itemName;
@@ -84,25 +109,40 @@ public class HeroItemsActions : MonoBehaviour
         if(!canUseFalcon()){
           useBtn.interactable = false;
         }
+        if(GameManager.instance.MainHero.IsFighting){
+          dropBtn.interactable = false;
+        }
       }
       else if(token is Helm){
         heroItemsPanelTitle.text = Helm.itemName;
         heroItemsPanelDesc.text = Helm.desc;
         useBtn.interactable = false;
+        if(GameManager.instance.MainHero.IsFighting){
+          dropBtn.interactable = false;
+        }
       }
       else if(token is Herb){
         heroItemsPanelTitle.text = Herb.itemName;
         heroItemsPanelDesc.text = Herb.desc;
+        if(GameManager.instance.MainHero.IsFighting){
+          dropBtn.interactable = false;
+        }
       }
       else if(token is Runestone){
         heroItemsPanelTitle.text = Runestone.itemName;
         heroItemsPanelDesc.text = Runestone.desc;
         useBtn.interactable = false;
+        if(GameManager.instance.MainHero.IsFighting){
+          dropBtn.interactable = false;
+        }
       }
       else if(token is Shield){
         heroItemsPanelTitle.text = Shield.itemName;
         heroItemsPanelDesc.text = Shield.desc;
         useBtn.interactable = false;
+        if(GameManager.instance.MainHero.IsFighting){
+          dropBtn.interactable = false;
+        }
       }
       else if(token is Telescope){
         heroItemsPanelTitle.text = Telescope.itemName;
@@ -110,12 +150,18 @@ public class HeroItemsActions : MonoBehaviour
         if(!canUseTelescope()){
          useBtn.interactable = false;
         }
+        if(GameManager.instance.MainHero.IsFighting){
+          dropBtn.interactable = false;
+        }
       }
 
       else if(token is GoldCoin){
         heroItemsPanelTitle.text = GoldCoin.itemName;
         heroItemsPanelDesc.text = GoldCoin.desc;
         useBtn.interactable = false;
+        if(GameManager.instance.MainHero.IsFighting){
+          dropBtn.interactable = false;
+        }
       }
 
 
@@ -127,6 +173,7 @@ public class HeroItemsActions : MonoBehaviour
   public void HideHeroActions() {
     this.token = null;
     useBtn.interactable = true;
+    dropBtn.interactable = true;
     heroItemsPanel.SetActive(false);
   }
 

@@ -844,5 +844,44 @@ public class EventManager : MonoBehaviour
         }
     }
 
+    public delegate void FightInventoriesHandler(CellInventory cellInv, int index);
+    public static event FightInventoriesHandler FightInventories;
+    public static void TriggerFightInventories(CellInventory cellInv, int index)
+    {
+        if (FightInventories != null)
+        {
+            FightInventories(cellInv, index);
+        }
+    }
+    public delegate void EndFightInventoriesHandler();
+    public static event EndFightInventoriesHandler EndFightInventories;
+    public static void TriggerEndFightInventories()
+    {
+        if (EndFightInventories != null)
+        {
+            EndFightInventories();
+        }
+    }
+
+    public delegate void StartRoundFightHandler();
+    public static event StartRoundFightHandler StartRoundFight;
+    public static void TriggerStartRoundFight()
+    {
+        if (StartRoundFight != null)
+        {
+            StartRoundFight();
+        }
+    }
+
+    public delegate void EndRoundFightHandler();
+    public static event EndRoundFightHandler EndRoundFight;
+    public static void TriggerEndRoundFight()
+    {
+        if (EndRoundFight != null)
+        {
+            EndRoundFight();
+        }
+    }
+
 
 }

@@ -50,31 +50,48 @@ public class CellItemsActions : MonoBehaviour
     if(token is Wineskin){
       cellItemsPanelTitle.text = Wineskin.itemName;
       cellItemsPanelDesc.text = Wineskin.desc;
-
+      if(GameManager.instance.MainHero.IsFighting){
+        pickBtn.interactable = false;
+      }
     }
     else if(token is Potion){
       cellItemsPanelTitle.text = Potion.itemName;
       cellItemsPanelDesc.text = Potion.desc;
+      if(GameManager.instance.MainHero.IsFighting){
+        pickBtn.interactable = false;
+      }
 
     }
     else if(token is Bow){
       cellItemsPanelTitle.text = Bow.itemName;
       cellItemsPanelDesc.text = Bow.desc;
+      if(GameManager.instance.MainHero.IsFighting){
+        pickBtn.interactable = false;
+      }
 
     }
     else if(token is Falcon){
       cellItemsPanelTitle.text = Falcon.itemName;
       cellItemsPanelDesc.text = Falcon.desc;
+      if(GameManager.instance.MainHero.IsFighting){
+        pickBtn.interactable = false;
+      }
 
     }
     else if(token is Helm){
       cellItemsPanelTitle.text = Helm.itemName;
       cellItemsPanelDesc.text = Helm.desc;
+      if(GameManager.instance.MainHero.IsFighting){
+        pickBtn.interactable = false;
+      }
 
     }
     else if(token is Herb){
       cellItemsPanelTitle.text = Herb.itemName;
       cellItemsPanelDesc.text = Herb.desc;
+      if(GameManager.instance.MainHero.IsFighting){
+        pickBtn.interactable = false;
+      }
 
     }
     else if(token is Runestone){
@@ -84,26 +101,41 @@ public class CellItemsActions : MonoBehaviour
         useBtn.interactable = true;
         pickBtn.interactable = false;
       }
+      if(GameManager.instance.MainHero.IsFighting){
+        pickBtn.interactable = false;
+      }
 
     }
     else if(token is Shield){
       cellItemsPanelTitle.text = Shield.itemName;
       cellItemsPanelDesc.text = Shield.desc;
+      if(GameManager.instance.MainHero.IsFighting){
+        pickBtn.interactable = false;
+      }
 
     }
     else if(token is Telescope){
       cellItemsPanelTitle.text = Telescope.itemName;
       cellItemsPanelDesc.text = Telescope.desc;
+      if(GameManager.instance.MainHero.IsFighting){
+        pickBtn.interactable = false;
+      }
 
     }
     else if(token is GoldCoin){
       cellItemsPanelTitle.text = GoldCoin.itemName;
       cellItemsPanelDesc.text = GoldCoin.desc;
+      if(GameManager.instance.MainHero.IsFighting){
+        pickBtn.interactable = false;
+      }
 
     }
     else if (token is Well){
       cellItemsPanelTitle.text = Well.itemName;
       cellItemsPanelDesc.text = Well.desc;
+      if(GameManager.instance.MainHero.IsFighting){
+        pickBtn.interactable = false;
+      }
 
     }
     cellItemsPanel.SetActive(true);

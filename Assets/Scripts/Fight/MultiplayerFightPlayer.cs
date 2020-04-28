@@ -216,7 +216,7 @@ public class MultiplayerFightPlayer : MonoBehaviour
                 fighters.Remove(f);
             }
         }
-        
+
         if (fighters.Count == 0) {
             fightOver = true;
             ResultMsg.text = "Heroes have lost.";
@@ -262,7 +262,7 @@ public class MultiplayerFightPlayer : MonoBehaviour
                 f.hero.setWP(willpower);
 
                 // Check Game Over
-                
+
                 if (willpower <= 0) {
                     f.isDead = true;
                     f.KillFighter();
@@ -280,7 +280,7 @@ public class MultiplayerFightPlayer : MonoBehaviour
 
         leaveBtn.interactable = true;
         attackBtn.interactable = false;
-        newRoundBtn.interactable = true; 
+        newRoundBtn.interactable = true;
 
         for(int i = fighters.Count-1; i >= 0; i--) {
             Fighter f = fighters[i];
@@ -301,7 +301,7 @@ public class MultiplayerFightPlayer : MonoBehaviour
             killMonster();
         }
 
-        if(fightOver) newRoundBtn.interactable = false;  
+        if(fightOver) newRoundBtn.interactable = false;
     }
 
     private void disablePanel()
@@ -378,6 +378,7 @@ public class MultiplayerFightPlayer : MonoBehaviour
     }
 
     public void EndFight() {
+        EventManager.TriggerEndFightInventories();
         panel.SetActive(false);
         if(numRounds == 0)  {
             EventManager.TriggerActionUpdate(Action.None.Value);
