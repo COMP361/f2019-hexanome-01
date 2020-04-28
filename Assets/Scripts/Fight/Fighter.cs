@@ -17,12 +17,13 @@ public class Fighter : MonoBehaviour {
     public int lastRoll;
     
     public Button potion;
+
     private Potion potionToken;
 
     public bool hasHelm;
     public Button helm;
 
-    public bool hasShield;
+    private Shield shieldToken;
     public Button shield;
 
     public static Fighter lastHeroToRoll;
@@ -33,6 +34,7 @@ public class Fighter : MonoBehaviour {
     public int maxRollCount;
     public int maxDices;
     public bool isDead;
+    private int lastLoss;
     
     void OnEnable() {
         EventManager.UpdateHeroStats += UpdatePlayerStats;
@@ -47,7 +49,7 @@ public class Fighter : MonoBehaviour {
         abandonBtn.onClick.AddListener(delegate { AbandonFight(); });
         potion.onClick.AddListener(delegate { UsePotion(); });
         helm.onClick.AddListener(delegate { UseHelm(); });
-        //shield.onClick.AddListener(delegate { UseShield(); });
+        shield.onClick.AddListener(delegate { UseShield(); });
     }
 
     public void InitDices() {
@@ -83,6 +85,7 @@ public class Fighter : MonoBehaviour {
     public void NewRound() {
         InitAccessories();
         InitDices();
+        lastLoss = 0;
         fight.pv.RPC("NewRoundRPC", RpcTarget.AllViaServer, new object[] { hero.TokenName });
         UnlockRollBtns();
         lastRoll = -1;
@@ -123,9 +126,13 @@ public class Fighter : MonoBehaviour {
         }   
     }
 
-    public virtual void EndofRound() {
+    public virtual void EndofRound(int loss) {
         potion.interactable = false;
         helm.interactable = false;
+        if(loss > 0 && shieldToken != null) {
+            lastLoss = loss;
+            shield.interactable = true;
+        }
         fight.pv.RPC("EndofRoundRPC", RpcTarget.AllViaServer, new object[] { hero.TokenName });
     }
 
@@ -186,8 +193,7 @@ public class Fighter : MonoBehaviour {
         return lastRoll;
     }
 
-    public static int getMaxValue(regularDices[] rdList) 
-{
+    public static int getMaxValue(regularDices[] rdList) {
         int max = 0;
         foreach (regularDices dice in rdList)
         {
@@ -214,7 +220,9 @@ public class Fighter : MonoBehaviour {
         }
 
         hasHelm = false;
-        hasShield = false;
+        shieldToken = null;
+        helm.gameObject.SetActive(false); 
+        shield.gameObject.SetActive(false); 
         foreach(DictionaryEntry entry in hero.heroInventory.AllTokens) {
             Token token = (Token)entry.Value;
 
@@ -223,7 +231,7 @@ public class Fighter : MonoBehaviour {
                 helm.gameObject.SetActive(true);
                 helm.interactable = false; 
             } else if(token is Shield) {
-                hasShield = true;
+                shieldToken = (Shield)token;
                 shield.gameObject.SetActive(true); 
                 shield.interactable = false;
             }
@@ -242,6 +250,20 @@ public class Fighter : MonoBehaviour {
             } else {
                 HalfPotion hp = HalfPotion.Factory();
                 hero.heroInventory.ReplaceSmallToken(potionToken, hp, true);
+            }
+        }
+    }
+
+    private void UseShield() {
+        if (lastLoss != 0) {
+            shield.interactable = false;
+            hero.Willpower += lastLoss;
+            
+            if(shieldToken is HalfShield) {
+                hero.heroInventory.RemoveBigToken(shieldToken);
+            } else {
+                HalfShield hs = HalfShield.Factory();
+                hero.heroInventory.ReplaceBigToken(shieldToken, hs, true);
             }
         }
     }

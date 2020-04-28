@@ -25,7 +25,7 @@ public class LegendCardUI : MonoBehaviour {
         id = transform.Find("Panel/Id").GetComponent<Text>();
         confirmBtn = transform.Find("Panel/Confirm").GetComponent<Button>();
 
-        confirmBtn.onClick.AddListener(delegate { Apply(); });
+        confirmBtn.onClick.AddListener(delegate { Hide(); });
     }
 
     public void Show(LegendCard card) {
@@ -34,18 +34,15 @@ public class LegendCardUI : MonoBehaviour {
         text.text += "\n" + card.effect;
         id.text = "" + card.id;
 
-        BigToken bigToken = GameManager.instance.MainHero.heroInventory.bigToken;
-
-
-
         panel.SetActive(true);
     }
 
-    public void Apply() {
+    /*public void Apply() {
+        Debug.Log(card.id);
         card.ApplyEffect();
         Hide();
         card = null;
-    }
+    }*/
 
     public void Hide() {
         panel.SetActive(false);

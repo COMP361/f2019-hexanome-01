@@ -17,11 +17,8 @@ public class G : LegendCard
 
     public override void ApplyEffect()
     {
-        Cell thoraldCell = GameManager.instance.thorald.Cell;
-        int thoraldIndex = thoraldCell.Inventory.AllTokens.IndexOf(GameManager.instance.thorald);
-        thoraldCell.Inventory.RemoveToken(thoraldIndex);
-        GameManager.instance.thorald.Destroy();
-        GameManager.instance.thorald = null;
+        Thorald.Instance.Cell = null;
+        Thorald.Instance.Destroy();
         GameManager.instance.wardraks.Add(Wardrak.Factory(26));
         GameManager.instance.wardraks.Add(Wardrak.Factory(27));
     }

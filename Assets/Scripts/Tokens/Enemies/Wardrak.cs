@@ -16,10 +16,7 @@ public class Wardrak : Enemy {
 
         Cell cell = Cell.FromId(cellID);
         // Check if cell is occupied by another monster
-        while(cell.Inventory.Enemies.Count != 0 && cell.Index != 0)
-        {
-            cell = cell.enemyPath;
-        }
+        while(cell.Inventory.Enemies.Count != 0 && cell.Index != 0) cell = cell.enemyPath;
         wardrak.Cell = cell;
         
         wardrak.Will = 7;

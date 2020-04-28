@@ -232,23 +232,20 @@ public class MultiplayerFightPlayer : MonoBehaviour
             if (f.lastRoll == -1) return;
         }
 
-        foreach (Fighter f in fighters) {
-            f.EndofRound();
-        }
-
         int total_hero_strength = getHeroesScore();
         int total_monster_strength = monsterStrength + MonsterRoll();
         MonsterTotalStrength.text = total_monster_strength.ToString();
 
         // Actors fighting.
         int difference;
+        int roundLoss = 0;
         if (total_hero_strength > total_monster_strength) {
             difference = total_hero_strength - total_monster_strength;
             monsterWP = Math.Max(0, monsterWP - difference);
             MonsterWPStr.text = monsterWP.ToString();
         } else if (total_hero_strength < total_monster_strength) {
             difference = total_monster_strength - total_hero_strength;
-
+            roundLoss = difference;
             for(int i = fighters.Count-1; i >= 0; i--) {
                 Fighter f = fighters[i];
                 
@@ -270,6 +267,10 @@ public class MultiplayerFightPlayer : MonoBehaviour
                     fighters.Remove(f);
                 }
             }
+        }
+
+        foreach (Fighter f in fighters) {
+            f.EndofRound(roundLoss);
         }
 
         leaveBtn.interactable = true;

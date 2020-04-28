@@ -111,24 +111,19 @@ public class Narrator {
         {
             LegendCard runestoneCard = legendCardDeck.getCard("RunestoneCard");
             witchFound = true;//REMOVE AFTER
-            if (!legendCardDeck.isEasy && witchFound)
-            {
+            if (!legendCardDeck.isEasy && witchFound) {
                 runestoneCard.ApplyEffect();
-            }
-            else if (legendCardDeck.isEasy)
-            {
+            } else if (legendCardDeck.isEasy) {
                 runestoneCard.ApplyEffect();
             }
         }
 
-        if (index == 0) // C
+        if (index == 0) // A
         {
             LegendCard A3 = legendCardDeck.getCard("A3");
             LegendCard A4 = legendCardDeck.getCard("A4");
             A3.ApplyEffect();
             A4.ApplyEffect();
-      //      tasks.Add("Tower Skrall", "- Kill the Tower Skral \n");
-      //      UpdateTasks();
         }
 
         if (index == 2) // C
