@@ -250,14 +250,7 @@ public class MultiplayerFightPlayer : MonoBehaviour
 
             for(int i = fighters.Count-1; i >= 0; i--) {
                 Fighter f = fighters[i];
-                if (f.useShield) {
-                    f.shield.enabled = true;
-                    Image img = f.shield.GetComponent<Image>();
-                    img.color = Color.white;
-                    f.useShield = false;
-                    continue;
-                }
-
+                
                 int willpower = Math.Max(0, f.hero.Willpower - difference);
                 f.hero.setWP(willpower);
 

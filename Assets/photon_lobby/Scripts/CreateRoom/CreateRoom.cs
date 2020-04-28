@@ -34,4 +34,14 @@ public class CreateRoom : MonoBehaviourPunCallbacks, IMatchmakingCallbacks
     {
         print("create room failed: " + codeAndMessage[1]);
     }
+
+    public override void OnJoinedRoom() {
+        GameObject btn = GameObject.Find("Canvas/CurrentRoom/StartMatchSync").gameObject;
+
+        if (PhotonNetwork.IsMasterClient) {
+            btn.SetActive(true);
+        } else {
+            btn.SetActive(false);
+        }
+    }
 }

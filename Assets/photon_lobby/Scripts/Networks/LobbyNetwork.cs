@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
+using UnityEngine.UI;
 
 public class LobbyNetwork : MonoBehaviourPunCallbacks, IConnectionCallbacks, ILobbyCallbacks
 {
@@ -22,6 +23,8 @@ public class LobbyNetwork : MonoBehaviourPunCallbacks, IConnectionCallbacks, ILo
     public override void OnJoinedLobby()
     {
         print("Joined Lobby.");
+        Button btn = GameObject.Find("Canvas/Lobby/CreateRoom").GetComponent<Button>();
+        if(btn != null) btn.interactable = true;
 
         if(!PhotonNetwork.InRoom)
             MainCanvasManager.Instance.LobbyCanvas.transform.SetAsLastSibling();

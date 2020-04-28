@@ -610,18 +610,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1814048864783017930}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 3401647045485693936}
-        m_MethodName: OnClickPotionWarrior
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!1 &960299353681750950
 GameObject:
   m_ObjectHideFlags: 0
@@ -865,18 +854,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1745986881918091886}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 3401647045485693936}
-        m_MethodName: OnClickShieldWarrior
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!1 &1227009085386457732
 GameObject:
   m_ObjectHideFlags: 0
@@ -975,7 +953,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 10, y: -30}
+  m_AnchoredPosition: {x: 57.5, y: -20}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!212 &6151534334433717324
@@ -1015,7 +993,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -339813411
   m_SortingLayer: 5
-  m_SortingOrder: 1
+  m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 876ffe4b7a6b02b4dacaeeb1c06386f1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -2842,18 +2820,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 7483135242326223305}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 3401647045485693936}
-        m_MethodName: OnClickHelmWarrior
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!1 &2980752120704416679
 GameObject:
   m_ObjectHideFlags: 0
@@ -2956,7 +2923,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3178223908480208223}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 375416061032356935}
@@ -3451,15 +3418,12 @@ MonoBehaviour:
   sd: {fileID: 8601175108010952557}
   hasSpecialDie: 0
   lastRoll: -1
+  hasPotion: 0
   potion: {fileID: 4062177341451431998}
-  nb_potion: 0
-  potionText: {fileID: 2931585227187189030}
+  hasHelm: 0
   helm: {fileID: 2932718998012405640}
-  nb_helm: 0
+  hasShield: 0
   shield: {fileID: 4441178467821268942}
-  nb_shield: 0
-  shieldText: {fileID: 6952468713676284627}
-  useShield: 0
   rollBtn: {fileID: 3401647046923471598}
   abandonBtn: {fileID: 3401647046212305292}
   fight: {fileID: 3401647045485693936}
@@ -3558,15 +3522,12 @@ MonoBehaviour:
   sd: {fileID: 7794015727480247013}
   hasSpecialDie: 0
   lastRoll: -1
+  hasPotion: 0
   potion: {fileID: 8260257536303780363}
-  nb_potion: 0
-  potionText: {fileID: 8713957040852687192}
+  hasHelm: 0
   helm: {fileID: 1918815406383295031}
-  nb_helm: 0
+  hasShield: 0
   shield: {fileID: 2852878915728696955}
-  nb_shield: 0
-  shieldText: {fileID: 5899668349890578214}
-  useShield: 0
   rollBtn: {fileID: 3401647046611335269}
   abandonBtn: {fileID: 3401647046817238461}
   fight: {fileID: 3401647045485693936}
@@ -4640,15 +4601,12 @@ MonoBehaviour:
   sd: {fileID: 6729418071135346975}
   hasSpecialDie: 0
   lastRoll: -1
+  hasPotion: 0
   potion: {fileID: 3212946537252623839}
-  nb_potion: 0
-  potionText: {fileID: 751038343408858023}
+  hasHelm: 0
   helm: {fileID: 5160027456732201296}
-  nb_helm: 0
+  hasShield: 0
   shield: {fileID: 5697373259917167417}
-  nb_shield: 0
-  shieldText: {fileID: 4145687021231921855}
-  useShield: 0
   rollBtn: {fileID: 3401647045785369470}
   abandonBtn: {fileID: 3401647045849700265}
   fight: {fileID: 3401647045485693936}
@@ -7265,15 +7223,12 @@ MonoBehaviour:
   sd: {fileID: 29440135833213107}
   hasSpecialDie: 0
   lastRoll: -1
+  hasPotion: 0
   potion: {fileID: 1152739940729974805}
-  nb_potion: 0
-  potionText: {fileID: 5077631256682727265}
+  hasHelm: 0
   helm: {fileID: 8055791282030652809}
-  nb_helm: 0
+  hasShield: 0
   shield: {fileID: 5223302279220927612}
-  nb_shield: 0
-  shieldText: {fileID: 4733365027567535294}
-  useShield: 0
   rollBtn: {fileID: 3401647045880283078}
   abandonBtn: {fileID: 3401647045898136162}
   fight: {fileID: 3401647045485693936}
@@ -7846,7 +7801,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3415109459329378517}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 8808412751522071638}
@@ -8211,18 +8166,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 3032949354577746256}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 3401647045485693936}
-        m_MethodName: OnClickPotionWarrior
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!1 &4029976484359736253
 GameObject:
   m_ObjectHideFlags: 0
@@ -8248,7 +8192,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4029976484359736253}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2456418745452728794}
@@ -9123,7 +9067,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5501603600800393789}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 935123396183847697}
@@ -9278,18 +9222,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 7065874682006237583}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 3401647045485693936}
-        m_MethodName: OnClickShieldWarrior
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!1 &5679321529916727407
 GameObject:
   m_ObjectHideFlags: 0
@@ -9407,18 +9340,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6303849296718691963}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 3401647045485693936}
-        m_MethodName: OnClickHelmWarrior
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!1 &5749080266855685285
 GameObject:
   m_ObjectHideFlags: 0
@@ -9788,18 +9710,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 7421313137024110601}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 3401647045485693936}
-        m_MethodName: OnClickPotionWarrior
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!1 &5906209103592287806
 GameObject:
   m_ObjectHideFlags: 0
@@ -9979,18 +9890,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 8302482891740682567}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 3401647045485693936}
-        m_MethodName: OnClickHelmWarrior
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!1 &5959190537817700274
 GameObject:
   m_ObjectHideFlags: 0
@@ -11571,18 +11471,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6363841845182753412}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 3401647045485693936}
-        m_MethodName: OnClickHelmWarrior
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!1 &7454301825617888112
 GameObject:
   m_ObjectHideFlags: 0
@@ -11917,18 +11806,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2681497326359677966}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 3401647045485693936}
-        m_MethodName: OnClickShieldWarrior
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!1 &7657328121299100805
 GameObject:
   m_ObjectHideFlags: 0
@@ -12123,18 +12001,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 8550273357572223422}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 3401647045485693936}
-        m_MethodName: OnClickShieldWarrior
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!1 &7779133994068639994
 GameObject:
   m_ObjectHideFlags: 0
@@ -12233,7 +12100,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 10, y: -30}
+  m_AnchoredPosition: {x: 57.5, y: -20}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!212 &3454700179180946492
@@ -12273,7 +12140,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -339813411
   m_SortingLayer: 5
-  m_SortingOrder: 1
+  m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 876ffe4b7a6b02b4dacaeeb1c06386f1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -12441,18 +12308,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 5445016965784530994}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 3401647045485693936}
-        m_MethodName: OnClickPotionWarrior
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!1 &7977479776645911523
 GameObject:
   m_ObjectHideFlags: 0

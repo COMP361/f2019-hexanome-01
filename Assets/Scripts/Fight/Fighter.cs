@@ -9,27 +9,28 @@ using System;
 
 public class Fighter : MonoBehaviour {
     public Hero hero;
-
     public Text strength;
     public Text wp;
     public regularDices[] rd; 
     public specialDices sd;
-    public bool hasSpecialDie = false;
-    public int lastRoll = -1;
+    public bool hasSpecialDie;
+    public int lastRoll;
+    
     public Button potion;
-    public double nb_potion = 0; // SET TO ZERO IF NOT TESTING
-    public Text potionText;
+    private Potion potionToken;
+
+    public bool hasHelm;
     public Button helm;
-    public int nb_helm = 0;
+
+    public bool hasShield;
     public Button shield;
-    public double nb_shield = 0;
-    public Text shieldText;
-    public bool useShield = false;
+
     public static Fighter lastHeroToRoll;
     public Button rollBtn, abandonBtn;
     public MultiplayerFightPlayer fight;
-    public int rollCount = 0;
-    public int maxRollCount = 1;
+    public int rollCount;
+    private int doubleRank;
+    public int maxRollCount;
     public int maxDices;
     public bool isDead;
     
@@ -44,9 +45,14 @@ public class Fighter : MonoBehaviour {
     void Start() {
         rollBtn.onClick.AddListener(delegate { RollDice(); });
         abandonBtn.onClick.AddListener(delegate { AbandonFight(); });
+        potion.onClick.AddListener(delegate { UsePotion(); });
+        helm.onClick.AddListener(delegate { UseHelm(); });
+        //shield.onClick.AddListener(delegate { UseShield(); });
     }
 
     public void InitDices() {
+        hasSpecialDie = false;
+
         maxDices = hero.Dices[hero.Willpower];
         if(hero.HasBow()) {
             maxRollCount = maxDices;
@@ -56,7 +62,7 @@ public class Fighter : MonoBehaviour {
         }
 
         if(hero.HasSpecialDice()) {
-            this.hasSpecialDie = true;
+            hasSpecialDie = true;
             this.sd.gameObject.SetActive(true);
             this.sd.ResetTheDie();
             maxDices -= 1;
@@ -75,6 +81,7 @@ public class Fighter : MonoBehaviour {
     }
 
     public void NewRound() {
+        InitAccessories();
         InitDices();
         fight.pv.RPC("NewRoundRPC", RpcTarget.AllViaServer, new object[] { hero.TokenName });
         UnlockRollBtns();
@@ -93,20 +100,8 @@ public class Fighter : MonoBehaviour {
 
         InitDices();
 
-        foreach (DictionaryEntry entry in hero.heroInventory.smallTokens) {
-            Token token = (Token)entry.Value;
-            if (token is Potion) this.nb_potion++;
-        }
-
-        foreach(var t in hero.heroInventory.AllTokens) {
-            if(t is Helm) {
-                this.nb_helm += 1;
-            }
-            if(t is Shield) {
-                this.nb_shield += 1;
-            }
-        }
-
+        InitAccessories();
+        
         LockRollBtns();
     }
 
@@ -129,30 +124,46 @@ public class Fighter : MonoBehaviour {
     }
 
     public virtual void EndofRound() {
+        potion.interactable = false;
+        helm.interactable = false;
         fight.pv.RPC("EndofRoundRPC", RpcTarget.AllViaServer, new object[] { hero.TokenName });
     }
 
     public int RollDice() {
         foreach(Fighter f in fight.fighters) {
-            if (f.rollCount < f.maxRollCount && f.rollCount > 0 && f != this) {
+            if (f.rollCount > 0 && f != this) {
                 f.rollBtn.interactable = false;
+                f.potion.interactable = false;
+                f.helm.interactable = false;
             }        
         }
+
         if (rollCount >= maxRollCount) return lastRoll;
+        
+        // First to roll, unlock flip btn
         if(lastHeroToRoll == null) MageFighter.UnlockFlipBtn();
+        
         fight.remainingRolls -= 1;
         lastHeroToRoll = this;
+        doubleRank = -1;
 
         regularDices[] activeDice = new regularDices[maxDices];
         for(int i = 0; i < maxDices; i++) {
             rd[i].RollTheDice();
             activeDice[i] = rd[i];
         }
-
-        rollCount++;
-        if (rollCount >= maxRollCount) rollBtn.interactable = false;
         lastRoll = getMaxValue(activeDice);
-
+        
+        if(maxDices >= 2) {
+            for(int i = 0; i < activeDice.Length; i++) {
+                for(int j = i+1; j < activeDice.Length; j++) {
+                    if(activeDice[i].getFinalSide() == activeDice[j].getFinalSide() && activeDice[i].getFinalSide() > doubleRank) {
+                        doubleRank = activeDice[i].getFinalSide();
+                    }
+                }
+            }
+        }
+        
         if (this.hasSpecialDie) {
             sd.RollTheDice();
             if(sd.finalSide >= lastRoll) {
@@ -160,11 +171,17 @@ public class Fighter : MonoBehaviour {
             }
         }
 
+        rollCount++;
+        if (rollCount >= maxRollCount) rollBtn.interactable = false;
+
         if(fight.remainingRolls == 0) {
             fight.attackBtn.interactable = true;
         }
 
         fight.getHeroesScore();
+
+        if(potionToken != null) potion.interactable = true;
+        if(hasHelm && doubleRank > -1 && doubleRank*2 > lastRoll) helm.interactable = true;
 
         return lastRoll;
     }
@@ -183,50 +200,58 @@ public class Fighter : MonoBehaviour {
         return max;
     }
 
-    private void HasPotion()
-    {
-        if (nb_potion > 0) {
-            potion.GetComponent<Button>().enabled = true; 
+    private void InitAccessories() {
+        potionToken = null;
+        potion.gameObject.SetActive(false); 
+        foreach (DictionaryEntry entry in hero.heroInventory.smallTokens) {
+            Token token = (Token)entry.Value;
+            if (token is Potion) {
+                potionToken = (Potion)token;
+                potion.gameObject.SetActive(true); 
+                potion.interactable = false;
+                break;
+            }
+        }
+
+        hasHelm = false;
+        hasShield = false;
+        foreach(DictionaryEntry entry in hero.heroInventory.AllTokens) {
+            Token token = (Token)entry.Value;
+
+            if(token is Helm) {
+                hasHelm = true;
+                helm.gameObject.SetActive(true);
+                helm.interactable = false; 
+            } else if(token is Shield) {
+                hasShield = true;
+                shield.gameObject.SetActive(true); 
+                shield.interactable = false;
+            }
         }
     }
 
-    private void UsePotion()
-    {
-        if (nb_potion > 0 && lastRoll != -1)
-        {
-            potion.GetComponent<Image>().color = potion.GetComponent<Button>().colors.pressedColor;
+    private void UsePotion() {
+        if (lastRoll != -1) {
+            potion.interactable = false;
+            helm.interactable = false;
             lastRoll = lastRoll * 2;
-            nb_potion -= 0.5;
-            potionText.text = nb_potion.ToString();
-            fight.AttackMessage.text = "";
-        }
-        else if (nb_potion > 0 && lastRoll == -1)
-        {
-        fight.AttackMessage.text = "Roll before using the potion!";
-        }
-        else
-        {
-            potion.GetComponent<Image>().color = potion.GetComponent<Button>().colors.normalColor;
-            potion.enabled = false;
-            fight.AttackMessage.text = "";
+            fight.getHeroesScore();
+
+            if(potionToken is HalfPotion) {
+                hero.heroInventory.RemoveSmallToken(potionToken);
+            } else {
+                HalfPotion hp = HalfPotion.Factory();
+                hero.heroInventory.ReplaceSmallToken(potionToken, hp, true);
+            }
         }
     }
 
-    private void UseHelm()
-    {
-        if (nb_helm > 0 && lastRoll != -1)
-        {
-            potion.GetComponent<Image>().color = potion.GetComponent<Button>().colors.pressedColor;
-            lastRoll = lastRoll * 2;
-            nb_helm -= 1;
-            potionText.text = nb_helm.ToString();
-            fight.AttackMessage.text = "";
-        } else if (nb_helm > 0 && lastRoll == -1) {
-            fight.AttackMessage.text = "Roll before using the helm!";
-        } else {
-            helm.GetComponent<Image>().color = helm.GetComponent<Button>().colors.normalColor;
-            helm.enabled = false;
-            fight.AttackMessage.text = "";
+    private void UseHelm() {
+        if (lastRoll != -1) {
+            potion.interactable = false;
+            helm.interactable = false;
+            lastRoll = doubleRank * 2;
+            fight.getHeroesScore();
         }
     }
 
@@ -237,15 +262,13 @@ public class Fighter : MonoBehaviour {
         InitDices();
     }
 
-    public void KillFighter()
-    {
+    public void KillFighter() {
         rollBtn.interactable = false;
         abandonBtn.interactable = false;
 
         transform.Find("Image").gameObject.SetActive(false);
         transform.Find("RIP").gameObject.SetActive(true);
     }
-
 
     public void AbandonFight() {
         if(fight.fighters.Count == 1) fight.EndFight();

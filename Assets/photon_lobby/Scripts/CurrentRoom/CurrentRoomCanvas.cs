@@ -11,7 +11,6 @@ public class CurrentRoomCanvas : MonoBehaviourPunCallbacks
             return;
 
         PhotonNetwork.LoadLevel(2);
-        //PhotonNetwork.LoadLevel(2);
     }
 
     public void OnClickStartDelayed()
