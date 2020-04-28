@@ -118,8 +118,8 @@ public class Hero : Movable
         List<Cell> cells = new List<Cell>();
         if(HasBow()) {
             cells = GameManager.instance.CurrentPlayer.Cell.WithinRange(0, 1);
-            foreach (Cell c in cells) {
-                if(c.Inventory.Enemies.Count == 0) cells.Remove(c);
+            for (int i = cells.Count-1; i >= 0; i--) {
+                if(cells[i].Inventory.Enemies.Count == 0) cells.Remove(cells[i]);
             }
         } else {
             if(GameManager.instance.CurrentPlayer.Cell.Inventory.Enemies.Count > 0) {

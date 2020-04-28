@@ -69,6 +69,7 @@ public class Fight : MonoBehaviour
     {
         if (!WaitforCell || hero != GameManager.instance.CurrentPlayer) return;
         
+        WaitforCell = false;
         foreach (Cell cell in Cell.cells) {
             cell.Reset();
         }
