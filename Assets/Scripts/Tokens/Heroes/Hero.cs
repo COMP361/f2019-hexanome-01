@@ -114,6 +114,23 @@ public class Hero : Movable
         return false;
     }
 
+    public List<Cell> GetAttackableCells() {
+        List<Cell> cells = new List<Cell>();
+        if(HasBow()) {
+            cells = GameManager.instance.CurrentPlayer.Cell.WithinRange(0, 1);
+            foreach (Cell c in cells) {
+                if(c.Inventory.Enemies.Count == 0) cells.Remove(c);
+            }
+        } else {
+            if(GameManager.instance.CurrentPlayer.Cell.Inventory.Enemies.Count > 0) {
+                cells.Add(GameManager.instance.CurrentPlayer.Cell.Inventory.Enemies[0].Cell);
+            }
+        }
+
+        return cells;
+    }
+
+
     public bool HasSpecialDice() {
         List<Runestone> stones = new List<Runestone>();
 

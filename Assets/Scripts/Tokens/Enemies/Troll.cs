@@ -15,7 +15,13 @@ public class Troll : Enemy {
 
         Troll troll = go.AddComponent<Troll>();
         troll.TokenName = Type;
-        troll.Cell = Cell.FromId(cellID);
+        Cell cell = Cell.FromId(cellID);
+        // Check if cell is occupied by another monster
+        while(cell.Inventory.Enemies.Count != 0 && cell.Index != 0)
+        {
+            cell = cell.enemyPath;
+        }
+        troll.Cell = cell;
 
         troll.Will = 12;
         troll.Strength = 14;

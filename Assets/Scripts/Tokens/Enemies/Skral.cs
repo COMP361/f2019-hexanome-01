@@ -13,7 +13,14 @@ public class Skral : Enemy
 
         Skral skral = go.AddComponent<Skral>();
         skral.TokenName = Type;
-        skral.Cell = Cell.FromId(cellID);
+        Cell cell = Cell.FromId(cellID);
+        // Check if cell is occupied by another monster
+        while(cell.Inventory.Enemies.Count != 0 && cell.Index != 0)
+        {
+            cell = cell.enemyPath;
+        }
+        skral.Cell = cell;
+
 
         skral.Will = 6;
         skral.Strength = 6;

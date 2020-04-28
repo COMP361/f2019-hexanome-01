@@ -10,27 +10,25 @@ public class Fight : MonoBehaviour
     GameObject fightPanel;
     List<Hero> closeHeroes;
     List<Hero> selectedHeroes;
-
     Component[] heroSelectbtns;
     Button heroSelectConfirm;
-
     public MultiplayerFightPlayer multiplayerFight;
-
-    GameObject monsterSelectPanel;
-    public FightAtADistance fightAtADistance;
-    public Cell goal;
-    public bool distanceFight;
+    private bool WaitforCell;
+    private int cellID;
 
     void OnEnable() {
-        EventManager.Fight += SetupFight;    
+        EventManager.Fight += SetupFight;  
+        EventManager.CellClick += ChooseCellToAttack;  
     }
 
     void OnDisable() {
         EventManager.Fight -= SetupFight;
+        EventManager.CellClick -= ChooseCellToAttack;
     }
 
     void Awake() {
-        distanceFight = false;
+        WaitforCell = false;
+
         closeHeroes = new List<Hero>();
         selectedHeroes = new List<Hero>();
         heroSelectPanel = transform.Find("Hero Select").gameObject;
@@ -67,48 +65,67 @@ public class Fight : MonoBehaviour
         }
     }
 
-    public void SetupFight()
+    void ChooseCellToAttack(int cellID, Hero hero)
     {
+        if (!WaitforCell || hero != GameManager.instance.CurrentPlayer) return;
+        
+        foreach (Cell cell in Cell.cells) {
+            cell.Reset();
+        }
+
+        this.cellID = cellID;
+        StartFight();
+    }
+
+    public void SetupFight() {
         selectedHeroes = new List<Hero>();
         selectedHeroes.Add(GameManager.instance.CurrentPlayer);
-
         closeHeroes = new List<Hero>();
 
-        if (distanceFight)
-        {
-            Cell cell = fightAtADistance.goal;
-            List<Hero> heroes = fightAtADistance.CellWithHeroHasBow(cell);
-            foreach (Hero hero in cell.Inventory.Heroes)
-            {
-                // Missing Archer case
-                if (hero.Cell.Index == cell.Index && hero.timeline.HasHoursLeft()) closeHeroes.Add(hero);
-            }
-            foreach(Hero hero in heroes)
-            {
-                if (hero.timeline.HasHoursLeft()) closeHeroes.Add(hero);
-            }
-        } else {
-            foreach (Hero hero in GameManager.instance.heroes)
-            {
-                // Missing Archer case
-                if (hero.Cell.Index == GameManager.instance.CurrentPlayer.Cell.Index && hero.timeline.HasHoursLeft()) closeHeroes.Add(hero);
-            }
-        }
+        List<Cell> cells = GameManager.instance.CurrentPlayer.GetAttackableCells();
+        if(cells.Count > 1) {
+            WaitforCell = true;
 
-        if (closeHeroes.Count > 1)
-        {
-            ShowHeroSelectPanel();
+            foreach (Cell cell in Cell.cells) {
+                cell.Reset();
+                cell.Disable();
+            }
+
+            foreach (Cell cell in cells) {
+                cell.Reset();
+            }
+
+        } else if(cells.Count == 1) {
+            cellID = cells[0].Index;
+            StartFight();
+        } else {
+            return;
         }
-        else
-        {
+    }
+
+    private void StartFight() {
+        foreach (Hero hero in GameManager.instance.heroes) {
+            if (hero.Cell.Index == cellID) {
+                if(hero.timeline.HasHoursLeft()) closeHeroes.Add(hero);
+            } else if(hero.HasBow()) {
+                foreach(Transform t in hero.Cell.neighbours) {
+                    Cell c = t.GetComponent<Cell>();
+                    if (c.Index == cellID) {
+                        if(hero.timeline.HasHoursLeft()) closeHeroes.Add(hero);
+                    }
+                }
+            }
+        }
+        
+        if (closeHeroes.Count > 1) {
+            ShowHeroSelectPanel();
+        } else {
             ShowFightPanel();
         }
     }
 
-    public void ShowHeroSelectPanel()
-    {
+    public void ShowHeroSelectPanel() {
         heroSelectPanel.SetActive(true);
-        goal = fightAtADistance.goal;
 
         foreach (Button btn in heroSelectbtns)
         {
@@ -154,16 +171,6 @@ public class Fight : MonoBehaviour
             }
         }
 
-        multiplayerFight.Init(selectedHeroes);
-    }
-
-    public void SetDistanceTrue()
-    {
-        this.distanceFight = true;
-    }
-
-    public void SetDistanceFalse()
-    {
-        this.distanceFight = false;
+        multiplayerFight.Init(selectedHeroes, cellID);
     }
 }

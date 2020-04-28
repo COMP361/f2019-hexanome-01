@@ -70,7 +70,7 @@ public class ActionOptions : MonoBehaviour
             Buttons.Lock(moveThoraldBtn);
         }
         
-        if(GameManager.instance.MainHero.Cell.Inventory.Enemies.Count < 1) {
+        if(GameManager.instance.MainHero.GetAttackableCells().Count < 1) {
             Buttons.Lock(fightBtn);
         }
     }

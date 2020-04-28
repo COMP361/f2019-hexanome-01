@@ -22,7 +22,14 @@ public class Gor : Enemy
 
         Gor gor = go.AddComponent<Gor>();
         gor.TokenName = Type;
-        gor.Cell = Cell.FromId(cellID);
+        
+        Cell cell = Cell.FromId(cellID);
+        // Check if cell is occupied by another monster
+        while(cell.Inventory.Enemies.Count != 0 && cell.Index != 0)
+        {
+            cell = cell.enemyPath;
+        }
+        gor.Cell = cell;
 
         gor.Will = 4;
         gor.Strength = 2;

@@ -48,8 +48,8 @@ public class MultiplayerFightPlayer : MonoBehaviour
         shareRewardBtn.onClick.AddListener(delegate { shareRewardActivate(); EndFight();});
     }
 
-    public void Init(List<Hero> selectedHeroes) {
-        InitializeMonster();
+    public void Init(List<Hero> selectedHeroes, int cellID) {
+        InitializeMonster(cellID);
         InitializeHeroes(selectedHeroes);
         ResultMsg.text = "";
         attackBtn.interactable = false;
@@ -76,18 +76,12 @@ public class MultiplayerFightPlayer : MonoBehaviour
         IsThoraldPresent();
     }
 
-    public void InitializeMonster()
+    public void InitializeMonster(int cellID)
     {
-        if (fight.distanceFight)
-        {
-            monster = fight.goal.Inventory.Enemies[0];
-            EventManager.TriggerInventoryUICellEnter(fight.goal.Inventory, fight.goal.Index);
-        }
-        else
-        {
-            monster = GameManager.instance.CurrentPlayer.Cell.Inventory.Enemies[0];
-            EventManager.TriggerInventoryUICellEnter(GameManager.instance.CurrentPlayer.Cell.Inventory, GameManager.instance.CurrentPlayer.Cell.Index);
-        }
+        Cell cell = Cell.FromId(cellID);
+        monster = cell.Inventory.Enemies[0];
+        EventManager.TriggerInventoryUICellEnter(cell.Inventory, cell.Index);
+        
         MonsterName.text = monster.TokenName;
         monsterStrength = monster.Strength;
         MonsterStrengthStr.text = monster.Strength.ToString();
