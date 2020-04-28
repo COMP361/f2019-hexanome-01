@@ -32,6 +32,7 @@ public class HeroItemsActions : MonoBehaviour
     EventManager.HeroItemClick -= ShowHeroActions;
     EventManager.MoveSelect -= UnlockMoveItems;
     EventManager.LockMoveItems -= LockMoveItems;
+    EventManager.StartRoundFight -= updateRoundFight;
     EventManager.EndRoundFight -= updateRoundFightEnd;
   }
 
@@ -75,6 +76,7 @@ public class HeroItemsActions : MonoBehaviour
         }
         if(GameManager.instance.MainHero.IsFighting){
           dropBtn.interactable = false;
+          useBtn.interactable = false;
         }
       }
       if(token is HalfWineskin){
@@ -85,6 +87,7 @@ public class HeroItemsActions : MonoBehaviour
         }
         if(GameManager.instance.MainHero.IsFighting){
           dropBtn.interactable = false;
+          useBtn.interactable = false;
         }
       }
       else if(token is Potion){
@@ -93,6 +96,7 @@ public class HeroItemsActions : MonoBehaviour
         useBtn.interactable = false;
         if(GameManager.instance.MainHero.IsFighting){
           dropBtn.interactable = false;
+          useBtn.interactable = false;
         }
       }
       else if(token is Bow){
@@ -101,6 +105,7 @@ public class HeroItemsActions : MonoBehaviour
         useBtn.interactable = false;
         if(GameManager.instance.MainHero.IsFighting){
           dropBtn.interactable = false;
+          useBtn.interactable = false;
         }
       }
       else if(token is Falcon){
@@ -111,6 +116,7 @@ public class HeroItemsActions : MonoBehaviour
         }
         if(GameManager.instance.MainHero.IsFighting){
           dropBtn.interactable = false;
+          useBtn.interactable = false;
         }
       }
       else if(token is Helm){
@@ -119,6 +125,7 @@ public class HeroItemsActions : MonoBehaviour
         useBtn.interactable = false;
         if(GameManager.instance.MainHero.IsFighting){
           dropBtn.interactable = false;
+          useBtn.interactable = false;
         }
       }
       else if(token is Herb){
@@ -126,6 +133,7 @@ public class HeroItemsActions : MonoBehaviour
         heroItemsPanelDesc.text = Herb.desc;
         if(GameManager.instance.MainHero.IsFighting){
           dropBtn.interactable = false;
+          useBtn.interactable = false;
         }
       }
       else if(token is Runestone){
@@ -134,6 +142,7 @@ public class HeroItemsActions : MonoBehaviour
         useBtn.interactable = false;
         if(GameManager.instance.MainHero.IsFighting){
           dropBtn.interactable = false;
+          useBtn.interactable = false;
         }
       }
       else if(token is Shield){
@@ -142,6 +151,7 @@ public class HeroItemsActions : MonoBehaviour
         useBtn.interactable = false;
         if(GameManager.instance.MainHero.IsFighting){
           dropBtn.interactable = false;
+          useBtn.interactable = false;
         }
       }
       else if(token is Telescope){
@@ -152,6 +162,7 @@ public class HeroItemsActions : MonoBehaviour
         }
         if(GameManager.instance.MainHero.IsFighting){
           dropBtn.interactable = false;
+          useBtn.interactable = false;
         }
       }
 
@@ -161,6 +172,7 @@ public class HeroItemsActions : MonoBehaviour
         useBtn.interactable = false;
         if(GameManager.instance.MainHero.IsFighting){
           dropBtn.interactable = false;
+          useBtn.interactable = false;
         }
       }
 
