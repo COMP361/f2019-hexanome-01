@@ -119,6 +119,12 @@ public class RewardDistribution : Singleton<RewardDistribution>
         }
 
     }
+    photonView.RPC("MoveNarratorRPC", RpcTarget.AllViaServer, new object[] {});
+
+  }
+
+  [PunRPC]
+  void MoveNarratorRPC(){
     GameManager.instance.narrator.MoveNarrator();
     GameManager.instance.narrator.CheckLegendCards();
   }
