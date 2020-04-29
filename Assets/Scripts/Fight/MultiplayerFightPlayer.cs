@@ -248,7 +248,7 @@ public class MultiplayerFightPlayer : MonoBehaviour
             roundLoss = difference;
             for(int i = fighters.Count-1; i >= 0; i--) {
                 Fighter f = fighters[i];
-                
+
                 int willpower = Math.Max(0, f.hero.Willpower - difference);
                 f.hero.setWP(willpower);
 

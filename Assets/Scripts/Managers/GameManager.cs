@@ -192,6 +192,8 @@ public class GameManager : Singleton<GameManager>
         wells.Add(Well.Factory(45));
         wells.Add(Well.Factory(55));
 
+        
+
     }
 
     void LoadGame(string directory)
