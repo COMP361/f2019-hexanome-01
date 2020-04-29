@@ -122,6 +122,14 @@ public class MerchantCellUI : Singleton<MerchantCellUI>
       }
     }
 
+    Button strengthBtn = transform.Find("MerchantUI/Items/Strength/Button").GetComponent<Button>();
+    Text text = strengthBtn.transform.Find("Text").GetComponent<Text>();
+    text.text = "" + 2;
+    if(hero != null && hero is Dwarf && hero.Cell.Index == 71) {
+      text.text = "" + 1;
+      if(hero.heroInventory.numOfGold >= 1) Buttons.Unlock(strengthBtn);
+    }
+
     Button potionBtn = transform.Find("MerchantUI/Potion/Button").GetComponent<Button>();
     if(hero == null || hero.heroInventory.numOfGold < Witch.Instance.PotionPrice || Witch.Instance.Cell == null || hero.Cell.Index != Witch.Instance.Cell.Index) {
       Buttons.Lock(potionBtn);
