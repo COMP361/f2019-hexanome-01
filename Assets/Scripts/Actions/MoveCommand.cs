@@ -127,7 +127,7 @@ public class MoveCommand : MonoBehaviour, ICommand
     {
         freeCells = goal.WithinRange(0, FreeHours);
         extCells = goal.WithinRange(FreeHours + 1, FreeHours + ExtHours);
-        
+
         foreach (Cell cell in Cell.cells)
         {
             cell.Reset();
@@ -440,15 +440,16 @@ public class MoveCommand : MonoBehaviour, ICommand
       freeMoves = new List<Token>();
 
       if (!PhotonNetwork.OfflineMode) {
-          photonView.RPC("ExecuteRPC", RpcTarget.AllViaServer);
+          photonView.RPC("ExecuteRPC", RpcTarget.AllViaServer, new object[] {totalFreeMoves});
       } else {
-          ExecuteRPC();
+          ExecuteRPC(totalFreeMoves);
       }
     }
 
     [PunRPC]
-    void ExecuteRPC()
+    void ExecuteRPC(int amtFreeMoves)
     {
+        this.totalFreeMoves = amtFreeMoves;
         foreach (Cell cell in Cell.cells)
         {
             cell.Reset();
