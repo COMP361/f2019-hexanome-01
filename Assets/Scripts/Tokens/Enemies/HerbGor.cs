@@ -25,7 +25,7 @@ public class HerbGor : Gor
     
     protected void OnDestroy() {
         if(quitting) return;
-        Herb.Factory(Cell.Index);
+        if(GameManager.instance.CurrentPlayer == GameManager.instance.MainHero) Herb.Factory(Cell.Index);
         base.OnDestroy();
     }
 }
