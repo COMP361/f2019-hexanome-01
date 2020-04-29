@@ -119,6 +119,8 @@ public class RewardDistribution : Singleton<RewardDistribution>
         }
 
     }
+    GameManager.instance.narrator.MoveNarrator();
+    GameManager.instance.narrator.CheckLegendCards();
   }
 
   void Finalize(){

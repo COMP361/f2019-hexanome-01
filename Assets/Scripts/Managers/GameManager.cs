@@ -115,7 +115,7 @@ public class GameManager : Singleton<GameManager>
         towerskrals = new List<Enemy>();
         wells = new List<Well>();
 
-        
+
         //heroes.Add(Archer.Instance);
         //heroes.Add(Warrior.Instance);
         //heroes.Add(Mage.Instance);
@@ -128,7 +128,7 @@ public class GameManager : Singleton<GameManager>
         //Thorald.Instance.Cell = Cell.FromId(26);
         //Skral.Factory(25);
         //mainHeroIndex = 0;
-        
+
 
         // Add each player's respective hero
         foreach (Player p in players)
@@ -205,6 +205,8 @@ public class GameManager : Singleton<GameManager>
         wells.Add(Well.Factory(35));
         wells.Add(Well.Factory(45));
         wells.Add(Well.Factory(55));
+
+        
 
     }
 
