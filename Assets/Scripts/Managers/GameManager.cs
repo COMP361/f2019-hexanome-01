@@ -15,14 +15,12 @@ public class GameManager : Singleton<GameManager>
 {
     private int playerCount;
     public List<Player> players;
-
     public Queue<Player> playerTurn;
     public List<Hero> heroes;
     public Narrator narrator;
     public List<Farmer> farmers;
     public List<Enemy> gors, skrals, trolls, wardraks, towerskrals;
     private int currentPlayerIndex = 0;
-
     private int mainHeroIndex = -1;
     public Castle castle;
     private ICommand command;
@@ -117,6 +115,21 @@ public class GameManager : Singleton<GameManager>
         towerskrals = new List<Enemy>();
         wells = new List<Well>();
 
+
+        //heroes.Add(Archer.Instance);
+        //heroes.Add(Warrior.Instance);
+        //heroes.Add(Mage.Instance);
+        //heroes.Add(Dwarf.Instance);
+        //Warrior.Instance.Cell = Cell.FromId(26);
+        //Archer.Instance.Cell = Cell.FromId(26);
+        //Mage.Instance.Cell = Cell.FromId(26);
+        //Dwarf.Instance.Cell = Cell.FromId(26);
+        //thorald = Thorald.Instance;
+        //Thorald.Instance.Cell = Cell.FromId(26);
+        //Skral.Factory(25);
+        //mainHeroIndex = 0;
+
+
         // Add each player's respective hero
         foreach (Player p in players)
         {
@@ -177,6 +190,7 @@ public class GameManager : Singleton<GameManager>
         farmers.Add(Farmer.Factory(36));
 
         // MONSTERS
+
         gors.Add(Gor.Factory(8));
         gors.Add(Gor.Factory(20));
         gors.Add(Gor.Factory(21));
@@ -322,14 +336,13 @@ public class GameManager : Singleton<GameManager>
         {
             Enemy monster = monstersToMove[0];
             Cell nextCell = monster.Cell.enemyPath;
+
             while (nextCell != null && nextCell.Inventory.Enemies.Count > 0 && !Castle.IsCastle(nextCell)) nextCell = nextCell.enemyPath;
 
             if (nextCell != null)
             {
                 monster.Move(nextCell);
                 move = true;
-                // Dirty hack cause the RPC took too long to clean the array
-                monster.Cell.Inventory.Enemies.Remove(monster);
             }
             else
             {
