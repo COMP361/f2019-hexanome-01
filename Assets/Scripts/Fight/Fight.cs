@@ -107,12 +107,12 @@ public class Fight : MonoBehaviour
     private void StartFight() {
         foreach (Hero hero in GameManager.instance.heroes) {
             if (hero.Cell.Index == cellID) {
-                if(hero.timeline.HasHoursLeft()) closeHeroes.Add(hero);
+                if(hero.timeline.HasHoursLeft() && !hero.IsSleeping) closeHeroes.Add(hero);
             } else if(hero.HasBow()) {
                 foreach(Transform t in hero.Cell.neighbours) {
                     Cell c = t.GetComponent<Cell>();
                     if (c.Index == cellID) {
-                        if(hero.timeline.HasHoursLeft()) closeHeroes.Add(hero);
+                        if(hero.timeline.HasHoursLeft() && !hero.IsSleeping) closeHeroes.Add(hero);
                     }
                 }
             }

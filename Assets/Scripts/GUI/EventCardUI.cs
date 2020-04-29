@@ -1,3 +1,4 @@
+using Photon.Pun;
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.UI;
@@ -9,6 +10,7 @@ public class EventCardUI : MonoBehaviour {
     Text id;
     Button confirmBtn, shieldBtn;
     EventCard card;
+    public PhotonView photonView;
 
     void OnEnable() {
         EventManager.EventCard += Show;
@@ -53,6 +55,11 @@ public class EventCardUI : MonoBehaviour {
         card = null;
     }
 
+    [PunRPC]
+    public void SkipRPC(){
+        Hide();
+    }
+
     public void Hide() {
         panel.SetActive(false);
     }
@@ -64,8 +71,13 @@ public class EventCardUI : MonoBehaviour {
 
         if(bigToken is Shield) {
             bigToken.UseEffect();
-            Hide();
             card = null;
+        }
+
+        if(!PhotonNetwork.OfflineMode) {
+            photonView.RPC("SkipRPC", RpcTarget.AllViaServer);
+        } else {
+            Hide();   
         }
     }
 }

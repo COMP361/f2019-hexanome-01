@@ -48,7 +48,7 @@ public class MoveCommand : MonoBehaviour, ICommand
     public int initExtHours;
     public int ExtHours {
         get {
-            return Math.Max(0, initExtHours + Math.Min(0, initFreeHours - path.Cells.Count + 1));
+            return Math.Max(0, initExtHours + Math.Min(0, initFreeHours + totalFreeMoves - path.Cells.Count + 1));
         }
     }
 
@@ -121,14 +121,13 @@ public class MoveCommand : MonoBehaviour, ICommand
         }
 
         farmerTargets = new List<GameObject>();
-      //EventManager.TriggerClearFreeMove();
     }
 
     void ShowMovableArea()
     {
         freeCells = goal.WithinRange(0, FreeHours);
         extCells = goal.WithinRange(FreeHours + 1, FreeHours + ExtHours);
-
+        
         foreach (Cell cell in Cell.cells)
         {
             cell.Reset();
@@ -369,14 +368,15 @@ public class MoveCommand : MonoBehaviour, ICommand
 
         ResetFreeMove();
         ClearPath();
+        Reset();
         Destroy(this.gameObject);
-
     }
 
     void ClearPath()
     {
         if (path != null) path.Dispose();
         Reset();
+        ShowMovableArea();
         EventManager.TriggerPathUpdate(0);
         EventManager.TriggerFarmersInventoriesUpdate(farmers.Count, GetDroppableFarmerCount(), GetDetachedFarmerCount());
     }
@@ -438,7 +438,6 @@ public class MoveCommand : MonoBehaviour, ICommand
       }
 
       freeMoves = new List<Token>();
-
 
       if (!PhotonNetwork.OfflineMode) {
           photonView.RPC("ExecuteRPC", RpcTarget.AllViaServer);
@@ -511,10 +510,12 @@ public class MoveCommand : MonoBehaviour, ICommand
                     }
                 }
 
-                int stopIndex = path.Cells.IndexOf(stop);
+                int stopIndex = path.Cells.IndexOf(stop, startIndex + 1);
                 if(stopIndex != -1) {
                     List<Cell> subpathHero = path.Cells.GetRange(startIndex, stopIndex - startIndex + 1);
                     movable.Move(subpathHero, totalFreeMoves);
+                } else {
+                    Dispose();
                 }
             }
         }
@@ -527,5 +528,4 @@ public class MoveCommand : MonoBehaviour, ICommand
 
       freeMoves.Clear();
     }
-
 }

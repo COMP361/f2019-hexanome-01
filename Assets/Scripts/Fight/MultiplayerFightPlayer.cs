@@ -25,7 +25,7 @@ public class MultiplayerFightPlayer : MonoBehaviour
     public Text MonsterStrengthStr;
     private int monsterStrength;
     public Text MonsterWPStr;
-    private int monsterWP;
+    public int monsterWP;
 
     public Text MonsterTotalStrength;
     // GorsSkralTroll_dice
@@ -59,7 +59,9 @@ public class MultiplayerFightPlayer : MonoBehaviour
         fightOver = false;
         numRounds = 0;
         remainingRolls = -1;
-
+        MonsterTotalStrength.text = "" + 0;
+        HeroesTotalStrength.text = "" + 0;
+        
         CheckGameOver();
     }
 
@@ -80,8 +82,7 @@ public class MultiplayerFightPlayer : MonoBehaviour
     {
         Cell cell = Cell.FromId(cellID);
         monster = cell.Inventory.Enemies[0];
-      //  EventManager.TriggerInventoryUICellEnter(cell.Inventory, cell.Index);
-          EventManager.TriggerFightInventories(GameManager.instance.MainHero.Cell.Inventory, GameManager.instance.MainHero.Cell.Index);
+        EventManager.TriggerFightInventories(GameManager.instance.MainHero.Cell.Inventory, GameManager.instance.MainHero.Cell.Index);
 
         MonsterName.text = monster.TokenName;
         monsterStrength = monster.Strength;
@@ -248,6 +249,7 @@ public class MultiplayerFightPlayer : MonoBehaviour
             roundLoss = difference;
             for(int i = fighters.Count-1; i >= 0; i--) {
                 Fighter f = fighters[i];
+                int prevWill = f.hero.Willpower;
 
                 int willpower = Math.Max(0, f.hero.Willpower - difference);
                 f.hero.setWP(willpower);
@@ -260,10 +262,12 @@ public class MultiplayerFightPlayer : MonoBehaviour
                     f.hero.Strength = Math.Max(1, f.hero.Strength-1) ;
                     f.hero.setWP(3);
                     disabledFighters.Add(f);
+                    f.EndofRound(prevWill);
                     fighters.Remove(f);
                 } else if (!(Timeline.GetFreeHours(f.hero.timeline.Index) > 0 || Timeline.GetExtendedHours(f.hero.timeline.Index, willpower) > 0)) {
                     f.DisableFighter();
                     disabledFighters.Add(f);
+                    f.EndofRound(roundLoss);
                     fighters.Remove(f);
                 }
             }

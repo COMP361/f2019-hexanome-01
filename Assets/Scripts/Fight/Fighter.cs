@@ -257,8 +257,22 @@ public class Fighter : MonoBehaviour {
     private void UseShield() {
         if (lastLoss != 0) {
             shield.interactable = false;
-            hero.Willpower += lastLoss;
             
+            if(isDead) {
+                hero.setWP(lastLoss);
+
+                isDead = false;
+                fight.fightOver = false;
+                fight.ResultMsg.text = "";
+                fight.fighters.Add(this);
+                fight.newRoundBtn.interactable = true;
+
+                transform.Find("Image").gameObject.SetActive(true);
+                transform.Find("RIP").gameObject.SetActive(false);
+            } else {
+                hero.setWP(hero.Willpower + lastLoss);
+            }
+
             if(shieldToken is HalfShield) {
                 hero.heroInventory.RemoveBigToken(shieldToken);
             } else {
