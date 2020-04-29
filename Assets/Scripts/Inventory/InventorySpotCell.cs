@@ -15,7 +15,7 @@ public class InventorySpotCell : MonoBehaviour
   public void AddItem(Token newToken)
   {
     if(newToken == null) return;
-    
+
     token = newToken;
     icon.sprite = token.getSprite();
     icon.enabled = true;
@@ -31,7 +31,13 @@ public class InventorySpotCell : MonoBehaviour
   public void UseItem(){
     if(token != null){
       if(GameManager.instance.MainHero.Cell.Index == cellIndex){
+        if(GameManager.instance.MainHero.timeline.Index != 0){
         token.UseCell();
+        }
+        else{
+          EventManager.TriggerError(2);
+        }
+
       } else {
         EventManager.TriggerBlockOnInventoryClick();
       }
