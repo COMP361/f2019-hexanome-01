@@ -147,6 +147,10 @@ public class GameManager : Singleton<GameManager>
             }
         }
 
+    //    heroes.Add(Archer.Instance);
+    //    heroes.Add(Dwarf.Instance);
+    //    heroes.Add(Mage.Instance);
+
         EventManager.TriggerMainHeroInit(MainHero);
         CharChoice.Init(heroes);
         CharChoice.choice = MainHero;
@@ -170,6 +174,24 @@ public class GameManager : Singleton<GameManager>
         canvas.transform.Find("DistributeGold").gameObject.SetActive(true);
         canvas.transform.Find("DistributeWineskins").gameObject.SetActive(true);
 
+
+          heroes.Add(Archer.Instance);
+          heroes.Add(Mage.Instance);
+          heroes.Add(Dwarf.Instance);
+          Warrior.Instance.Cell = Cell.FromId(36);
+
+          Archer.Instance.Cell = Cell.FromId(49);
+          findHero("Archer").heroInventory.AddSmallToken(Telescope.Factory());
+          findHero("Archer").heroInventory.AddHelm(Helm.Factory());
+
+          Mage.Instance.Cell = Cell.FromId(25);
+          Dwarf.Instance.Cell = Cell.FromId(25);
+          thorald = Thorald.Instance;
+          Thorald.Instance.Cell = Cell.FromId(25);
+          Skral.Factory(25);
+          mainHeroIndex = 0;
+
+
         // FARMERS
         farmers.Add(Farmer.Factory(24));
         farmers.Add(Farmer.Factory(36));
@@ -190,6 +212,8 @@ public class GameManager : Singleton<GameManager>
         wells.Add(Well.Factory(35));
         wells.Add(Well.Factory(45));
         wells.Add(Well.Factory(55));
+
+
     }
 
     void LoadGame(string directory)
