@@ -174,23 +174,21 @@ public class GameManager : Singleton<GameManager>
         canvas.transform.Find("DistributeGold").gameObject.SetActive(true);
         canvas.transform.Find("DistributeWineskins").gameObject.SetActive(true);
 
-
+/*
           heroes.Add(Archer.Instance);
           heroes.Add(Mage.Instance);
           heroes.Add(Dwarf.Instance);
           Warrior.Instance.Cell = Cell.FromId(36);
-
           Archer.Instance.Cell = Cell.FromId(49);
           findHero("Archer").heroInventory.AddSmallToken(Telescope.Factory());
           findHero("Archer").heroInventory.AddHelm(Helm.Factory());
-
           Mage.Instance.Cell = Cell.FromId(25);
           Dwarf.Instance.Cell = Cell.FromId(25);
           thorald = Thorald.Instance;
           Thorald.Instance.Cell = Cell.FromId(25);
           Skral.Factory(25);
           mainHeroIndex = 0;
-
+*/
 
         // FARMERS
         farmers.Add(Farmer.Factory(24));
