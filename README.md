@@ -16,7 +16,6 @@ using the Unity platform and C# programming language. The game is multiplayer on
 The project was developed on Unity version 2019.3.7f1
 
 To play the game, import the project folder to Unity and build. 
-Alternatively, check the build folder of the repository for a previously built executable of the game.
 
 ## Features
 
