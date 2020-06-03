@@ -45,4 +45,5 @@ When fighting, a player will have a visual representation of the fight. Allowing
 
 ### Trade
 When trading, a player will have a visual representation of all the elements that may possibly be in the trade. The non traded objects are featured at the top of the screen and the traded objects are featured at the bottom of the screen.
+
 ![Trade](./Doc/TradeDisplay.png)
