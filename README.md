@@ -29,18 +29,20 @@ The project uses the Photon Unity Networking (PUN) package to connect players on
 
 ### UI
 
-The UI was designed to replicate the look and feel of the original game.
+The UI was designed to replicate the look and feel of the original game. It was made to be intuitive and to guide the player along the game.
 
 ![UI](./Doc/GameDisplay.png)
 
 ### Move
+When Moving, a player will see all the cases he can move too. Highlighted in red are the cases which will cost him willpower, In black, are the unreachable cases.
 
-![Trade](./Doc/MoveDisplay.png)
+![Move](./Doc/MoveDisplay.png)
 
 ### Fight
+When fighting, a player will have a visual representation of the fight. Allowing him to know who is involve and what possible actions he has.
 
 ![Fight](./Doc/Fight2.png)
 
 ### Trade
-
+When trading, a player will have a visual representation of all the elements that may possibly be in the trade. The non traded objects are featured at the top of the screen and the traded objects are featured at the bottom of the screen.
 ![Trade](./Doc/TradeDisplay.png)
