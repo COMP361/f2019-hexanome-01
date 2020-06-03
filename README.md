@@ -3,7 +3,7 @@
 ![Legends of Andor](./Doc/AndorLogo.jpg)
 
 This project aims to create a virtual instance of the  board game [Legends of Andor](https://boardgamegeek.com/boardgame/127398/legends-andor)
-using the Unity platform and C# programming language. The game is multiplayer online and implements the original game rules such as character movement, fighting monsters, trading items, etc.
+using the Unity platform and C# programming language. The game is multiplayer, online and implements the original game rules such as character movement, fighting monsters, trading items, etc.
 
 The game manual can be viewed [here](./Doc/AndorManual.pdf)
 
@@ -17,7 +17,7 @@ The game manual can be viewed [here](./Doc/AndorManual.pdf)
 
 The project was developed on Unity version 2019.3.7f1
 
-To play the game, import the project folder to Unity and build. 
+To play the game, import the project folder to Unity and do a "PC, Mac & Linux Standalone" build. 
 
 ## Features
 
